@@ -1,0 +1,58 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# math
+
+```{julia}
+from math import*
+
+# type transform
+x = 1.1 + 1.1j # 二进制0b,八0o,十六0x，复数j后缀
+x.real
+x.imag
+x.coniugate
+int(1.1) # can not be a complex
+float(1)
+complex(1, 1) 
+*int(0b2) # 换为十进制
+hex(1)
+oct(1)
+bin(1) # 数字转成十六进制字符串，八进制字符串和二进制字符串。*
+
+# math operation
+pi # 圆周率
+e # 自然对数
+inf # 正无穷大
+nan # 非浮点数标记(无穷之间的加减可能会产生)
+x = 1.
+y = 2.
+divmod(x, y) # 就是(x//y,x%y), 商和余数
+pow(x, y) # 就是x**y
+round(x, y)  # 四舍五入，y位小数。*
+fabs(x) # 绝对值*
+fmod(x, y) # 取余x%y*
+hypot(x, y) # 向量的模*
+fsum([x, y]) # 求和，求出的值为浮点数，必须为列表形式。
+ceil(x) # 向上取整*
+floor(x) # 向下取整*
+factorial(x) # 返回x的阶乘*
+gcd(x,y) # 最大公约数*
+modf(x) # 返回x的小数和整数。*
+trunc(x) # 返回x的整数*
+copysign(x,y) # 把y的符号给x*
+isclose(x,y) # 比较浮点型小数a,b的相似度,返回布尔值*
+isfinite(x) # 测试x是否无穷大*
+isinf(x) # 测试是否为正数或负无穷。*
+isnan(x) # 测试其中是否会有无穷项,返回布尔值*
+sqrt(x) # 开根号*
+log(x, y) # 取对数*
+degrees(x) # 弧度转角度 
+radians(x) # 角度转弧度*
+```
+

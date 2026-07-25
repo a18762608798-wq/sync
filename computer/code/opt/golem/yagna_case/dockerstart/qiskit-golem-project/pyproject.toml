@@ -1,0 +1,12 @@
+[project]
+name = "qiskit-golem-project"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "gvmkit-build>=0.3.19",
+    "pandas>=2.3.3",
+    "setuptools==69.5.1",
+    "yapapi>=0.13.1",
+]

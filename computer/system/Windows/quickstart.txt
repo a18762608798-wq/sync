@@ -1,0 +1,13 @@
+* wechat: https://pc.weixin.qq.com/
+* clash: refer to sync
+* google: refer to sync web
+* python: https://www.python.org/downloads/windows/
+* julia: https://julia-lang.cn/downloads/ 下拉有exe
+* vscode: https://code.visualstudio.com/Download 
+* 百度网盘: 
+* vs_studio: from sync, download version 2019.
+c++桌面和组件:
+MSVC v141 – VS 2017 C++ x64/x86 生成工具
+Windows 11 SDK
+* motrix: https://motrix.app/download
+* bandizip: https://en.bandisoft.com/bandizip/

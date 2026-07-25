@@ -1,0 +1,27 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# JuliaFormatter
+
+```{julia}
+# format all project(.jl, .qmd, .jmd, .md)
+using JuliaFormatter
+format(".")
+```            
+
+If you have some specific demand, create a file named `.JuliaFormatter.toml` in the project root, and write the configuration in it, for instance:
+
+```{text}
+style = "blue"
+margin = 92
+always_for_in = true
+whitespace_typedefs = true
+whitespace_ops_in_indices = true
+remove_extra_newlines = true
+```

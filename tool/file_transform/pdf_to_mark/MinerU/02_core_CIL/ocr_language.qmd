@@ -1,0 +1,7 @@
+# ocr language
+
+```{bash}
+mineru -p input.pdf -o output -l en
+```
+
+Viz., use `-l` to control the language.

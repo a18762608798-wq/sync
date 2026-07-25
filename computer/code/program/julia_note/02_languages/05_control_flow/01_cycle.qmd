@@ -1,0 +1,54 @@
+---
+title: "cycle"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# cycle
+
+## basic case
+
+```{julia}
+# for cycle
+for i = 1:2
+    println(i) 
+end
+```
+
+```{julia}
+# while cycle
+mylist = [1, 2]
+myindex = 1
+while myindex ≤ length(mylist)
+    println(mylist[myindex])
+    myindex += 1
+end
+```
+
+## scope
+
+* We recommend to revise the variables in function when you want to revise them in cycle.
+
+```{julia}
+# it may could work but we don't recommend to do this.
+a = 1; 
+for i = 1:1
+    println(a)
+    a += 1
+    println(a)
+end
+# define a function to revise the variable in cycle.
+function revise_a!(a::Int64)
+    for i = 1:1
+        println(a)
+        a += 1
+        println(a)
+    end
+end
+a = 1;
+revise_a!(a)
+```

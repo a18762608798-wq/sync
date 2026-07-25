@@ -1,0 +1,19 @@
+# files
+
+## single file
+
+```{bash}
+mineru -p ./input/pdf1.pdf -o ./output/mark1/
+mineru -p report.docx -o output
+mineru -p slides.pptx -o output
+mineru -p table.xlsx -o output
+```
+
+## folder
+
+```{bash}
+micromamba activate -p .CondaPkg/.pixi/envs/default # run CIL in current environment.
+# install the model firstly.
+export MINERU_MODEL_SOURCE=modelscope
+mineru -p ./input/ -o ./output/ -b pipeline -l en
+```

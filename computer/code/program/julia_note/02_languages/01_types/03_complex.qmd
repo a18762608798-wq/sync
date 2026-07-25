@@ -1,0 +1,15 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# complex
+
+```{julia}
+real(1. + 1.2im)
+
+```

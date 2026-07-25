@@ -1,0 +1,66 @@
+---
+title: "Quarto config"
+author: "Richard Myers"
+date: "2026-02-04"
+python: /home/ubuntu-usr/.python/bin/python
+format:
+  html:
+    code-fold: true       # 可以折叠代码块
+execute:
+  echo: true              # 显示代码
+  warning: false          # 不显示警告      
+---
+# 1. 引言
+
+这是一个 **Quarto** 示例文档。
+
+它支持 Markdown、数学公式、可执行代码块、图片和表格。 
+ctrl+shift+p，搜索Quarto: Show Help Panel. 
+例如，爱因斯坦的质能方程：
+
+$$
+E = mc^2
+$$
+
+---
+
+# 2. Julia 示例
+
+```{julia}
+# 载入 Julia 库
+using Statistics
+x = randn(1000)
+μ = mean(x)
+σ = std(x)
+(μ, σ)
+```
+
+```{julia}
+println(σ)
+```
+
+```{julia}
+println(μ)
+```
+
+# 3. pyhon case
+```{python}
+import plotly.graph_objects as go
+import numpy as np
+
+# 创建数据
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+# 创建图表
+fig = go.Figure()
+
+# 添加数据
+fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Sine Wave'))
+
+# 设置标题和坐标轴标签
+fig.update_layout(title="交互式正弦曲线", xaxis_title="x", yaxis_title="y")
+
+# 显示图表
+fig.show()
+```

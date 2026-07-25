@@ -1,0 +1,32 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# Fitting
+
+```{python}
+import numpy as np
+from scipy.optimize import curve_fit
+
+# 定义多变量拟合函数
+def func(X, a, b, c):
+    x1, x2 = X
+    return a * x1 + b * x2 + c
+
+# 生成数据
+x1 = np.linspace(0, 1, 10)
+x2 = np.linspace(0, 2, 10)
+X = np.array([x1, x2])
+y = func(X, 1, 2, 3) + 0.1 * np.random.normal(size=x1.size)
+
+# 使用 curve_fit 进行拟合
+popt, pcov = curve_fit(func, X, y)
+
+print("Optimal parameters:", popt)
+```
+

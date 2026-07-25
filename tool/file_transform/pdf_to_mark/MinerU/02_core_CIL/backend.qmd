@@ -1,0 +1,13 @@
+# backend
+
+
+| backend              | 核心思路                                       | 跑在哪里                        | 适合什么                       |
+| -------------------- | ------------------------------------------ | --------------------------- | -------------------------- |
+| `pipeline`           | 传统 OCR / 版面分析 / 表格 / 公式等专用模型流水线            | 本机 CPU 或 GPU                | 稳定、快、低幻觉、批量处理              |
+| `vlm-engine`         | 主要靠视觉语言模型理解整页文档                            | 本机，通常需要 GPU / Apple Silicon | 复杂版面、扫描件、图表、跨区域理解          |
+| `hybrid-engine`      | VLM + pipeline 混合                          | 本机，通常需要 GPU / Apple Silicon | **默认推荐**，准确率和低幻觉之间折中           |
+| `vlm-http-client`    | 本机只做客户端，把 VLM 请求发到远程服务                     | 远程 OpenAI-compatible 服务     | 本机没 GPU，但有远程 VLM 服务        |
+| `hybrid-http-client` | hybrid 模式，但 VLM 部分走远程服务，本地保留部分 pipeline 能力 | 本机 + 远程服务                   | 本机较轻，远程跑大模型，同时保留 hybrid 优势 |
+
+
+`-b` to choose the backend.

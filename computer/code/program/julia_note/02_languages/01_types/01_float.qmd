@@ -1,0 +1,86 @@
+---
+title: "float"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# float
+
+## the foundational types of float
+
+```{julia}
+var = 1.000_000 # The underscore _ can be used as digit separator
+var64 = 1e-3 
+var32 = 1f-3 # 10^(-3)::Float32
+```
+
+## zero, one and infinity, NaN
+
+### assignment and judgment
+
+```{julia}
+# zero
+num1 = zero(Float64)
+num2 = zero(0.1)
+iszero(num1)
+
+# isequal will judge 0. and -0. is different, but == will judge them as the same.
+isequal(0., -0.)
+println(0.0 == -0.0)
+```
+
+```{julia}
+# one
+num3 = one(Float64)
+num4 = one(1.5f2) # 1.5 * 10^2::Float32
+isone(num3)
+```
+
+```{julia}
+# infinity
+isinf(Inf)
+isequal(Inf, Inf) # true
+println(Inf == Inf) # ture
+```
+
+```{julia}
+# NaN
+isnan(NaN)
+isequal(NaN, NaN) # true
+println(NaN == NaN) # false, 神奇了
+```
+
+### operations
+
+```{julia}
+# inf
+println(1.0 / Inf) # 0.0
+println(-1.0 / 0.0) # -Inf
+println(Inf + Inf) # Inf
+println(Inf - Inf) # NaN
+println(Inf / Inf) # NaN
+# zero and inf
+println(0 * Inf) # NaN
+```
+
+## the range of any types of float
+
+```{julia}
+minfloat = typemin(Float64) # -Inf
+maxfloat = typemax(Float64) # Inf
+```
+
+## the machine epsilon
+
+```{julia}
+# epsilon
+println(eps(Float64)) # equal to eps(1.0)
+println(eps(1.0)) # The "step size" between two adjacent floating-point numbers near 1(choose biger instead of smaller)
+println(eps(0.0)) 
+println(nextfloat(1.0)) # the next float biger than 1.0
+println(prevfloat(1.0)) # the forward float smaller than 1.0
+```

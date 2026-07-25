@@ -1,0 +1,245 @@
+{
+  "main": {
+    "id": "800da0a12fc5b4d4",
+    "type": "split",
+    "children": [
+      {
+        "id": "a81189633d209884",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "16af30657406f51e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "03_linear_algebra/11_inner_product_spaces_and_hilbert_spaces/hilbert_space_basics.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "hilbert_space_basics"
+            }
+          },
+          {
+            "id": "5a634ffc1235a707",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "06_methods_of_mathematical_physics/09_cases_in_quantum/二维一维中心力场.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "二维一维中心力场"
+            }
+          },
+          {
+            "id": "8950fd24a38c119e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "03_linear_algebra/02_matrices/Operation rule.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Operation rule"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "7bd6889d12ae282d",
+    "type": "split",
+    "children": [
+      {
+        "id": "234e12a598aaa4e1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "66808d43fb6a0ef2",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "59c7a9530bd542f8",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "db0208979b6d62e0",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "08dbf8ea953c61c9",
+    "type": "split",
+    "children": [
+      {
+        "id": "8499d506c7bfb7a3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "80be2381d6f2f8ed",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
+            }
+          },
+          {
+            "id": "b79b9a532b13de04",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "dfccb97faae0289a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "cafc115546a8945b",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "1f61cf697d1eb10a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "66808d43fb6a0ef2",
+  "lastOpenFiles": [
+    "03_linear_algebra/02_matrices/Positive_Definite.md~",
+    "03_linear_algebra/02_matrices/Positive_Definite.md",
+    "03_linear_algebra/05_vector_spaces/列空间和零空间.md",
+    "03_linear_algebra/10_matrix_decompositions/QR_and_SVD.md",
+    "03_linear_algebra/02_matrices/Operation rule.md",
+    "03_linear_algebra/11_inner_product_spaces_and_hilbert_spaces/hilbert_space_basics.md",
+    "04_probability_and_statistics/07_expected_value/total_expectation_formula.md",
+    "04_probability_and_statistics/01_random_events/Permutation and Combination.md",
+    "04_probability_and_statistics/02_probability/Joint_Probability_distribution.md",
+    "04_probability_and_statistics/04_independence/Independence_Joint_distribution.md",
+    "04_probability_and_statistics/02_probability/Sampling.md",
+    "10_tensor_calculus/03_basic_concepts_of_tensors/description.md",
+    "03_linear_algebra/10_matrix_decompositions/proof_process/QR_SVD_proof.md",
+    "09_logic_and_discrete_mathematics/10_boolean_algebra/description.md",
+    "99_index.md.md",
+    "06_methods_of_mathematical_physics/06_special_functions/Associated with Legendre's equation.md",
+    "06_methods_of_mathematical_physics/06_special_functions/Bessel Equation.md",
+    "06_methods_of_mathematical_physics/06_special_functions/Confluent hypergeometric equation.md",
+    "06_methods_of_mathematical_physics/06_special_functions/Hermite equation.md",
+    "06_methods_of_mathematical_physics/09_cases_in_quantum/二维一维中心力场.md",
+    "06_methods_of_mathematical_physics/09_cases_in_quantum/三维中心力场.md",
+    "06_methods_of_mathematical_physics/09_cases_in_quantum/球坐标系下角动量的共同本征态.md",
+    "06_methods_of_mathematical_physics/09_cases_in_quantum/一维谐振子.md",
+    "06_methods_of_mathematical_physics/09_cases_in_quantum",
+    "06_methods_of_mathematical_physics/未命名.md",
+    "09_logic_and_discrete_mathematics/08_combinatorics/sum_over_binary_vectors.md",
+    "03_linear_algebra/11_inner_product_spaces_and_hilbert_spaces",
+    "03_linear_algebra/未命名.md",
+    "03_linear_algebra/10_matrix_decompositions/proof_process",
+    "11_numerical_methods_and_optimization/09_least_squares/proof_process"
+  ]
+}

@@ -1,0 +1,10 @@
+.obsidian/
+.CondaPkg/
+.envrc
+*.tmp
+*.npz
+*.ipynb
+*.json
+__pycache__/
+copilot/
+undergraduate_courses/

@@ -1,0 +1,23 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=@."]
+---
+
+# installization
+
+>Do not use the preview function in this installization file. copy to the terminal in this dir.
+
+## RandomMeas
+
+```{julia}
+Pkg.activate(".")
+using Pkg
+Pkg.add("LanguageServer") 
+Pkg.add("QuantumToolbox")
+Pkg.add("LinearAlgebra")
+Pkg.add("SparseArrays")
+```

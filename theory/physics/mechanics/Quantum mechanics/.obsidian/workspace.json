@@ -1,0 +1,201 @@
+{
+  "main": {
+    "id": "40b6715138ae113a",
+    "type": "split",
+    "children": [
+      {
+        "id": "b56c096342a785bd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4cf390eb4f486da0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/Chapter 8.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Chapter 8"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "78b9dcbeeba77e36",
+    "type": "split",
+    "children": [
+      {
+        "id": "942f051f92bf3a62",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ecbb6ac8db17e55f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "fdc144199fb9b1f2",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "80208500da8e0988",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "cca6e391e59ede2c",
+    "type": "split",
+    "children": [
+      {
+        "id": "bf889b7991942ca2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b6d829304d7e9d71",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "note/Chapter 14.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Chapter 14 的反向链接列表"
+            }
+          },
+          {
+            "id": "d70dbf68450761ec",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "note/Chapter 14.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Chapter 14 的出链列表"
+            }
+          },
+          {
+            "id": "32faa785db8a9810",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "747d996a42cf5e6a",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "cc6904482b69c670",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "note/Chapter 14.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Chapter 14 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "4cf390eb4f486da0",
+  "lastOpenFiles": [
+    "note/Chapter 7.md",
+    "note/Chapter 5.md",
+    "note/Chapter 4.md",
+    "note/基本问题.md",
+    "note/Chapter 8.md",
+    "inbox/绝热演化.md",
+    "inbox/CSCO.md",
+    "inbox/态展开.md",
+    "note/Chapter 12.md",
+    "note/Chapter 14.md",
+    "inbox",
+    "note/Chapter 10.md"
+  ]
+}

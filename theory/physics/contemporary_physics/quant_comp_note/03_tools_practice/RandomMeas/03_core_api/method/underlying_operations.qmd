@@ -1,0 +1,19 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=@."]
+---
+
+# underlying operation
+
+
+## get_trace
+
+```{julia}
+@doc get_trace
+```
+
+>get_trace(ρ::MPO)

@@ -1,0 +1,44 @@
+---
+title: "makie"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# makie
+
+## 1D 
+
+### scatter
+
+```{julia}
+using CairoMakie
+fig = Figure(backgroundcolor=:white, size=(800, 300))
+ax = Axis(fig[1,1], title="basic scatter", xlabel="X", ylabel="Y", 
+          spinewidth=2, rightspinevisible=false)
+x = 1:10
+y = rand(10)
+scatter!(ax, x, y, color=:blue, markersize=15)
+save("figure.png", fig);
+```
+
+## 2D
+
+### heat 
+
+```{julia}
+using CairoMakie
+
+data = rand(10, 10)
+fig = Figure() # 创建图形和坐标轴
+ax = Axis(fig[1, 1])
+hm = heatmap!(ax, data, colormap = :plasma, colorrange = (0, 1)) # 绘制热力图
+cb = Colorbar(fig[1, 2], hm) # 添加颜色条
+ax.xlabel = "Columns" # 设置轴标签和标题
+ax.ylabel = "Rows"
+ax.title = "Random Data Heatmap"
+save("figure.png", fig)
+```

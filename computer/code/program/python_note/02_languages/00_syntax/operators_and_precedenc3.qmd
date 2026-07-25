@@ -1,0 +1,102 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# Data foundation
+
+## Data
+
+### 时间调用
+
+from datetime import*
+t=datetime.now()电脑时间,非常详细.
+这个是唯一可以直接调用的
+以下可以对其进行相似类型的概括
+a=t.date()表示年月日
+a=t.time()小时，分钟，秒，毫
+a=t.datetime(),a=t.timedelta(),a=t.tzinfo()   我还不知道这个东西有什么用
+以下可以直接提出
+*t.min/max/year/month/day/hour/minute/second/microsecond/*
+*t.isoformat()采取标准,显示时间*
+*t.isoweekday()返回星期几*
+先用t=datetime.now()
+*t.strftime("")格式化a于年月日时分秒。*
+*%Y年份 %m月份 %B月名 %b月名缩写 %d日期*
+*%A星期 %a星期缩写 %H24h制 %I12h制 %pAM或PM %M分钟 %S秒。*
+*time.sleep(0.05) 减慢系统运行速度。*
+
+### 数字
+
+from math import*
+
+from math import sin as a
+
+二进制0b,八0o,十六0x，复数j后缀
+
+x.real实部，x.imag虚数，x.coniugate对额
+
+*int(),float(),complex(re,[,im])可以用来强制类型转换。但注意虚部不能是字符串。*
+
+*int(0b2)换为十进制*
+
+*hex()oct()bin()数字转成十六进制字符串，八进制字符串和二进制字符串。*
+
+*list(map(key=int,list))把字符串列表s,去单引号成数字排序，*
+
+*map(str,123)错，int不可迭代。*
+
+*a,b,c=map(int,str(123))*
+
+
+
+*divmod(x,y) 就是(x//y,x%y)商和余数*
+
+*pow(x,y) 就是x**y*
+
+*round(x,y) 四舍五入，y位小数。*
+
+*pi圆周率，e自然对数，inf正无穷大，nan非浮点数标记(无穷之间的加减可能会产生)*
+
+*fabs()绝对值*
+
+*fmod(x,y) 取余x%y*
+
+*hypot(x,y) 向量的模*
+
+*fsum([a,b,c])求和，求出的值为浮点数，必须为列表形式。小括号不要省*
+
+*ceil()向上取整*
+
+*floor()向下取整*
+
+*factorial(x)返回x的阶乘*
+
+*gcd(a,b)最大公约数*
+
+*modf(x)返回x的小数和整数。*
+
+*trunc(x)返回x的整数*
+
+*copysign(x,y)把y的符号给x*
+
+*isclose(a,b)比较浮点型小数a,b的相似度,返回布尔值*
+
+*isfinite(x)测试x是否无穷大*
+
+*isinf()测试是否为正数或负无穷。*
+
+*isnan()测试其中是否会有无穷项,返回布尔值*
+
+*sqrt()开根号*
+
+*log(x[,base])取对数*
+
+*degrees()弧度转角度 radians()角度转弧度*
+
+*三角如常*
+

@@ -1,0 +1,49 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=@."]
+---
+
+# exculding momentum
+
+* get shadows of subsystem
+
+
+```{julia}
+using RandomMeas
+include("./08_RandomMeasAdd/src/RandomMeasAdd.jl")
+using .RandomMeasAdd
+```
+
+```{julia}
+# get sub shadows
+N = 8
+site_indices = siteinds("Qubit", N)
+group_path = "./04_workflow/b_data_acquisition/random_group.npz"
+reduced_N = 4
+sub_range = [x for pair = 3:3 + reduced_N ÷ 2 - 1 for x in (pair, N - pair + 1)];
+sub_group, sub_indices = import_permuted_group(group_path, site_indices, sub_range);
+sub_shadows = get_dense_shadows(sub_group);
+```
+
+## trace
+
+```{julia}
+# tr(ρ)
+#@show estimate, bias, sem = get_trace_moment(dense_shadows, 1, compute_sem = true); # Cross-validation, but it consumes a lot of memory.
+@show estimate = get_trace_moment(sub_shadows, 1);
+```
+
+```{julia}
+# tr(ρ^2)
+#@show estimate, bias, sem = get_trace_moment(dense_shadows, 2, compute_sem = true);
+@show estimate = get_trace_moment(sub_shadows, 2);
+```
+
+```{julia}
+# multiply
+multiply(sub_shadows[1], sub_shadows[1]);
+```

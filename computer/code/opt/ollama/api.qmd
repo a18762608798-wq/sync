@@ -1,0 +1,56 @@
+---
+title: "Chapter2 api"
+format: html 
+execute:
+  enable: False
+  echo: true              # 显示代码
+  warning: false          # 不显示警告      
+---
+
+## 2.1 local model
+
+### 2.1.1 chat function
+
+```{python}
+import ollama
+response = ollama.chat(
+    model='gemma3:4b',
+    messages=[
+        {'role': 'user', 'content': '你好，Ollama!'}
+    ]
+)
+print(response['message']['content'])
+```
+
+### 2.1.2 generate function
+
+```{python}
+import ollama
+
+response = ollama.generate(
+    model='gemma3:4b',
+    system='给出我给出单词最常用的三个中文含义，以分号相隔。比如我说cloud, 你回答：云；云朵；一团',
+    prompt='apple'
+
+)
+print(response['response'])
+```
+
+## 2.2 cloud model
+
+需要先登陆，cloud有一定限制但是似乎日常足够。
+
+```bash
+ollama singin # 一定要登陆我的朋友。
+```
+
+```{python}
+import ollama
+
+response = ollama.generate(
+    model='deepseek-v3.1:671b-cloud',
+    system='给出我给出单词最常用的三个中文含义，以分号相隔。比如我说cloud, 你回答：云；云朵；一团',
+    prompt='apple'
+)
+print(response['response'])
+```

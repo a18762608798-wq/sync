@@ -1,0 +1,28 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# basic
+
+```{julia}
+# multithreading
+using Base.Threads
+Threads.nthreads() # the number of threads.
+@elapsed @threads for i in 1:4 # return time used.
+    sleep(1)
+end
+```
+
+```{julia}
+# Combines with 
+@showprogress desc="Processing..." enabled=true @threads for i in 1:100
+    sleep(0.1)
+end
+```
+
+

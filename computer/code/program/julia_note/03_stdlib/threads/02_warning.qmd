@@ -1,0 +1,32 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# warning
+
+
+```{julia}
+# NOTE: 必须避免多个线程同时修改同一个内存位置.
+
+# Calculate directly.
+a = 0
+@threads for i = 1:20
+    tid = threadid()
+    global a += 1
+end
+println(a) # which is not 20.
+
+# Calculate correct.
+a_threads = zeros(Float64, Threads.maxthreadid()) # Sums of combinations that contain each random unitary.
+@threads for i = 1:20
+    tid = threadid()
+    a_threads[tid] += 1
+end
+
+a = sum(a_threads)
+```

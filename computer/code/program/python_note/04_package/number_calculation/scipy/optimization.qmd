@@ -1,0 +1,36 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# Optimization
+
+```{python}
+from scipy.optimize import minimize, Bounds
+import numpy as np
+
+def func(x, a, b):
+    return -x**2 + a + b
+
+result = minimize(
+    fun=func,          # 目标函数
+    x0=1,              # 初始参数
+    args=(1, 2),  # 额外参数
+    method='SLSQP',             # 优化算法
+    jac=None,                   # 无显式梯度（自动差分）
+    bounds=Bounds(-np.pi, np.pi),  # 参数边界 [-π, π]
+    constraints=(),             # 无约束
+    tol=1e-6,                   # 全局容差
+    callback=None,              # 无回调
+    options={
+        'maxiter': 500,         # 最大迭代次数
+        'ftol': 1e-8,           # 函数值精度
+        'disp': True            # 显示收敛过程
+    }
+)
+```
+

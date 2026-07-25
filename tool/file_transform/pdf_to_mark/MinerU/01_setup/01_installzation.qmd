@@ -1,0 +1,16 @@
+# installzation
+
+```{julia}
+using Pkg
+Pkg.activate(".")
+Pkg.add("LanguageServer") 
+using CondaPkg
+CondaPkg.add_pip("mineru"; extras=["all"])
+```
+
+Then test the version,
+
+```{bash}
+micromamba activate -p .CondaPkg/.pixi/envs/default # run CIL in current environment.
+mineru -v
+```

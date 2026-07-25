@@ -1,0 +1,19 @@
+# function
+
+## params
+
+```{python}
+def make_local_config(
+    shots: int = 1024,
+    setting_num: int = 100,
+    meas_indices: list[int] | None = None,
+    meas_mode: str = "shadow",
+    *, # Use to separate the essential params and default params.
+    device: str = "CPU",
+    precision: str = "single",
+    name: str = "local_exp",
+    output_dir: str | Path = "./results",
+    **extra: Any,
+) -> MeasConfig:
+```
+

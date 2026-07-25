@@ -1,0 +1,17 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# dir
+
+## read 
+
+```{julia}
+readdir("./03_stdlib")
+dir_info = collect(walkdir("./03_stdlib")) # walkdir return channel include all dir info.
+```

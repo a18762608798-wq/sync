@@ -1,0 +1,32 @@
+---
+title: "exception handing"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# exception handing
+
+```{julia}
+function handingexception(x)
+    try
+        return sqrt(x[-1])
+    catch e
+    if isa(e, DomainError) # 数学定义域错误
+        sqrt(complex(x[-1], 0))
+    elseif isa(e, BoundsError) # 索引越界
+        sqrt(x)
+    else
+        println("I did my best.")
+    end
+    finally
+        println("I have tried to do sqrt operation to x")
+    end
+end
+
+x = 1im
+println("The sqrt of x is $(handingexception(x))")
+```

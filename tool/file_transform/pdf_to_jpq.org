@@ -1,0 +1,7 @@
+#+title: Pdf To Jpq
+
+* poppler-utils
+
+ sudo apt install poppler-utils
+
+ pdftoppm -jpeg -r 150 input.pdf output_prefix

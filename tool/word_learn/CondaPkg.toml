@@ -1,0 +1,9 @@
+[deps]
+openai = ""
+pandas = ""
+numpy = ""
+
+[pip.deps]
+pyttsx3 = ""
+ollama = ""
+asyncio = ""

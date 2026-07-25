@@ -1,0 +1,26 @@
+---
+title: "Quarto config"
+author: "Richard Myers"
+date: "2025-11-04"
+python: python
+format:
+  html:
+    code-fold: true       # 可以折叠代码块
+  pdf:
+    documentclass: article
+execute:
+  echo: true              # 显示代码
+  warning: false          # 不显示警告
+  cache: true             # 缓存执行结果
+---
+
+# 1. installation
+
+## windows
+
+winget install -e --id Posit.Quarto
+
+## linux
+
+* 系统下载https://quarto.org/docs/get-started/
+

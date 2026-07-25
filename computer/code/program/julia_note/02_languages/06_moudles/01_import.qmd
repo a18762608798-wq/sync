@@ -1,0 +1,30 @@
+---
+title: "import"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# import
+
+```{julia}
+# import
+include("./02_languages/06_moudles/99_TestModule.jl") # it is similar as copy the code in front.
+import .AnimalKingdom # which only import the moudle instead of the exportings.
+mycat = AnimalKingdom.Cat("FanTuan", 1.0)
+mydog = Dog("Buddy", "Golden Retriever") # it is error.
+import .AnimalKingdom: Dog
+mydog = Dog("Buddy", "Golden Retriever")
+```
+
+```{julia}
+# using
+# NOTE: Module been included twice and used will be error.
+include("./02_languages/06_moudles/99_TestModule.jl") # it is similar as copy the code in front.
+using .AnimalKingdom # which import the moudle and the exportings.
+mydog = Dog("Buddy", "Golden Retriever")
+```
+

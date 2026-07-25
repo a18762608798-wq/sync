@@ -1,0 +1,25 @@
+---
+title: "set"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# set
+
+```{julia}
+# definition
+set1 = Set([1, 2, 3])
+set2 = Set(1:1:4)
+```
+
+```{julia}
+# operations
+1 in set1
+intersect(set1, set2) # 交集
+union(set1, set2) # 并集
+setdiff(set2, set1) # 差集
+```

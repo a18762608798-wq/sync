@@ -1,0 +1,77 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=@."]
+---
+
+# product shadows
+
+```{julia}
+include("./08_RandomMeasAdd/src/RandomMeasAdd.jl")
+using .RandomMeasAdd
+using RandomMeas
+```
+
+## basic production
+
+### dense shadows
+
+```{julia}
+N = 8
+site_indices = siteinds("Qubit", N)
+group_path = "./04_workflow/b_data_acquisition/random_group.npz"
+sub_range = [3, 4, 5, 6];
+sub_group, sub_indices = import_permuted_group(group_path, site_indices, sub_range);
+sub_shadows = get_dense_shadows(sub_group);
+```
+
+### factorized shadows
+
+```{julia}
+N = 8
+site_indices = siteinds("Qubit", N)
+group_path = "./04_workflow/b_data_acquisition/random_group.npz"
+sub_range = [3, 4, 5, 6];
+sub_group, sub_indices = import_permuted_group(group_path, site_indices, sub_range);
+sub_shadows = get_factorized_shadows(sub_group);
+```
+
+## error correction
+
+```{julia}
+# Prepare classical state
+using RandomMeas
+N = 8
+siteindices = siteinds("Qubit", N);
+ψ0 = MPS(siteindices, fill("1", N))
+```
+
+```{julia}
+# get the calibration vector
+using NPZ
+classical_measurement_group = import_MeasurementGroup("./04_workflow/b_data_acquisition/classical_group.npz", site_indices=siteindices);
+calibration_vec = get_calibration_vector(ψ0, classical_measurement_group)
+npzwrite(
+    "./04_workflow/c_post_processing/classicalshadow/calibration.npz",
+    Dict(
+        "calibration" => calibration_vec
+    ),
+)
+```
+
+```{julia}
+# calibrated shadows 
+calibration_data = npzread("./04_workflow/c_post_processing/classicalshadow/calibration.npz")
+calibration_vec = calibration_data["calibration"]
+group_path = "./04_workflow/b_data_acquisition/random_group.npz"
+sub_range = [3, 4, 5, 6];
+sub_group, sub_indices = import_permuted_group(group_path, siteindices, sub_range);
+sub_shadows = get_factorized_shadows(sub_group, G=calibration_vec[sub_range]);
+```
+
+## reduced shadows
+
+Recommend to use `import_permuted_group` in `RandomMeas.jl` .

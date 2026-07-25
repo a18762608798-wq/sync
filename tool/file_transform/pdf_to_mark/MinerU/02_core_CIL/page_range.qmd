@@ -1,0 +1,6 @@
+# page range
+
+```{bash}
+mineru -p input.pdf -o output -s 0 -e 4
+```
+```

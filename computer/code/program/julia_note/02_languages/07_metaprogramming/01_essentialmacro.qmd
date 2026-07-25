@@ -1,0 +1,82 @@
+---
+title: "essential macro"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# essential macro
+
+## debug
+
+```{julia}
+@show sum([1, 2]);
+@assert 1 isa Float64 "1 is not in Float64" # return the contraint error
+@doc + # return doc of a function 
+```
+
+## performance measurement
+
+```{julia}
+@time sum(rand(1000)); # return the time and the memory allocation(the times and totally KiB).
+@elapsed sum(rand(1000)); # only return the time.
+@allocated sum(rand(1000)); # only return the memory allocation(totally bytes).
+```
+
+```{julia}
+using BenchmarkTools 
+@benchmark sum(rand(1000))
+```
+
+## performance optimization
+
+```{julia}
+A = [1, 2]
+@inbounds A[1] # jump the bounds checking.
+@simd for i in 1:length(A) # vectorization.
+    A[i] += 1
+end
+@fastmath 1. * 1. # relaxed the precision. 
+g(x) = x
+@inline f(x) = g(x) + 1 # inline funtion or not.
+f(1);
+using ProgressMeter
+using Base.Threads
+@showprogress desc="Processing..." enabled=true @threads for i in 1:100
+    sleep(0.1)
+end
+```
+
+## parallelism / multithreading
+
+```{julia}
+# multithreading
+# NOTE: 必须避免多个线程同时修改同一个内存位置.
+using Base.Threads
+Threads.nthreads() # the number of threads.
+@elapsed @threads for i in 1:4 # return time used.
+    sleep(1)
+end
+```
+
+```{julia}
+# asynchronous functions
+t = @spawn begin
+    sleep(2)
+    42
+end
+
+println("before fetch")
+x = fetch(t) # wait util the result has been calculated.
+println(x)
+```
+
+## scope
+
+```{julia}
+@__FILE__ # the path of current julia file, it works only in julia file insteads of repl.
+@__DIR__ # the dir of current julia file or repl.
+```

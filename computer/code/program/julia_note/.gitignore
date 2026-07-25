@@ -1,0 +1,8 @@
+.obsidian/
+.CondaPkg/
+.envrc
+*.tmp
+*.npz
+*.ipynb
+undergraduate_courses/
+copilot/

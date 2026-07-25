@@ -1,0 +1,180 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=@."]
+---
+
+# Postprocessing Shadows
+
+## shadows production
+
+### get_factorized_shadows
+
+```{julia}
+@doc get_factorized_shadows
+```
+
+---
+get_factorized_shadows(measurement_data::MeasurementData{LocalUnitaryMeasurementSetting};G::Vector{Float64} = fill(1.0, measurement_data.N))
+Returns: A Vector{FactorizedShadow} of length NM containing one factorized shadow for each measurement shot.
+
+>G::Vector{Float64} (optional): Vector of G values for measurement error correction (default: 1.0 for all sites).
+>fill() means to create a vector, all the elements are same.
+
+---
+get_factorized_shadows(measurement_group::MeasurementGroup{LocalUnitaryMeasurementSetting};G::Vector{Float64} = fill(1.0, measurement_group.N))
+
+>An Array{FactorizedShadow, 2} of size (NU, NM) containing factorized shadows for each random unitary and measurement shot.
+
+### get_dense_shadows
+
+```{julia}
+@doc get_dense_shadows
+```
+
+get_dense_shadows(measurement_group::MeasurementGroup{LocalUnitaryMeasurementSetting}; G::Vector{Float64} = fill(1.0, measurement_group.N), number_of_ru_batches::Int = measurement_group.NU)
+
+>number_of_ru_batches::Int(optional): Number of random unitary batches to create. Default is measurement_group.NU. Viz., the number of dense shadows to product. Generally we need not to set it.
+
+### convert_to_dense_shadow 
+
+```{julia}
+@doc convert_to_dense_shadow 
+```
+
+---
+convert_to_dense_shadow(factorized_shadow::FactorizedShadow)
+
+### error correction
+
+```{julia}
+using RandomMeas
+@doc get_calibration_vector
+```
+
+get_calibration_vector(ψ0::MPS, measurement_group::MeasurementGroup)
+
+>Return a calibration vector G for evaluating process shadows based on the calibration initial state ψ0=0000 Reference Vitale et al, PRXQ 2025.
+
+## the physical quantity based on shadows
+
+### get_expect_shadow 
+
+```{julia}
+@doc get_expect_shadow
+```
+
+>Compute the average expectation value of an MPO operator O using an array of shadow objects.
+
+---
+get_expect_shadow(O::MPO, shadows::AbstractArray{<:AbstractShadow}; compute_sem::Bool = false)
+
+>compute_sem::Bool (optional): If true, also compute the standard error of the mean (SEM) for
+statistical error analysis. Default is false.
+
+```{julia}
+using RandomMeas
+ops = ["I" for _ = 1:2]
+site_indices = siteinds("Qubit", 2);
+O = MPO(ComplexF64, site_indices, ops)
+shadowtensor = random_itensor(site_indices[1]', site_indices[2]', site_indices[1], site_indices[2]);
+shadow = DenseShadow(shadowtensor, 2, site_indices);
+mean_val, sem_val = get_expect_shadow(O, [shadow, shadow], compute_sem=true)
+```
+
+---
+get_expect_shadow(O::MPO, shadow::AbstractShadow)
+
+```{julia}
+@show get_expect_shadow(O, shadow)
+```
+
+### get_trace_moment 
+
+```{julia}
+@doc get_trace_moment
+```
+
+---
+get_trace_moment(shadows::Array{<:AbstractShadow, 2 or 1}, kth_moment::Int; O::Union{Nothing, MPO}=nothing, compute_sem::Bool = false, compute_renyi::Bool = false)
+
+>compute_renyi::Bool (optional): If true, returns the Rényi-k entropy Sk = (1/(1-k)) * log₂(pk) instead of the raw trace moment (default:false).
+>bias(Returns): The bias correction from jackknife resampling(每次删掉一部分数据，重新算估计值，看估计值对删数据有多敏感)
+>sem(Returns): The standard error of the mean.
+
+```{julia}
+estimate, bias, sem = get_trace_moment([shadow shadow; shadow shadow;], 2; compute_sem=true)
+renyi_entropy = get_trace_moment([shadow shadow; shadow shadow;], 2; compute_renyi=true) # if compute_renyi=true, returns the Rényi-k entropy Sk instead of the raw trace moment
+```
+
+---
+get_trace_moment(ψ::Union{MPS, MPO}, k::Int, subsystem::Vector{Int}=collect(1:length(ψ)))
+
+```{julia}
+site_indices = siteinds("Qubit",5);
+ψ = random_mps(ComplexF64, site_indices, linkdims=5)
+moment = get_trace_moment(ψ, 1, [1, 5])
+moment = get_trace_moment(ψ, 2, [1, 5])
+```
+
+---
+get_trace_moment(spec::ITensor, k::Int)
+
+用到再说，spec is a ITensor to storage 纯态 eigenvalue.
+
+### multiply
+
+```{julia}
+using RandomMeas
+@doc multiply
+```
+
+>Multiply two shadow objects of the same concrete type, returning a same type shadow.
+
+multiply(shadow1::AbstractShadow, shadow2::AbstractShadow)
+
+```{julia}
+using RandomMeas
+ops = ["I" for _ = 1:2]
+site_indices = siteinds("Qubit", 2);
+shadowtensor = random_itensor(site_indices[1]', site_indices[2]', site_indices[1], site_indices[2]);
+shadow = DenseShadow(shadowtensor, 2, site_indices);
+multiplied_shadow = multiply(shadow, shadow)
+```
+
+### partial_trace
+
+```{julia}
+@doc partial_trace
+```
+
+---
+partial_trace(shadow::AbstractShadow, subsystem::Vector{Int}; assume_unit_trace::Bool=false)
+partial_trace(shadows::AbstractArray{<:AbstractShadow}, subsystem::Vector{Int}; assume_unit_trace::Bool=false)
+
+>assume_unit_trace::Bool (optional): 是否假设子系统的补集是tr(\rho)=1(default: false) 
+
+### partial_transpose
+
+```{julia}
+@doc partial_transpose
+```
+
+---
+partial_transpose(shadow::AbstractShadow, subsystem::Vector{Int})
+partial_transpose(shadows::AbstractArray{<:AbstractShadow}, subsystem::Vector{Int})
+partial_transpose(ρ::MPO, subsystem::Vector{Int})
+
+### trace
+
+```{julia}
+@doc trace
+```
+
+---
+trace(shadow::AbstractShadow)
+trace(shadows::AbstractArray{<:AbstractShadow})
+

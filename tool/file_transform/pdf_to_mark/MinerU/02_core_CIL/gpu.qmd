@@ -1,0 +1,35 @@
+# gpu
+
+## see the gpu we have
+
+```{bash}
+nvidia-smi
+```
+
+## Choose a gpu to run
+
+The demand of gpu
+
+| backend 类型                               | 是否支持纯 CPU | GPU / 显存要求                                                            |
+| ---------------------------------------- | --------: | --------------------------------------------------------------------- |
+| `pipeline`                               |        支持 | GPU 加速可用；最低显存约 **4GB**                                                |
+| `vlm-engine` / `hybrid-engine`           |  不支持纯 CPU | 需要 **Volta 及更新架构 NVIDIA GPU** 或 Apple Silicon；最低显存约 **8GB**           |
+| `vlm-http-client` / `hybrid-http-client` |  本机支持 CPU | 本机不一定要 GPU，因为 VLM 跑在远程 OpenAI-compatible 服务上；本机最低显存约 **2GB** 或无需本地大显存 |
+
+```{julia}
+using CondaPkg
+
+input = "./02_core_CIL/input/pdf1.pdf"
+output = "./02_core_CIL/input/pdf1"
+
+CondaPkg.withenv() do
+    withenv("MINERU_MODEL_SOURCE" => "modelscope") do
+        run (`CUDA_VISIBLE_DEVICES=0 mineru -p $input -o $output -b pipeline`)
+    end
+end
+```
+
+
+
+
+CUDA_VISIBLE_DEVICES=0 mineru -p input.pdf -o output -b pipeline

@@ -1,0 +1,14 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# the environment configuration of julia
+
+## the julia project
+
+Ref to julia_note

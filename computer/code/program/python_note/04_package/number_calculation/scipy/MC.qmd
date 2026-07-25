@@ -1,0 +1,81 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# MC
+
+这里说实话很难说numpy和scipy哪一个做的好了。我们默认用numpy, 但是分类习惯还是放在scipy
+
+## 随机数生成
+
+```{python}
+import numpy as np
+rng = np.random.default_rng(1234)
+
+theta = rng.uniform(
+        -1.0,
+        1.0,
+        size=(2, 3),
+)
+```
+
+## 随机分布生成
+
+```{python}
+from scipy import stats
+# distribution
+
+# 高斯分布
+mean = 0
+std = 1
+random_numbers = stats.norm.rvs(loc=mean, scale=std, size=(1,2))
+print(random_numbers)
+
+# 指数分布1/param*exp(-x/param)
+lambda_param = 0.5
+random_numbers = stats.expon.rvs(scale=1/lambda_param, size=1)
+print(random_numbers)
+
+# 自定义分布
+def custom_pdf(x): # 自定义概率密度函数
+    return np.exp(-x)  # 以指数分布为例，也可以根据需要定义其他分布
+# 创建自定义分布对象
+custom_dist = stats.rv_continuous(name='Custom_Distribution', a=0, b=np.inf) # a,b为范围
+custom_dist._pdf = custom_pdf
+## 生成符合自定义分布的随机数
+random_numbers = custom_dist.rvs(size=10)
+print(random_numbers)
+```
+
+## 随机抽样
+
+```{python}
+import numpy as np
+
+rng = np.random.default_rng(1234)
+x = np.array([10, 20, 30, 40])
+
+# 放回抽样
+rng.choice(
+        4,
+        size=5,
+        replace=True,
+    )
+rng.choice(
+        x,
+        size=5,
+        replace=True,
+    )
+
+# 不放回抽样
+rng.choice(
+        x,
+        size=2,
+        replace=False,
+    )
+```

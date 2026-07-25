@@ -1,0 +1,39 @@
+---
+title: "definition"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# definition
+
+```{julia}
+module AnimalKingdom
+    export Animal, Mammal, Cat, Dog, speak # external interface.
+
+    abstract type Animal end
+    abstract type Mammal <: Animal end
+
+    struct Cat <: Mammal
+        name::String
+        weight::Float64
+    end
+
+    struct Dog <: Mammal
+        name::String
+        breed::String
+    end
+
+    speak(a::Animal) = println("Some generic animal sound")
+    speak(c::Cat) = println("$(c.name) says meow!")
+end
+
+# you could use the types and structs and functions which are exported by the module.
+mycat = AnimalKingdom.Cat("FanTuan", 1.0)
+mydog = AnimalKingdom.Dog("Buddy", "Golden Retriever")
+AnimalKingdom.speak(mycat)
+AnimalKingdom.speak(mydog) # the functions are not defined for dog so it will call the generic speak function for Animal.
+```

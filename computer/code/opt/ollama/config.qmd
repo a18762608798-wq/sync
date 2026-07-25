@@ -1,0 +1,37 @@
+---
+title: "Chapter1 config"
+format: html 
+execute:
+  echo: true              # 显示代码
+  warning: false          # 不显示警告      
+---
+
+## 1.1 部署
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+## 1.2 运行
+
+```bash
+ollama run deepseek-r1:7b
+```
+
+## 1.3 查看现有模型
+
+```bash
+ollama ls
+```
+
+## 1.4 singin
+
+```bash
+ollama singin
+```
+
+## 1.5 卸载
+
+```bash
+ollama rm deepseek-r1:7b
+```
