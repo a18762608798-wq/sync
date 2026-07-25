@@ -1,0 +1,47 @@
+---
+title: "set"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# dic
+
+```{julia}
+# definition
+dict = Dict{String, Int64}() # limit the type of key and value, but not necessary.
+dict = Dict("a" => 1, "b" => 2)
+arrpair = ["a" => 1, "b" => 2]
+arrtuple = [("a", 1), ("b", 2)]
+dicfrompair = Dict(arrpair)
+dicfromtuple = Dict(arrtuple)
+arrkey = ['a', 'b']
+arrvals = [1, 2]
+Dict(zip(arrkey, arrvals)) # zip arr to dict
+```
+
+```{julia}
+#indexing
+dict = Dict("a" => 1, "b" => 2)
+length(dict)        # 2
+keys(dict)          # 键迭代器
+values(dict)        # 值迭代器
+pairs(dict)         # 键值对迭代器
+# 字典遍历
+for (name, value) in dict 
+    println("name is $name, value is $value")
+end
+# get the val of some key
+get(dict, "a", 0)  # if a not in dict, return 0, or not return value of a
+```
+
+```{julia}
+# content operations
+dict = Dict("a" => 1, "b" => 2)
+delete!(dict, "a")
+```
+
+

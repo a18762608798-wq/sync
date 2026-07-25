@@ -1,0 +1,170 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=@."]
+---
+
+# AbstractMeasurementSetting
+
+```{julia}
+using RandomMeas
+subtypes(RandomMeas.AbstractMeasurementSetting)
+```
+
+>LocalUnitaryMeasurementSetting
+>ShallowUnitaryMeasurementSetting
+
+`ShallowUnitaryMeasurementSetting` We still do not know what it is, it may be related to global U gates**.
+
+## LocalMeasurementSetting
+
+```{julia}
+subtypes(LocalMeasurementSetting)
+```
+
+>2-element Vector{Any}:
+>ComputationalBasisMeasurementSetting
+>LocalUnitaryMeasurementSetting
+
+### ComputationalBasisMeasurementSetting
+
+```{julia}
+@doc ComputationalBasisMeasurementSetting
+```
+
+>Setting for measurement of one NU.
+
+#### fields
+
+```{julia}
+fieldnames(ComputationalBasisMeasurementSetting)
+```
+
+>(:N, :basis_transformation(N × 2 × 2), :site_indices)
+
+#### methods
+
+---
+ComputationalBasisMeasurementSetting(N; site_indices=nothing)
+
+>Create a ComputationalBasisMeasurementSetting for N sites. This setting corresponds to measurement in the computational basis.
+
+```{julia}
+setting = ComputationalBasisMeasurementSetting(4)
+```
+
+---
+ComputationalBasisMeasurementSetting(ms::ComputationalBasisMeasurementSetting; N=ms.N, basis_transformation=ms.basis_transformation, site_indices=ms.site_indices)
+
+>Make a **new** ComputationalBasisMeasurementSetting by copying fields from ms, but overriding any that you pass by keyword.
+
+### LocalUnitaryMeasurementSetting
+
+```{julia}
+@doc LocalUnitaryMeasurementSetting
+```
+
+>Setting for measurement of one NU.
+
+#### fields
+
+```{julia}
+fieldnames(LocalUnitaryMeasurementSetting)
+```
+
+>(:N, :basis_transformation(N × 2 × 2), :site_indices)
+
+#### methods
+
+---
+LocalUnitaryMeasurementSetting(N; site_indices=nothing, ensemble=Haar)
+
+>Create a LocalUnitaryMeasurementSetting object by randomly sampling variable local unitary operators(Haar, Pauli, Identity).
+
+```{julia}
+setting = LocalUnitaryMeasurementSetting(4, ensemble=Haar)
+```
+
+---
+LocalUnitaryMeasurementSetting(basis_transformation_array; site_indices=nothing)
+
+>Create a LocalUnitaryMeasurementSetting object from an N × 2 × 2 array of unitary matrices.
+
+```{julia}
+unitary_array = rand(ComplexF64, 4, 2, 2)
+setting = LocalUnitaryMeasurementSetting(unitary_array)
+```
+
+---
+LocalUnitaryMeasurementSetting(ms::LocalUnitaryMeasurementSetting; N=ms.N, basis_transformation=ms.basis_transformation, site_indices=ms.site_indices)
+
+>Make a **new** LocalUnitaryMeasurementSetting by copying fields from ms, but overriding any that you pass by keyword.
+
+#### I/O
+
+##### Input
+
+---
+```{julia}
+@doc import_LocalUnitaryMeasurementSetting
+```
+
+import_LocalUnitaryMeasurementSetting(filepath; site_indices=nothing)
+
+>Import unitary from an .npz file and create a LocalUnitaryMeasurementSetting object.
+
+```{julia}
+imported_setting = import_LocalUnitaryMeasurementSetting("./03_tools_practice/RandomMeas/03_core_api/types/local_unitary_setting.npz")
+```
+
+---
+
+##### Output
+
+---
+```{julia}
+@doc export_LocalUnitaryMeasurementSetting
+```
+
+export_LocalUnitaryMeasurementSetting(ms, filepath)
+
+>Export the unitary in a LocalUnitaryMeasurementSetting object to an .npz file with a single field: basis_transformation(N × 2 × 2).
+
+```{julia}
+setting = LocalUnitaryMeasurementSetting(1)
+export_LocalUnitaryMeasurementSetting(setting, "./03_tools_practice/RandomMeas/03_core_api/types/local_unitary_setting.npz")
+```
+
+---
+```{julia}
+@doc export_OpenQASM
+```
+
+>Export a local measurement setting to an OpenQASM 2.0 file(|00...⟩). The routine will check the setting is really unitary or not.
+
+```{julia}
+setting = LocalUnitaryMeasurementSetting(1)
+export_OpenQASM(setting, "./03_tools_practice/RandomMeas/03_core_api/types/local_unitary_setting.qasm")
+```
+
+---
+```{julia}
+@doc to_OpenQASM
+```
+
+to_OpenQASM(measurement_setting::LocalUnitaryMeasurementSetting; include_measurements::Bool=true, qreg_name::String="q", creg_name::String="c")
+to_OpenQASM(measurement_setting::ComputationalBasisMeasurementSetting; include_measurements::Bool=true, qreg_name::String="q", creg_name::String="c")
+
+>Similar as export_OpenQASM, but returns the OpenQASM code as a string instead of writing to a file.
+
+```{julia}
+setting = LocalUnitaryMeasurementSetting(1)
+to_OpenQASM(setting)
+```
+
+## ShallowUnitaryMeasurementSetting 
+
+We will talk it in the future. It may be related to global U gates.

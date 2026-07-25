@@ -1,0 +1,63 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# async comp
+
+## 1.1 brief description
+
+Asynchronous programming is a programming paradigm that allows tasks to **run independently of the main program flow**, enabling better resource utilization and responsiveness. In asynchronous programming, tasks can be initiated and then continue executing in the background while the main program continues to run. This is particularly useful for **I/O-bound operations**, such as network requests or file reading/writing, where waiting for a response can lead to inefficiencies.
+
+## 1.2 asyncio.gather
+
+```{python}
+import asyncio
+
+async def fetch_data(name):
+    print(f"Start fetching {name}...")
+    await asyncio.sleep(3)
+    print(f"{name} fetched!")
+    return {name: 42}
+
+async def main():
+    data1, data2 = await asyncio.gather(
+        fetch_data("A"),
+        fetch_data("B"),
+    )
+
+    print(data1, data2)
+
+asyncio.run(main())
+```
+
+
+## create task
+
+```{python}
+import asyncio
+
+async def fetch_data():
+    print("Start fetching data...")
+    await asyncio.sleep(2)
+    print("Data fetched!")
+    return {"data": 42}
+
+async def main():
+    print("Main program started.")
+
+    task = asyncio.create_task(fetch_data()) # task start
+
+    print("Do something else while fetching...")
+    await asyncio.sleep(1)
+    print("Still doing other work...")
+
+    data = await task # fetch the data
+    print(f"Received data: {data}")
+
+asyncio.run(main())
+```

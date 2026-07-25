@@ -1,0 +1,25 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# basics
+
+```{julia}
+# The operations themselves are also functions.
++(1, 2, 3)  
+```
+
+```{julia}
+function fun(x::Float32, y::Float64; z=1.::Float64, w=2.::Float64)::Float64
+    return x + y + z + w
+end
+
+fun(Float32(1.1), 1.2, z=1.3) # specify the type of input and output.
+```
+
+

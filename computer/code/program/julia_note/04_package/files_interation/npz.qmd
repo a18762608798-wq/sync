@@ -1,0 +1,29 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# NPZ
+
+## basic interation
+
+```{julia}
+using NPZ
+
+vec = [1, 2]
+
+npzwrite(
+    "./04_package/files_interation/basic.npz",
+    Dict(
+        "vec" => vec
+    ),
+)
+
+data = npzread("./04_package/files_interation/basic.npz")
+vec = data["vec"]
+
+```

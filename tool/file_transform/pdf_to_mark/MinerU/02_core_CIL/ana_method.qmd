@@ -1,0 +1,15 @@
+# ana method
+
+```{bash}
+mineru -p input.pdf -o output -m auto
+mineru -p input.pdf -o output -m txt
+mineru -p input.pdf -o output -m ocr
+```
+
+Where are
+
+```text
+auto  自动判断，默认
+txt   主要走文本提取
+ocr   强制 OCR
+```

@@ -1,0 +1,7 @@
+[deps]
+pip = ""
+pandas = ""
+matplotlib = ""
+seaborn = ""
+numpy = ""
+scipy = ""

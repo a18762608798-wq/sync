@@ -1,0 +1,70 @@
+---
+title: "integer" 
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# integer
+
+## the foundational types of integers
+
+```{julia}
+α = Int8(1)
+β = UInt8(1)
+γ = 1
+println("the types of α, β is $(α), $(β)")
+print("the default type of integer is $(γ)")
+println(Base.active_project())
+```
+
+## operation
+
+```{julia}
+isodd(1)
+iseven(1)
+```
+
+## special number system
+
+```{julia}
+# bin octal and hex literals
+α = 0b1010 # bin
+β = 0o010777 # octal
+γ = 0x1abcdef # hex
+println("the decimalism of α, β, γ is $(α), $(β) and $(γ)")
+println("the default type of α, β, γ is ", typeof(α), typeof(β), typeof(γ)) # it is determined by the number of digits used. 
+```
+
+```{julia}
+# Even if there are leading zero digits which don’t contribute to the value.
+γ1 = 0x1abcdef 
+γ2 = 0x0001abcdef 
+println("the decimalism of γ1 and γ2 is $(γ1) and $(γ2)")
+```
+
+```{julia}
+# Julia 的十六进制字面量强制为无符号类型，负号仅触发补码运算而不改变类型属性
+a = -0x001
+b = -0x00000001
+println("the type of a and b is ", typeof(a), typeof(b))
+```
+
+## the rangle of any types of integer
+
+```{julia}
+# the min and max value of any type.
+for T in [Int8,Int16,Int32,Int64,Int128,UInt8,UInt16,UInt32,UInt64,UInt128]
+    println("$(lpad(T, 7, " ")): [$(typemin(T)),$(typemax(T))]") # lpad为字符小于7则左填充
+end
+```
+
+```{julia}
+# use big() to extend the range of integers, but it is not a type, it is a function that returns a BigInt object.
+bignum1 = typemax(Int128) + 1
+bignum2 = big(typemax(Int128)) + 1
+println("bignum1, bignum2 are $bignum1, $bignum2")
+```

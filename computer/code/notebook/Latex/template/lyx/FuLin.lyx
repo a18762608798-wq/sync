@@ -1,0 +1,396 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{fontspec}
+
+\setmainfont{Times New Roman}[
+  Path = /home/hanyijie/Synchronous_space/computer/fonts/En/Times_New_Roman/, % Ensure the path is correct
+  UprightFont = times,  % Specify the regular font
+  BoldFont = timesbd,  % Specify the bold font
+  ItalicFont = timesi,  % Specify the italic font
+  BoldItalicFont = timesbi,  % Specify the bold italic font
+  Extension = .ttf  % Specify the file extension
+]
+
+
+\usepackage{setspace}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.4pt} % 设置页眉线宽度为0.4pt
+\renewcommand{\footrulewidth}{0pt} % 页脚线保持不显示
+
+\setlength{\parskip}{0pt} % 无额外段落间距
+\usepackage{indentfirst} %缩进一致
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding 
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format pdf5
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation 2em
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 2
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+China's FAST Telescope: An Overview of Its Structure, Technology, and Scientific
+ Achievements
+\end_layout
+
+\begin_layout Author
+HanYijie 20213006413
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+
+\series bold
+Abstract: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+The Five-hundred-meter Aperture Spherical Telescope (FAST), also known as
+ China’s Sky Eye, is the world's largest single-dish radio telescope.
+ Since commencing scientific observations in 2016, FAST has achieved numerous
+ breakthroughs in the field of radio astronomy.
+ This paper provides a detailed overview of FAST's geographical location,
+ unique structural design, advanced focusing technology, and significant
+ scientific accomplishments in radio astronomy.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+
+\series bold
+Keywords: 
+\series default
+FAST Telescope, Radio Astronomy, Pulsar Detection
+\end_layout
+
+\begin_layout Section
+\paragraph_spacing single
+\noindent
+Location
+\end_layout
+
+\begin_layout Standard
+FAST is located in Dawodang depression, Kedu Town, Pingtang County, Qiannan
+ Buyei and Miao Autonomous Prefecture, Guizhou Province, China.
+ This location was chosen to utilize the natural screening effect of the
+ terrain to reduce electromagnetic interference, thus providing a clearer
+ and more accurate radio astronomical observation environment.
+\end_layout
+
+\begin_layout Section
+Structure
+\end_layout
+
+\begin_layout Subsection
+Mechanical Structure
+\end_layout
+
+\begin_layout Standard
+The main structure of FAST is a huge concave mesh structure, consisting
+ of 4,450 precisely controllable reflecting panels, each with a diameter
+ of 500 meters, capable of effectively collecting radio signals from the
+ sky.
+\end_layout
+
+\begin_layout Subsection
+Detector Structure and Materials 
+\end_layout
+
+\begin_layout Standard
+The detector system is mounted in the telescope's focus cabin and can be
+ moved precisely in three dimensions via a complex cable system to align
+ with different celestial targets.
+ The detectors use highly sensitive materials and designs to maximize the
+ capture of faint signals from deep space.
+\end_layout
+
+\begin_layout Subsection
+Focusing Technology 
+\end_layout
+
+\begin_layout Standard
+FAST employs an innovative multi-beam feed system that can receive radio
+ waves from multiple directions simultaneously, greatly enhancing the efficiency
+ and flexibility of observations.
+\end_layout
+
+\begin_layout Subsection
+Detection Wavelength and Sensitivity 
+\end_layout
+
+\begin_layout Standard
+FAST is designed to cover a wide frequency range from 70 MHz to 3 GHz, enabling
+ it to detect a variety of radio sources from galactic cores to distant
+ galaxies.
+\end_layout
+
+\begin_layout Section
+Detection Results and Major Discoveries 
+\end_layout
+
+\begin_layout Subsection
+Pulsar Detection 
+\end_layout
+
+\begin_layout Standard
+Since its operation, FAST has successfully detected over a thousand pulsars,
+ a number surpassing the total of other telescopes globally during the same
+ period, including a significant number of valuable millisecond pulsars
+ and pulsar binaries.
+ For instance, the first detected and certified millisecond pulsar by FAST,
+ J0318+0253, with a spin period of 5.19 milliseconds and located about 4000
+ light-years from Earth, is one of the weakest high-energy millisecond pulsars
+ discovered to date.
+\end_layout
+
+\begin_layout Subsection
+Fast Radio Bursts (FRBs) 
+\end_layout
+
+\begin_layout Standard
+FAST has also achieved significant success in detecting fast radio bursts,
+ which are intense short-duration radio flashes originating from deep space.
+ Observations of FRB20201124A revealed three instances of approximately
+ 90-degree polarization angle jumps, suggesting highly specific conditions,
+ possibly special geometries.
+ In March 2023, FAST's discovery of repeating fast radio bursts was named
+ one of China's top ten scientific advancements of 2022.
+\end_layout
+
+\begin_layout Subsection
+Hydrogen Line Observations
+\end_layout
+
+\begin_layout Standard
+By observing the 21-centimeter line of neutral hydrogen, FAST has conducted
+ detailed gas mapping of multiple galaxies, data crucial for understanding
+ the formation and evolution of galaxies.
+\end_layout
+
+\begin_layout Subsection
+Search for Extraterrestrial Intelligence 
+\end_layout
+
+\begin_layout Standard
+FAST is also employed in the search for signals from extraterrestrial civilizati
+ons.
+ Although no definitive evidence has been found to date, its high sensitivity
+ significantly enhances the efficiency and likelihood of detecting such
+ signals.
+\end_layout
+
+\begin_layout Section
+Scientific Theoretical Analysis 
+\end_layout
+
+\begin_layout Standard
+The construction and operation of FAST have not only advanced numerous high-tech
+ fields and boosted original innovation capabilities but also provided opportuni
+ties for discoveries and breakthroughs in fundamental research areas such
+ as cosmological large-scale physics, deep structures of matter, and more.
+ FAST’s high sensitivity allows it to detect signals from 13.7 billion years
+ ago, vital for studying the origins and evolution of the universe.
+ Additionally, FAST's observational capabilities provide new perspectives
+ and data for cutting-edge scientific questions, such as understanding dark
+ matter and dark energy and searching for the first celestial bodies.
+\end_layout
+
+\begin_layout Section
+International Collaboration and Future Applications 
+\end_layout
+
+\begin_layout Standard
+FAST has extensive international scientific collaborations with nearly all
+ major global radio observatories, fostering substantial and stable partnerships.
+ This international collaboration not only accelerates technological innovation
+ but also provides a powerful tool for global astronomical research, suggesting
+ more possibilities for future deep-space exploration.
+\end_layout
+
+\begin_layout Subsection
+Conclusion 
+\end_layout
+
+\begin_layout Standard
+The construction and operation of the FAST telescope demonstrate China's
+ leadership in large-scale scientific projects, providing a powerful tool
+ for global astronomical research and suggesting more possibilities for
+ future exploration of the deep universe.
+ The successful operation of FAST has not only elevated China's status in
+ the international astronomical community but also contributed valuable
+ data and theoretical bases for humanity’s understanding of the universe.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+Nan, Rendong, et al.
+ "The Five-Hundred-Meter Aperture Spherical Radio Telescope (FAST) Project."
+ Radio Science, vol.
+ 51, no.
+ 7, 2016, pp.
+ 1060-1064.
+ This article discusses the project's scope and engineering aspects.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-2"
+
+\end_inset
+
+Li, Di; Pan, Zhichen.
+ "The Five-hundred-meter Aperture Spherical Radio Telescope (FAST) Project."
+ Proceedings of the International Astronomical Union, vol.
+ 3, S248, 2008, pp.
+ 178-181.
+ This paper covers potential contributions of FAST to high precision astrometry.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-4"
+
+\end_inset
+
+"FAST’s First Discovery of a Millisecond Pulsar." This article from the National
+ Astronomical Observatories, Chinese Academy of Sciences discusses the first
+ discovery of a millisecond pulsar by FAST, highlighting its significance
+ in radio astronomy.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-3"
+
+\end_inset
+
+"FAST Discovery of New Distant Pulsars." AAS Nova.
+ This article details the discoveries made by FAST in its globular cluster
+ pulsar survey, emphasizing the telescope's high sensitivity and potential
+ for future discoveries.
+\end_layout
+
+\end_body
+\end_document

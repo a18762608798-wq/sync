@@ -1,0 +1,62 @@
+---
+title: "basics"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# basics
+
+## definiton
+
+meta is a kind of automated operation of code, meaning the function of function.
+
+## usage
+
+###  Syntax-level tools: you should print the specific code to check.
+
+```{julia}
+# Syntax-level tools: you should print the specific code to check.
+macro debug(expr)
+    return quote
+        val = $(esc(expr)) # print specific input instead of result.
+        println("expr = ", $(string(expr)))
+        println("value = ", val)
+        val
+    end
+end
+
+@debug 1 + 2
+```
+
+### Reducing repetition code
+
+```{julia}
+# Reducing repetition code
+for (name, op) in [("add", :+), ("sub", :-), ("mul", :*)] # operation could be a input variable.
+    fname = Symbol("my_", name) # @eval: generate code when run.
+    @eval $fname(x, y) = $op(x, y) # define the function with the specific operation.
+end
+
+my_add(1, 1)
+my_sub(1, 1)
+my_mul(1, 1)
+```
+
+**In fact, this function is usually used in multiple dispatch**. 
+
+```{julia}
+struct A end
+struct B end
+struct C end
+
+types = [:A, :B, :C]
+values = [1, 2, 3]
+
+for (T, v) in zip(types, values)
+    @eval foo(x::$(T)) = $v
+end
+```

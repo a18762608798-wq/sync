@@ -1,0 +1,29 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# path
+
+## the import question of package
+
+/media/.../09_reas_runner/          ← 最终指向这里
+├── src/
+│   └── ...
+└── test/
+    └── test_reas_adder.py          ← 当前文件
+```
+
+| 表达式 | 值 |
+|--------|-----|
+| `__file__` | `".../09_reas_runner/test/test_reas_adder.py"`（当前脚本路径） |
+| `Path(__file__)` | 同样路径，转为 `Path` 对象 |
+| `.resolve()` | 解析为绝对路径，消除符号链接等 |
+| `.parent` | 上一级目录 → `.../09_reas_runner/test/` |
+| `.parent` | 再上一级目录 → `.../09_reas_runner/` |
+| `str(...)` | 转回字符串 |
+| `sys.path.insert(0, ...)` | 插入到搜索路径列表的**最前面**（第0位） |

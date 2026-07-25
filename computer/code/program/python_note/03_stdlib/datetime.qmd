@@ -1,0 +1,22 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# datetime
+
+```{python}
+from datetime import* 
+t=datetime.now() # 电脑时间,非常详细.
+a=t.date() # 表示年月日
+a=t.time() # 小时，分钟，秒，毫
+t.isoformat() # 采取标准,显示时间*
+t.isoweekday() # 返回星期几*
+t.strftime("%Y") # 格式化a于年月日时分秒。*
+# %Y年份 %m月份 %B月名 %b月名缩写 %d日期*
+# %A星期 %a星期缩写 %H24h制 %I12h制 %pAM或PM %M分钟 %S秒。*
+```

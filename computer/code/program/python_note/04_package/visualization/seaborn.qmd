@@ -1,0 +1,129 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# seaborn
+
+## 1D
+
+### scatterplot
+
+```{python}
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 创建 NumPy 数组
+x = np.arange(10)
+y = np.power(x, 2)
+
+# 使用 Seaborn 绘制散点图
+sns.scatterplot(x=x, y=y)
+
+# 显示图形
+plt.show()
+```
+
+## lineplot
+
+### basic
+
+```{python}
+# 1. 导入必要库
+import pandas as pd
+import seaborn as sns
+from scipy import stats
+import matplotlib.pyplot as plt
+
+df = pd.DataFrame({
+    'x': [1, 2, 3, 1, 2, 3],
+    'y': [10, 12, 15, 8, 9, 13],
+    'name': ['A', 'A', 'A', 'B', 'B', 'B']
+})
+
+# NOTE:这东西多条曲线只能拼, 或者改df结构.
+sns.lineplot(
+    data=df,
+    x='x',
+    y='y',
+    hue='name',   # 按 name 分成多条线，并自动生成图例
+    marker='o',
+    markersize=8
+)
+plt.title('title')
+
+# 4. 显示图形
+plt.xticks(rotation=45)  # 可选：旋转x轴标签便于阅读
+plt.tight_layout()       # 可选：自动调整布局
+plt.show()
+```
+
+### multiple lines
+
+```{python}
+import numpy as np
+import pandas as pd
+from seaborn import lineplot
+import matplotlib.pyplot as plt
+
+x = np.array([[1, 1],
+              [2, 2],
+              [3, 3]])
+
+y = np.array([[10, 8],
+              [12, 9],
+              [15, 13]])
+
+names = ["A", "B"]
+
+df = pd.DataFrame({
+    "x": x.ravel(order="F"), #把多维数组压平成一维数组, 列优先。
+    "y": y.ravel(order="F"),
+    "name": np.repeat(names, x.shape[0])
+})
+
+lineplot(data=df, x='x', y='y', hue='name')
+plt.show()
+
+```
+
+## 2D
+
+### heatmap
+
+```{python}
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats
+
+data = stats.expon.rvs(size=(10,10), scale=1)
+# figure
+ax=[0, 0]
+fig = plt.figure(figsize=(8,8))
+ax[0] = fig.add_subplot(1,1,1)
+# NOTE: which is very disgusting that the index and data are not natural matched. Whose aim is to fit the position of elements in matrix.
+# So we must do a transposition or exchange the indices(diff people has diff convention).
+sns.heatmap(data, cmap='coolwarm', vmin=np.min(data), vmax=np.max(data), ax=ax[0])
+
+# title
+ax[0].set_title("title", fontsize=22,weight='bold',x=0.5,y=1)
+
+# label
+ax[0].set_ylabel("x", fontsize=14,labelpad=0)
+ax[0].set_xlabel("y", fontsize=14)
+
+# ticks
+x_range = np.linspace(0,10,4)
+ax[0].set_yticks(x_range) # yticks, but for x_range
+ax[0].set_yticklabels([str(np.round(i, 2)) for i in x_range])
+
+# output
+plt.savefig('savefig_example.jpg') 
+plt.show()
+```

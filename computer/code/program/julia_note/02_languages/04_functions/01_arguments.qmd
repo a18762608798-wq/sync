@@ -1,0 +1,75 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# arguments
+
+## methods with diff types
+
+```{julia}
+# NOTE: Abstract types could be used directly
+function f1(x::AbstractFloat)
+    return x + 1
+end
+f1(1.)
+```
+
+```{julia}
+# Union types
+function f2(x::Union{Int, Nothing})
+    if x === nothing
+        return 0
+    else
+        return x + 1
+    end
+end
+f2(nothing)
+```
+
+```{julia}
+# collect types
+function f3(x::Vector{<:AbstractFloat})
+    return x[1] + 1
+end
+f3([1., 2.])
+```
+
+```{julia}
+# parametric approach
+function f7(x::T) where {T <: Int64}
+    return x + 1
+end
+f7(1)
+```
+
+
+## special usage
+
+```{julia}
+# default parameters
+function f4(x::Int64; y = 1::Int64)
+    return x
+end
+
+# omit default parameters
+# NOTE: the kwargs could not be used in the body of the function.
+function f5(x::Int64; kwargs...)
+    return f4(x; kwargs...)
+end
+```
+
+```{julia}
+# 可变数量的位置参数：args...
+function f6(xs::Int64...)
+    return sum(xs)
+end
+# splatting：把 tuple/vector 展开成参数
+a = (1, 2)
+f6(a...)
+```
+

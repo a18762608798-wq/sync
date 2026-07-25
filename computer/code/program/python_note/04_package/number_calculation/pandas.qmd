@@ -1,0 +1,54 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# pandas
+
+## Definition
+
+### series
+
+```{python}
+import numpy as np
+import scipy as sp
+from scipy import stats
+import pandas as pd
+
+# transform array to series
+test_array =  stats.uniform.rvs(loc=0, scale=1-0, size=(5,))
+test_series = pd.Series(test_array, )
+test_series_self_index = pd.Series(test_array, index = ['a', 'b', 'c', 'd', 'e'])
+print(test_series)
+print(test_series_self_index)
+```
+
+```{python}
+# transform dict to series
+test_dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+test_series = pd.Series(test_dict)
+print(test_series)
+```
+
+### DataFrame
+
+```{python}
+# transform array to dataFrame 
+test_arr =  stats.uniform.rvs(loc=0, scale=1-0, size=(5,2))
+test_pd = pd.DataFrame(data = test_arr,
+                        index = ['a', 'b', 'c', 'd', 'e'],
+                        columns = ['column1', 'column2'],
+                        dtype = np.float32
+                        )
+```
+
+
+```{python}
+# transform dic to dataFrame
+test_pd = pd.DataFrame(data = {'column1':[1,2,3], 'column2':[4,5,6]}, )
+print(test_pd)
+```

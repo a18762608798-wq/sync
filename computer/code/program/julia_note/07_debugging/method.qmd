@@ -1,0 +1,27 @@
+---
+title: "function"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# function
+
+```{julia}
+@doc + # return the doc of a function
+```
+
+```{julia}
+methods(+) # return the methods this function have 
+```
+
+```{julia}
+@which +(1, 1) # find the specific methods used in this call.
+```
+
+```{julia}
+@code_warntype +(1, 1) # 会显示 Julia 编译器推断出来的类型; Body is the return type
+```

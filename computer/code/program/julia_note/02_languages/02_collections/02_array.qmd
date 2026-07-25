@@ -1,0 +1,18 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# array
+
+```{julia}
+supertypes(Matrix)
+subtypes(Array)
+```
+
+Vector / Matrix 是 Array 的方便写法，不是新的数组实现。
+Vector 和 Matrix 不是独立于 Array 的新 type，它们只是 Array 的类型别名。

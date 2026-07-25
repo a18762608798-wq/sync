@@ -1,0 +1,20 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# simple functions
+
+```{julia}
+using Statistics
+vec1 = [1, 2, 3, 4, 5, 6]
+matrix1 = [1 2 3; 4 5 6]
+mean(matrix1)  
+mean(matrix1; dims = 1)  
+var(vec1)
+std(vec1)
+```

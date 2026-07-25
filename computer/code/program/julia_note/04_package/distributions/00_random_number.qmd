@@ -1,0 +1,17 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# random number
+
+```{julia}
+using Distributions: Uniform
+uniform_dist = Uniform(0, 10)  # 定义 [0,10] 的均匀分布
+random_num = rand(uniform_dist)  # 单个随机数
+random_vector = rand(uniform_dist, 3)  # 长度为 3 的向量
+```

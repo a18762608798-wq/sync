@@ -1,0 +1,25 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# Integral
+
+```{python}
+from scipy.integrate import nquad
+
+def f(x, y):
+    return x * y
+def bounds_y(): # the range of y to integrate
+    return np.array([0, 0.5])
+def bounds_x(y): # the range of x to integrate
+    return np.array([0, 1 - 2*y])
+
+result,error = nquad(f, np.array([bounds_x, bounds_y]))
+print("The integral: \nresult={:.2f};\nerror={:.2f}".format(result,error))
+```
+

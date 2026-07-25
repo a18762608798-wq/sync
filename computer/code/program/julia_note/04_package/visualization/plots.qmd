@@ -1,0 +1,29 @@
+---
+title: "plots"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# plots
+
+## 1D
+
+### linear
+
+```{julia}
+import Plots
+x = range(1, 2pi; length=1000)
+y = sin.(x)
+Plots.plot(y, title="rand numbers", label="random")
+```
+
+## 2D
+
+### heat
+
+* polar
+

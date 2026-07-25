@@ -1,0 +1,83 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# matrix 
+
+## assignment
+
+```{julia}
+# vector
+Vector{Int64}()
+Vector{Int64}(undef, 10) # Better than push if you have known the length of the vector.
+vec1 = [1, 2]
+vec2 = Vector(1:10)
+fill(1, 10)
+```
+
+```{julia}
+# matrix
+Matrix{Int64}(undef, 2, 3) 
+matrix1 = [1 2 3; 4 5 6] # no , no []
+matrix1[2, 3] # normal index
+matrix2 = ones(3, 3)
+matrix3 = zeros(3, 3)
+```
+
+
+## operations
+
+### format operations
+
+```{julia}
+# copy
+vec1 = [1, 2]
+vec2 = vec1 # shallowcopy()
+vec3 = copy(vec1) # deepcopy
+vec4 = vec1[1:2] # deepcopy, which is diff with julia.
+vec5 = @view vec1[1:2] # shallowcopy()
+```
+
+```{julia}
+# shape 
+cap_a = repeat(vec1, 2, 3) # A = [1 1 1; 1 1 1] \otimes vec1
+reshape(cap_c, 3, 4) # arrange in order by column.
+vec([1 2 3 4]) # transform matrix to vec.
+println("矩阵维度：$(size(cap_a))， 矩阵阶数: $(ndims(cap_a))，元素数目：$(length(cap_a))")
+size(cap_a, 1)
+var1 = [1, 2]
+println("vec1增加元素，要求同类型。$(push!(vec1, 8, 8))")
+println("vec1增加vector(only the elements)，要求同类型。$(append!(vec1, [9, 9]))")
+println("vec1前面添加vector，要求同类型。$(prepend!(vec1, [0, 0]))")
+[[1 2], [3 4]] # Horizontal joining
+[[1 2]; [3 4]] # vertically joining
+```
+
+### math operations
+
+```{julia}
+using Statistics
+# broadcasting computation.
+var1 = [1, 2];
+var2 = [3, 4];
+sin.(var1); var1.^2
+var1 .* var2 
+var1' * var2 # A' is the transpose of A.
+matrix2 * matrix3
+matrix1 = [1 2 3; 4 5 6] # no , no []
+mean(var1)
+mean(matrix1, dims=1) # mean to the first dim
+mean(matrix1, dims=(1, 2))
+```
+
+### other operations
+
+```{julia}
+vec = [1, 2, 3]
+filter!(x -> x != 1, vec)  # 删除所有值为1的元素
+```

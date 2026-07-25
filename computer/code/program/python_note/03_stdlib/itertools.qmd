@@ -1,0 +1,21 @@
+# itertools
+
+## bases
+
+```{python}
+import itertools
+
+itertools.product([1, 2], repeat=3)      # 笛卡尔积
+itertools.combinations([1, 2, 3], 2)                # 组合，不考虑顺序
+itertools.permutations([1, 2, 3], 2)                # 排列，考虑顺序
+itertools.combinations_with_replacement([1, 2, 3], 2) # 可重复组合
+```
+
+不会显示存储，除非list
+
+一般用为循环：
+
+```{python}
+for setting_idx, combo in enumerate(itertools.product([0, 1, 2], repeat=2)):
+    print(combo) # combo is tuple, 可以直接作为索引.
+```

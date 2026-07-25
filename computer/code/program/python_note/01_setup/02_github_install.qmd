@@ -1,0 +1,78 @@
+---
+title: "install from github"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# Install a Python package from GitHub
+
+## Python venv
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+```bash
+python3 -m pip install --upgrade --force-reinstall --no-cache-dir "git+https://github.com/a18762608798-wq/python_note.git@main#subdirectory=06_project/demo_pkg"
+```
+
+Or clone and install locally:
+
+```bash
+python3 -m pip install -e ./06_project/demo_pkg
+```
+
+Update:
+
+```bash
+pip install --upgrade git+https://github.com/a18762608798-wq/python_note.git#subdirectory=06_project/demo_pkg
+```
+
+```bash
+pip install --upgrade -e .
+```
+
+## Julia (via CondaPkg.jl)
+
+```{julia}
+using CondaPkg
+
+CondaPkg.add("pip")
+
+url = "git+https://github.com/a18762608798-wq/python_note.git@main#subdirectory=06_project/demo_pkg"
+
+CondaPkg.withenv() do
+    python3 = CondaPkg.which("python3")
+    run(`$python3 -m pip install --upgrade --force-reinstall $url`)
+end
+```
+
+Or install locally:
+
+```{julia}
+using CondaPkg
+
+CondaPkg.add_pip(
+    "demo-pkg";
+    version="@ ./06_project/demo_pkg",
+    editable=true
+)
+```
+
+Update:
+
+```{julia}
+using CondaPkg
+
+url = "git+https://github.com/a18762608798-wq/python_note.git@main#subdirectory=06_project/demo_pkg"
+
+CondaPkg.withenv() do
+    python3 = CondaPkg.which("python3")
+    run(`$python3 -m pip install --upgrade --force-reinstall --no-cache-dir $url`)
+end
+```

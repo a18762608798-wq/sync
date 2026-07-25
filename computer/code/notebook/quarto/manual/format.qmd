@@ -1,0 +1,22 @@
+---
+title: "Quarto format"
+author: "Richard Myers"
+date: "2026-02-04"
+python: /home/ubuntu-usr/.python/bin/python
+format: html 
+execute:
+  echo: true              # 显示代码
+  warning: false          # 不显示警告      
+---
+
+主要说的是format的输出格式：
+
+* html - 网页格式
+* pdf - PDF文档格式
+* docx - Microsoft Word格式
+* odt - OpenDocument文本格式
+* rtf - 富文本格式
+* gfm - GitHub Markdown格式
+* pptx - PowerPoint格式
+* revealjs - 网页幻灯片格式（vscode兼容比较好。）
+* beamer - LaTeX幻灯片格式 (.tex格式)

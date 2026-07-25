@@ -1,0 +1,7 @@
+# expr and table
+
+```{bash}
+mineru -p input.pdf -o output -f true -t true
+```
+
+`-f` to control expr, and `-t` is used to control table.

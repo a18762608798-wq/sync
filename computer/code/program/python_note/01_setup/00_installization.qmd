@@ -1,0 +1,19 @@
+---
+title: "naming"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# installization
+
+## The reps of Linux
+
+Ref to the config of nvim.
+
+## The config related to julia
+
+Ref to julia_note

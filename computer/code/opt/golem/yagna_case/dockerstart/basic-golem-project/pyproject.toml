@@ -1,0 +1,12 @@
+[project]
+name = "basic-golem-project"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "gvmkit-build>=0.3.19",
+    "pandas>=3.0.1",
+    "setuptools==69.5.1",
+    "yapapi>=0.13.1",
+]

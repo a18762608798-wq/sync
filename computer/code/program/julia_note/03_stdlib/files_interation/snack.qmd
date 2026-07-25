@@ -1,0 +1,23 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# snack
+
+## find targeted files
+
+```{julia}
+# find the targeted files
+dir = "./"
+files = filter(file -> occursin(r"^\d\d", file), readdir(dir))
+```
+
+```{julia}
+# sort according to some rules.
+sort!(files; by = file -> parse(Int, match(r"^(\d\d)", file)[1]))
+```

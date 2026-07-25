@@ -1,0 +1,30 @@
+# CondaPkg
+.CondaPkg/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.so
+
+# Julia
+Manifest.toml
+*.cov
+*.mem
+*.h5
+stats$/
+*_stats/
+
+# MinerU output
+tool/file_transform/pdf_to_mark/MinerU/02_core_CIL/output/
+
+# Recreation
+/recreation/

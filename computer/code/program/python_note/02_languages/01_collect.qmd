@@ -1,0 +1,22 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# ls
+
+```{python}
+import numpy as np
+a = [1, 2]
+b = [3, 4]
+a + b
+
+# gridding but one dim
+import itertools    
+pairs = list(itertools.product(a, b))
+```
+

@@ -1,0 +1,16 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# parse
+
+```{julia}
+# 1. `Meta.parse("(2, 1024)")` → 把字符串转成 AST（表达式对象）`Expr`
+# 2. `eval(...)` → 执行这个表达式，得到 `(2, 1024)`
+eval(Meta.parse("(2, 1024)"))
+```

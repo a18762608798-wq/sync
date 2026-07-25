@@ -1,0 +1,6 @@
+# help
+
+```{bash}
+mineru --help
+mineru -v
+```

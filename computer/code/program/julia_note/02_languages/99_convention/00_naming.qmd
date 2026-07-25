@@ -1,0 +1,42 @@
+---
+title: "naming"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# naming
+
+## variables
+
+* Lowercase
+* Do not use underlines if it is not necessary.
+
+```{julia}
+tangduogeng = 250
+tangduogeng_wangchuqin = 500
+```
+
+## functions
+
+* Lowercase
+* Do not use underlines if it is not necessary.
+* Active sentence structure
+* End with `!` if the function modifies its arguments.
+
+## macro 
+
+* Lowercase
+* Do not use underlines if it is not necessary.
+
+## Types 
+
+* UpperCamelCase
+
+## Modules
+
+* UpperCamelCase
+* Do not over-abbreviate.

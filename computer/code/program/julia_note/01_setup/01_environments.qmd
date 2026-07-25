@@ -1,0 +1,92 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# the environment configuration of julia
+
+## the julia project
+
+Run the order at terminal in your folder as follow:
+
+```bash
+using Pkg
+Pkg.activate(".")
+# nvim is not needed to install it.
+#Pkg.add("LanguageServer") # which provides the language server for julia, and it is the dependency of the vscode extension of julia.
+```
+
+If you clone a project of orders, run:
+
+```bash
+using Pkg
+Pkg.activate(".")
+Pkg.instantiate()
+```
+
+> 不同 Julia project/environment 可以隔离依赖版本，但共享下载缓存；同版本包一般不重复下载，不同版本、artifact、预编译缓存或不同 depot 才会额外占空间
+
+## python in julia
+
+### mounting issue
+
+对于本身项目是挂载的情况， julia环境和项目不在同一个硬盘的时候CondaPkg会出问题。(这并不是长久的做法，需要及时纠正)
+
+解决方法是在根目录创建 `.envrc` 文件, 写入命令; **也需要安装 direnv(ref to the config of neovim)**, 需要手动执行一次：
+
+```bash
+echo 'export JULIA_CONDAPKG_ENV="$HOME/.condapkg_envs/julia_note"' > .envrc
+direnv allow
+```
+
+Test with:
+
+```bash
+echo "$JULIA_CONDAPKG_ENV"
+# or in julia
+ENV["JULIA_CONDAPKG_ENV"]
+```
+
+### install package
+
+We recommend to use the pyjulia package **with the activate environment** in the mixed project with python and julia.
+
+```julia
+using CondaPkg
+CondaPkg.add("numpy")
+CondaPkg.add_pip("quarkstudio") # NOTE: quarkstudio does not included in conda, use PYPI.
+CondaPkg.add_pip("mineru"; extras=["all"]) # When you have extra pip params.
+```
+
+If you clone a project of orders, run:
+
+```{julia}
+using CondaPkg
+CondaPkg.resolve()
+```
+
+### CIL in current environment
+
+```{bash}
+"${SHELL}" <(curl -L micro.mamba.pm) # install micromamba to run CIL
+```
+
+Then activate the environment via micromamba.
+
+```{bash}
+micromamba activate -p .CondaPkg/.pixi/envs/default
+```
+
+## usage
+
+* use `Pkg.activate(".")` in repl, then
+
+```julia
+include("test.jl")
+```
+
+* use `julia --project=@. main.jl`(which means search the toml file forward).

@@ -1,0 +1,35 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+
+# random
+
+```{python}
+# product random number
+from random import*
+# seed 初始化随机数种子，默认值为当前系统时间
+random() # 0到1的随机数
+randint(1, 2) # 随机整数,包含两端界限，
+randrange(0,99,2) # 0到98,2为步长的随机整数
+uniform(1, 2) # 随机小数
+```
+
+```python
+# sample
+choice(range(10)) # 从序列类型中返回一个是元素,当然，此序列不能为集合。
+a = [1, 2, 3, 4] 
+shuffle(a) # 序列重排序(range could not be used)
+sample(a, 2) # 从数列类型（除字典）中返回k个（不重复）元素,返回类型为列表。
+
+# 随机抽样；指定抽取权重，允许重复抽取；**replace为1是允许重复取样**
+data = np.array([1, 2, 3, 4, 5])
+probabilities = np.array([0.1, 0.1, 0.2, 0.3, 0.3])
+sample = np.random.choice(data, size=2, replace=False, p=probabilities)
+print(sample)
+```

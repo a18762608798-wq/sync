@@ -1,0 +1,49 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# matplotlib
+
+## 1D
+
+### linear
+
+```{python}
+import matplotlib.pyplot as plt
+
+x_array = [1, 2, 3]
+y_array = [4, 5, 6]
+plt.plot(x_array, y_array, label='cases')
+plt.legend(loc='upper left')
+plt.title('title')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.show()
+```
+
+
+### histogram
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 生成一些示例数据
+data = np.random.randn(1000)
+# 使用NumPy计算直方图数据
+hist, bin_edges = np.histogram(data, bins=30)
+# 使用Matplotlib绘制直方图
+plt.hist(data, bins=30, edgecolor='black')
+# 添加标题和标签
+plt.title('Histogram of Data')
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+# 显示图形
+plt.show()
+```
+

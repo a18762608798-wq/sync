@@ -1,0 +1,32 @@
+---
+title: "type"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# type
+
+```{julia}
+typeof(Int64)
+```
+
+```{julia}
+fieldnames(typeof(Int64(1))) # see the fields in this instance.
+```
+
+```{julia}
+Int64.name  # see the value of this field.
+```
+
+```{julia}
+@doc Int64
+```
+
+```{julia}
+supertype(Signed) # see the upper layer
+subtypes(Signed) # see the subtypes
+```

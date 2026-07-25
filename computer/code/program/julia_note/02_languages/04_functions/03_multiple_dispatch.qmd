@@ -1,0 +1,22 @@
+---
+title: "multiple dispatch"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# multiple dispatch
+
+Which is the key step to optimization of dynamic languages.
+
+```{julia}
+f(x::Int64, y::Int64) = x + y
+f(x::Float64, y::Float64) = x - y
+f(1, 1)
+f(1., 1.)
+```
+
+

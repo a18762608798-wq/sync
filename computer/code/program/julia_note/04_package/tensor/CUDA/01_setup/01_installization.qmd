@@ -1,0 +1,16 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# installization
+
+```bash
+using Pkg
+Pkg.add("CUDA") 
+Pkg.instantiate() # 如果中断，补全依赖。
+```

@@ -1,0 +1,34 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# Insertion
+
+```{python}
+from scipy.interpolate import lagrange
+import matplotlib.pyplot as plt
+
+# Data
+## Input
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([2, 3, 1, 5, 7])
+range_x = np.linspace(1,5,50)
+## Compute
+coefficients = lagrange(x,y) # Output: 降序多项式系数
+print("拟合的多项式为：")
+print(coefficients)
+fittingvalue = coefficients(range_x)
+
+# Graph
+## Plot
+plt.plot(range_x,fittingvalue)
+
+# Output
+plt.show()
+```
+

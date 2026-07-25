@@ -1,0 +1,40 @@
+---
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# basics
+
+```{julia}
+# string
+# definition
+str = 'a'
+aciistr = Int(str) # return the aciistr.
+println("Acii码: ", Int(str))
+println("字符", Char(aciistr))
+println("number to string", string(1))
+```
+
+```{julia}
+# 切片
+str = "hello"
+str1 = str[1];
+strend = str[end];
+strpart = str[1:end];
+println("对应字符, ", str1, strend, strpart)
+splicingstr = string(str1, strpart);
+println("拼接字符串: $splicingstr, *也可以:$(str1 * strpart)") # 乘，新奇。
+println("重复拼接$(str1 ^ 3)") # ^ repeat the string.
+```
+
+```{julia}
+# other function
+println("trans to lowercase $(lowercase(str))")
+println("trans to uppercase $(uppercase(str))")
+println("replace some part in string $(replace(str, 'e'=>'a'))")
+```
+

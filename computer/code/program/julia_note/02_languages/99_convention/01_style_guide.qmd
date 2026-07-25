@@ -1,0 +1,100 @@
+---
+title: "naming"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# style guide
+
+## indentation
+
+* four blank spaces
+
+## Function
+
+### description
+
+* All the function should be writen into function
+* Place the type transformation outside the function.
+* It is no need to restrict excessively on parameter types, which usually do not lead to performance improvement.
+* End with `!` if the function modifies its arguments.
+* the order of params:
+
+```{text}
+1. 函数参数: function be the input. 
+2. IO: IO对象，比如f = open("hello.txt")
+3. 被修改的输入
+4. 类型
+5. 普通输入: provide the info to read.
+6. key / index: 键
+7. value：值
+8. 其他
+9. varargs：可变参数，特别是类型可变或者类型的结构可变。
+10. 关键字参数: 默认参数
+```
+
+### the doc of funtion
+
+```{text}
+开头先放函数签名。
+紧接着用 一句话说明“做什么”。
+函数文档推荐用 祈使句，比如 “Compute ...” / “Return ...”。
+不要重复签名里已经说过的信息。
+参数列表只在真的复杂时再列。
+加 See also 和 Examples，例子最好能写成 doctest
+```
+
+```{julia}
+# this is a case of function doc
+"""
+    add_offset(x; offset=1) # the sign of function
+
+Return `x + offset`. # a imperative sentence
+
+# Arguments(struct prefer Fields)
+- `x`: Input number.
+- `offset=1`: Value added to `x`.
+
+# Examples
+```jldoctest
+julia> add_offset(3; offset=5)
+8
+```
+"""
+add_offset(x; offset=1) = x + offset
+```
+
+## others to explore
+
+```{text}
+不要过度依赖 try-catch；优先避免错误，而不是到处捕获。
+if / while 条件 不用额外括号。
+不要过度使用 splatting ...。
+构造函数 T(...) 一般就应该返回 T 的实例，不要返回别的类型。
+不要写没必要的 static parameter，比如 foo(x::T) where {T<:Real} 若 T 根本没用到，就直接写 foo(x::Real)。
+默认优先把“概念”表示成实例，而不是老写 Type{MyType} 风格的接口。
+不要滥用宏；能写函数就先写函数。
+不要把不安全操作伪装成普通接口；如果真是不安全的，名字里应体现 unsafe。
+不要随便重载 Base 容器类型的行为。
+避免 type piracy：不要在“不是你定义的函数 + 不是你定义的类型”上乱扩展方法。
+类型判断通常优先用 isa 和 <:，而不是 ==。
+不要写平凡匿名函数 x -> f(x)，直接传 f 即可。
+```
+
+### braket to write params
+
+Strictly accroding to the layers use tab. For instance,
+
+```{julia}
+function func(
+    x,
+    y,
+    z,
+)
+    print(x + y + z)
+end
+```

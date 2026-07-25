@@ -1,0 +1,10 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "demo_pkg"
+version = "0.1.1"
+description = "A minimal demo package"
+requires-python = ">=3.9"
+

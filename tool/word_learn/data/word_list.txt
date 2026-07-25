@@ -1,0 +1,204 @@
+the curse of 
+in the literature 
+in terms of # ɪn ˌtɜrnz əv按照;根据;基于
+auxiliary # 辅助的。
+afterwards # 此后
+non-deterministic # 不确定性
+incrementally # 逐步地
+mitigation # 缓解
+cache area # 缓存区
+barren # 贫瘠的
+plateaus # 高原
+non-optimal # 非最优的
+workload # 工作负荷
+generality # 概括
+such that # 以至于
+serves to # 作用于
+adjacency # [əˈdʒeɪsənsi]。邻接性；邻近；贴邻。
+deflation # [dɪˈfleɪʃn]。通货紧缩；萎缩；放气；减压。
+take the form of # [teɪk ðə fɔːm ɒv]：呈现……形式；以……方式出现；采取……形态。
+suppression # [səˈpreʃn]；压制；抑制；镇压；压抑。
+unwieldy # [ʌnˈwiːldi]；笨拙的，难操作的；不灵活的；巨大而笨重的。
+tunable # 可调节的
+inferring # 推断
+deposit # 存款
+derive # 推导
+in unit of # 单位是...
+cautionary # 奇怪的
+damp # 阻尼
+counterpart # 对应物
+equilibrium # 平衡
+detuning # 失协
+resonance # 谐振
+insensitive # 不敏感的
+imperfections # 瑕疵，缺陷
+grasp # 掌握
+sophisticated # 精密的
+guarantees # 保证
+imperfections # 缺陷
+bosonic and fermionic # 玻色子和费米子 
+curse # 诅咒；咒语；祸害；天谴；（某事物的）祸根，灾难。
+bless # 祝福；保佑；赞美；（上帝）保佑；（某人）赐福。
+conundrum # 难题；谜题；复杂的问题。
+comprising # 包括；由……组成；包含。
+full-state tomography # 全态断层扫描
+postprocessing # 后处理。
+flow from # 流自……；源于……；由……引起。
+tailoring the measurements performed # 调整执行的测量
+ancilla # 附属物
+topological # 拓扑
+variance # 方差
+notable # 值得注意的；显著的；著名的；值得注意的。
+extravagant quantum information # 丰富的量子信息
+residing # 居住在；存在于；驻留在。
+discard # 丢弃
+pondering # 沉思；考虑；思考；琢磨。
+recipe # 食谱
+concreteness # 具体性；实在性；确实性；具体的事物。
+encompassing # 包含
+the sake of # 为了。。。的目的。
+instructive # 有益的，有指导性的；教育性的；有教益的。
+this, in turn # 这样一来；反过来说；反过来；因此。
+marginals # 边界分布
+denotes # 表示；象征；指示；标明。
+identity # 单位阵，身份；同一性；特征；恒等式。
+projective # 投影的
+provably # 可证明地
+trivially # 显然地；平凡地；无关紧要地；简单地。
+in this fashion # 以这种方式；以这种方法；以这种风格。
+averaging # 平均值；平均化；平均处理；平均数。
+intuition # 直觉；洞察力；理解力；本能；灵感。
+invariant # 不变量；不变的；恒定的；不变式。
+be equipped with # 装备有；配备有；具备；拥有。
+rigorous # [ˈrɪɡərəs]。严格的；严谨的；严厉的；彻底的。
+feasible # [ˈfiːzɪbl]；可行的；切实可行的；可能的。
+retrieved # [rɪˈtriːvd]；恢复，找回；检索，提取；挽回。
+intermediate-scale # [ˌɪntəˈmiːdiət skeɪl] 中间规模；中等规模；中级规模；适中的范围。
+overla # [ˈəʊvəˌleɪ]；覆盖，叠加；重叠，覆盖层。
+susceptible # [səˈseptəbl] 易受影响的；敏感的；易感病的；易受（某种影响）的。
+emergence # [ɪˈmɜːdʒəns]；出现，浮现；涌现，产生；新兴事物。
+coincide # [kəʊˈɪnsaɪd]。巧合，一致；同时发生；重合。
+miscalibration # [ˌmɪsˌkælɪˈbreɪʃn]。校准错误；标定误差；不准确校正；误校准。
+distinct # [dɪˈstɪŋkt]；不同的，截然不同的；明显的，独特的；卓越的，出色的。
+succinct # [səˈkɪŋkt]。简洁的；简明的；扼要的；精炼的。
+leverage # [ˈlɛvərɪdʒ]；杠杆作用；利用；影响力；财务杠杆。
+pass in # [pæs ɪn]。提交；通过（考试）；逝世。
+characterize # [ˈkærəktəraɪz]；特征化；描述；刻画；使具有特色。
+ensemble # [ɒnˈsɒmbl]。整体；合奏；（服装的）套装；协同一致。
+ensemble # [ɪnˈsɒmbl]。合奏；整体，组合；服装搭配。
+insight # [ˈɪnsaɪt]。洞察力，深刻见解；直觉，本能；（对某事物的）理解。
+rms # [ˌɑːːemˈɛs]。均方根值；有效值；（英国）皇家军事学会。
+setback # [ˈsetbæk]。挫折；失败；退步；阻碍。
+traverse # [trəˈvɜːs]；穿越，横穿；旅行，游历；测量，调查。
+preset # [ˈpriːset]；预设；预置；预先设定；预选。
+vulnerable # [ˈvʌlnərəbl]。脆弱的；易受攻击的；易受伤的；敏感的。
+manipulating # [məˈnɪpjʊleɪtɪŋ]。操纵；控制；巧妙地运用。
+in unit of # [ɪn ˈjuːnɪt ɒv] 单位；成组；批量。
+recipe # [ˈresɪpi]；菜谱，食谱；配方；诀窍，秘方。
+derivations # [ˌderɪˈveɪʃənz]。派生词；衍生物；推导；起源。
+plateaus # [plæˈtoʊz]。高原；平稳期；平台。
+pump # [pʌmp]；泵，抽水机；充气，打气；鼓舞，激励。
+vertices # [ˈvɜːrtɪsiːz]。顶点；顶角；多边形的顶点。
+denoted # [dɪˈnəʊtɪd]。表示，指出；象征，预示；指定。
+matrices # [ˈmætrɪsiːz]。矩阵；模具；母体；基础。
+permutes # [pəˈmjuːts]；排列，变动；重新组合；置换。
+permutes # [pəˈmjuːts]；排列，变换；变动；置换。
+vertices # [ˈvɜːtɪsiːz]。顶点；顶角；（复数）顶点坐标。
+traverse # [trəˈvɜːs]；穿越，横穿；跋涉，行进；测量，测量线。
+denotes # [dɪˈneɪts]；表示，象征，指示；表明，指出；记号。
+readily # 轻易的；乐意地；迅速地；无困难地。
+trade off # 权衡；
+abbreviate # 缩写
+indentation # 缩进
+elementary # 初等的：
+suffice to # 足够了
+tomography # 断层扫描
+quantum sate tomography # 量子态层系成像
+assert # 断言
+Fundamental lower bounds assert # 基本下界断言
+bypassing # 绕过
+trapped-ion # 囚禁离子
+laser beams # 激光束
+dephasing # 相位偏移
+spontaneous emission # 自发辐射
+ensemble # 集合，群
+numerous # 许多的
+diagnostics # 纠错
+merit # 优点
+execution # 执行
+benchmarking # 基准测试
+topological # 拓扑的
+exotic phases of matter # 奇异位置像位
+synthetic # 合成的
+in the context of # 在...的背景下
+substantial # 实质的
+invariants # 不变量
+unambiguously # 明确
+depicted schematically # 意示图
+spatial # 空间
+quantized # 量化的
+trivial # 琐碎的
+fidelities # 保真度
+formalism # 形式
+robust # 强健，稳定的
+shallow # 浅的
+batch # 批量的
+built-in # 内置的
+unify # 统一
+composable # 可组合的
+scalable # 可扩展的
+protocol # 协议
+prescribed # 预先设定的
+ensemble # 集合
+projective # 投影的
+crucially # 至关重要的
+dedicated # 投入的
+witnessed # 目击的
+a surge of # 一股
+implementations # 实现
+entire # 全部的
+routines # 例行程序
+quantification # 量化
+modularity # 模块化
+accessible # 容易访问的
+dedicated # [ˈdedɪkeɪtɪd] 献身的；忠诚的；专用的；热衷的；奉献的。
+dedicated # [ˈdedɪkeɪtɪd] 专注的，献身的；忠诚的，尽责的；专用的，指定的。
+flexibly # 灵活的
+object # 对象
+implement # 实施
+switches # 开关
+incorporates # 包含
+calibration # 校准
+seamless # 无缝的
+composability # 可组合的
+reproducibility # 可重复性
+entropic quantities # 熵量
+projective # 投影的
+convenient # 方便的
+prescribed # 规定的指定的
+scenario # 场景
+corresponding organization # 相应的组织
+performed # 执行的
+precise # 精确的
+bypass # 绕过
+software architecture # 软件架构
+Haar measure # Haar 测度
+realize # 意识到；实现
+identical # 完全相同的
+routines # 例行程序
+memory–efficient # 内存高效
+scale to # 可扩展的
+tailored to # 量身定制的
+in the context of # 在。。。的背景下
+contain # 包含
+empirical # 经验主义的
+a suite of # 一系列的
+either # 或者要么
+delegated # 委托
+arise # 出现
+deviations # 偏差
+correspond # 对应
+throughout # 从始到终
+manuscript # 手稿
+quantitative # 数量上
+adjacent # 相邻的

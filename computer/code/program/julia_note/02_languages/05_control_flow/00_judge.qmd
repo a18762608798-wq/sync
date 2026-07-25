@@ -1,0 +1,23 @@
+---
+title: "judge"
+format: html
+engine: julia
+execute:
+  daemon: false
+julia:
+  exeflags: ["--project=.@"]
+---
+
+# judge
+
+```{julia}
+# if 1 is not allowed.
+x, y = 1, 2
+if x < y
+    println("The max number is $y")
+elseif x > y
+    println("The max number is $x")
+else 
+    println("The numbers are equal")
+end
+```

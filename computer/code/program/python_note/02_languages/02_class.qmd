@@ -1,0 +1,41 @@
+# class
+
+在科学计算中，不建议 class 弄太复杂，建议遵循 julia 风格，class 主要拿来当作 struct 用。
+
+## basic
+
+```{python}
+from dataclasses import dataclass, field # Field is used to avoid two class use same list
+
+@dataclass
+class MeasConfig:
+
+    # ---- required --------------------------------------------------
+    shots: int
+    meas_indices: list[int] = field(default_factory=list)
+```
+
+
+## generate field
+
+```{python}
+from dataclasses import dataclass, field # Field is used to avoid two class use same list
+
+@dataclass
+class MeasConfig:
+
+    # ---- required --------------------------------------------------
+    shots: int
+    meas_indices: list[int] = field(default_factory=list)
+    params: list | None = None   # None 表示自动生成
+
+    def __post_init__(self):
+        if self.params is None:
+            n = self.shots
+            self.params = [
+                n,
+                2 * n,
+            ]
+
+MeasConfig(100, [1, 2, 3])
+```
