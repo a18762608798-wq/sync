@@ -3,7 +3,7 @@ name: Deploy Slidev
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 permissions:
