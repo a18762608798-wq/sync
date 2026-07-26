@@ -1,0 +1,15 @@
+node_modules/
+dist/
+*.pdf
+*.pptx
+*.png
+.DS_Store
+*.local
+.vite-inspect
+.remote-assets
+components.d.ts
+*.log
+.env
+.env.local
+.env.*.local
+.cache/
