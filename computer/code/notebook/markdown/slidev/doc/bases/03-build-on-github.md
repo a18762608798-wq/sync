@@ -2,7 +2,7 @@
 
 ## bases
 
-需要在github上构建disk/, 和本地没有关系.
+需要在github上构建disk/, **和本地没有关系**, 这也是ignore的原因。
 
 ### Create a git warehouse
 
@@ -25,3 +25,5 @@ Push 之后找到改仓库, Action 中即可。
 只用修改yml命令既可.
 
 Ref to [deploy.yml](/.github/workflows/deploy.yml)
+
+但是多个**幻灯片的网址不会直接给你**，自己输入吧.
