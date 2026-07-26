@@ -64,6 +64,12 @@ pnpm slidev talk.md
 pnpm build
 ```
 
+注意bulit 可以是多个文件(甚至可以指定更具体的dist, 参考[build-on-github](./03-build-on-github.md)):
+
+```bash
+slidev build slides-a.md slides-b.md
+```
+
 默认输出到：
 
 ```text

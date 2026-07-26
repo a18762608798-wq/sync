@@ -29,15 +29,34 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-          cache-dependency-path: computer/code/notebook/markdown/slidev/workspace/basic-case/pnpm-lock.yaml
+          cache-dependency-path: |
+            computer/code/notebook/markdown/slidev/workspace/basic-case/pnpm-lock.yaml
+            computer/code/notebook/markdown/slidev/workspace/genshin-impact/2026-7-26/pnpm-lock.yaml
 
-      - name: Install dependencies
+      - name: Install basic-case dependencies
         working-directory: computer/code/notebook/markdown/slidev/workspace/basic-case
         run: pnpm install --frozen-lockfile
 
-      - name: Build Slidev
+      - name: Install genshin-impact dependencies
+        working-directory: computer/code/notebook/markdown/slidev/workspace/genshin-impact/2026-7-26
+        run: pnpm install --frozen-lockfile
+
+      - name: Clean output directory
+        run: rm -rf computer/code/notebook/markdown/slidev/workspace/workspace-dist
+
+      - name: Build basic-case
         working-directory: computer/code/notebook/markdown/slidev/workspace/basic-case
-        run: pnpm build --base /${{ github.event.repository.name }}/
+        run: >
+          pnpm build
+          --base /${{ github.event.repository.name }}/basic-case/
+          --out ../workspace-dist/basic-case
+
+      - name: Build genshin-impact
+        working-directory: computer/code/notebook/markdown/slidev/workspace/genshin-impact/2026-7-26
+        run: >
+          pnpm build
+          --base /${{ github.event.repository.name }}/genshin-impact/2026-7-26/
+          --out ../../workspace-dist/genshin-impact/2026-7-26
 
       - name: Configure Pages
         uses: actions/configure-pages@v6
@@ -45,7 +64,7 @@ jobs:
       - name: Upload website
         uses: actions/upload-pages-artifact@v5
         with:
-          path: computer/code/notebook/markdown/slidev/workspace/basic-case/dist
+          path: computer/code/notebook/markdown/slidev/workspace/workspace-dist
 
   deploy:
     needs: build
