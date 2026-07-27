@@ -10,6 +10,10 @@ julia:
 # operation
 
 ```{julia}
+using QuantumToolbox
+```
+
+```{julia}
 # basic number operation
 A = sigmax()
 exp(A)
@@ -22,11 +26,15 @@ expm(A)
 
 ```{julia}
 # basic matrix operation
+ψ1 = basis(ComplexF32, 2, 0; sparse=Val(true))
+ψ2 = basis(ComplexF32, 2, 0; sparse=Val(true))
+ρ = ψ1 * ψ1'
 dot(ψ1, ψ2) # 内积
+tensor(ψ1, ψ2) # 外积
 ket2dm(ψ)        # ket -> density matrix
 expect(O, ψ)     # 期望值
 variance(O, ψ)   # 方差
-ptrace(ρ, sel)   # partial trace
+ptrace(ρ, sel)   # partial trace (sel 建议用 tuple)
 tr(A)            # trace
 norm(A)          # 范数
 normalize(A)
@@ -44,8 +52,8 @@ Hermitian((A + A') / 2) # Hermitianization
 # eigen
 using QuantumToolbox
 
-H = sigmax()
-vec = eigenenergies(H) # Es
+H = sigmaz()
+Es = eigenenergies(H) # Es
 ```
 
 ```{julia}
@@ -56,7 +64,7 @@ U[:, 1]
 Es, ψ, U = eigenstates(H;
     sparse=true,
     eigvals=energy_num,
-    sortby=real,
+    sortby=real, # 实部排序
     rev=false,
 ) # 稀疏计算，估计|λ|大的几个态。
 ```

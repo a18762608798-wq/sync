@@ -32,25 +32,6 @@ Pkg.instantiate()
 
 ## python in julia
 
-### mounting issue
-
-对于本身项目是挂载的情况， julia环境和项目不在同一个硬盘的时候CondaPkg会出问题。(这并不是长久的做法，需要及时纠正)
-
-解决方法是在根目录创建 `.envrc` 文件, 写入命令; **也需要安装 direnv(ref to the config of neovim)**, 需要手动执行一次：
-
-```bash
-echo 'export JULIA_CONDAPKG_ENV="$HOME/.condapkg_envs/julia_note"' > .envrc
-direnv allow
-```
-
-Test with:
-
-```bash
-echo "$JULIA_CONDAPKG_ENV"
-# or in julia
-ENV["JULIA_CONDAPKG_ENV"]
-```
-
 ### install package
 
 We recommend to use the pyjulia package **with the activate environment** in the mixed project with python and julia.

@@ -64,8 +64,10 @@ A ⊗ B
 
 ```{julia}
 # mutiple op
+qubit_num = 4
 qubit_dims = ntuple(_ -> 2, qubit_num)
 op1 = 0 * qeye(2^qubit_num; dims=qubit_dims)
+length(op1.dims[1]) # return the number of qubit
 ```
 
 ```{julia}
