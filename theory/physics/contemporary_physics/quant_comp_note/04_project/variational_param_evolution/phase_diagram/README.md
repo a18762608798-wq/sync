@@ -1,40 +1,28 @@
-# README
+# SSH 基态 $Z_R$ 相图
 
-这个子项目用来绘制相图.
+## 方法
 
-## 哈密顿量
+1. **截断**：对 8+ 比特系统，先求 SSH 基态 $|\psi_0\rangle$，然后对中间 4 个比特求偏迹，去除边缘自由比特的简并影响
+2. **扫描**：在 $(s, \delta) \in [0,1] \times [0,1]$ 参数空间等间距取 $N\times N$ 个格点
+3. **计算**：每个格点求基态 $|\psi_0(s,\delta)\rangle$，截断后计算 $Z_R$ 值
 
-$$
-H = J_1 \sum_{i} (X_i X_{i+1} + \delta Y_i Y_{i+1}) + J_2 (\sum_j X_j X_{j+1} + \delta Y_j Y_{j+1}).
-$$
+## 文件结构
 
-其中,
+```
+phase_diagram/
+├── get_ssh_ZR.jl       # 求 SSH 基态并计算 ZR_val（含截断）
+├── get_ssh_phase.jl    # 扫描参数空间，保存 npz 数据
+├── plot_ssh_phase.py   # 绘制热力图
+├── data/               # 数据输出
+└── pics/               # 图像输出
+```
 
-$$
-\begin{cases}
-J_1 = 1 - s\\
-J_2 = s\\
-i \in 2N^+ - 1\\
-j \in 2N^+\\
-\end{cases}.
-$$
+## 使用
 
-### Z_R
+```bash
+# 生成相图数据（8 比特，100×100 格点）
+julia --project=. phase_diagram/get_ssh_phase.jl
 
-对于拓扑量 $Z_R$ 定义有:
-
-$$
-\hat Z_R = \frac{tr(\rho S)}{\sqrt{tr(\rho_1^2)}tr(\rho_2^2)}.
-$$
-
-其中,
-
-$$
-S = \bigotimes_{i=1}^{N/2} SWAP_{i, N-i+1},
-$$
-
-对于8比特系统，N = 4, 子系统 1 为 $(3, 6)$, 子系统 2 为 $(4, 5)$.
-
-## 图像内容
-
-选择 $(s, \delta)$ 作为热力图参数空间，选择其基态作为量子态，绘制 $\langle \hat Z_R \rangle$
+# 绘制热力图
+python phase_diagram/plot_ssh_phase.py
+```
