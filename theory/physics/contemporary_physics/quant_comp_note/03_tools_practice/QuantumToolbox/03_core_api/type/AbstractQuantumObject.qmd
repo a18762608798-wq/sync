@@ -34,6 +34,7 @@ fieldnames(QuantumObject)
 ```
 
 >(:data, :type, :dimensions)
+>还有更可读的dims
 
 ## QuantumObjectEvolution
 

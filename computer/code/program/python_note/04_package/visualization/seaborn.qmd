@@ -97,33 +97,25 @@ plt.show()
 ### heatmap
 
 ```{python}
-import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy import stats
+# 参考如下
+def plot_ssh_phase(data_path, pic_path):
+    data = np.load(data_path)
+    s = data["s"]
+    δ = data["delta"]
+    ZR = data["ZR"]
 
-data = stats.expon.rvs(size=(10,10), scale=1)
-# figure
-ax=[0, 0]
-fig = plt.figure(figsize=(8,8))
-ax[0] = fig.add_subplot(1,1,1)
-# NOTE: which is very disgusting that the index and data are not natural matched. Whose aim is to fit the position of elements in matrix.
-# So we must do a transposition or exchange the indices(diff people has diff convention).
-sns.heatmap(data, cmap='coolwarm', vmin=np.min(data), vmax=np.max(data), ax=ax[0])
-
-# title
-ax[0].set_title("title", fontsize=22,weight='bold',x=0.5,y=1)
-
-# label
-ax[0].set_ylabel("x", fontsize=14,labelpad=0)
-ax[0].set_xlabel("y", fontsize=14)
-
-# ticks
-x_range = np.linspace(0,10,4)
-ax[0].set_yticks(x_range) # yticks, but for x_range
-ax[0].set_yticklabels([str(np.round(i, 2)) for i in x_range])
-
-# output
-plt.savefig('savefig_example.jpg') 
-plt.show()
+    # figure
+    fig = plt.figure(figsize=(8, 8))
+    ax = fig.add_subplot(1, 1, 1)
+    n = len(s)
+    step = max(1, n // 5)
+    ax = sns.heatmap(ZR, cmap="coolwarm", ax=ax)
+    ax.set_xticks(np.arange(0, n, step))
+    ax.set_xticklabels(np.round(δ[::step], 2))
+    ax.set_yticks(np.arange(0, n, step))
+    ax.set_yticklabels(np.round(s[::step], 2))
+    ax.set_xlabel(r"$\delta$")
+    ax.set_ylabel(r"$s$")
+    # output
+    plt.savefig(pic_path)
 ```
