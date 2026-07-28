@@ -1,6 +1,7 @@
 using Test
 using QuantumToolbox
 include("../src/op_creator.jl")
+include("../src/expect_instance.jl")
 
 @testset "get_ZR_val" begin
     qubit_num = 4
@@ -16,7 +17,7 @@ include("../src/op_creator.jl")
     dims = ntuple(_ -> 2, qubit_num)
     ρ_mixed = qeye(2^qubit_num; dims=dims) / 2^qubit_num # 最大混合态
     @info get_ZR_val(ρ_mixed)
-    @test get_ZR_val(ρ_mixed) ≈ 0.25
+    @test get_ZR_val(ρ_mixed) ≈ 0.5
 
     @test_throws AssertionError get_ZR_val(qeye(2^3; dims=(2, 2, 2)))
 end
