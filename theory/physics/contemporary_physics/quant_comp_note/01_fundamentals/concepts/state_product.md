@@ -74,3 +74,57 @@ Statevector([ 0.        +0.0000000e+00j, -0.70710677-8.6595606e-17j,
             dims=(2, 2))
 ```
 
+#### GHZ state
+
+$N$ 比特 GHZ 态通常定义为
+
+$$
+|\mathrm{GHZ}_N\rangle = \frac{|0\rangle^{\otimes N}+|1\rangle^{\otimes N}}{\sqrt2}.
+$$
+
+最常见的制备思路是：
+
+1. 先在一个比特上制造叠加；
+2. 再把这个比特的信息依次复制到其他比特上。
+
+##### 标准制备电路
+
+初态为 $|0\rangle^{\otimes N}$。
+
+先对第一个比特施加 Hadamard 门：
+
+$$
+|0\cdots0\rangle \xrightarrow{H_1} \frac{|0\rangle+|1\rangle}{\sqrt2} \otimes|0\cdots0\rangle.
+$$
+
+然后以第一个比特为控制，对其余比特施加 CNOT：
+
+$$
+\mathrm{CNOT}_{1\to2},\; \mathrm{CNOT}_{1\to3},\; \ldots,\; \mathrm{CNOT}_{1\to N}.
+$$
+
+最终得到
+
+$$
+\frac{|00\cdots0\rangle+|11\cdots1\rangle}{\sqrt2}.
+$$
+
+例如三比特：
+
+$$
+|000\rangle \xrightarrow{H_1} \frac{|000\rangle+|100\rangle}{\sqrt2}
+\xrightarrow{\mathrm{CNOT}_{1\to2}} \frac{|000\rangle+|110\rangle}{\sqrt2}
+\xrightarrow{\mathrm{CNOT}_{1\to3}} \frac{|000\rangle+|111\rangle}{\sqrt2}.
+$$
+
+电路示意为
+
+```text
+q0: ──H──■────■──
+         │    │
+q1: ─────X────┼──
+              │
+q2: ──────────X──
+```
+
+**对相减的GHZ在最后任意一个比特取Z即可**
