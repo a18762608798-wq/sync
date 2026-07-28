@@ -1,0 +1,22 @@
+# Roots
+
+```{julia}
+using Roots
+
+f(x) = x^2 - 2
+x = find_zero(f, (1, 2), 1; xatol=1e-4) # (1, 2) 为可信区间，也可以传入初始值
+
+println(x)   # 约 1.414213562
+```
+
+多元
+
+```{julia}
+using Roots
+
+f(x, y) = x^2 + y - 4
+
+root = find_zero(x -> f(x, 0), 1.0)
+# 结果约为 2.0
+
+```

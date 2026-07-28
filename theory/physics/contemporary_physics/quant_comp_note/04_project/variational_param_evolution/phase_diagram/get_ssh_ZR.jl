@@ -1,4 +1,4 @@
-include("../src/op_creator.jl")
+include("../src/var_param_evolution.jl")
 
 function get_ssh_group_state(qubit_num::Int, s::Real, δ::Real)
     H = get_ssh_H(qubit_num, s, δ)

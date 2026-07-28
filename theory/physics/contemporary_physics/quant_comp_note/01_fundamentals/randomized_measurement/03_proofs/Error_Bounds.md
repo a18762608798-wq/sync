@@ -6,7 +6,7 @@ Some possible relevant evidence [[classical error]]
 
 ## Error of classical shadow
 
-### The measurement axis is X, Y, Z 
+### The measurement axis is X, Y, Z
 
 Ref to [[Classical_Shadow#The measurement axis is X, Y, Z]]
 
@@ -44,6 +44,11 @@ $$
 Var(X_P) = \mathbb E[X_P^2] - \mathbb E[X_P]^2 = \mathbb E[3^{2\omega} \prod_i s_i^2(\vec a_i \cdot \vec n_i)^2] - p^2 = 3^{2\omega} \prod_i \mathbb E[(\vec a_i \cdot \vec n_i)^2] - p^2 = 3^\omega - p^2
 $$
 
+
+### 在高阶估计量时连续和离散测量轴误差对比
+
+这里连续的误差较小，猜测是即使相同方差数据，数据更集中的测量样本，估计高阶量的时候会放大这种集中效果带来的方差.
+
 ## Error of Hamming Core
 
 不确定是否方差增长小于对所有pauli bases测量。
@@ -77,4 +82,3 @@ Var(\sum_pc_p p) \approx \sum_P c_P^2 Var(p) = \sum_P c_P^2 \frac{3^\omega(1 - p
 $$
 
 **这说明对泡利基的均匀扫描稳定精度高于经典阴影。**
-

@@ -15,7 +15,7 @@ sudo sysctl -p
 ## deployment
 
 ```bash
-sudo dd if=/dev/zero of=/swapfile bs=1G count=25
+sudo dd if=/dev/zero of=/swapfile bs=1G count=50
 sudo chmod 600 /swapfile
 # 格式化交换文件
 sudo mkswap /swapfile
