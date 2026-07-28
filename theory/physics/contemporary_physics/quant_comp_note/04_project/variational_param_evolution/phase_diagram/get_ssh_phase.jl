@@ -24,6 +24,6 @@ end
 
 if abspath(PROGRAM_FILE) == @__FILE__
     path = joinpath(@__DIR__, "./data/phase.npz")
-    save_ssh_phase(path, 16, 2)
+    save_ssh_phase(path, 12, 100)
 end
 

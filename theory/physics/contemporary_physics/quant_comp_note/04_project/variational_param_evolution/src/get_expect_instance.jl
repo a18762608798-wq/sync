@@ -16,5 +16,3 @@ function get_ZR_val(ρ::Qobj)
     ZR_val = reflect_val / sqrt((P1 + P2)/2)
     return real(ZR_val)
 end
-
-

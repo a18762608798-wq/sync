@@ -2,8 +2,8 @@ include("../src/var_param_evolution.jl")
 
 function get_ssh_group_state(qubit_num::Int, s::Real, δ::Real)
     H = get_ssh_H(qubit_num, s, δ)
-    energies, states, _ = eigenstates(H;
-        sparse=true,
+    energies, states, _ = eigsolve(
+        H;
         eigvals=1,
         sortby=real,
         rev=false,
@@ -20,7 +20,7 @@ function get_ssh_ZR(qubit_num::Int, s::Real, δ::Real)
     _, ψ0 = get_ssh_group_state(qubit_num, s, δ)
     sub_ρ = ptrace(ψ0, sub_system)
     # Get ZR_val
-    ZR_val = get_ZR_val(sub_ρ::Qobj)
+    ZR_val = get_ZR_val(sub_ρ)
 
     return ZR_val
 end

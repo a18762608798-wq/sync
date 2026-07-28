@@ -62,15 +62,20 @@ Es[1]
 states[1]
 U[:, 1]
 Es, ψ, U = eigenstates(H;
-    sparse=true,
-    eigvals=energy_num,
+    sparse=true, # Which equal to eigsolve if sparse is true.
+    eigvals=energy_num, 
     sortby=real, # 实部排序
     rev=false,
-) # 稀疏计算，估计|λ|大的几个态。
+) 
 ```
 
 ```{julia}
-Es, states, U = eigsolve(H; eigvals=1) # 稀疏/大矩阵部分本征解(排序不靠E)
+Es, states, _ = eigsolve(
+    H;
+    eigvals=1,
+    sortby=real,
+    rev=false,
+)
 ```
 
 ```{julia}
