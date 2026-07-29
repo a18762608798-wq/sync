@@ -1,0 +1,34 @@
+# QuantumCircuit
+
+## bases
+
+### create
+
+```{julia}
+using PythonCall
+```
+
+```{python}
+from qiskit import QuantumCircuit
+circ = QuantumCircuit(1, 1)
+circ.measure([0], [0]) # 0 classical register records 0 qubits.
+circ.draw()
+```
+
+```{python}
+from qiskit import QuantumCircuit
+circ = QuantumCircuit(2, 2)
+circ.measure([0], [0])
+circ.draw()
+```
+
+### Operation of circ
+
+```{python}
+from qiskit import QuantumCircuit
+from qiskit.circuit.library import HGate
+circ = QuantumCircuit(2, 2)
+circ.num_qubits # get the qubits num.
+circ.num_clbits # git the classical bits num.
+circ.x([0]) # append gates
+```

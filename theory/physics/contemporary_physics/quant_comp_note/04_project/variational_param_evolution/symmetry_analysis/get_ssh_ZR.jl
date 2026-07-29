@@ -1,7 +1,7 @@
 include("../src/var_param_evolution.jl")
 
 function get_ssh_group_state(qubit_num::Int, s::Real, δ::Real; sparse=true)
-    H = get_ssh_H(qubit_num, s, δ)
+    H = get_ssh_constrained_H(qubit_num, s, δ)
     if sparse
         energies, states, _ = eigsolve(
             H;
@@ -30,3 +30,4 @@ function get_ssh_ZR(qubit_num::Int, s::Real, δ::Real; sparse=true)
 
     return ZR_val
 end
+

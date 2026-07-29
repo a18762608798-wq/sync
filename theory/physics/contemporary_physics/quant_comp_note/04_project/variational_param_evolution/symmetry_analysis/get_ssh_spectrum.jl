@@ -3,7 +3,7 @@ using NPZ
 include("../src/var_param_evolution.jl")
 
 function get_ssh_spectrum(qubit_num::Int, eigvals::Int, slist, δlist; sparse=true)
-    get_H(s, δ) = get_ssh_H(qubit_num, s, δ)
+    get_H(s, δ) = get_ssh_constrained_H(qubit_num, s, δ)
     spectrum, _ = get_spectrum(get_H, eigvals, slist, δlist; sparse=sparse)
     return spectrum
 end

@@ -1,0 +1,57 @@
+# PauliEvolutionGate
+
+## base
+
+```{python}
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import SparsePauliOp
+from qiskit.circuit.library import PauliEvolutionGate
+from qiskit.synthesis import SuzukiTrotter
+
+H0 = SparsePauliOp.from_list([
+    ("XIII", 1.0), 
+])
+
+H1 = SparsePauliOp.from_list([
+    ("XZYX", 1.0),
+])
+
+n = H1.num_qubits
+steps = 1
+T = 5.0
+dt = T / steps
+
+qc = QuantumCircuit(n)
+
+# 制备initial state.
+qc.x(0)
+
+for k in range(steps):
+    s = (k + 0.5) / steps
+    H_s = (1 - s) * H0 + s * H1
+
+    synth = SuzukiTrotter(order=1, reps=1)
+
+    evo = PauliEvolutionGate(
+        H_s,
+        time=dt,
+        synthesis=synth,
+    )
+
+    qc.append(evo, range(n))
+
+qc.draw()
+#qc.decompose(reps=1).draw()
+```
+
+```{python}
+# cheack the params
+for inst, qargs, cargs in qc.data:
+    if inst.name == "PauliEvolution":
+        print(inst.operator)
+        print(inst.operator.coeffs)
+        print("time =", inst.time)
+        print()
+```
+
+## variational circuit

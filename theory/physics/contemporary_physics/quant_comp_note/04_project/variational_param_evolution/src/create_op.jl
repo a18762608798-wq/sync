@@ -33,6 +33,14 @@ function get_ssh_H(qubit_num::Int, s::Real, δ::Real)
     return ssh_op
 end
 
+function get_ssh_constrained_H(qubit_num::Int, s::Real, δ::Real; ϵ=0.05)
+    H_c = get_ssh_H(
+        qubit_num, s, δ
+    )
+    H_c -= ϵ * (get_Ui(qubit_num, sigmax()) + 2 * get_Ui(qubit_num, sigmaz()))
+    return H_c
+end
+
 function get_SWAP(qubit_num::Int, i::Int, j::Int)
     # Qobj preparation
     X, Y, Z = sigmax(), sigmay(), sigmaz()
@@ -63,3 +71,10 @@ function get_reflect_op(qubit_num::Int)
     return real(reflect_op)
 end
 
+function get_Ui(qubit_num::Int, op::Qobj)
+    Ui = multisite_operator(
+        Val(qubit_num),
+        (i => op for i in 1:qubit_num)...
+    )
+    return Ui
+end

@@ -36,8 +36,9 @@ CondaPkg.add_pip("quarkstudio") # NOTE: quarkstudio does not included in conda, 
 * Test the environment
 
 ```{python}
+import os
 from quark import Task
-token = "dYXyLLSQQtMWT7wOoIHo2EmPCmlStsZ`VSfO5NSjzCT/Rg3dUPzZEP45TPzFEOxZUP4dUN7JDd5WnJtJTP1pEPzpEOyBDOz1DOx1jOzBkNjpkJ1GXbjxDN7JDcm[Y[tKDMj13ck6DcqGXctGHemCIR5l{O5BkOzZ{O5FUZjpkJzW3d2Kzf"
+token = os.getenv("QUARK_TOKEN")
 tmgr = Task(token)
 print(tmgr.status()) # express the ranks now.
 ```
