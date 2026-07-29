@@ -1,8 +1,8 @@
 # README
 
-这里的任务是：**在已经知道对称性会给简并空间中态提供跃迁保护的前提下，探究此对称性在演化起点的退化形式**。
+这里的任务是：**为力学量加上守恒量约束，以打开基态能级简并**.
 
-追求退化形式本质上是追求更简单直接的初态制备方式.
+顺便的，我们讨论了每一个拓扑相分区特殊区域的基态在量子电路上的直接制备.
 
 ## 分析对称性
 
@@ -10,7 +10,7 @@
 
 ### 找到对称性算符
 
-打开简并的一般性方法是向系统CSCO加入对易力学量. 也即：我们需要找到对称性算符，使得
+打开简并的一般性方法是向系统力学量加入对易力学量(最好的情况是构造CSCO). 也即：我们需要找到对称性算符，使得
 
 $$
 [P, H(t)] = 0
@@ -84,14 +84,14 @@ $$
 
 将 $Z_R = 1, -1, 0$ 分别视作相1, 2, 3.
 
-#### 相 1
+#### 相 2
 
 ##### 参数选择
 
-方便制备位置很显然 $s = 0, \delta \neq 0$, 此时对于基态，有:
+方便制备位置很显然 $s = 1, \delta \neq 0$, 此时对于基态，有:
 
 $$
-\min{\sum_{i\text{ odd}}} X_i X_{i+1} + \delta Z_i Z_{i+1}
+\min{\sum_{i\text{ even}}} X_i X_{i+1} + \delta Z_i Z_{i+1}
 $$
 
 由于此哈密顿量所有项全部对易，基态时必然有：
@@ -127,6 +127,8 @@ ZII...Z = -1\\
 \end{cases}
 $$
 
+**也即在此点守恒量束缚退化成了边界条件的束缚**
+
 所以结论：边缘态也是能量最低的Bell state，对应量子态：
 
 ```text
@@ -143,17 +145,32 @@ Statevector([ 0.        +0.0000000e+00j, -0.70710677-8.6595606e-17j,
             dims=(2, 2))
 ```
 
-#### 相 2
+#### 相 1
 
 ##### 参数选择
 
-方便制备位置很显然 $s = 1, \delta \neq 0$, 此时对于基态，有:
+方便制备位置很显然 $s = 0, \delta \neq 0$, 此时对于基态，有:
 
 $$
-\min{\sum_{i\text{ even}}} X_i X_{i+1} + \delta Z_i Z_{i+1}
+\min{\sum_{i\text{ odd}}} X_i X_{i+1} + \delta Z_i Z_{i+1}
 $$
 
 显然同相一，而且没有边缘简并.
+
+此外这里直接可以看出**非简并基态对称性(也是全局基态对称性)取值**：
+
+$$
+\begin{cases}
+X_i X_{i+1} = -1 \\
+Z_i Z_{i+1} = -1 \\
+\end{cases} \quad i \in 2N^+ - 1
+$$
+
+由于总比特数为 $4N^+$, 必然有：
+
+$$
+U_x = U_z = 1
+$$
 
 #### 相 3
 
@@ -204,4 +221,50 @@ $$
 
 注意其中 $Z|\pm\rangle = |\mp\rangle$.
 
-这是一个 X表象下的 GHZ 态. 到底哪个是我们需要的基态待具体计算.
+对于 $U_z = 1$ 的对称性，其基态为:
+
+$$
+\frac{1}{\sqrt 2} (|\phi^+\rangle + |\phi^-\rangle)
+$$
+
+这是一个 X表象下的 GHZ 态.
+
+## 实验内容
+
+构造**对称性约束哈密顿量**：
+
+$$
+H_c = (1-s) \sum_{i\text{ odd}} (X_i X_{i+1} + \delta Z_i Z_{i+1}) + s \sum_{j\text{ even}} (X_j X_{j+1} + \delta Z_j Z_{j+1}) - ϵP
+$$
+
+这里 $\epsilon$ 不要取很大(目前是0.05)，因为可能同对称性的能级直接跑到最下面; 其中
+
+$$
+P = U_x + 2U_z
+$$
+
+此时满足对称性的基态如果顺利的话可以被完全打开简并(至少目标基态要分离出来）. 为原本基态能量-3.
+
+## 实验结果
+
+以8比特为例, 可以看到ZR并无变化，说明基态本身没有改变，只有能谱产生分列，简并打开.
+
+### ZR 相图对比
+
+**无约束（`phase_diagram`）** | **有约束（`symmetry_analysis`）**
+:---:|:---:
+![unconstrained_phase](../phase_diagram/pics/phase/phase_N8.jpg) | ![constrained_phase](./pics/phase/phase_N8.jpg)
+
+### 能谱对比
+
+设绘制最低能级数量为k, 则有:
+
+**k = 4（s 扫描）** | **k = 4（δ 扫描）**
+:---: | :---:
+![unconstrained_s_k4](../phase_diagram/pics/spectrum/N=8/s_scan_N8_k4.jpg) | ![unconstrained_d_k4](../phase_diagram/pics/spectrum/N=8/delta_scan_N8_k4.jpg)
+![constrained_s_k4](./pics/spectrum/N=8/s_scan_N8_k4.jpg) | ![constrained_d_k4](./pics/spectrum/N=8/delta_scan_N8_k4.jpg)
+
+**k = 8（s 扫描）** | **k = 8（δ 扫描）**
+:---: | :---:
+![unconstrained_s_k8](../phase_diagram/pics/spectrum/N=8/s_scan_N8_k8.jpg) | ![unconstrained_d_k8](../phase_diagram/pics/spectrum/N=8/delta_scan_N8_k8.jpg)
+![constrained_s_k8](./pics/spectrum/N=8/s_scan_N8_k8.jpg) | ![constrained_d_k8](./pics/spectrum/N=8/delta_scan_N8_k8.jpg)

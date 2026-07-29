@@ -2,6 +2,7 @@ function get_spectrum(
     get_H::Function,
     eigvals::Int,
     param_lists...;
+    sparse=true,
     sortby=real,
     rev=false,
 )
@@ -11,18 +12,35 @@ function get_spectrum(
     spectrum = Matrix{Float64}(undef, n, eigvals)
     state_group = Matrix{Qobj}(undef, n, eigvals)
 
-    for (idx, params) in enumerate(zip(param_lists...))
-        H = get_H(params...)
+    if sparse
 
-        Es, states, _ = eigsolve(
-            H;
-            eigvals=eigvals,
-            sortby=sortby,
-            rev=rev,
-        )
+        for (idx, params) in enumerate(zip(param_lists...))
+            H = get_H(params...)
 
-        spectrum[idx, :] .= real.(Es)
-        state_group[idx, :] .= states
+            Es, states, _ = eigsolve(
+                H;
+                eigvals=eigvals,
+                sortby=sortby,
+                rev=rev,
+            )
+
+            spectrum[idx, :] .= real.(Es)
+            state_group[idx, :] .= states
+        end
+    else
+
+        for (idx, params) in enumerate(zip(param_lists...))
+            H = get_H(params...)
+
+            Es, states, _ = eigenstates(
+                H;
+                sortby=sortby,
+            )
+
+            spectrum[idx, :] .= real.(Es)[1:eigvals]
+            state_group[idx, :] .= states[1:eigvals]
+        end
+
     end
 
     return spectrum, state_group

@@ -52,7 +52,7 @@ Hermitian((A + A') / 2) # Hermitianization
 # eigen
 using QuantumToolbox
 
-H = sigmaz()
+H = sigmaz() + sigmax()
 Es = eigenenergies(H) # Es
 ```
 
@@ -61,9 +61,15 @@ Es, states, U = eigenstates(H) # Es(从小到大排序), QuantumObject 类型的
 Es[1]
 states[1]
 U[:, 1]
+
+Es, ψ, U = eigenstates(H;
+    sparse=false,
+    sortby=real,
+) 
+
 Es, ψ, U = eigenstates(H;
     sparse=true, # Which equal to eigsolve if sparse is true.
-    eigvals=energy_num, 
+    eigvals=2, 
     sortby=real, # 实部排序
     rev=false,
 ) 
