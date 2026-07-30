@@ -32,6 +32,7 @@ jobs:
           cache-dependency-path: |
             computer/code/notebook/markdown/slidev/workspace/basic-case/pnpm-lock.yaml
             computer/code/notebook/markdown/slidev/workspace/genshin-impact/2026-7-26/pnpm-lock.yaml
+            computer/code/notebook/markdown/slidev/workspace/group_meeting/2026-7-30/pnpm-lock.yaml
 
       - name: Install basic-case dependencies
         working-directory: computer/code/notebook/markdown/slidev/workspace/basic-case
@@ -39,6 +40,10 @@ jobs:
 
       - name: Install genshin-impact dependencies
         working-directory: computer/code/notebook/markdown/slidev/workspace/genshin-impact/2026-7-26
+        run: pnpm install --frozen-lockfile
+
+      - name: Install group_meeting 2026-7-30 dependencies
+        working-directory: computer/code/notebook/markdown/slidev/workspace/group_meeting/2026-7-30
         run: pnpm install --frozen-lockfile
 
       - name: Clean output directory
@@ -57,6 +62,13 @@ jobs:
           pnpm build
           --base /${{ github.event.repository.name }}/genshin-impact/2026-7-26/
           --out ../../workspace-dist/genshin-impact/2026-7-26
+
+      - name: Build group_meeting 2026-7-30
+        working-directory: computer/code/notebook/markdown/slidev/workspace/group_meeting/2026-7-30
+        run: >
+          pnpm build
+          --base /${{ github.event.repository.name }}/group_meeting/2026-7-30/
+          --out ../../workspace-dist/group_meeting/2026-7-30
 
       - name: Configure Pages
         uses: actions/configure-pages@v6

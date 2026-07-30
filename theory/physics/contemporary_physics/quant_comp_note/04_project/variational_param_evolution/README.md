@@ -15,7 +15,7 @@ $$
 反射算符 $Z_R$ 用于量化空间反演对称性：
 
 $$
-Z_R = \frac{\operatorname{tr}(\rho S)}{\sqrt{(\operatorname{tr}(\rho_1^2) + \operatorname{tr}(\rho_2^2))/2}}, \quad S = \bigotimes_{i=1}^{N/2} \mathrm{SWAP}_{i,\,N-i+1}
+Z_R = \frac{tr(\rho S)}{\sqrt{(tr(\rho_1^2) + tr(\rho_2^2))/2}}, \quad S = \bigotimes_{i=1}^{N/2} \mathrm{SWAP}_{i,\,N-i+1}
 $$
 
 为打开基态简并，可加入对称性约束：
@@ -43,7 +43,7 @@ $$
 ## 进展
 
 | 阶段 | 状态 |
-|------|------|
+| ------ | ------ |
 | 1. 数值相图绘制与相边界计算 | ✅ 完成 |
 | 2. 对称性分析：简并打开、初态选择、约束 H 验证 | ✅ 完成 |
 | 3. 变分方案设计与文档 | ✅ 完成 |
