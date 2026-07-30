@@ -1,4 +1,7 @@
 [deps]
+qiskit-aer = ""
+pylatexenc = ""
 matplotlib = ""
 seaborn = ""
 numpy = ""
+qiskit = ""
