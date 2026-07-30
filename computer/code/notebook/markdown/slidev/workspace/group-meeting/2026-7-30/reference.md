@@ -83,9 +83,9 @@ ZR_val = get_ZR_val(sub_ρ)
 
 ### 4.1 相图热力图
 
-![ZR相图 N=8](pics/phase_N8.jpg)
+![ZR相图 N=8](public/pics/phase_N8.jpg)
 
-![ZR相图 N=12](pics/phase_N12.jpg)
+![ZR相图 N=12](public/pics/phase_N12.jpg)
 
 观察：
 
@@ -101,21 +101,21 @@ ZR_val = get_ZR_val(sub_ρ)
 
 - N = 8, k(绘制最低能级数量) = 4
 
-![delta_scan N=8 k=4](pics/delta_scan_N8_k4.jpg)
+![delta_scan N=8 k=4](public/pics/delta_scan_N8_k4.jpg)
 
 - N = 8, k = 8
 
-![delta_scan N=8 k=8](pics/delta_scan_N8_k8.jpg)
+![delta_scan N=8 k=8](public/pics/delta_scan_N8_k8.jpg)
 
 #### s 切片
 
 - N = 8, k = 4
 
-![s_scan N=8 k=4](pics/s_scan_N8_k4.jpg)
+![s_scan N=8 k=4](public/pics/s_scan_N8_k4.jpg)
 
 - N = 8, k = 8
 
-![s_scan N=8 k=8](pics/s_scan_N8_k8.jpg)
+![s_scan N=8 k=8](public/pics/s_scan_N8_k8.jpg)
 
 - 低能区存在基态简并（不同扫描方向可见）
 - 简并度与相区有关
@@ -129,7 +129,7 @@ ZR_val = get_ZR_val(sub_ρ)
 
 分段原因：$s_p$ 是 $Z_R$ 符号变化的分界点，两侧搜索不同的目标值（0.5 和 -0.5）。
 
-![相边界](pics/phase_boundary.jpg)
+![相边界](public/pics/phase_boundary.jpg)
 
 结果显示相边界随比特数增大趋近于某个极限位置。
 
@@ -207,7 +207,7 @@ $$
 
 | 无约束 | 有约束 |
 |---|---|
-| ![unconstrained](pics/phase_N8.jpg) | ![constrained](pics/constrained_phase_N8.jpg) |
+| ![unconstrained](public/pics/phase_N8.jpg) | ![constrained](public/pics/constrained_phase_N8.jpg) |
 
 **结论**：ZR 相图无变化，说明约束 $H_c$ 并未改变基态本身，只产生了能级分裂。
 
@@ -217,25 +217,25 @@ $$
 
 | 无约束 | 有约束 |
 |---|---|
-| ![unconstrained s k4](pics/s_scan_N8_k4.jpg) | ![constrained s k4](pics/constrained_s_scan_N8_k4.jpg) |
+| ![unconstrained s k4](public/pics/s_scan_N8_k4.jpg) | ![constrained s k4](public/pics/constrained_s_scan_N8_k4.jpg) |
 
 **$k=4$ 最低能级（$\delta$ 扫描）：**
 
 | 无约束 | 有约束 |
 |---|---|
-| ![unconstrained d k4](pics/delta_scan_N8_k4.jpg) | ![constrained d k4](pics/constrained_delta_scan_N8_k4.jpg) |
+| ![unconstrained d k4](public/pics/delta_scan_N8_k4.jpg) | ![constrained d k4](public/pics/constrained_delta_scan_N8_k4.jpg) |
 
 **$k=8$ 最低能级（s 扫描）：**
 
 | 无约束 | 有约束 |
 |---|---|
-| ![unconstrained s k8](pics/s_scan_N8_k8.jpg) | ![constrained s k8](pics/constrained_s_scan_N8_k8.jpg) |
+| ![unconstrained s k8](public/pics/s_scan_N8_k8.jpg) | ![constrained s k8](public/pics/constrained_s_scan_N8_k8.jpg) |
 
 **$k=8$ 最低能级（$\delta$ 扫描）：**
 
 | 无约束 | 有约束 |
 |---|---|
-| ![unconstrained d k8](pics/delta_scan_N8_k8.jpg) | ![constrained d k8](pics/constrained_delta_scan_N8_k8.jpg) |
+| ![unconstrained d k8](public/pics/delta_scan_N8_k8.jpg) | ![constrained d k8](public/pics/constrained_delta_scan_N8_k8.jpg) |
 
 **结论**：加入对称性约束后，原本的简并能级发生了清晰的分裂，在不改变基态的同时，简并被打开，目标对称性的基态被孤立出来。
 
@@ -494,7 +494,7 @@ $$
 
 参数空间限制：$s_c \in [s_0, s_1]$, $\delta_c \in [\delta_0, \delta_1]$（保证不回头）。
 
-![Bézier 曲线示意](pics/bezier_demo.png)
+![Bézier 曲线示意](public/pics/bezier_demo.png)
 
 ### 7.4 变分参数
 

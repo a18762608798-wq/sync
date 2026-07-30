@@ -2,7 +2,6 @@ node_modules/
 dist/
 *.pdf
 *.pptx
-*.png
 .DS_Store
 *.local
 .vite-inspect
@@ -13,7 +12,3 @@ components.d.ts
 .env.local
 .env.*.local
 .cache/
-
-# 保留 public 目录及其中所有文件
-!public/
-!public/**
