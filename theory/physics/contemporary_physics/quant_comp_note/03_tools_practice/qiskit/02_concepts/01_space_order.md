@@ -8,6 +8,8 @@ $$
 \rho = \rho_N \otimes \rho_{N-1} \otimes \rho_{N-1} \otimes ... \otimes \rho_0
 $$
 
+**注意算符索引也是倒过来的，真是神了.**
+
 ## quafu
 
 Whose order is normal.

@@ -1,0 +1,36 @@
+# json
+
+## basic
+
+### save
+
+```python
+import json
+
+dic = {"name": "alice", "age": 20, "scores": [90, 88]}
+# 返回一个字符串.
+print(json.dumps(dic, ensure_ascii=False, indent=2))   # 转字符串
+# save to json file.
+path = "./03_stdlib/data.json"
+with open(path, "w", encoding="utf-8") as f:
+    json.dump(dic, f, ensure_ascii=False, indent=2)    # 写入文件
+```
+
+### read
+
+```python
+# 读取回 dict
+with open(path, "r", encoding="utf-8") as f:
+    data = json.load(f)          # data 是 dict
+print(data)
+```
+
+## Demand
+
+**对 key 的要求**
+- JSON 只认字符串键。Python dict 的 key 必须是**不可哈希**类型才能做 key（str/int/float/bool/None/tuple），但存储时**非字符串 key 会被自动转成字符串**：`1` → `"1"`，`True` → `"true"`，`None` → `"null"`，`(1,2)` → `"[1, 2]"`。
+- 注意这样转过去后**无法还原**（读回来全是 str），所以最好自己用字符串 key。
+
+**对 value 的要求**
+- 必须是 JSON 支持的类型：`str`、`int`、`float`、`bool`、`None`、`list`、`dict`、`tuple`（**自动转 list**）。
+- 不支持的（如 `datetime`、`bytes`、`set`、自定义对象）会抛 `TypeError`，需要给 `default=` 参数或自定义 encoder：

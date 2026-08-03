@@ -10,7 +10,7 @@ from qiskit.synthesis import SuzukiTrotter
 
 H0 = SparsePauliOp.from_list([
     ("XIII", 1.0), 
-])
+]).simplify() # To delte the perms closed to zero.
 
 H1 = SparsePauliOp.from_list([
     ("XZYX", 1.0),

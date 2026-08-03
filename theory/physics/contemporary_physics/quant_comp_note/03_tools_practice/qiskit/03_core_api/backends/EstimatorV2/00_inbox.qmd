@@ -1,0 +1,91 @@
+# inbox
+
+## Estimator 原语
+
+`Estimator` 是 Qiskit 中估计期望值的标准接口，替代了旧版 `VQE` 类中的手动计算方式。典型用法：
+
+### reps
+
+```python
+import numpy as np
+
+from qiskit import QuantumCircuit
+from qiskit.circuit import ParameterVector
+#from qiskit.primitives import StatevectorEstimator
+from qiskit_aer.primitives import EstimatorV2
+from qiskit.quantum_info import SparsePauliOp
+```
+
+### qc defined
+
+```python
+theta = ParameterVector("θ", 2)
+
+qc = QuantumCircuit(1)
+qc.ry(theta[0], 0)
+qc.ry(theta[1], 0)
+qc.draw()
+
+parameter_values = np.array([
+    [0.0,       0.0],
+    [np.pi / 2, 0.0],
+    [np.pi / 2, np.pi],
+    [np.pi / 2, np.pi],
+]).reshape(4, 1, 2) # parameter group number; 每一个H单独用一组还是共用; 电路参数个数.
+```
+
+### observable defined
+
+```python
+observable = SparsePauliOp.from_list([
+    ("X", 1.0),
+    ("Y", 1.0),
+    ("Z", 1.0),
+])
+observables = [
+    observable,
+    SparsePauliOp("Y"),
+    SparsePauliOp("Z"),
+]
+```
+
+### info pub
+
+```python
+pub = (
+    qc,
+    observables,
+    parameter_values,
+)
+```
+
+### run
+
+* "method": "statevector"
+* "method": "density_matrix"
+* "method": "matrix_product_state"
+* "method": "stabilizer"
+
+```python
+#estimator = StatevectorEstimator()
+estimator = EstimatorV2(
+    options={
+        "backend_options": {
+            "method": "matrix_product_state",
+        }
+    }
+)
+
+job = estimator.run([pub])
+result = job.result()
+
+print(result[0].data.evs) # result[0] for only a pub.
+print(result[0].data.stds) # stds 初始化为0.
+```
+
+Estimator 内部自动完成：
+1. Pauli 串分组（逐比特对易分组，减少 measurement settings）
+2. 基变换（对 X、Y 分量插入旋转门）
+3. 采样并计算各 Pauli 串期望值，加权求和得到 $\langle H \rangle$
+
+> **注**：实际部署到量子硬件时，应使用 `qiskit_runtime.Estimator` 而非 `qiskit_aer.primitives.Estimator`，后者仅用于本地模拟。

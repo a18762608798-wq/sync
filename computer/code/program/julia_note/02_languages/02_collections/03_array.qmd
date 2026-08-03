@@ -1,0 +1,124 @@
+# array
+
+>Vector / Matrix 是 Array 的方便写法，不是新的数组实现。
+Vector 和 Matrix 不是独立于 Array 的新 type，它们只是 Array 的类型别名。
+
+## assignment
+
+```julia
+# undef
+Vector{Int64}(undef, 10) 
+Matrix{Int64}(undef, 2, 3) 
+```
+
+```julia
+# specific case
+vec = [1, 2]
+matrix = [1 2 3; 4 5 6] 
+```
+
+```julia
+# quick initialization
+vec = fill(1, 10)
+matrix = ones(3, 3)
+matrix = zeros(3, 3)
+```
+
+## Indices
+
+### 线性索引
+
+`ehachindex`, 优先考虑，速度最快.
+
+```julia
+A = rand(Int, 2, 3, 1) 
+for i in eachindex(A)
+    println(A[i])           # 列主序
+end
+```
+
+### 迪卡尔索引
+
+`CartesianIndices`, 输出类型是 `tuple`.
+
+```julia
+A = rand(Int, 2, 3, 1) 
+# 笛卡尔索引（需要多维坐标）
+for idx in CartesianIndices(A)
+    println(idx)            # CartesianIndex(2, 3, 1)
+    println(A[idx])         # 用 CartesianIndex 访问
+    A[idx] += 1
+end
+```
+
+### 索引转换
+
+```julia
+ci = CartesianIndices(A)[1]  # 线性 → Cartesian
+li = LinearIndices(A)[ci]    # Cartesian → 线性
+```
+
+## operation
+
+### format operation
+
+#### type transform
+
+```julia
+vec = Vector(1:3)
+```
+
+#### copy
+
+```julia
+vec = Vector(1:3)
+shallow_vec = vec 
+deep_vec = copy(vec) 
+deep_vec = vec[1:2] 
+shallow_vec = @view vec[1:2] 
+```
+
+#### elements
+
+```julia
+vec = Vector(1:3)
+filter!(x -> x != 1, vec)  # 删除所有值为1的元素
+```
+
+#### shape
+
+```julia
+vec = Vector(1:6)
+matrix = zeros(2, 3)
+size(vec, 1)
+size(vec) # return tuple
+ndims(matrix)
+length(matrix)
+```
+
+```julia
+repeat(vec, 2, 3) # 2 * 3 of vector 
+reshape(vec, 2, 3)
+```
+
+```julia
+vec = fill(1, 3)
+push!(vec, 8, 8) # Add two elements.
+append!(vec, [9, 9]) # Add two elements.
+prepend!(vec, [0, 0])
+```
+
+### math operation
+
+```julia
+vec = fill(1, 3)
+sin.(vec) 
+vec.^2
+vec .* vec
+vec' * vec # A' is the transpose of A.
+```
+
+```julia
+matrix = ones(2, 3)
+matrix * matrix' # matrix multiplication
+```
