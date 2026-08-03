@@ -1,0 +1,33 @@
+# naming
+
+## variables
+
+* Lowercase
+* Do not use underlines if it is not necessary.
+
+```{julia}
+tangduogeng = 250
+tangduogeng_wangchuqin = 500
+```
+
+## functions
+
+* Lowercase
+* Do not use underlines if it is not necessary.
+* Active sentence structure
+* End with `!` if the function modifies its arguments.
+* Use `function _func` to express internal implementation.
+
+## macro 
+
+* Lowercase
+* Do not use underlines if it is not necessary.
+
+## Types 
+
+* UpperCamelCase
+
+## Modules
+
+* UpperCamelCase
+* Do not over-abbreviate.
