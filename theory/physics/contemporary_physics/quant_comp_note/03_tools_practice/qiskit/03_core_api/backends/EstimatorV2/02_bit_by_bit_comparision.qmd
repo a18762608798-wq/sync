@@ -1,0 +1,81 @@
+# 手动逐比特对易分组和实验结果的使用
+
+>逐位测量的核心思想是把需要测量的力学量所含所有pauli bases拿出来，
+>每一组得到其测量bases后进行实验。然后再把实验数据分发回去。
+
+## 逐比特对易分组
+
+### 分组
+
+```python
+import numpy as np
+from qiskit.quantum_info import PauliList, SparsePauliOp
+
+observable = SparsePauliOp.from_list([
+    ("XI", 1.0),
+    ("YY", 1.0),
+])
+
+observables = [
+    observable,
+    SparsePauliOp("XY"),
+    SparsePauliOp("ZZ"),
+]
+
+# 收集这个 PUB 中出现的**所有不同 Pauli 项**; 用集合特性找到不同pauli项
+all_labels = {
+    label
+    for obs in observables
+    for label in obs.paulis.to_labels() # 它把Qiskit 内部的 PauliList 转成普通字符串列表。
+}
+
+all_paulis = PauliList(sorted(all_labels)) # 重新转换成 Qiskit 的 PauliList 对象
+# PauliList(['XI', 'XY', 'YY', 'ZZ'])
+
+groups = all_paulis.group_commuting(
+    qubit_wise=True # NOTE: True表示逐位对易.
+) # [PauliList(['YY']), PauliList(['ZZ']), PauliList(['XI', 'XY'])]
+```
+
+### 获得测量基
+
+Qiskit 不是用一个标记表示 I、X、Y、Z，而是用两个布尔值 z 和 x 共同表示
+
+| Pauli |     `z` |     `x` |
+| ----- | ------: | ------: |
+| `I`   | `False` | `False` |
+| `X`   | `False` |  `True` |
+| `Y`   |  `True` |  `True` |
+| `Z`   |  `True` | `False` |
+
+把每个位置的 z、x 信息合起来，判断测量基
+
+| `basis_z` | `basis_x` | 测量基 |
+| --------: | --------: | --- |
+|     False |     False | I   |
+|     False |      True | X   |
+|      True |     False | Z   |
+|      True |      True | Y   |
+
+
+```python
+for group in groups:
+    basis_x = np.logical_or.reduce(
+        group.x,
+        axis=0,
+    ) # 每一个比特是否含x布尔分量
+    basis_z = np.logical_or.reduce(
+        group.z,
+        axis=0,
+    )
+
+    measurement_basis = Pauli(
+        (basis_z, basis_x)
+    ) # or 操作，结合得测量基
+
+    print("group:", group.to_labels())
+    print(
+        "measurement basis:",
+        measurement_basis.to_label(),
+    )
+```

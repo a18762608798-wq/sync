@@ -59,39 +59,30 @@ def optimize_branch(
             "disp": False,
         }
     # bound
-    lb = [0, 0, 0] + [1e-6] * step + [0] * step
+    lb = [0] * 3 + [1e-2] * step + [0] * step
     ub = [1, 1, 1] + [10] * step + [1] * step
     bounds = Bounds(
         lb=lb,
         ub=ub,
     )
 
-    # constraints (两端留 1e-6 冗余, 避免初始点落在约束边界上)
     # 注意: s0 可能 > s1 (如 pidx=-1), 控制点应落在两端点之间
     constraints = [
         {
             "type": "ineq",
-            "fun": lambda x: (
-                x[1] - min(get_branch_start(phase_idx, x[0])[0], s1) + 1e-6
-            ),
+            "fun": lambda x: x[1] - min(get_branch_start(phase_idx, x[0])[0], s1),
         },
         {
             "type": "ineq",
-            "fun": lambda x: (
-                max(get_branch_start(phase_idx, x[0])[0], s1) - x[1] + 1e-6
-            ),
+            "fun": lambda x: max(get_branch_start(phase_idx, x[0])[0], s1) - x[1],
         },
         {
             "type": "ineq",
-            "fun": lambda x: (
-                x[2] - min(get_branch_start(phase_idx, x[0])[1], δ1) + 1e-6
-            ),
+            "fun": lambda x: x[2] - min(get_branch_start(phase_idx, x[0])[1], δ1),
         },
         {
             "type": "ineq",
-            "fun": lambda x: (
-                max(get_branch_start(phase_idx, x[0])[1], δ1) - x[2] + 1e-6
-            ),
+            "fun": lambda x: max(get_branch_start(phase_idx, x[0])[1], δ1) - x[2],
         },
     ]
 
