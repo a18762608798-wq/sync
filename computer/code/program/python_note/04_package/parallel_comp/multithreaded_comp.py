@@ -1,3 +1,4 @@
+from tqdm import tqdm
 from multiprocessing import Pool
 import time
 import os
@@ -13,8 +14,9 @@ def main():
     data = list(range(1, 100))
 
     with Pool(processes=10) as pool:
-        results = pool.map(square_number, data)
-
+        results = list(
+            tqdm(pool.imap(square_number, data), total=len(data), desc="data 扫描")
+        )
     print(results)
 
 

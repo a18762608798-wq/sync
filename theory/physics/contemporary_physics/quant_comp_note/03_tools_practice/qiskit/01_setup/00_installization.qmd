@@ -46,6 +46,7 @@ print(tmgr.status()) # express the ranks now.
 ### IBM
 
 We may not use this platform laterly, but I still record the config way.
+> 大概率用不了，原因不明。有时候可以用有时候不行。奇怪。
 
 * install the dependencies
 
@@ -57,9 +58,16 @@ CondaPkg.add(["qiskit-ibm-runtime", "qiskit-algorithms"])
 * Test the environment
 
 ```{python}
+import os
 from qiskit_ibm_runtime import QiskitRuntimeService
-IBM_API_TOKEN = 'N7Xu2261xeB3CilWxUt3Khsm6h0ezbYdbfZvVau5N4qD'
-QiskitRuntimeService.save_account(IBM_API_TOKEN, overwrite=True) # renew the token. 
+IBM_API_TOKEN = os.getenv("IBM_API_TOKEN")
+IBM_CRN_TOKEN = os.getenv("IBM_CRN_TOKEN")
+QiskitRuntimeService.save_account(
+    token=IBM_API_TOKEN,
+    instance=IBM_CRN_TOKEN,
+    set_as_default=True,
+    overwrite=True,
+)
 ```
 
 ```{python}
