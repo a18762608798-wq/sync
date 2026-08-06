@@ -9,7 +9,7 @@
 
 ```python
 import numpy as np
-from qiskit.quantum_info import PauliList, SparsePauliOp
+from qiskit.quantum_info import PauliList, Pauli, SparsePauliOp
 
 observable = SparsePauliOp.from_list([
     ("XI", 1.0),
@@ -78,4 +78,79 @@ for group in groups:
         "measurement basis:",
         measurement_basis.to_label(),
     )
+```
+
+### 分发测量结果
+
+#### counts 转为 pauli 期望 
+
+```python
+for outcome, frequency in counts.items():
+    outcome = int(outcome, 2)
+
+    for pauli, mask in zip(paulis, masks):
+        parity = (mask & outcome).bit_count() % 2
+        value = -1 if parity else 1
+
+        sums[pauli] += frequency * value
+
+expectations = {
+    pauli: value_sum / shots
+    for pauli, value_sum in sums.items()
+}
+```
+
+其中对于任意pauli mask制作逻辑为
+
+```python
+def pauli_mask(pauli):
+    support = pauli.x | pauli.z # 非 I 的位置为 True，I 的位置为 False.
+
+    return sum(
+        int(bit) << i # 1 << i == 2 ** i
+        for i, bit in enumerate(support)
+    ) # 把 support 列表转化为二进制对应的掩码数字
+
+from qiskit.quantum_info import Pauli
+
+print(pauli_mask(Pauli("XI")))  # 2，二进制 10, NOTE: 注意反序.
+print(pauli_mask(Pauli("XY")))  # 3，二进制 11
+```
+
+#### Pauli 结果 → 原来的 observable
+
+Qiskit 建立一个字典：
+
+```text
+expval_map[
+    parameter_index,
+    pauli_label
+] = expectation
+```
+
+例如:
+
+```python
+expval_map = {
+    ((0,), "XI"): 0.2,
+    ((0,), "XY"): 0.4,
+    ((0,), "YY"): -0.1,
+    ((0,), "ZZ"): 0.8,
+}
+```
+
+然后对每个原始 observable 遍历：
+
+```python
+observable = SparsePauliOp.from_list([
+    ("XI", 1.0),
+    ("YY", 1.0),
+])
+result = 0.0
+for pauli, coefficient in zip(
+    observable.paulis,
+    observable.coeffs,
+):
+    label = pauli.to_label()
+    result += coefficient * expval_map[((0,), label)]
 ```

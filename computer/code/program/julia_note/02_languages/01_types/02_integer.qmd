@@ -48,7 +48,7 @@ bitstring(bswap(α))  # 字节翻转(四个字节顺序翻转，但是内部不�
 # 移位
 bitstring(β)
 n = 1
-bitstring(β << n)    # 整体左移，右边补0
+bitstring(β << n)    # 整体左移，右边补0; 1 << n ⇔ 2^n
 bitstring(β >>> n)   # 整体右移，左边补0
 bitstring(β >> n)    # 整体右移，左边补符号位(最高位为1则补一，反之补0)
 ```
