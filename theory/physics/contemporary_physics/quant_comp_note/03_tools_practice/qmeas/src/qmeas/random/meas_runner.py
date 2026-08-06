@@ -211,7 +211,7 @@ async def _submit_quark_task(
         "shots": shot_num,
         "options": {
             "compiler": "qiskit",
-            "correct": False,
+            "correct": True,
             "target_qubits": target_qubits,  # 具体bit而非范围, [] is automatic choice.
         },
     }

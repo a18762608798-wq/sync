@@ -19,7 +19,7 @@ def get_branch_start(phase_idx, v0):
         raise ValueError("phase_idx must be 1, 0 or -1")
 
 
-def objective(x, phase_idx, qubit_num, s1, δ1, step, order):
+def objective(x, phase_idx, qubit_num, s1, δ1, step, order, chip="qiskit_aer"):
     # clean data
     v0, sp, δp = x[0:3]
     s0, δ0 = get_branch_start(phase_idx, v0)
@@ -37,7 +37,7 @@ def objective(x, phase_idx, qubit_num, s1, δ1, step, order):
         order=order,
     )
     Hc = get_ssh_constrained_H(qubit_num, s1, δ1, ϵ=1)
-    evs = get_cost_vals(qc, Hc)
+    evs = get_cost_vals(qc, Hc, chip=chip)
 
     return float(evs)
 
@@ -51,6 +51,7 @@ def optimize_branch(
     order,
     method="SLSQP",
     options=None,
+    chip="qiskit_aer",
 ):
     if options is None:
         options = {
@@ -107,13 +108,13 @@ def optimize_branch(
             δ1,
             step,
             order,
+            chip,
         ),
         method=method,
         bounds=bounds,
         constraints=constraints,
         options=options,
     )
-
     if result.success:
         pass
     elif getattr(result, "status", None) == 9:
@@ -128,12 +129,12 @@ def optimize_branch(
 
 
 def inner_optimize(
-    qubit_num, s1, δ1, step, order, method="SLSQP", options=None, disp=False
+    qubit_num, s1, δ1, step, order, method="SLSQP", options=None, disp=False, chip="qiskit_aer"
 ):
     best_phase_idx, best_result = None, None
     for phase_idx in [1, 0, -1]:
         result = optimize_branch(
-            phase_idx, qubit_num, s1, δ1, step, order, method=method, options=options
+            phase_idx, qubit_num, s1, δ1, step, order, method=method, options=options, chip=chip
         )
         if not result.success and getattr(result, "status", None) != 9:
             continue
@@ -152,7 +153,7 @@ def inner_optimize(
 
 
 def outer_optimize(
-    qubit_num, s1, δ1, max_steps, orders, method="SLSQP", options=None, disp=False
+    qubit_num, s1, δ1, max_steps, orders, method="SLSQP", options=None, disp=False, chip="qiskit_aer"
 ):
     best_step, best_order, best_phase_idx, best_result = None, None, None, None
     for order, max_s in zip(orders, max_steps):
@@ -166,6 +167,7 @@ def outer_optimize(
                 method=method,
                 options=options,
                 disp=False,
+                chip=chip,
             )
             if best_result is None or result.fun < best_result.fun:
                 best_step, best_order, best_phase_idx, best_result = (

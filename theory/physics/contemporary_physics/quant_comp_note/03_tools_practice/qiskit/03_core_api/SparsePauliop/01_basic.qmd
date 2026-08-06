@@ -1,7 +1,9 @@
 # basic
 
+## defined
+
 ```python
-from qiskit.quantum_info import PauliList, SparsePauliOp
+from qiskit.quantum_info import PauliList, Pauli, SparsePauliOp
 obs = SparsePauliOp.from_list([
     ("XX", 1.0),
     ("YY", 1.0),
@@ -10,11 +12,21 @@ obs = SparsePauliOp.from_list([
 print(obs.paulis) # 提出pauli string 列表
 print(obs.paulis.to_labels())
 
+observable = SparsePauliOp.from_list([
+    ("XI", 1.0),
+    ("YY", 1.0),
+])
+print(observable.to_list()) # transform to list
 observables = [
     observable,
     SparsePauliOp("XY"),
     SparsePauliOp("ZZ"),
 ]
+```
+
+## 提取pauli strings
+
+```python
 # 利用集合特性可以挑选出不同的pauli strings
 all_labels = {
     label

@@ -6,3 +6,6 @@ matplotlib = ""
 seaborn = ""
 numpy = ""
 qiskit = ""
+
+[pip.deps]
+quarkstudio = ""
