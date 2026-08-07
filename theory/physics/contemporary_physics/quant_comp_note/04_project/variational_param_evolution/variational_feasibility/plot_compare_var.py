@@ -55,6 +55,6 @@ if __name__ == "__main__":
     input_path = HERE / "./data/ideal_spectrum.npz"
     output_path = HERE / "./pics/compare_spectrum.jpg"
 
-    qc_path = HERE / "./data/qc_spectrum.npz"
+    qc_path = HERE / "./data/aer_qc_spectrum.npz"
     plot_compare_var(input_path, output_path, qc_path=qc_path)
     plot_qc_spectrum(qc_path, HERE / "./pics")
