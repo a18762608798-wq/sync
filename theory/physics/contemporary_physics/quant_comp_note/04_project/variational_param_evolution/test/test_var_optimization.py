@@ -17,10 +17,22 @@ def test_inner_optimize_output():
         8,
         0.4,
         0.9,
-        step=4,
+        step=1,
         order=1,
-        method="SLSQP",
-        options={"maxiter": 100, "ftol": 0.01, "disp": False},
+        method="COBYLA",
+        chip="qiskit_aer",
+        options={"maxiter": 100, "tol": 0.01, "disp": False},
+        disp=True,
+    )
+    best_phase_idx, best_result = inner_optimize(
+        8,
+        0.4,
+        0.9,
+        step=1,
+        order=1,
+        method="COBYLA",
+        chip="Baihua",
+        options={"maxiter": 100, "tol": 0.01, "disp": False},
         disp=True,
     )
     assert best_phase_idx in (1, 0, -1)
@@ -33,8 +45,8 @@ def test_outer_optimize_output():
         0.9,
         max_steps=[2],
         orders=[1],
-        method="SLSQP",
-        options={"maxiter": 50, "ftol": 1e-4, "disp": False},
+        method="COBYLA",
+        options={"maxiter": 50, "tol": 1e-4, "disp": False},
         disp=True,
     )
     assert best_phase_idx in (1, 0, -1)
@@ -43,6 +55,6 @@ def test_outer_optimize_output():
 
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
-        if name.startswith("test_outer"):
+        if name.startswith("test_inner"):
             fn()
             print(f"PASS {name}")
