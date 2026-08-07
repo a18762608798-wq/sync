@@ -37,6 +37,14 @@ def test_output_val():
     print(evs)
 
 
+def test_output_val_quark():
+    qc = get_initial_state(4, 1)
+    Hc = get_ssh_constrained_H(4, 0.1, 1, ϵ=1)
+    evs0 = get_cost_vals(qc, Hc, chip="qiskit_aer")
+    evs1 = get_cost_vals(qc, Hc, chip="Baihua")
+    print(evs0, evs1)
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

@@ -57,6 +57,7 @@ values = {
 }
 
 bound_qc = qc.assign_parameters(values)
+# `assign_parameters()` 默认**返回新电路，不就地修改**。
 bound_qc.draw()
 ```
 

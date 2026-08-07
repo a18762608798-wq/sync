@@ -105,6 +105,8 @@ job = sim.run(
     parameter_binds=parameter_binds
 )
 
+# `assign_parameters()` 默认**返回新电路，不就地修改**。
+
 result = job.result()
 
 counts_list = [

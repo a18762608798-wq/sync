@@ -1,3 +1,4 @@
+import numpy as np
 from scipy.optimize import minimize, Bounds
 
 
@@ -19,7 +20,14 @@ def get_branch_start(phase_idx, v0):
         raise ValueError("phase_idx must be 1, 0 or -1")
 
 
-def objective(x, phase_idx, qubit_num, s1, δ1, step, order, chip="qiskit_aer"):
+def objective(
+    x, phase_idx, qubit_num, s1, δ1, step, order, chip="qiskit_aer", chip_options=None
+):
+    # 夹到上下界: COBYLA 会在越界候选点上也调用 objective, 需保证物理上合法.
+    x = x.copy()
+    x[0:3] = np.clip(x[0:3], 0, 1)
+    x[3 : 3 + step] = np.clip(x[3 : 3 + step], 1e-2, 10)
+    x[3 + step : 3 + 2 * step] = np.clip(x[3 + step : 3 + 2 * step], 0, 1)
     # clean data
     v0, sp, δp = x[0:3]
     s0, δ0 = get_branch_start(phase_idx, v0)
@@ -37,7 +45,7 @@ def objective(x, phase_idx, qubit_num, s1, δ1, step, order, chip="qiskit_aer"):
         order=order,
     )
     Hc = get_ssh_constrained_H(qubit_num, s1, δ1, ϵ=1)
-    evs = get_cost_vals(qc, Hc, chip=chip)
+    evs = get_cost_vals(qc, Hc, chip=chip, options=chip_options)
 
     return float(evs)
 
@@ -49,14 +57,15 @@ def optimize_branch(
     δ1,
     step,
     order,
-    method="SLSQP",
+    method="COBYLA",
     options=None,
     chip="qiskit_aer",
+    chip_options=None,
 ):
     if options is None:
         options = {
             "maxiter": 1000,
-            "ftol": 1e-6,
+            "tol": 1e-6,
             "disp": False,
         }
     # bound
@@ -86,6 +95,20 @@ def optimize_branch(
             "fun": lambda x: max(get_branch_start(phase_idx, x[0])[1], δ1) - x[2],
         },
     ]
+    # COBYLA 忽略 bounds，需把每个变量的上下界也转成不等式约束，否则不生效。
+    for i, (lo, hi) in enumerate(zip(lb, ub)):
+        constraints.append(
+            {
+                "type": "ineq",
+                "fun": lambda x, i=i, lo=lo: x[i] - lo,
+            }
+        )
+        constraints.append(
+            {
+                "type": "ineq",
+                "fun": lambda x, i=i, hi=hi: hi - x[i],
+            }
+        )
 
     # optimize
     s0, δ0 = get_branch_start(phase_idx, 0.5)
@@ -109,6 +132,7 @@ def optimize_branch(
             step,
             order,
             chip,
+            chip_options,
         ),
         method=method,
         bounds=bounds,
@@ -129,12 +153,30 @@ def optimize_branch(
 
 
 def inner_optimize(
-    qubit_num, s1, δ1, step, order, method="SLSQP", options=None, disp=False, chip="qiskit_aer"
+    qubit_num,
+    s1,
+    δ1,
+    step,
+    order,
+    method="COBYLA",
+    options=None,
+    disp=False,
+    chip="qiskit_aer",
+    chip_options=None,
 ):
     best_phase_idx, best_result = None, None
     for phase_idx in [1, 0, -1]:
         result = optimize_branch(
-            phase_idx, qubit_num, s1, δ1, step, order, method=method, options=options, chip=chip
+            phase_idx,
+            qubit_num,
+            s1,
+            δ1,
+            step,
+            order,
+            method=method,
+            options=options,
+            chip=chip,
+            chip_options=chip_options,
         )
         if not result.success and getattr(result, "status", None) != 9:
             continue
@@ -153,7 +195,16 @@ def inner_optimize(
 
 
 def outer_optimize(
-    qubit_num, s1, δ1, max_steps, orders, method="SLSQP", options=None, disp=False, chip="qiskit_aer"
+    qubit_num,
+    s1,
+    δ1,
+    max_steps,
+    orders,
+    method="COBYLA",
+    options=None,
+    disp=False,
+    chip="qiskit_aer",
+    chip_options=None,
 ):
     best_step, best_order, best_phase_idx, best_result = None, None, None, None
     for order, max_s in zip(orders, max_steps):
@@ -168,6 +219,7 @@ def outer_optimize(
                 options=options,
                 disp=False,
                 chip=chip,
+                chip_options=chip_options,
             )
             if best_result is None or result.fun < best_result.fun:
                 best_step, best_order, best_phase_idx, best_result = (

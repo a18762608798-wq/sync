@@ -22,6 +22,36 @@ observables = [
     SparsePauliOp("XY"),
     SparsePauliOp("ZZ"),
 ]
+
+# get the pauli list form obs
+def get_commute_group(obs):
+    # get pauli list
+    pauli_list = {
+        label
+        for ob in obs
+        for label in ob.paulis.to_labels()  # 它把Qiskit 内部的 PauliList 转成普通字符串列表。
+    }
+
+    pauli_list = PauliList(sorted(pauli_list))  # 重新转换成 Qiskit 的 PauliList 对象
+    # get commute group
+    meas_basis_ls = []
+    groups = pauli_list.group_commuting(qubit_wise=True)
+    for group in groups:
+        basis_x = np.logical_or.reduce(
+            group.x,
+            axis=0,
+        )  # 每一个比特是否含x布尔分量
+        basis_z = np.logical_or.reduce(
+            group.z,
+            axis=0,
+        )
+
+        measurement_basis = Pauli((basis_z, basis_x))
+        meas_basis_ls.append(measurement_basis)
+
+    return groups, meas_basis_ls
+
+groups, meas_basis_ls = get_commute_group(observables)
 ```
 
 ## 提取pauli strings

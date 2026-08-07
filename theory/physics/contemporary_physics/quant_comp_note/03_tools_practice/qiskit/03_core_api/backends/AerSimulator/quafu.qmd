@@ -111,8 +111,8 @@ qasm2_strings = [
 ```python
 async def submit_quark_task(
     qc,
-    shot_num,
     *,
+    shot_num=1024,
     token=None,
     chip="Baihua",
     correct=False,
