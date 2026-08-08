@@ -14,6 +14,10 @@ print(tmgr.status()) # express the rows now.
 info = tmgr.backend('Baihua',show_couplers_fidelity=True,show_quibts_attributes='T1',save_svg_fname='test')
 ```
 
+```{python}
+info = tmgr.backend('Baihua',show_couplers_fidelity=True,show_quibts_attributes='T2',save_svg_fname='test')
+```
+
 ## basics usage
 
 ```{python}
@@ -34,7 +38,7 @@ qasm2_circ = qasm2.dumps(circ)
 ```{python}
 # submit the ranks to quatum computer
 task = {
-'chip': 'Baihua', # the quantum computer choice,  
+'chip': 'Dongling', # the quantum computer choice,  
 'name': 'my_job',  
 'circuit':qasm2_circ, 
 'shots': 1024, # an integer multiple of 1024

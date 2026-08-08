@@ -56,11 +56,8 @@ async def _run_quark(config):
 
     for group_idx in range(len(groups)):
         be_meas = _prepare_notbound(qc_with_params, group_idx, meas_pauli_ls, theta, phi)
-        name = f"{opts.quark_options['name']}_g{group_idx}"
-        hist = await _submit_quark(
-            be_meas, token, opts.quark_options | {"name": name}
-        )
-        expects = basis.recover(groups[group_idx], hist, opts.quark_options["shots"])
+        hist = await _submit_quark(be_meas, token, opts, f"{opts.name}_g{group_idx}")
+        expects = basis.recover(groups[group_idx], hist, opts.shots)
         expval_map.update(expects)
 
     evs = _rebuild_op_vals(config.observables, expval_map)
@@ -117,16 +114,16 @@ def _group_params(group_idx, meas_pauli_ls, theta, phi):
 # ── Quark submit ───────────────────────────────────────────────────
 
 
-async def _submit_quark(qc, token, quark_options):
+async def _submit_quark(qc, token, opts, name):
     task = {
-        "chip": quark_options["chip"],
-        "shots": quark_options["shots"],
-        "name": quark_options["name"],
+        "chip": opts.chip,
+        "shots": opts.shots,
+        "name": name,
         "circuit": qasm2.dumps(qc),
         "options": {
-            "compiler": quark_options.get("compiler", "qiskit"),
-            "correct": quark_options.get("correct", True),
-            "target_qubits": quark_options.get("target_qubits", []),
+            "compiler": opts.compiler,
+            "correct": opts.correct,
+            "target_qubits": opts.target_qubits,
         },
     }
     tmgr = Task(token)

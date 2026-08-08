@@ -12,14 +12,12 @@ class AerEstimatorOptions:
 @dataclass
 class QuarkEstimatorOptions:
     token: str | None = None
-    quark_options: dict = field(default_factory=lambda: {
-        "chip": "Baihua",
-        "shots": 1024,
-        "name": "estimator",
-        "compiler": "qiskit",
-        "correct": True,
-        "target_qubits": [],
-    })
+    chip: str = "Baihua"
+    shots: int = 1024
+    name: str = "estimator"
+    compiler: str = "qiskit"
+    correct: bool = True
+    target_qubits: list[int] = field(default_factory=list)
 
 
 @dataclass
