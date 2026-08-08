@@ -6,7 +6,7 @@
 
 ### 核心思想
 
-采用 `../variational_approach/README.md` 的一个改进版本:
+采用 `../variational_outline/README.md` 描述的策略，按代码实现:
 
 优化分为三个层次:
 
@@ -23,16 +23,24 @@ H_c &= (1-s) \sum_{i\text{ odd}} (X_i X_{i+1} + \delta Z_i Z_{i+1}) + s \sum_{j\
 \end{split}
 $$
 
-这里 $ϵ$ 暂且取1.
+这里 $ϵ$ 暂且取1（代码 `create_op.py::get_ssh_constrained_H` 默认 `ϵ=1`）.
 
 ### 变分参数编码
 
 **不妨设外层 trotter 分解阶数为 $K$, 步数为 $N$, 内层离散分支 $pidx$ 已在 $inner\_optimize$ 内部循环**, 底层 `optimize_branch` 固定 $K$, $N$, $pidx$，优化以下连续参数:
 
 * 演化起点 $v_0$
-* 二次 Bezier 曲线的控制参数 $(s_p, δ_p)$
+* 二次 Bezier 曲线的控制参数（线性换元后的 $(u_s, u_\delta)$）
 * 时间步长 $Δt_n$
 * 分解时间点 $d_n$ (相对当前步长百分比)
+
+底层优化变量按如下顺序编码（对应 `var_optimization.py::objective`，共 $2N+3$ 个）:
+
+$$
+x = [\,v_0,\; u_s,\; u_\delta,\; \Delta t_1,\dots,\Delta t_N,\; d_1,\dots,d_N\,]
+$$
+
+默认初值（`_default_x0`）为 $v_0 = u_s = u_\delta = d_n = 0.5,\; \Delta t_n = 5$.
 
 #### 演化起点
 
@@ -127,7 +135,7 @@ $$
 **优点:**
 
 * $u_s, u_\delta \in [0,1]$ 自动保证 $s_p \in [\min(s_0,s_1),\max(s_0,s_1)]$，即使 $s_0 > s_1$（如 $pidx=-1$）也成立，无需 `min/max`。
-* 原来的 4 条动态不等式约束全部删除，只需保留对每个变量的 box 约束。
+* 原来的 4 条动态不等式约束全部删除，只需保留对每个变量的 box 约束。实际代码（`optimize_branch`）因 `COBYLA` 忽略 `Bounds`，会把每个变量的上下界转成显式不等式约束。
 * 线性插值（Bezier 控制点在中点方向）语义直观，$u_s=u_\delta=0.5$ 即区间中点，初始值可直接取 $0.5$。
 
 **代价:** 优化后的 `result.x[1]`, `result.x[2]` 是 $(u_s, u_\delta)$ 而非 $(s_p, δ_p)$。
@@ -142,7 +150,7 @@ $$
 
 ### 对比范围
 
-暂取 $δ1 = 0.3$, 对于quafu量子计算机和qiskit模拟机，对变分结果和所用步长进行对比.
+暂取 $δ_1 = 0.3$, $N = 8$, 扫描 $s_1 \in \{0.1, \dots, 0.8\}$（`save_qc_spectrum.py` 中 `slist = np.arange(0.1, 0.9, 0.1)`），外层 `orders = [1, 2]`, `max_steps = [3, 2]`. 底层优化方法为 `COBYLA`，对 quafu 量子计算机和 qiskit 模拟机对比变分结果与所用步长.
 
 ### 变分结果评估
 
@@ -162,6 +170,6 @@ $$
 
 ## 真机优化
 
-### 优化起点
+### 优化起点（已实现）
 
-考虑是否从模拟机起点作为新起点？
+已实现从模拟机结果作真机初值: 先在 qiskit_aer 上跑完整个 $s$ 扫描，保存每个 `(order, step, phase_idx)` 的最优参数 `x0_map` 到 `data/aer_qc_spectrum.npz`，再以该初值在真机（如 `Baihua`）上重新优化（`save_qc_spectrum.py` 的 `main`）。真机 `maxiter` 较小（2000 vs 模拟机 20000）。

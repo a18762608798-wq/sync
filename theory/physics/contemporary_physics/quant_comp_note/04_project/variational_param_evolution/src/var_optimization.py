@@ -59,7 +59,7 @@ def objective(
         order=order,
     )
     Hc = get_ssh_constrained_H(qubit_num, s1, δ1, ϵ=1)
-    evs = get_cost_vals(qc, Hc, chip=chip, options=chip_options)
+    evs = get_cost_vals(qc, Hc, chip=chip, chip_options=chip_options)
 
     return float(evs)
 
@@ -78,12 +78,12 @@ def optimize_branch(
     order,
     x0=None,
     method="COBYLA",
-    options=None,
+    optimizer_options=None,
     chip="qiskit_aer",
     chip_options=None,
 ):
-    if options is None:
-        options = {
+    if optimizer_options is None:
+        optimizer_options = {
             "maxiter": 1000,
             "tol": 1e-6,
             "disp": False,
@@ -132,15 +132,15 @@ def optimize_branch(
         method=method,
         bounds=bounds,
         constraints=constraints,
-        options=options,
+        options=optimizer_options,
     )
     if result.success:
         pass
     elif getattr(result, "status", None) == 9:
-        if options.get("disp", True):
+        if optimizer_options.get("disp", True):
             print(f"phase_idx={phase_idx}: 达到最大迭代次数, 使用当前解")
     else:
-        if options.get("disp", True):
+        if optimizer_options.get("disp", True):
             print(f"phase_idx={phase_idx}: 优化失败")
             print(result.message)
 
@@ -155,7 +155,7 @@ def inner_optimize(
     order,
     x0=None,
     method="COBYLA",
-    options=None,
+    optimizer_options=None,
     disp=False,
     chip="qiskit_aer",
     chip_options=None,
@@ -174,7 +174,7 @@ def inner_optimize(
             order,
             x0=branch_x0,
             method=method,
-            options=options,
+            optimizer_options=optimizer_options,
             chip=chip,
             chip_options=chip_options,
         )
@@ -203,7 +203,7 @@ def outer_optimize(
     orders,
     x0=None,
     method="COBYLA",
-    options=None,
+    optimizer_options=None,
     disp=False,
     chip="qiskit_aer",
     chip_options=None,
@@ -230,7 +230,7 @@ def outer_optimize(
                 order,
                 x0=inner_x0,
                 method=method,
-                options=options,
+                optimizer_options=optimizer_options,
                 disp=False,
                 chip=chip,
                 chip_options=chip_options,

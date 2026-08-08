@@ -1,3 +1,4 @@
+import itertools
 import os
 import sys
 from multiprocessing import Pool
@@ -21,7 +22,7 @@ def _deserialize_x0_map(rec):
     return {tuple(map(int, k.split(","))): np.asarray(v) for k, v in rec.items()}
 
 
-def _run_one(s, chip, x0=None):
+def _run_one(s, chip, x0=None, optimizer_options=None):
     best_step, best_order, best_phase_idx, best_result, x0_map = outer_optimize(
         8,
         s,
@@ -30,7 +31,8 @@ def _run_one(s, chip, x0=None):
         orders=[1, 2],
         x0=x0,
         method="COBYLA",
-        options={"maxiter": 200, "tol": 5e-3, "disp": False},
+        optimizer_options=optimizer_options,
+        chip_options={"name": f"s={s}", "shot_num": 2048},
         chip=chip,
         disp=False,
     )
@@ -41,12 +43,16 @@ def _wrapper(args):
     return _run_one(*args)
 
 
-def save_qc_spectrum(path, processes=8, chip="qiskit_aer", x0_maps=None):
+def save_qc_spectrum(
+    path, processes=8, chip="qiskit_aer", x0_maps=None, optimizer_options=None
+):
     """x0_maps: list, 与 slist 对齐, 每项是模拟机输出的 x0_map (或 None 用默认)."""
-    slist = np.arange(0.1, 0.9 + 1e-6, 0.2)
+    slist = np.arange(0.1, 0.9 + 1e-6, 0.1)
     chip_list = [chip] * len(slist)
     if x0_maps is None:
         x0_maps = [None] * len(slist)
+    if optimizer_options is None:
+        optimizer_options = {"maxiter": 1000, "tol": 1e-6, "disp": False}
 
     with Pool(processes=processes) as pool:
         results = list(
@@ -57,6 +63,7 @@ def save_qc_spectrum(path, processes=8, chip="qiskit_aer", x0_maps=None):
                         slist,
                         chip_list,
                         x0_maps,
+                        itertools.repeat(optimizer_options),
                     ),
                 ),
                 total=len(slist),
@@ -93,12 +100,15 @@ if __name__ == "__main__":
     quark_path = HERE / "./data/quark_qc_spectrum.npz"
 
     # 模拟机先跑, 输出 x0_map
-    save_qc_spectrum(aer_path, chip="qiskit_aer")
+    optimizer_options = {"maxiter": 20000, "tol": 1e-4, "disp": False}
+    save_qc_spectrum(aer_path, chip="qiskit_aer", optimizer_options=optimizer_options)
 
     # 用量子计算机跑, 以模拟机的 x0_map 作为输入初值
+    optimizer_options = {"maxiter": 2000, "tol": 1e-3, "disp": False}
     sim_x0_maps = load_x0_maps(aer_path)
     save_qc_spectrum(
         quark_path,
         chip="Baihua",
         x0_maps=sim_x0_maps,
+        optimizer_options=optimizer_options,
     )
