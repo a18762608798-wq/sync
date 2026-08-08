@@ -21,7 +21,7 @@ def test_inner_optimize_output():
         order=1,
         method="COBYLA",
         chip="qiskit_aer",
-        options={"maxiter": 100, "tol": 0.01, "disp": False},
+        optimizer_options={"maxiter": 100, "tol": 0.01, "disp": False},
         disp=True,
     )
     best_phase_idx, best_result, _ = inner_optimize(
@@ -32,7 +32,7 @@ def test_inner_optimize_output():
         order=1,
         method="COBYLA",
         chip="Baihua",
-        options={"maxiter": 100, "tol": 0.01, "disp": False},
+        optimizer_options={"maxiter": 100, "tol": 0.01, "disp": False},
         disp=True,
     )
     assert best_phase_idx in (1, 0, -1)
@@ -46,7 +46,7 @@ def test_outer_optimize_output():
         max_steps=[2],
         orders=[1],
         method="COBYLA",
-        options={"maxiter": 500, "tol": 5e-2, "disp": False},
+        optimizer_options={"maxiter": 500, "tol": 5e-2, "disp": False},
         disp=True,
     )
     print(x0_map)

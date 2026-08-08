@@ -27,15 +27,21 @@ $$
 ## 项目结构
 
 ```
-├── phase_diagram/      # 相图计算与绘制（已完成）
-├── symmetry_analysis/  # 对称性分析与约束哈密顿量验证（已完成）
-├── concept/            # 概念文档（贝塞尔曲线等）
-├── variational_qc/     # 变分量子计算方案设计
-├── src/                # 核心源代码
-│   ├── create_op.jl            # SSH H、约束 H、SWAP、反射算符
-│   ├── get_expect_instance.jl  # ZR 值计算
-│   ├── get_spectrum.jl         # 能谱与本征态计算
-│   └── var_param_evolution.jl  # 变分演化主入口
+├── phase_diagram/            # 相图计算与绘制（已完成）
+├── symmetry_analysis/        # 对称性分析与约束哈密顿量验证（已完成）
+├── concept/                  # 概念文档（贝塞尔曲线等）
+├── variational_outline/      # 变分方案设计文档
+├── variational_feasibility/  # 变分电路可行性实验
+├── src/                      # 核心源代码
+│   ├── create_op.py/.jl      # SSH H、约束 H、算符/哈密顿量构造
+│   ├── get_evolution_path.py # 二次 Bézier 演化路径采样
+│   ├── get_evolution_qc.py   # PauliEvolutionGate 电路构造
+│   ├── get_initial_state.py  # 三种相分区初始态
+│   ├── get_cost_vals.py      # 能量/settings 估计（AER 与 QUARK 真机）
+│   ├── var_optimization.py   # 三层变分优化主入口
+│   ├── get_expect_instance.jl # ZR 值计算
+│   ├── get_spectrum.jl        # 能谱与本征态计算
+│   └── var_param_evolution.jl # Julia 变分演化辅助
 └── test/
     └── test_expect_instance.jl # ZR 值测试
 ```
@@ -51,9 +57,10 @@ $$
 
 ## 变分方案要点
 
-详见 [`variational_qc/README.md`](variational_qc/README.md)，核心策略：
+详见 [`variational_outline/README.md`](variational_outline/README.md)，核心策略：
 
-- **穷举演化起点**，对每个起点到目标态的路径做变分优化，取同相起点组的平均结果
-- **代价函数**：$H_c =$ 能量 + 对称性惩罚 + ZR 距离惩罚 + 演化时间惩罚
-- **路径参数化**：二次贝塞尔曲线，控制点 $(s_c, \delta_c)$ 作为变分参数
+- **三种离散演化起点**（对应三个相分区 `pidx ∈ {1,0,-1}`），内层对各起点路径做变分优化，取 cost 最小的分支作为同相判定
+- **代价函数**：$H_c =$ 能量 + 对称性惩罚（实际实验仅含此两项，ZR 距离与演化时间惩罚为可选扩展）
+- **路径参数化**：二次贝塞尔曲线，控制点用 $(u_s, u_\delta)\in[0,1]$ 线性换元
+- **三层优化**：外层扫 trotter 阶数/步数，内层扫起点分支，底层优化连续参数（$v_0, u_s, u_\delta, \Delta t_n, d_n$）
 - **电路实现**：`PauliEvolutionGate` 手动绑定演化路径和步长
