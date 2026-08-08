@@ -32,7 +32,11 @@ def _run_one(s, chip, x0=None, optimizer_options=None):
         x0=x0,
         method="COBYLA",
         optimizer_options=optimizer_options,
-        chip_options={"name": f"s={s}", "shot_num": 2048},
+        chip_options={
+            "name": f"s={s}",
+            "shot_num": 1024 * 4,
+            "target_qubits": [124, 125, 126, 127, 128, 129, 141, 142],
+        },
         chip=chip,
         disp=False,
     )
@@ -47,7 +51,7 @@ def save_qc_spectrum(
     path, processes=8, chip="qiskit_aer", x0_maps=None, optimizer_options=None
 ):
     """x0_maps: list, 与 slist 对齐, 每项是模拟机输出的 x0_map (或 None 用默认)."""
-    slist = np.arange(0.1, 0.9 + 1e-6, 0.1)
+    slist = np.arange(0.1, 0.9 + 1e-6, 0.225)
     chip_list = [chip] * len(slist)
     if x0_maps is None:
         x0_maps = [None] * len(slist)
@@ -104,7 +108,7 @@ if __name__ == "__main__":
     save_qc_spectrum(aer_path, chip="qiskit_aer", optimizer_options=optimizer_options)
 
     # 用量子计算机跑, 以模拟机的 x0_map 作为输入初值
-    optimizer_options = {"maxiter": 2000, "tol": 1e-3, "disp": False}
+    optimizer_options = {"maxiter": 1000, "tol": 2e-2, "disp": False}
     sim_x0_maps = load_x0_maps(aer_path)
     save_qc_spectrum(
         quark_path,

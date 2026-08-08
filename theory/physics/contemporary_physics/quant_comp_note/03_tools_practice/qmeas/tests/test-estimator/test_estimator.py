@@ -1,6 +1,8 @@
 import asyncio
+import os
 
 import numpy as np
+import pytest
 from qiskit import QuantumCircuit
 from qiskit.quantum_info import Pauli, PauliList, SparsePauliOp
 
@@ -72,17 +74,19 @@ def _observables():
     ]
 
 
+@pytest.mark.skipif(
+    not os.environ.get("QUARK_TOKEN"),
+    reason="需要 QUARK_TOKEN",
+)
 def test_estimator_dongling():
     qc = _example_qc()
     config = EstimatorConfig(
         qc=qc,
         observables=_observables(),
         runner_opts=QuarkEstimatorOptions(
-            quark_options={
-                "chip": "Dongling",
-                "shots": 1024,
-                "name": "estimator-dongling",
-            }
+            chip="Dongling",
+            shots=1024,
+            name="estimator-dongling",
         ),
     )
     result = asyncio.run(run_estimator(config))
@@ -119,11 +123,9 @@ if __name__ == "__main__":
         qc=qc,
         observables=_observables(),
         runner_opts=QuarkEstimatorOptions(
-            quark_options={
-                "chip": "Dongling",
-                "shots": 1024,
-                "name": "dongling-estimator-check",
-            }
+            chip="Dongling",
+            shots=1024,
+            name="dongling-estimator-check",
         ),
     )
     result = asyncio.run(run_estimator(dongling_config))

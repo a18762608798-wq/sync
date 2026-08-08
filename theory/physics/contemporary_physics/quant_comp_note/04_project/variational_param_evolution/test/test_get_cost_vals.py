@@ -41,7 +41,7 @@ def test_output_val_quark():
     qc = get_initial_state(4, 1)
     Hc = get_ssh_constrained_H(4, 0.1, 1, ϵ=1)
     evs0 = get_cost_vals(qc, Hc, chip="qiskit_aer")
-    evs1 = get_cost_vals(qc, Hc, chip="Baihua")
+    evs1 = get_cost_vals(qc, Hc, chip="Dongling")
     print(evs0, evs1)
 
 

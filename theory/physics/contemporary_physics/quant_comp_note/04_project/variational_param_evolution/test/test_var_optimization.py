@@ -32,6 +32,7 @@ def test_inner_optimize_output():
         order=1,
         method="COBYLA",
         chip="Baihua",
+        chip_options={"target_qubits": [124, 125, 126, 127, 128, 129, 141, 142]},
         optimizer_options={"maxiter": 100, "tol": 0.01, "disp": False},
         disp=True,
     )
@@ -56,6 +57,6 @@ def test_outer_optimize_output():
 
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
-        if name.startswith("test_outer"):
+        if name.startswith("test_inner"):
             fn()
             print(f"PASS {name}")

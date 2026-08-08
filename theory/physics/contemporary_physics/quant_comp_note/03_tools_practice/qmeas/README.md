@@ -57,9 +57,13 @@ end
 using CondaPkg
 
 CondaPkg.rm_pip("qmeas")
+path = expanduser(
+    "~/sync/theory/physics/contemporary_physics/quant_comp_note/03_tools_practice/qmeas"
+)
+
 CondaPkg.add_pip(
     "qmeas";
-    version="@ .",
+    version="@file://$path",
     editable=true,
 )
 ```

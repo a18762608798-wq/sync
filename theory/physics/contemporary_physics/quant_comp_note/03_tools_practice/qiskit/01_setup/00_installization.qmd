@@ -31,6 +31,7 @@ CondaPkg.add(["seaborn", "pylatexenc", "matplotlib", "numpy", "qiskit", "qiskit-
 ```{julia}
 using CondaPkg
 CondaPkg.add_pip("quarkstudio") # NOTE: quarkstudio does not included in conda, use PYPI.
+CondaPkg.add_pip("quarkcircuit")
 ```
 
 * Test the environment
