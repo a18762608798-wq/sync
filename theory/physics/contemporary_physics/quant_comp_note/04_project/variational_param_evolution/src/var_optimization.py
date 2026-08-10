@@ -1,11 +1,15 @@
 import numpy as np
-from scipy.optimize import minimize, Bounds
+from qiskit_algorithms.optimizers import SLSQP, SPSA, DIRECT_L
+from functools import partial
 
 
 from get_cost_vals import get_cost_vals
 from get_evolution_qc import get_evolution_qc
 from get_initial_state import get_initial_state
 from create_op import get_ssh_constrained_H
+
+
+τ = 3
 
 
 def get_branch_start(phase_idx, v0):
@@ -20,29 +24,30 @@ def get_branch_start(phase_idx, v0):
         raise ValueError("phase_idx must be 1, 0 or -1")
 
 
+def _sigmoid(t):
+    return 1.0 / (1.0 + np.exp(-t))
+
+
 def objective(
-    x, phase_idx, qubit_num, s1, δ1, step, order, chip="qiskit_aer", chip_options=None
+    t,
+    phase_idx,
+    qubit_num,
+    s1,
+    δ1,
+    step,
+    order,
+    chip="qiskit_aer",
+    chip_options=None,
+    history=None,
 ):
-    # 优化变量: v0, us, uδ, Δts, Δtds
+    x = _sigmoid(t)
+    # 第一次换元: 映射到[0, 1]
     v0, us, uδ = x[0:3]
-    Δts = x[3 : 3 + step]
+    u_Δts = x[3 : 3 + step]
     Δtds = x[3 + step : 3 + 2 * step]
 
-    # 边界约束.
-    BAD_VAL = 1e6
-    if (
-        not np.all(np.isfinite(x))
-        or not 0 <= v0 <= 1
-        or not 0 <= us <= 1
-        or not 0 <= uδ <= 1
-        or np.any(Δts < 1e-2)
-        or np.any(Δts > 10)
-        or np.any(Δtds < 0)
-        or np.any(Δtds > 1)
-    ):
-        return BAD_VAL
-
-    # 线性换元得到物理控制点, 保证 sp∈[min(s0,s1),max(s0,s1)].
+    # 第二次换元: 映射到实际取值范围
+    Δts = τ * u_Δts
     s0, δ0 = get_branch_start(phase_idx, v0)
     sp = s0 + us * (s1 - s0)
     δp = δ0 + uδ * (δ1 - δ0)
@@ -61,12 +66,22 @@ def objective(
     Hc = get_ssh_constrained_H(qubit_num, s1, δ1, ϵ=1)
     evs = get_cost_vals(qc, Hc, chip=chip, chip_options=chip_options)
 
+    # 记录优化器实际访问的点
+    if history is not None and (history == [] or history[-1]["fun"] > float(evs)):
+        history.append(
+            {
+                "t": np.array(t, copy=True),
+                "fun": evs,
+            }
+        )
+
     return float(evs)
 
 
-def _default_x0(step):
-    """默认初值: v0, us, uδ=0.5, Δts=5, Δtds=0.5."""
-    return [0.5, 0.5, 0.5] + [5] * step + [0.5] * step
+def _default_t0(step):
+    """默认初值: t=0 → 各 u=sigmoid(0)=0.5."""
+    t0 = np.zeros(3 + 2 * step)
+    return t0
 
 
 def optimize_branch(
@@ -76,75 +91,40 @@ def optimize_branch(
     δ1,
     step,
     order,
-    x0=None,
-    method="COBYLA",
-    optimizer_options=None,
+    t0=None,
+    optimizer=None,
     chip="qiskit_aer",
     chip_options=None,
 ):
-    if optimizer_options is None:
-        optimizer_options = {
-            "maxiter": 1000,
-            "tol": 1e-6,
-            "disp": False,
-        }
-    # bound
-    lb = [0] * 3 + [1e-2] * step + [0] * step
-    ub = [1, 1, 1] + [10] * step + [1] * step
-    bounds = Bounds(
-        lb=lb,
-        ub=ub,
-    )
-
-    # sp, δp 已用 us, uδ∈[0,1] 线性换元, 自动落在两端点之间, 无需动态约束.
-    constraints = []
-    # COBYLA 忽略 bounds，需把每个变量的上下界也转成不等式约束，否则不生效。
-    for i, (lo, hi) in enumerate(zip(lb, ub)):
-        constraints.append(
-            {
-                "type": "ineq",
-                "fun": lambda x, i=i, lo=lo: x[i] - lo,
-            }
+    # 默认参数设置
+    if optimizer is None:
+        optimizer = SLSQP(
+            maxiter=5000,
+            ftol=1e-5,
+            disp=False,
         )
-        constraints.append(
-            {
-                "type": "ineq",
-                "fun": lambda x, i=i, hi=hi: hi - x[i],
-            }
-        )
+    if t0 is None:
+        t0 = _default_t0(step)
 
-    # optimize
-    if x0 is None:
-        x0 = _default_x0(step)
-    result = minimize(
+    # 优化正文 (用关键字绑定固定参数, 让优化向量 t 保持在第一个位置)
+    history = []
+    partial_objective = partial(
         objective,
-        x0=x0,
-        args=(
-            phase_idx,
-            qubit_num,
-            s1,
-            δ1,
-            step,
-            order,
-            chip,
-            chip_options,
-        ),
-        method=method,
-        bounds=bounds,
-        constraints=constraints,
-        options=optimizer_options,
+        phase_idx=phase_idx,
+        qubit_num=qubit_num,
+        s1=s1,
+        δ1=δ1,
+        step=step,
+        order=order,
+        chip=chip,
+        chip_options=chip_options,
+        history=history,
     )
-    if result.success:
-        pass
-    elif getattr(result, "status", None) == 9:
-        if optimizer_options.get("disp", True):
-            print(f"phase_idx={phase_idx}: 达到最大迭代次数, 使用当前解")
-    else:
-        if optimizer_options.get("disp", True):
-            print(f"phase_idx={phase_idx}: 优化失败")
-            print(result.message)
-
-    return result
+    result = optimizer.minimize(
+        partial_objective,
+        x0=t0,
+    )
+    return result, history
 
 
 def inner_optimize(
@@ -153,46 +133,41 @@ def inner_optimize(
     δ1,
     step,
     order,
-    x0=None,
-    method="COBYLA",
-    optimizer_options=None,
+    t0=None,
+    optimizer=None,
     disp=False,
     chip="qiskit_aer",
     chip_options=None,
 ):
-    """x0: dict {phase_idx: 初值向量} 或 None. 返回 (best_phase_idx, best_result, x0_map)."""
+    """t0: dict {phase_idx: 初值向量} 或 None. 返回 (best_phase_idx, best_result, t0_map, history_map)."""
     best_phase_idx, best_result = None, None
-    x0_map = {}
+    t0_map = {}
+    history_map = {}
     for phase_idx in [1, 0, -1]:
-        branch_x0 = None if x0 is None else x0.get(phase_idx)
-        result = optimize_branch(
+        branch_t0 = None if t0 is None else t0.get(phase_idx)
+        result, history = optimize_branch(
             phase_idx,
             qubit_num,
             s1,
             δ1,
             step,
             order,
-            x0=branch_x0,
-            method=method,
-            optimizer_options=optimizer_options,
+            t0=branch_t0,
+            optimizer=optimizer,
             chip=chip,
             chip_options=chip_options,
         )
-        if not result.success and getattr(result, "status", None) != 9:
-            continue
-        x0_map[phase_idx] = result.x
+        t0_map[phase_idx] = result.x
+        history_map[phase_idx] = history
         if best_result is None or result.fun < best_result.fun:
             best_phase_idx, best_result = phase_idx, result
 
-    if best_result is None:
-        raise RuntimeError("所有分支优化均失败")
-
     if disp:
         print(f"\n最优分支 phase_idx={best_phase_idx}")
-        print(f"x = {best_result.x}")
+        print(f"t = {best_result.x}")
         print(f"目标值 = {best_result.fun}")
 
-    return best_phase_idx, best_result, x0_map
+    return best_phase_idx, best_result, t0_map, history_map
 
 
 def outer_optimize(
@@ -201,42 +176,43 @@ def outer_optimize(
     δ1,
     max_steps,
     orders,
-    x0=None,
-    method="COBYLA",
-    optimizer_options=None,
+    t0=None,
+    optimizer=None,
     disp=False,
     chip="qiskit_aer",
     chip_options=None,
 ):
-    """x0: dict {(order, step, phase_idx): 初值向量} 或 None.
-    返回 (best_step, best_order, best_phase_idx, best_result, x0_map)."""
+    """t0: dict {(order, step, phase_idx): 初值向量} 或 None.
+    返回 (best_step, best_order, best_phase_idx, best_result, t0_map, history_map)."""
     best_step, best_order, best_phase_idx, best_result = None, None, None, None
-    x0_map = {}
+    t0_map = {}
+    history_map = {}
     for order, max_s in zip(orders, max_steps):
         for step in range(1, max_s + 1):
             # 取出本 (order, step) 的 phase_idx→初值 子字典
-            inner_x0 = None
-            if x0 is not None:
-                inner_x0 = {
-                    pid: x0[(order, step, pid)]
+            inner_t0 = None
+            if t0 is not None:
+                inner_t0 = {
+                    pid: t0[(order, step, pid)]
                     for pid in [1, 0, -1]
-                    if (order, step, pid) in x0
+                    if (order, step, pid) in t0
                 }
-            phase_idx, result, inner_x0_map = inner_optimize(
+            phase_idx, result, inner_t0_map, inner_history_map = inner_optimize(
                 qubit_num,
                 s1,
                 δ1,
                 step,
                 order,
-                x0=inner_x0,
-                method=method,
-                optimizer_options=optimizer_options,
+                t0=inner_t0,
+                optimizer=optimizer,
                 disp=False,
                 chip=chip,
                 chip_options=chip_options,
             )
-            for pid, xi in inner_x0_map.items():
-                x0_map[(order, step, pid)] = xi
+            for pid, ti in inner_t0_map.items():
+                t0_map[(order, step, pid)] = ti
+            for pid, hi in inner_history_map.items():
+                history_map[(order, step, pid)] = hi
             if best_result is None or result.fun < best_result.fun:
                 best_step, best_order, best_phase_idx, best_result = (
                     step,
@@ -246,13 +222,13 @@ def outer_optimize(
                 )
 
     if best_result is None:
-        raise RuntimeError("所有 (step, order) 组合优化均失败")
+        raise RuntimeError("没有做任何优化.")
 
     if disp:
         print(
             f"\n最优: step={best_step}, order={best_order}, phase_idx={best_phase_idx}"
         )
-        print(f"x = {best_result.x}")
+        print(f"t = {best_result.x}")
         print(f"目标值 = {best_result.fun}")
 
-    return best_step, best_order, best_phase_idx, best_result, x0_map
+    return best_step, best_order, best_phase_idx, best_result, t0_map, history_map

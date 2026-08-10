@@ -2,9 +2,11 @@
 qiskit-aer = ""
 tqdm = ""
 pylatexenc = ""
+nlopt = ""
 matplotlib = ""
 seaborn = ""
 numpy = ""
+qiskit-algorithms = ""
 qiskit = ""
 
 [pip.deps]

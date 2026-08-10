@@ -19,7 +19,7 @@ using Pkg
 Pkg.activate(".")
 Pkg.add("LanguageServer") # which provides the language server for julia, and it is the dependency of the vscode extension of julia.
 using CondaPkg
-CondaPkg.add(["seaborn", "pylatexenc", "matplotlib", "numpy", "qiskit", "qiskit-aer"]) # NOTE: the installization command and import command are different(qiskit_aer).
+CondaPkg.add(["seaborn", "pylatexenc", "matplotlib", "numpy", "qiskit", "qiskit-aer", "qiskit-algorithms"]) # NOTE: the installization command and import command are different(qiskit_aer).
 ```
 
 ## quantum cloud platform
@@ -53,7 +53,7 @@ We may not use this platform laterly, but I still record the config way.
 
 ```{julia}
 using CondaPkg
-CondaPkg.add(["qiskit-ibm-runtime", "qiskit-algorithms"])
+CondaPkg.add(["qiskit-ibm-runtime"])
 ```
 
 * Test the environment
