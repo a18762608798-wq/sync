@@ -37,7 +37,7 @@ $$
 │   ├── get_evolution_path.py # 二次 Bézier 演化路径采样
 │   ├── get_evolution_qc.py   # PauliEvolutionGate 电路构造
 │   ├── get_initial_state.py  # 三种相分区初始态
-│   ├── get_cost_vals.py      # 能量/settings 估计（AER 与 QUARK 真机）
+│   ├── get_cost_val.py       # 能量/settings 估计（AER 与 QUARK 真机）
 │   ├── var_optimization.py   # 三层变分优化主入口
 │   ├── get_expect_instance.jl # ZR 值计算
 │   ├── get_spectrum.jl        # 能谱与本征态计算

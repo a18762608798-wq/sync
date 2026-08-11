@@ -27,7 +27,7 @@ def _link(loop_num, i, δ):
     return _xx(loop_num, i) + δ * _zz(loop_num, i)
 
 
-def get_hardware_ssh_H(s, δ):
+def get_ssh_H(s, δ):
     # Params settings
     J1 = 1 - s
     J2 = s
@@ -45,7 +45,7 @@ def get_hardware_ssh_H(s, δ):
     return ssh_op.simplify()
 
 
-def get_hardware_Ui(op):
+def get_Ui(op):
     if op == "X":
         Ui = SparsePauliOp.from_sparse_list(
             [
@@ -65,7 +65,7 @@ def get_hardware_Ui(op):
     return Ui
 
 
-def get_hardware_ssh_constrained_H(s, δ, ϵ=1):
-    H_c = get_hardware_ssh_H(s, δ)
-    H_c -= ϵ * (get_hardware_Ui("X") + 2 * get_hardware_Ui("Z"))
+def get_ssh_constrained_H(s, δ, ϵ=1):
+    H_c = get_ssh_H(s, δ)
+    H_c -= ϵ * (get_Ui("X") + 2 * get_Ui("Z"))
     return H_c.simplify()
