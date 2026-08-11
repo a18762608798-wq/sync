@@ -3,7 +3,7 @@ from qiskit_algorithms.optimizers import SLSQP, SPSA, DIRECT_L
 from functools import partial
 
 
-from get_cost_vals import get_cost_vals
+from get_cost_val import get_cost_val
 from get_evolution_qc import get_evolution_qc
 from get_initial_state import get_initial_state
 from create_op import get_ssh_constrained_H
@@ -64,7 +64,7 @@ def objective(
         order=order,
     )
     Hc = get_ssh_constrained_H(qubit_num, s1, δ1, ϵ=1)
-    evs = get_cost_vals(qc, Hc, chip=chip, chip_options=chip_options)
+    evs = get_cost_val(qc, Hc, chip=chip, chip_options=chip_options)
 
     # 记录优化器实际访问的点
     if history is not None and (history == [] or history[-1]["fun"] > float(evs)):

@@ -7,9 +7,9 @@ from qmeas.estimator import EstimatorConfig, QuarkEstimatorOptions, run_estimato
 QUARK_CHIP = ["Baihua", "Dongling", "Shenglian"]
 
 
-def get_cost_vals(evolution_qc, cost_op, *, chip="qiskit_aer", chip_options=None):
+def get_cost_val(evolution_qc, cost_op, *, chip="qiskit_aer", chip_options=None):
     if chip == "qiskit_aer":
-        return get_cost_vals_by_qiskit_aer(evolution_qc, cost_op)
+        return get_cost_val_by_qiskit_aer(evolution_qc, cost_op)
     elif chip in QUARK_CHIP:
         chip_options = {} if chip_options is None else chip_options
         correct = chip_options.get("correct", True)
@@ -17,7 +17,7 @@ def get_cost_vals(evolution_qc, cost_op, *, chip="qiskit_aer", chip_options=None
         name = chip_options.get("name", "my_job")
         shot_num = chip_options.get("shot_num", 1024)
         token = chip_options.get("token", None)
-        return get_cost_vals_by_quark(
+        return get_cost_val_by_quark(
             evolution_qc,
             cost_op,
             chip=chip,
@@ -31,7 +31,7 @@ def get_cost_vals(evolution_qc, cost_op, *, chip="qiskit_aer", chip_options=None
         raise (ValueError("The chip must be qiskit_aer or in QUARK_CHIP."))
 
 
-def get_cost_vals_by_qiskit_aer(evolution_qc, cost_op):
+def get_cost_val_by_qiskit_aer(evolution_qc, cost_op):
     pub = (
         evolution_qc.decompose(),
         cost_op,
@@ -50,7 +50,7 @@ def get_cost_vals_by_qiskit_aer(evolution_qc, cost_op):
     return result[0].data.evs
 
 
-def get_cost_vals_by_quark(
+def get_cost_val_by_quark(
     evolution_qc,
     cost_op,
     chip="Baihua",
