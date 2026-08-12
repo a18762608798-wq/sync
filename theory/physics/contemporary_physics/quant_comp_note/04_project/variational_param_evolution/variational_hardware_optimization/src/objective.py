@@ -1,33 +1,12 @@
-import sys
-import os
 import numpy as np
 
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))  # 根目录
-
 from get_cost_val import get_cost_val
-from get_hw_evolution_qc import get_evolution_qc, get_evolution_path
-from get_hw_initial_state import get_initial_state
+from get_evolution_qc import get_qc_from_t
 from get_op import get_ssh_constrained_H
 
 
 τ = 0.5
-
-
-def get_branch_start(phase_idx, p0):
-    """phase_idx ∈ {1, 0, -1}, v0 ∈ [0, 1] → 起点 (s0, δ0)."""
-    if phase_idx == 1:
-        return 0, p0
-    elif phase_idx == 0:
-        return p0, 0
-    elif phase_idx == -1:
-        return 1, p0
-    else:
-        raise ValueError("phase_idx must be 1, 0 or -1")
-
-
-def _sigmoid(t):
-    return 1.0 / (1.0 + np.exp(-np.array(t)))
 
 
 def robust_objective(
@@ -80,27 +59,8 @@ def objective(
     history=None,
     robust_options=None,
 ):
-    assert len(t) == 1 + 2 * step, f"t 长度应为 1+2*step={1 + 2 * step}, 实际 {len(t)}"
-    # R^n → [0, 1]
-    u = _sigmoid(t)
-    up0 = u[0]
-    ux = u[1 : 1 + step]
-    uΔ = u[1 + step : 1 + 2 * step]
-
-    # [0, 1]映射到实际取值范围
-    Δt = τ * uΔ
-    p0 = up0
-    start = get_branch_start(pidx, p0)
-    path = get_evolution_path(start, end, ux)
-
-    # get qc
-    initial_state = get_initial_state(pidx)
-    qc = get_evolution_qc(
-        initial_state,
-        path,
-        Δt,
-        order=order,
-    )
+    # t → qc
+    qc = get_qc_from_t(t, end, pidx=pidx, step=step, order=order, τ=τ)
 
     # get cost vals
     Hc = get_ssh_constrained_H(end[0], end[1], ϵ=1)
@@ -110,8 +70,8 @@ def objective(
     if history is not None and (history == [] or history[-1]["fun"] > float(evs)):
         history.append(
             {
-                "fun": evs,
-                "t": np.array(t, copy=True),
+                "fun": float(evs),
+                "t": np.array(t, copy=True).tolist(),
             }
         )
 

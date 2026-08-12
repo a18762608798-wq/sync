@@ -57,5 +57,5 @@ def optimize_branch(
         partial_objective,
         x0=t0,
     )
-    record_re = {"fun": result.fun, "t": result.x}
+    record_re = {"fun": float(result.fun), "t": (result.x).tolist()}
     return record_re, history
