@@ -31,7 +31,7 @@ $$
 ├── symmetry_analysis/        # 对称性分析与约束哈密顿量验证（已完成）
 ├── concept/                  # 概念文档（贝塞尔曲线等）
 ├── variational_outline/      # 变分方案设计文档
-├── variational_feasibility/  # 变分电路可行性实验
+├── variational_initial_optimization/  # 变分初始态选择与优化实验
 ├── src/                      # 核心源代码
 │   ├── create_op.py/.jl      # SSH H、约束 H、算符/哈密顿量构造
 │   ├── get_evolution_path.py # 二次 Bézier 演化路径采样

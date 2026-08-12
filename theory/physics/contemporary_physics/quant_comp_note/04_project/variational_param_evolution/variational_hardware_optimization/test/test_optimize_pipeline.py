@@ -11,10 +11,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from optimize_pipeline import optimize_pipeline
 
 direct_optimizer = DIRECT_L(
-    max_evals=10000,
+    max_evals=50,
 )
 spsa_optimizer = SPSA(
-    maxiter=500,
+    maxiter=10,
     blocking=True,
     trust_region=True,
     resamplings=1,
@@ -30,7 +30,9 @@ if __name__ == "__main__":
         optimizer=direct_optimizer,
         chip="qiskit_aer",
         chip_options=None,
-        robust=False,
+        robust=True,
         robust_options=None,
         progress=True,
     )
+
+    print(res)

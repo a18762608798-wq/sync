@@ -57,11 +57,14 @@ def optimize_pipeline(
             [-1, 1, 2],
             [-1, 2, 1],
         ]
+    if t0 is None:
+        t0 = [None for _ in range(len(discrete_vars))]
+
     pidx_ls = [discrete_vars[i][0] for i in range(len(discrete_vars))]
     step_ls = [discrete_vars[i][1] for i in range(len(discrete_vars))]
     order_ls = [discrete_vars[i][2] for i in range(len(discrete_vars))]
 
-    with Pool(processes=8) as pool:
+    with Pool(processes=9) as pool:
         iterable = pool.imap(
             _wrapper,
             zip(
@@ -69,7 +72,7 @@ def optimize_pipeline(
                 pidx_ls,
                 step_ls,
                 order_ls,
-                itertools.repeat(t0),
+                t0,
                 itertools.repeat(optimizer),
                 itertools.repeat(chip),
                 itertools.repeat(chip_options),
