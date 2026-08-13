@@ -48,14 +48,8 @@ def optimize_pipeline(
     if discrete_vars is None:
         discrete_vars = [
             [1, 1, 1],
-            [1, 1, 2],
-            [1, 2, 1],
             [0, 1, 1],
-            [0, 1, 2],
-            [0, 2, 1],
             [-1, 1, 1],
-            [-1, 1, 2],
-            [-1, 2, 1],
         ]
     if t0 is None:
         t0 = [None for _ in range(len(discrete_vars))]
@@ -64,7 +58,7 @@ def optimize_pipeline(
     step_ls = [discrete_vars[i][1] for i in range(len(discrete_vars))]
     order_ls = [discrete_vars[i][2] for i in range(len(discrete_vars))]
 
-    with Pool(processes=9) as pool:
+    with Pool(processes=3) as pool:
         iterable = pool.imap(
             _wrapper,
             zip(

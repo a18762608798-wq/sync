@@ -6,7 +6,7 @@ from get_evolution_qc import get_qc_from_t
 from get_op import get_ssh_constrained_H
 
 
-τ = 0.5
+τ = 10
 
 
 def robust_objective(
