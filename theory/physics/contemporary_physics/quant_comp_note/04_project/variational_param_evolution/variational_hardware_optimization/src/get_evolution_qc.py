@@ -60,7 +60,7 @@ def get_evolution_qc(
     return qc
 
 
-def get_qc_from_t(t, end, pidx=1, step=1, order=1, τ=0.5):
+def get_qc_from_t(t, end, pidx=1, step=1, order=1, τ=5):
     """由无约束参数向量 t 生成演化电路 qc.
 
     t 长度必须为 1 + 2*step, 依次映射为:
@@ -88,4 +88,3 @@ def get_qc_from_t(t, end, pidx=1, step=1, order=1, τ=0.5):
     qc = get_evolution_qc(initial_state, path, Δt, order=order)
 
     return qc
-
