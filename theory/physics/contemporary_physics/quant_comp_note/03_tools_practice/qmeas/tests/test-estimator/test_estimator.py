@@ -15,17 +15,16 @@ from qmeas.estimator import (
 
 
 def _example_qc() -> QuantumCircuit:
-    qc = QuantumCircuit(2, 2)
-    qc.h(0)
-    qc.cx([0], [1])
+    qc = QuantumCircuit(3, 3)
+    qc.x(0)
     return qc
 
 
 def _observables():
     return [
-        SparsePauliOp(["XX"], coeffs=[1.0]),
-        SparsePauliOp(["YY"], coeffs=[1.0]),
-        SparsePauliOp(["ZZ"], coeffs=[1.0]),
+        SparsePauliOp(["IIZ"], coeffs=[1.0]),
+        SparsePauliOp(["IZI"], coeffs=[1.0]),
+        SparsePauliOp(["ZII"], coeffs=[1.0]),
     ]
 
 
@@ -51,10 +50,10 @@ if __name__ == "__main__":
         qc=qc,
         observables=_observables(),
         runner_opts=QuarkEstimatorOptions(
-            chip="Baihua",
+            chip="Dongling",
             shots=1024,
-            target_qubits=[138, 125],
-            name="Baihua-estimator-check",
+            # target_qubits=[138, 125],
+            name="Dongling-estimator-check",
         ),
     )
     result = asyncio.run(run_estimator(Baihua_config))

@@ -3,27 +3,58 @@
 ## defined
 
 ```python
-from qiskit.quantum_info import PauliList, Pauli, SparsePauliOp
+from qiskit.quantum_info import SparsePauliOp
+
+# basicc defined.
 obs = SparsePauliOp.from_list([
     ("XX", 1.0),
     ("YY", 1.0),
 ])
 
-print(obs.paulis) # 提出pauli string 列表
+# defined by the bit position.
+xx = SparsePauliOp.from_sparse_list(
+    [
+        ("XX", [0, 1], 1.0)
+    ],
+    num_qubits=2,
+)
+```
+
+## operation
+
+### simplify
+
+```python
+obs.simplify()  # 合并同类项
+```
+
+### is_hermitian
+
+```python
+assert obs == obs.transpose().conjugate()  # H.is_hermitian() 也可以用
+```
+
+### pauli to label
+
+```python
 print(obs.paulis.to_labels())
+```
 
-observable = SparsePauliOp.from_list([
-    ("XI", 1.0),
-    ("YY", 1.0),
-])
-print(observable.to_list()) # transform to list
-observables = [
-    observable,
-    SparsePauliOp("XY"),
-    SparsePauliOp("ZZ"),
-]
+### 提取pauli strings
 
-# get the pauli list form obs
+```python
+# 利用集合特性可以挑选出不同的pauli strings
+all_labels = {
+    label
+    for obs in observables
+    for label in obs.paulis.to_labels() # 它把Qiskit 内部的 PauliList 转成普通字符串列表, qiskit 顺序。
+}
+```
+
+### get the pauli list form obs
+
+```python
+import numpy as np
 def get_commute_group(obs):
     # get pauli list
     pauli_list = {
@@ -52,15 +83,4 @@ def get_commute_group(obs):
     return groups, meas_basis_ls
 
 groups, meas_basis_ls = get_commute_group(observables)
-```
-
-## 提取pauli strings
-
-```python
-# 利用集合特性可以挑选出不同的pauli strings
-all_labels = {
-    label
-    for obs in observables
-    for label in obs.paulis.to_labels() # 它把Qiskit 内部的 PauliList 转成普通字符串列表。
-}
 ```

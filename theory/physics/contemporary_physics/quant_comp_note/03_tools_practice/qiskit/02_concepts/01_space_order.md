@@ -12,4 +12,4 @@ $$
 
 ## quafu
 
-Whose order is normal.
+quafu在 `compiler="qiskit"` 确实也是反序counts, 但到底是哪一步实现的不清楚
