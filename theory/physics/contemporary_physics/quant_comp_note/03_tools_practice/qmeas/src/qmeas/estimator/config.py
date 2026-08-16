@@ -18,6 +18,7 @@ class QuarkEstimatorOptions:
     compiler: str = "qiskit"
     correct: bool = True
     target_qubits: list[int] = field(default_factory=list)
+    coupling_map: list | None = None
 
 
 @dataclass

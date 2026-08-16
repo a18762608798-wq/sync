@@ -135,7 +135,7 @@ async def submit_quark_task(
         "circuit": qasm2_string,
         "shots": shot_num,
         "options": {
-            "compiler": "qiskit",
+            "compiler": "qiskit", # quafu在 `compiler="qiskit"` 确实是反序counts, 但到底是哪一步实现的不清楚
             "correct": correct,
             "target_qubits": target_qubits,  # 具体bit而非范围, [] is automatic choice.
         },

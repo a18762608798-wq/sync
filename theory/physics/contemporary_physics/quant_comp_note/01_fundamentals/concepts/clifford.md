@@ -35,7 +35,7 @@ $$
 
 $S^2 = Z \in \mathcal{P}_1$，$S^4 = I$。
 
-**对于单比特，本质上 $S^\dagger H$ 对XYZ右手轮换, $HS$ 反之.**
+**对于单比特，简单来说 $HS^\dagger$ 对XYZ右手轮换, $SH$ 反之.(主动变换)**
 
 ### 3. CNOT (CX)
 
@@ -45,8 +45,11 @@ $$
 0 & 1 & 0 & 0 \\
 0 & 0 & 0 & 1 \\
 0 & 0 & 1 & 0
-\end{pmatrix}
+\end{pmatrix} \\
+= |0\rangle\langle 0| \otimes I + |1\rangle \langle 1| \otimes X
 $$
+
+#### 作用单比特门
 
 对双 qubit Pauli 的作用（control=q1, target=q2）：
 
@@ -57,13 +60,46 @@ $$
 \mathrm{CNOT}^\dagger (I \otimes Z) \mathrm{CNOT} &= Z \otimes Z, &
 \mathrm{CNOT}^\dagger (Z \otimes I) \mathrm{CNOT} &= Z \otimes I. \\
 \mathrm{CNOT}^\dagger (I \otimes Y) \mathrm{CNOT} &= Z \otimes Y, &
-\mathrm{CNOT}^\dagger (Y \otimes I) \mathrm{CNOT} &= Y \otimes X, 
+\mathrm{CNOT}^\dagger (Y \otimes I) \mathrm{CNOT} &= Y \otimes X,
 \end{aligned}
 $$
 
 其中Y组是另外两组的乘积.
 
 CNOT 可与 H、S 互换生成 CZ：$\mathrm{CZ} = (I \otimes H)\,\mathrm{CNOT}\,(I \otimes H) \in \mathrm{Cl}(2)$。
+
+#### 与CZ关系
+
+此时有:
+
+$$
+\begin{cases}
+CX = |0\rangle \langle 0| I + |1\rangle \langle 1 | X \\
+CZ = |0\rangle \langle 0| I + |1\rangle \langle 1 | Z
+\end{cases}
+$$
+
+也即:
+
+$$
+(I \otimes H) CZ (I \otimes H) = CX(1, 2)
+$$
+
+也即:
+
+$$
+CX(1, 2) \rightarrow_{H\otimes H} CX(2, 1)
+$$
+
+### 4. CZ
+
+在超导电路平台反而是CZ比较基础, 具体来说:
+
+$$
+CZ |ab\rangle = (-1)^{a\land b} |ab\rangle
+$$
+
+这意味着: **CZ压根没有方向**
 
 ## 单 qubit Clifford 群
 

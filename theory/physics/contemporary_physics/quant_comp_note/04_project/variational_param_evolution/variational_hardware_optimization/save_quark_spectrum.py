@@ -16,7 +16,7 @@ TARGET_QUBITS = [125, 126, 127, 128, 129, 142, 141, 140, 139, 138]
 
 
 quark_optimizer = SPSA(
-    maxiter=20,
+    maxiter=500,
     blocking=True,
     trust_region=True,
     resamplings=1,
@@ -24,7 +24,7 @@ quark_optimizer = SPSA(
 
 chip_options = {
     "name": "垃圾量子计算机",
-    "shot_num": 1024 * 6,
+    "shot_num": 1024 * 10,
     "target_qubits": TARGET_QUBITS,
 }
 

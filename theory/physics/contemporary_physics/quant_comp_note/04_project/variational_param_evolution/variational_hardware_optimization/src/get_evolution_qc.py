@@ -14,11 +14,11 @@ def _sigmoid(t):
 def get_branch_start(phase_idx, p0):
     """phase_idx ∈ {1, 0, -1}, p0 ∈ [0, 1] → 起点 (s0, δ0)."""
     if phase_idx == 1:
-        return 0, p0
+        return 0.05, p0  # 边界保护, 防止量子计算机优化0门.
     elif phase_idx == 0:
-        return p0, 0
+        return p0, 0.05  # 边界保护, 防止量子计算机优化0门.
     elif phase_idx == -1:
-        return 1, p0
+        return 0.95, p0  # 边界保护, 防止量子计算机优化0门.
     else:
         raise ValueError("phase_idx must be 1, 0 or -1")
 
@@ -60,7 +60,7 @@ def get_evolution_qc(
     return qc
 
 
-def get_qc_from_t(t, end, pidx=1, step=1, order=1, τ=5):
+def get_qc_from_t(t, end, pidx=1, step=1, order=1, τ=20):
     """由无约束参数向量 t 生成演化电路 qc.
 
     t 长度必须为 1 + 2*step, 依次映射为:
@@ -78,8 +78,8 @@ def get_qc_from_t(t, end, pidx=1, step=1, order=1, τ=5):
     uΔ = u[1 + step : 1 + 2 * step]
 
     # [0, 1] 映射到实际取值范围
-    Δt = τ * uΔ
-    p0 = up0
+    Δt = τ * (0.05 + 0.95 * uΔ)  # 单边界保护
+    p0 = 1 * (0.05 + 0.9 * up0)  # 双边界保护
     start = get_branch_start(pidx, p0)
     path = get_evolution_path(start, end, ux)
 

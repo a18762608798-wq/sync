@@ -1,8 +1,8 @@
 # PauliEvolutionGate
 
-## base
+## defined
 
-```{python}
+```python
 from qiskit import QuantumCircuit
 from qiskit.quantum_info import SparsePauliOp
 from qiskit.circuit.library import PauliEvolutionGate
@@ -44,7 +44,10 @@ qc.draw()
 #qc.decompose(reps=1).draw()
 ```
 
-```{python}
+- `order`：Trotter 阶数（1 阶近似）
+- `reps`：重复次数
+
+```python
 # cheack the params
 for inst, qargs, cargs in qc.data:
     if inst.name == "PauliEvolution":
@@ -53,5 +56,3 @@ for inst, qargs, cargs in qc.data:
         print("time =", inst.time)
         print()
 ```
-
-## variational circuit
