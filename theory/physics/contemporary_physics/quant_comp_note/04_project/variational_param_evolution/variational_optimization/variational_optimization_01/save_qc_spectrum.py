@@ -8,7 +8,7 @@ import numpy as np
 from qiskit_algorithms.optimizers import DIRECT_L, SLSQP, SPSA
 from tqdm import tqdm
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from var_optimization import outer_optimize
 

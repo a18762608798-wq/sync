@@ -1,5 +1,21 @@
 # config
 
+## zotero-mcp 配置
+
+在 `~/.config/zotero-mcp/config.json`
+
+最好增加读取约束限制:
+
+```json
+{
+  "semantic_search": {
+    "extraction": {
+      "fulltext_display_max_pages": 100
+    }
+  }
+}
+```
+
 ## 配置opencode MCP
 
 ```jsonc

@@ -29,7 +29,7 @@ def plot_compare_spec(
     print(f"The best direct discreate_vars: f{direct[str(best_idx)]['discrete_vars']}")
     best_val = vals[best_idx]
     plt.scatter(
-        [0.5],
+        [0.25],
         [best_val],
         label="Direct vals",
         color="blue",
@@ -44,7 +44,7 @@ def plot_compare_spec(
     best_idx = np.argmin(vals)
     print(f"The best aer discreate_vars: f{aer[str(best_idx)]['discrete_vars']}")
     best_val = vals[best_idx]
-    plt.scatter([0.5], [best_val], label="Aer vals", color="red", zorder=5, marker="o")
+    plt.scatter([0.25], [best_val], label="Aer vals", color="red", zorder=5, marker="o")
 
     # Get quark
     if quark_path is not None:
@@ -57,7 +57,7 @@ def plot_compare_spec(
         )
         best_val = vals[best_idx]
         plt.scatter(
-            [0.5], [best_val], label="Quark vals", color="yellow", zorder=5, marker="*"
+            [0.25], [best_val], label="Quark vals", color="yellow", zorder=5, marker="*"
         )
 
     plt.xlabel("s")
@@ -101,7 +101,7 @@ def plot_update_energy(direct_path, aer_path, update_energy_path, quark_path=Non
     plt.ylabel("H")
     plt.legend()
     plt.title(
-        f"Update energy(s=0.5, δ=0.3), discrete_vars: {
+        f"Update energy(s=0.25, δ=0.3), discrete_vars: {
             quark[str(best_idx)]['discrete_vars']
             if quark_path is not None
             else aer[str(best_idx)]['discrete_vars']
@@ -164,7 +164,7 @@ def plot_update_t(direct_path, aer_path, update_energy_path, quark_path=None):
     plt.ylabel("t")
     plt.legend()
     plt.title(
-        f"Update t(s=0.5, δ=0.3), discrete_vars: {aer[str(best_idx)]['discrete_vars']}"
+        f"Update t(s=0.25, δ=0.3), discrete_vars: {aer[str(best_idx)]['discrete_vars']}"
     )
     plt.tight_layout()
     plt.savefig(update_energy_path)

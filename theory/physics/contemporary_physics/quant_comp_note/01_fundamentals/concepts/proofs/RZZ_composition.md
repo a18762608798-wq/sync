@@ -17,7 +17,7 @@ $$
 U^\dagger \exp(I \otimes A) U = \exp [U^\dagger (I \otimes A) U],
 $$
 
-so we only shout to proof 
+so we only shout to proof.
 
 $$
 CX^\dagger (I \otimes Z)CX = ZZ
@@ -51,4 +51,3 @@ Y \otimes I \Rightarrow YX\\
 I \otimes Y \Rightarrow ZY\\
 \end{cases}
 $$
-

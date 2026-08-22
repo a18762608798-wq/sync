@@ -1,12 +1,35 @@
 # README
 
+> 本目录属于 `variational_optimization/` 系列实验，编号 **01**。
+
+## 项目概览
+
+**01 · 变分初始方案初验**: 给出一个通用的变分电路方案，并初步验证其在量子计算机（模拟机 + quark 真机）上的可行性。
+
+主要内容:
+
+* **三层优化框架**: 外层扫 trotter 阶数 `order` 与步数 `step`，内层扫三种演化起点分支 `pidx ∈ {1, 0, -1}`，底层（`optimize_branch`）优化连续变分参数.
+* **二次 Bézier 演化路径**: 演化起点、曲线控制点、时间步长、分解时间点全部换元到 $[0,1]$（Sigmoid 无约束化），共 $2N+3$ 个变分参数.
+* **三阶段真机流程**（`save_qc_spectrum.py`）: 模拟机 `DIRECT_L` 全局搜索 → 模拟机 `SLSQP` 精修 → 真机 `SPSA` 微调，逐阶段以 `t0_map` 热启动.
+* **产物**: `data/` 下 `aer_qc_spectrum_direct.npz`（DIRECT_L）、`aer_qc_spectrum.npz`（SLSQP 精修）、`quark_qc_spectrum.npz`（真机）.
+
+### 与 02 的区别
+
+| | 01 · initial（本目录） | 02 · hardware（[`../variational_optimization_02/`](../variational_optimization_02/)） |
+| --- | --- | --- |
+| 目标 | 验证通用变分方案的可行性 | 针对 quark 真机噪声重设计方案，榨取真机最低能量 |
+| 演化路径 | 二次 Bézier 曲线，path 与 $\Delta t$ 耦合 | 直线轨迹，path 与 $\Delta t$ 解耦 |
+| 电路 | 线性链式电路 | 环形电路，减少交换门 |
+| 步数 | 多步（真机上不现实） | $\le 2$ 个时间点（真机约束） |
+| 关键结论 | 模拟机可行，真机结果不可信 | 真机噪声主导，优化趋向零参数/更浅电路 |
+
 此项目用来初步验证变分电路在量子计算机的可行性. 或者说给出一个通用的变分方案.
 
 ## 变分电路
 
 ### 核心思想
 
-采用 `../variational_outline/README.md` 描述的策略，按代码实现:
+采用 `../../variational_outline/README.md` 描述的策略，按代码实现:
 
 优化分为三个层次:
 

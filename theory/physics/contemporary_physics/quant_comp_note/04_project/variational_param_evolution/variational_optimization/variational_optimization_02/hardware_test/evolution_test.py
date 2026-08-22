@@ -46,7 +46,6 @@ def run_evolution_test(end, pidx=1, step=1, order=1):
         order=order,
         t0=None,
         optimizer=direct_optimizer,
-        robust=True,
     )
 
     aer_res, _ = optimize_branch(
@@ -56,7 +55,6 @@ def run_evolution_test(end, pidx=1, step=1, order=1):
         order=order,
         t0=direct_res["t"],
         optimizer=spsa_optimizer,
-        robust=True,
     )
     print(aer_res)
 
