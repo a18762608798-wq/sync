@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 from optimize_pipeline import optimize_pipeline
 
 
-END = [0.5, 0.3]
+END = [0.25, 0.3]
 
 
 direct_optimizer = DIRECT_L(
@@ -35,8 +35,6 @@ if __name__ == "__main__":
         optimizer=direct_optimizer,
         chip="qiskit_aer",
         chip_options=None,
-        robust=True,
-        robust_options=None,
         progress=True,
     )
     out = Path(__file__).resolve().parent / "data"
@@ -52,8 +50,6 @@ if __name__ == "__main__":
         optimizer=aer_optimizer,
         chip="qiskit_aer",
         chip_options=None,
-        robust=True,
-        robust_options=None,
         progress=True,
     )
 

@@ -1,6 +1,6 @@
 using QuantumToolbox
 using NPZ
-include("../src/var_param_evolution.jl")
+include(joinpath(@__DIR__, "..", "..", "src", "var_param_evolution.jl"))
 
 function get_Hc_spectrum(qubit_num::Int, eigvals::Int, slist, δlist; sparse=true)
     get_H(s, δ) = get_ssh_constrained_H(qubit_num, s, δ; ϵ=1)

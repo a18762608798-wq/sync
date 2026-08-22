@@ -15,8 +15,6 @@ def _wrapper(args):
         optimizer,
         chip,
         chip_options,
-        robust,
-        robust_options,
     ) = args
 
     return optimize_branch(
@@ -29,8 +27,6 @@ def _wrapper(args):
         chip=chip,
         chip_options=chip_options,
         history=[],
-        robust=robust,
-        robust_options=robust_options,
     )
 
 
@@ -41,8 +37,6 @@ def optimize_pipeline(
     optimizer=None,
     chip="qiskit_aer",
     chip_options=None,
-    robust=False,
-    robust_options=None,
     progress=True,
 ):
     if discrete_vars is None:
@@ -70,8 +64,6 @@ def optimize_pipeline(
                 itertools.repeat(optimizer),
                 itertools.repeat(chip),
                 itertools.repeat(chip_options),
-                itertools.repeat(robust),
-                itertools.repeat(robust_options),
             ),
         )
         if progress:

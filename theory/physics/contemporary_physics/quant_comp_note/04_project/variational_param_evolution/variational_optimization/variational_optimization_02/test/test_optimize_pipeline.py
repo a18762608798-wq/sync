@@ -30,8 +30,6 @@ if __name__ == "__main__":
         optimizer=direct_optimizer,
         chip="qiskit_aer",
         chip_options=None,
-        robust=True,
-        robust_options=None,
         progress=True,
     )
 

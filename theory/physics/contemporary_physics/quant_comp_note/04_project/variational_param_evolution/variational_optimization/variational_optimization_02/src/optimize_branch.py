@@ -2,7 +2,7 @@ import numpy as np
 from qiskit_algorithms.optimizers import SPSA, DIRECT_L
 from functools import partial
 
-from objective import objective, robust_objective
+from objective import objective
 
 
 def _default_t0(step):
@@ -21,8 +21,6 @@ def optimize_branch(
     chip="qiskit_aer",
     chip_options=None,
     history=None,
-    robust=False,
-    robust_options=None,
 ):
     # 默认参数设置
     if optimizer is None:
@@ -38,12 +36,6 @@ def optimize_branch(
 
     if history is None:
         history = []
-
-    if robust and (robust_options is None):
-        robust_options = {
-            "ϵ": 0.05,
-            "n_samples": 10,
-        }
 
     # 判断是不是 SPSA
     is_spsa = isinstance(optimizer, SPSA)
@@ -64,7 +56,7 @@ def optimize_branch(
 
     # 优化正文
     partial_objective = partial(
-        robust_objective if robust else objective,
+        objective,
         end=end,
         pidx=pidx,
         step=step,
@@ -74,7 +66,6 @@ def optimize_branch(
         # SPSA 不让 objective 记录 history
         # DIRECT_L 保持原来的 history 记录方式
         history=None if is_spsa else history,
-        robust_options=robust_options,
     )
 
     result = optimizer.minimize(

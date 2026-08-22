@@ -4,7 +4,7 @@
 
 ### X
 
-Definition, flipped qubit 
+Definition, flipped qubit
 
 $$
 X = \begin{Bmatrix}
@@ -13,7 +13,7 @@ X = \begin{Bmatrix}
 \end{Bmatrix}
 $$
 
-Y, Z is similar as X, we can think of them as NOT gates with rotation axes Y and Z. 
+Y, Z is similar as X, we can think of them as NOT gates with rotation axes Y and Z.
 
 And there is a import relationship,
 
@@ -105,6 +105,7 @@ therefore
 $$
 SWAP = \sum_i R_{1i} \otimes R_{2i}
 $$
+
 #### Expansion
 
 For n qubit, for instance
@@ -150,12 +151,12 @@ $$
 
 #### $RZZ$ and the expansion
 
-Definition 
+Definition
 
 $$
 R_{ZZ}(\alpha) = \exp\bigr[{i \frac{\alpha}{2} \sigma_z \otimes \sigma_z\bigr ]}
 $$
-Which could be combined with 
+Which could be combined with
 
 $$
 (CX)R_Z(CX)
@@ -163,10 +164,10 @@ $$
 
 proof ref to [[RZZ_composition]]
 
-Now there are two extended questions, 
+Now there are two extended questions,
 
 1. How to express the logic gates such as $R_{YY}$.
-2. What will happen if we use two single rotating gate. 
+2. What will happen if we use two single rotating gate.
 
 For the first question, we rotate the basic of all the space, meaning
 
@@ -186,7 +187,13 @@ i & -i
 \end{Bmatrix} = SH
 $$
 
-<span style="color:red">NOTE: the form is not fixed, which own to the the phase degrees of freedom preceding different eigenvalues</span> . However, we usually stipulate that the first number to be taken is a real number. 
+#### RXX + RYY + RZZ
+
+RXX + RZZ 参考上一段很容易合成只需要两个CNOT.
+
+RYY 不知道.
+
+<span style="color:red">NOTE: the form is not fixed, which own to the the phase degrees of freedom preceding different eigenvalues</span> . However, we usually stipulate that the first number to be taken is a real number.
 
 For the second question, for instance, we get $X$ and $Y$, there are
 
@@ -203,7 +210,7 @@ $$
 \exp(-i\frac{\alpha}{2} X \otimes I) \exp(-i \frac{\alpha}{2} I \otimes Y) = (A \otimes I)(I \otimes B) = A\otimes B
 $$
 
-Evidently which is a operation simlar as 
+Evidently which is a operation simlar as
 
 $$
 R_{XX} R_{ZY}
@@ -243,7 +250,7 @@ $$
 U (I^{\otimes N-1} \otimes R_Z(\theta)) U^\dagger = \exp[-iU(I^{\otimes N-1}\otimes Z) U^\dagger\theta /2)]
 $$
 
-So now our target is to find a U meet 
+So now our target is to find a U meet
 
 $$
 U(I^{\otimes N-1}\otimes Z) U^\dagger = Z^{\otimes N}
@@ -260,7 +267,7 @@ This effect can be achieved by many different combinations of CNOT operations, f
 $$
 \begin{aligned}
 &U^\dagger Z_N\prod_i^{N-1} CX(i, i+1) |s_1s_2...\rangle\\
-&= U^\dagger Z_N|s_1, (s_1 \oplus s_2), (s_1 \oplus s_2 \oplus s_3...)...\rangle \\ 
+&= U^\dagger Z_N|s_1, (s_1 \oplus s_2), (s_1 \oplus s_2 \oplus s_3...)...\rangle \\
 &=U^\dagger (-1)^{s_1+s_2...} |s_1, (s_1 \oplus s_2), (s_1 \oplus s_2 \oplus s_3...)...\rangle  \\
 &= (-1)^{s_1+s_2+...} |s_1s_2...\rangle  \\
 &= Z^{\otimes N}|s_1s_2...\rangle

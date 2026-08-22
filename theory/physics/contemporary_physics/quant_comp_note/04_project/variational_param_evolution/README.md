@@ -31,7 +31,10 @@ $$
 ├── symmetry_analysis/        # 对称性分析与约束哈密顿量验证（已完成）
 ├── concept/                  # 概念文档（贝塞尔曲线等）
 ├── variational_outline/      # 变分方案设计文档
-├── variational_initial_optimization/  # 变分初始态选择与优化实验
+├── variational_optimization/ # 变分优化实验（01: 初始方案初验, 02: 真机适配）
+│   ├── variational_optimization_01/  # 01: 通用变分方案与模拟机/真机可行性初验
+│   └── variational_optimization_02/ # 02: quark 真机适配与硬件优化
+├── variational_machine_learning/ # 变分机器学习
 ├── src/                      # 核心源代码
 │   ├── create_op.py/.jl      # SSH H、约束 H、算符/哈密顿量构造
 │   ├── get_evolution_path.py # 二次 Bézier 演化路径采样
