@@ -1,0 +1,28 @@
+# identifiers_and_assignment
+
+## variables name
+
+### ASCII names
+
+```{julia}
+a = 1
+```
+
+### Unicode names
+
+```{julia}
+我是一个天才 = 1
+```
+
+### LaTeX-style input
+
+```{julia}
+α = 1 # \alpha + Tab 当然lazyvim 是在列表里面找
+```
+
+### all-underscore identifiers
+
+```{julia}
+x, ___ = size([2 2; 1 1]); # ___ is a variable write-only
+println(x)
+```
