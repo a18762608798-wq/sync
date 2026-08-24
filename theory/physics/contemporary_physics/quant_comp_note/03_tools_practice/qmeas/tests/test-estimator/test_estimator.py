@@ -16,15 +16,19 @@ from qmeas.estimator import (
 
 def _example_qc() -> QuantumCircuit:
     qc = QuantumCircuit(3, 3)
-    qc.x(0)
+    qc.h(0)
+    qc.x(1)
+    qc.h(1)
+    qc.x(2)
+    qc.h(2)
     return qc
 
 
 def _observables():
     return [
-        SparsePauliOp(["IIZ"], coeffs=[1.0]),
-        SparsePauliOp(["IZI"], coeffs=[1.0]),
-        SparsePauliOp(["ZII"], coeffs=[1.0]),
+        SparsePauliOp(["IIX"], coeffs=[1.0]),
+        SparsePauliOp(["IXI"], coeffs=[1.0]),
+        SparsePauliOp(["XII"], coeffs=[1.0]),
     ]
 
 
@@ -50,7 +54,7 @@ if __name__ == "__main__":
         qc=qc,
         observables=_observables(),
         runner_opts=QuarkEstimatorOptions(
-            chip="Dongling",
+            chip="Shenglian",
             shots=1024,
             # target_qubits=[138, 125],
             name="Dongling-estimator-check",

@@ -113,6 +113,9 @@ qasm2_strings = [
 ## submit function
 
 ```python
+import asyncio 
+from quark import Task
+import os
 async def submit_quark_task(
     qc,
     *,
@@ -154,8 +157,16 @@ from qiskit import QuantumCircuit
 from qiskit import qasm2
 qc = QuantumCircuit(2, 2)
 qc.x([0, 1])
+qc.barrier()
+qc.z([0, 1])
 qc.measure([0, 1], [0, 1]) 
 qc.draw()
 # run
-asyncio.run(submit_quark_task(qc, 1024, correct=True))
+asyncio.run(submit_quark_task(
+    qc, 
+    shot_num = 1024, 
+    chip="Shenglian", 
+    correct=True
+)
+            )
 ```
