@@ -3,18 +3,20 @@ import os
 
 import numpy as np
 from qiskit import QuantumCircuit, qasm2, transpile
+from qiskit.circuit import CircuitInstruction, ParameterVector
+from qiskit.circuit.library import RZGate
 from qiskit.quantum_info import Pauli, PauliList, SparsePauliOp
-from qiskit.circuit import ParameterVector
 from qiskit_aer.primitives import EstimatorV2
 from quark import Task
 
 from .basis import QubitwiseBasis
 from .config import AerEstimatorOptions, EstimatorConfig, QuarkEstimatorOptions
 
+# 测量基旋转角: 每行 [rx 角(绕 x), ry 角(绕 y)], 对应待测 Pauli。
 PAULI_ROTATIONS = np.array(
     [
-        [np.pi / 2, 0],  # X
-        [np.pi / 2, np.pi / 2],  # Y
+        [0, -np.pi / 2],  # X
+        [np.pi / 2, 0],  # Y
         [0, 0],  # Z
     ],
     dtype=float,
@@ -51,14 +53,14 @@ async def _run_quark(config):
     token = opts.token or os.environ["QUARK_TOKEN"]
 
     groups, meas_pauli_ls = group_qubitwise(config.observables)
-    qc_with_params, theta, phi = _add_meas(config.qc.copy(), config.qc.num_qubits)
+    qc_with_params, theta_x, theta_y = _add_meas(config.qc.copy(), config.qc.num_qubits)
 
     basis = QubitwiseBasis()
     expval_map = {}
 
     for group_idx in range(len(groups)):
         be_meas = _prepare_notbound(
-            qc_with_params, group_idx, meas_pauli_ls, theta, phi
+            qc_with_params, group_idx, meas_pauli_ls, theta_x, theta_y
         )
         hist = await _submit_quark(be_meas, token, opts, f"{opts.name}_g{group_idx}")
         expects = basis.recover(groups[group_idx], hist, opts.shots)
@@ -84,20 +86,21 @@ def group_qubitwise(observables):
 
 
 def _add_meas(qc, num_qubits):
-    theta = ParameterVector("θ", num_qubits)
-    phi = ParameterVector("φ", num_qubits)
+    theta_x = ParameterVector("θx", num_qubits)  # rx 角: 绕 x 轴
+    theta_y = ParameterVector("θy", num_qubits)  # ry 角: 绕 y 轴
     for i in range(num_qubits):
-        qc.u(-theta[i], 0, -phi[i], i)
+        qc.rx(theta_x[i], i)
+        qc.ry(theta_y[i], i)
     qc.measure(range(num_qubits), range(num_qubits))
-    return qc, theta, phi
+    return qc, theta_x, theta_y
 
 
-def _prepare_notbound(qc, group_idx, meas_pauli_ls, theta, phi):
-    binds = _group_params(group_idx, meas_pauli_ls, theta, phi)
+def _prepare_notbound(qc, group_idx, meas_pauli_ls, theta_x, theta_y):
+    binds = _group_params(group_idx, meas_pauli_ls, theta_x, theta_y)
     return qc.assign_parameters(binds)
 
 
-def _group_params(group_idx, meas_pauli_ls, theta, phi):
+def _group_params(group_idx, meas_pauli_ls, theta_x, theta_y):
     num_qubits = len(meas_pauli_ls[0])
     pauli = meas_pauli_ls[group_idx]
     binds = {}
@@ -110,12 +113,46 @@ def _group_params(group_idx, meas_pauli_ls, theta, phi):
             idx = 1  # Y
         else:
             idx = 2  # I → behave as Z (no rotation needed)
-        binds[theta[i]] = PAULI_ROTATIONS[idx, 0]
-        binds[phi[i]] = PAULI_ROTATIONS[idx, 1]
+        binds[theta_x[i]] = PAULI_ROTATIONS[idx, 0]
+        binds[theta_y[i]] = PAULI_ROTATIONS[idx, 1]
     return binds
 
 
 # ── Quark submit ───────────────────────────────────────────────────
+
+
+def _guard_empty_qubits(qc):
+    """Quark 平台缺陷 workaround: 防止"裸测量比特"。
+
+    quark 对"上面没有任何门、只有测量指令"的比特会直接报错。而上面的 transpile
+    在 optimization_level=3 下会把恒等门优化删除, 例如:
+      * `_group_params` 对 I/Z 分量绑定 rx=ry=0, 即恒等门;
+      * 原电路 `config.qc` 本身未触及的比特。
+    一旦某个比特在测量前没有任何门, quark 就会报错。
+
+    这里扫描 transpile 后的电路, 给这类比特在测量前原地插入一个 rz(0):
+    rz(0) 是允许的基底门、严格物理恒等, 不改变任何测量统计。
+    """
+    gated = set()
+    for inst in qc.data:
+        if inst.operation.name != "measure":
+            gated.update(qc.find_bit(q).index for q in inst.qubits)
+
+    guarded = set()
+    pos = 0
+    while pos < len(qc.data):
+        inst = qc.data[pos]
+        if inst.operation.name == "measure":
+            for q in inst.qubits:
+                i = qc.find_bit(q).index
+                if i not in gated and i not in guarded:
+                    qc.data.insert(
+                        pos, CircuitInstruction(RZGate(0.0), (qc.qubits[i],), ())
+                    )
+                    guarded.add(i)
+                    pos += 1
+        pos += 1
+    return qc
 
 
 async def _submit_quark(qc, token, opts, name):
@@ -126,6 +163,7 @@ async def _submit_quark(qc, token, opts, name):
         coupling_map=opts.coupling_map,
         routing_method="sabre",
     )
+    basic_qc = _guard_empty_qubits(basic_qc)
     task = {
         "chip": opts.chip,
         "shots": opts.shots,

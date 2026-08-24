@@ -16,6 +16,7 @@ from qiskit import QuantumCircuit
 qc = QuantumCircuit(2, 2)
 qc.measure([0], [0])
 qc.draw()
+qc.draw(cregbundle=True) # 强制clbits合成一条线
 ```
 
 ### Operation of qc
@@ -27,8 +28,12 @@ qc = QuantumCircuit(2, 2)
 qc.num_qubits # get the qubits num.
 qc.num_clbits # git the classical bits num.
 qc.x([0]) # append gates
+qc.inverse().draw() # dagger
+qc.barrier()              # 对全部量子比特加 barrier
 print(qc.depth())      # 电路深度
 print(qc.data)         # 电路中每条指令的列表
+qc.append(evo_odd, range(qubit_num)) # 示例代码, 没有经典比特直接append
+qc.append(single_qc.inverse(), range(qubit_num), cargs) # 有经典比特需要写上映射range
 ```
 
 ### decompose and transpile
