@@ -55,14 +55,29 @@ async def _run_quark(config):
     groups, meas_pauli_ls = group_qubitwise(config.observables)
     qc_with_params, theta_x, theta_y = _add_meas(config.qc.copy(), config.qc.num_qubits)
 
-    basis = QubitwiseBasis()
-    expval_map = {}
+    # 整个任务只构造一次 Task(单例), 避免每组重复 verify() 请求
+    tmgr = Task(token)
 
+    tids = []
     for group_idx in range(len(groups)):
         be_meas = _prepare_notbound(
             qc_with_params, group_idx, meas_pauli_ls, theta_x, theta_y
         )
-        hist = await _submit_quark(be_meas, token, opts, f"{opts.name}_g{group_idx}")
+        tid = await _submit_quark(be_meas, tmgr, opts, f"{opts.name}_g{group_idx}")
+        tids.append(tid)
+
+    # 全部测量基提交后统一等待; 任一任务失败则取消其余轮询并抛出
+    awaiters = [asyncio.create_task(_await_quark(tmgr, tid)) for tid in tids]
+    try:
+        res_ls = await asyncio.gather(*awaiters)
+    except Exception:
+        for a in awaiters:
+            a.cancel()
+        raise
+
+    basis = QubitwiseBasis()
+    expval_map = {}
+    for group_idx, hist in enumerate(res_ls):
         expects = basis.recover(groups[group_idx], hist, opts.shots)
         expval_map.update(expects)
 
@@ -155,7 +170,8 @@ def _guard_empty_qubits(qc):
     return qc
 
 
-async def _submit_quark(qc, token, opts, name):
+async def _submit_quark(qc, tmgr, opts, name):
+    """构造并提交 quark 任务, 返回 tid(不再等待结果)。"""
     basic_qc = transpile(
         qc,
         basis_gates=["rz", "rx", "ry", "cz"],
@@ -175,12 +191,23 @@ async def _submit_quark(qc, token, opts, name):
             "target_qubits": opts.target_qubits,
         },
     }
-    tmgr = Task(token)
     tid = tmgr.run(task)
+    return tid
+
+
+async def _await_quark(tmgr, tid):
+    """轮询任务结果, 返回计数字典; 平台失败(无 "count" 键)时抛异常。
+
+    排队/运行中 quark 返回 {} (平台无法查询排队进度, 只能空转轮询);
+    返回非空但缺 "count" 键表示平台失败, 抛 RuntimeError 并把平台返回
+    的原始信息带进异常消息, 由上层取消其余轮询任务。
+    """
     res = {}
     while res == {}:
         await asyncio.sleep(10)
         res = tmgr.result(tid)
+    if "count" not in res:
+        raise RuntimeError(f"quark 任务 {tid} 无计数结果: {res}")
     return res["count"]
 
 

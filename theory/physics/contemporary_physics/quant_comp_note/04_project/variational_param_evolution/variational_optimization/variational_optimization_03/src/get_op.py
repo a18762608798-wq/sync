@@ -78,7 +78,7 @@ def get_Ui(op):
     return Ui
 
 
-def get_ssh_constrained_H(s, ϵ=1):
+def get_ssh_constrained_H(s, ϵ=0):
     H_c = get_ssh_H(s)
     H_c -= ϵ * (get_Ui("X") + 2 * get_Ui("Z"))
     return H_c.simplify()

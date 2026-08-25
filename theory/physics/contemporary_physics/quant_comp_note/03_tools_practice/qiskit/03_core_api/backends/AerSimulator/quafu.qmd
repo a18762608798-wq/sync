@@ -1,5 +1,8 @@
 # quafu
 
+> quafu小角度不会删除, 显示问题, 但是会自动优化相关门
+> 下限是0.001, 实际使用和0差别不大.
+
 ## check and choose the quantum computer.
 
 ```{python}
@@ -156,9 +159,11 @@ async def submit_quark_task(
 from qiskit import QuantumCircuit
 from qiskit import qasm2
 qc = QuantumCircuit(2, 2)
-qc.x([0, 1])
-qc.barrier()
-qc.z([0, 1])
+for _ in range(100):
+    qc.rx(0.0001, 0)
+    qc.rx(0.0001, 0)
+    qc.rx(0.0001, 1)
+    qc.rx(0.0001, 1)
 qc.measure([0, 1], [0, 1]) 
 qc.draw()
 # run

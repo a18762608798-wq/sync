@@ -26,6 +26,7 @@ def _example_qc() -> QuantumCircuit:
 
 def _observables():
     return [
+        SparsePauliOp(["IIZ"], coeffs=[1.0]),
         SparsePauliOp(["IIX"], coeffs=[1.0]),
         SparsePauliOp(["IXI"], coeffs=[1.0]),
         SparsePauliOp(["XII"], coeffs=[1.0]),
