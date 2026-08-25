@@ -12,14 +12,23 @@ julia:
 ## 1D
 
 ### linear
+- c
+    - 常用缩写：`r` 红、`g` 绿、`b` 蓝、`k` 黑、`m` 品红、`c` 青、`y` 黄。
+- marker
+    - 点状：`'.'` 点、`','` 像素点
+    - 圆类：`'o'` 圆、`'O'` 空心圆、`'*'` 星形
+    - 方形：`'s'` 方块、`'D'` 菱形
+    - 三角：`'^'` 上三角、`'v'` 下三角、`'<'` `'>'` 左右三角
+    - 线条：`'-'` 实线、`'--'` 虚线、`'-.'` 点划线、`':'` 点线
+    - 特殊：`'+'` 加号、`'x'` 叉号、`'_'` 横线
 
 ```{python}
 import matplotlib.pyplot as plt
 
 x_array = [1, 2, 3]
 y_array = [4, 5, 6]
-plt.plot(x_array, y_array, label='cases')
-plt.legend(loc='upper left')
+plt.plot(x_array, y_array, linestyle='', marker='o', c='r', label='data1') # 空配合marker表散点
+plt.legend(loc='upper left') # low right
 plt.title('title')
 plt.xlabel('X')
 plt.ylabel('Y')

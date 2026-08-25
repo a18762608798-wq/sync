@@ -4,7 +4,7 @@ include(joinpath(@__DIR__, "src", "get_op.jl"))
 include(joinpath(@__DIR__, "src", "get_spectrum.jl"))
 
 function get_Hc_spectrum(qubit_num::Int, eigvals::Int, slist; sparse=true)
-    get_H(s) = get_ssh_constrained_H(qubit_num, s; ϵ=1)
+    get_H(s) = get_ssh_constrained_H(qubit_num, s; ϵ=0)
     spectrum, _ = get_spectrum(get_H, eigvals, slist; sparse=sparse)
     return spectrum
 end

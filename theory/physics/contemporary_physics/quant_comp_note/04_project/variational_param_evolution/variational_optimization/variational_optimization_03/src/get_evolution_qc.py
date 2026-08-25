@@ -11,7 +11,7 @@ def get_evolution_qc(
     *,
     n=0,
 ):
-    qc = initial_state
+    qc = initial_state.copy()  # 防止共享qc被修改.
     qubit_num = qc.num_qubits
 
     synth = SuzukiTrotter(order=1, reps=1)
@@ -27,8 +27,8 @@ def get_evolution_qc(
         synthesis=synth,
     )
 
-    qc.append(evo_odd, range(qubit_num))
     qc.append(evo_even, range(qubit_num))
+    qc.append(evo_odd, range(qubit_num))
     ideal_u = qc.copy()
     qc.barrier()
     if n != 0:

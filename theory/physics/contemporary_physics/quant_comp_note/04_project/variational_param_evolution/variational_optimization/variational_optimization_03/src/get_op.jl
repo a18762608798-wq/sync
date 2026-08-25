@@ -44,7 +44,7 @@ function get_ssh_H(qubit_num::Int, s::Real)
     return ssh_op
 end
 
-function get_ssh_constrained_H(qubit_num::Int, s::Real; ϵ=1)
+function get_ssh_constrained_H(qubit_num::Int, s::Real; ϵ=0)
     H_c = get_ssh_H(
         qubit_num, s
     )

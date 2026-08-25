@@ -20,7 +20,7 @@ def plot_ideal_spec(ideal_spec_path, ideal_spec_fig_path):
     plt.xlabel("s")
     plt.ylabel("E")
     plt.legend()
-    plt.title("Ideal Spectrum")
+    plt.title(f"Ideal Spectrum(E0(1) = {E0[-1]:.2f})")
     plt.tight_layout()
     plt.savefig(ideal_spec_fig_path)
 

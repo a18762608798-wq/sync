@@ -19,7 +19,7 @@ fun = partial(
 )
 
 optimizer = DIRECT_L(
-    max_evals=10000,
+    max_evals=500,
 )
 
 result = optimizer.minimize(
