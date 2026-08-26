@@ -11,10 +11,10 @@ from optimize_branch import optimize_branch
 
 def main():
     direct_optimizer = DIRECT_L(
-        max_evals=500,
+        max_evals=1000,
     )
     slsqp_optimizer = SLSQP(
-        maxiter=1000,
+        maxiter=5000,
         ftol=1e-12,
         disp=False,
     )
@@ -22,7 +22,7 @@ def main():
     initial_state = get_initial_state()
     direct_res = optimize_branch(initial_state, s=1, optimizer=direct_optimizer)
     slsqp_res = optimize_branch(
-        initial_state, t0=direct_res["t"], s=1, optimizer=slsqp_optimizer
+        initial_state, x0=direct_res["x"], s=1, optimizer=slsqp_optimizer
     )
     print(slsqp_res)
 

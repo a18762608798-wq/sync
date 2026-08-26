@@ -2,7 +2,6 @@ import sys
 from pathlib import Path
 import json
 import asyncio
-from qiskit.quantum_info.operators.channel import chi
 from qiskit_algorithms.optimizers import DIRECT_L, SLSQP
 
 

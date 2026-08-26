@@ -1,32 +1,17 @@
+import asyncio
 import json
+import sys
 from pathlib import Path
 
 
-import numpy as np
-from scipy.optimize import curve_fit
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE / "src"))
+
+from get_rZNE_val import get_rZNE_vals
 
 
 IDEAL_BELL_VAL = -12.0
 IDEAL_E0_VAL = -13.49973
-
-
-def zne_fun(m, a, b, c):
-    return a * np.exp(-b * m) + c
-
-
-def get_rZNE_vals(record, ideal_val=None, r=None):
-    m, y = np.array(record["m"]), record["vals"]
-    popt, _ = curve_fit(zne_fun, m, y, p0=[y[0] - y[-1], 0.3, y[-1]])
-    if r is None:
-        r = (ideal_val - popt[2]) / popt[0]
-
-    record = dict(record)
-    record["popt"] = popt.tolist()
-    record["r"] = float(r)
-    record["ideal_val"] = ideal_val
-    record["zne_res"] = zne_fun(0, *popt)
-    record["rzne_res"] = zne_fun(0, popt[0] * r, *popt[1:])
-    return record
 
 
 def save_rZNE_vals(zne_path, bell_path, zne_fitting_path, bell_fitting_path):
@@ -35,9 +20,9 @@ def save_rZNE_vals(zne_path, bell_path, zne_fitting_path, bell_fitting_path):
     with open(bell_path, encoding="utf-8") as f:
         bell = json.load(f)
 
-    bell_record = get_rZNE_vals(bell, ideal_val=IDEAL_BELL_VAL)
+    bell_record = asyncio.run(get_rZNE_vals(bell, ideal_val=IDEAL_BELL_VAL))
     r = bell_record["r"]
-    zne_record = get_rZNE_vals(zne, ideal_val=IDEAL_E0_VAL, r=r)
+    zne_record = asyncio.run(get_rZNE_vals(zne, ideal_val=IDEAL_E0_VAL, r=r))
 
     # save to json
     for record, path in [

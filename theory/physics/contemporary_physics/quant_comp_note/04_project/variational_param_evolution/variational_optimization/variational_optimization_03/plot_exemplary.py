@@ -1,12 +1,16 @@
 from pathlib import Path
 import json
+import sys
 
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 
-from save_rZNE_exemplary import zne_fun
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE / "src"))
+
+from get_rZNE_val import zne_fun
 
 
 def plot_exemplary(zne_path, bell_path, fig_path):

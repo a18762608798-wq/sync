@@ -9,7 +9,7 @@ from optimize_branch import optimize_branch
 
 TARGET_QUBITS = [126, 127, 128, 129, 142, 141, 140, 139]
 
-N_LIST = list(range(16))
+N_LIST = list(range(5))
 
 
 async def get_ZNE_val(s, n, θodd, θeven, chip="qiskit_aer", chip_options=None):
@@ -44,10 +44,10 @@ async def get_gs_ZNE(
     initial_state = get_initial_state()
     direct_res = optimize_branch(initial_state, s=s, optimizer=direct_optimizer)
     slsqp_res = optimize_branch(
-        initial_state, t0=direct_res["t"], s=s, optimizer=slsqp_optimizer
+        initial_state, x0=direct_res["x"], s=s, optimizer=slsqp_optimizer
     )
     # get ZNE
-    θodd, θeven = slsqp_res["t"]
+    θodd, θeven = slsqp_res["x"]
     m_ls, op_vals = await get_ZNE_vals(
         s, n_list, θodd, θeven, chip=chip, chip_options=chip_options
     )
