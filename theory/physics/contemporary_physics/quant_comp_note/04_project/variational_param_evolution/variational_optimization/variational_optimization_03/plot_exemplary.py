@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-from rZNE_exemplary import zne_fun
+from save_rZNE_exemplary import zne_fun
 
 
 def plot_exemplary(zne_path, bell_path, fig_path):
@@ -35,9 +35,24 @@ def plot_exemplary(zne_path, bell_path, fig_path):
         fitting_y = zne_fun(fitting_m, *record["popt"])
         ax.plot(fitting_m, fitting_y, label="fitting_data")
         # plot res
-        ax.plot([0], record["ideal_val"], marker="^", label="ideal_val")
-        ax.plot([0], record["zne_res"], marker="s", label="zne_res")
-        ax.plot([0], record["rzne_res"], marker="+", label="rzne_res")
+        ax.plot(
+            [0],
+            record["ideal_val"],
+            marker="^",
+            label=f"ideal_val: {record['ideal_val']:.3f}",
+        )
+        ax.plot(
+            [0],
+            record["zne_res"],
+            marker="s",
+            label=f"zne_res: {record['zne_res']:.3f}",
+        )
+        ax.plot(
+            [0],
+            record["rzne_res"],
+            marker="+",
+            label=f"rzne_res: {record['rzne_res']:.3f}",
+        )
         ax.legend(loc="lower right")
         ax.set_xlabel("m")
         ax.set_ylabel("vals")
