@@ -1,4 +1,3 @@
-import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Literal
@@ -6,11 +5,10 @@ from typing import Any, Literal
 from qiskit import QuantumCircuit
 from qiskit.circuit import ParameterVector
 
-
 Ensemble = Literal["haar", "pauli", "derandom"]
 
 
-@dataclass(frozen=True)  # Immutable
+@dataclass(frozen=True)
 class SettingRun:
     setting_num: int
     shot_num: int
@@ -33,8 +31,8 @@ class CorrectionInput:
 @dataclass
 class QuarkOptions:
     chip: str = "Baihua"
+    token: str | None = None
     target_qubits: list[int] = field(default_factory=list)
-    token: str = field(default_factory=lambda: os.environ["QUARK_TOKEN"])
     correction_input: CorrectionInput | None = None
 
 
@@ -52,8 +50,6 @@ class RandomMeasConfig:
 
     output_dir: Path = field(default_factory=lambda: Path("./data"))
     name: str = "experiment"
-
-    extra: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         self.output_dir = Path(self.output_dir)

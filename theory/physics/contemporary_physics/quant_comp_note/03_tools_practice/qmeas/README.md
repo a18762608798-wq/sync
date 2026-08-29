@@ -139,10 +139,9 @@ qmeas/
 │   │   ├── config.py      # EstimatorConfig, AerEstimatorOptions, QuarkEstimatorOptions
 │   │   └── runner.py      # run_estimator, group_qubitwise
 │   └── random/
-│       ├── meas_config.py
-│       ├── meas_pipeline.py
-│       ├── meas_runner.py
-│       └── params_setting.py
+│       ├── config.py      # RandomMeasConfig, AerOptions, QuarkOptions, ...
+│       ├── ensemble.py    # ParameterGenerator, create_parameter_generator
+│       └── runner.py      # run_random, add_meas
 ├── tests/
 │   ├── test-estimator/
 │   │   ├── data/

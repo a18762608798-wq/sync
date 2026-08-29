@@ -12,11 +12,11 @@ from qmeas.random import (
     QuarkOptions,
     RandomMeasConfig,
     SettingRun,
-    run_pipeline,
+    run_random,
 )
 
 
-test_idx = 4
+test_idx = 2
 
 if __name__ == "__main__":
     HERE = Path(__file__).resolve().parent
@@ -39,7 +39,7 @@ if __name__ == "__main__":
             name="aer-independence_pauli",
         )
         res = asyncio.run(
-            run_pipeline(
+            run_random(
                 config=meas_config,
             )
         )
@@ -65,7 +65,7 @@ if __name__ == "__main__":
             name="aer-pair",
         )
         res = asyncio.run(
-            run_pipeline(
+            run_random(
                 config=meas_config,
             )
         )
@@ -94,7 +94,7 @@ if __name__ == "__main__":
             output_dir=HERE / "data",
             name="quark-native-independence",
         )
-        res = asyncio.run(run_pipeline(config=meas_config))
+        res = asyncio.run(run_random(config=meas_config))
         print(res)
     elif test_idx == 4:
         # quark-correction-pair, derandom
@@ -123,5 +123,5 @@ if __name__ == "__main__":
             output_dir=HERE / "data",
             name="quark-correction-pair",
         )
-        res = asyncio.run(run_pipeline(config=meas_config))
+        res = asyncio.run(run_random(config=meas_config))
         print(res)
