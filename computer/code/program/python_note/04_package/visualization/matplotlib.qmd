@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 
 x_array = [1, 2, 3]
 y_array = [4, 5, 6]
-plt.plot(x_array, y_array, linestyle='', marker='o', c='r', label='data1') # 空配合marker表散点
+plt.plot(x_array, y_array, linestyle='', marker='o', ms=12, c='r', label='data1') # 空配合marker表散点
 plt.legend(loc='upper left') # low right
 plt.title('title')
 plt.xlabel('X')

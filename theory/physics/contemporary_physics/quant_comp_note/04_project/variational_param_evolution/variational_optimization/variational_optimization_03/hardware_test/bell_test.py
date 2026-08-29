@@ -13,10 +13,13 @@ from qmeas.estimator import (
     run_estimator,
 )
 
-TARGET_QUBITS = []
-TARGET_QUBITS.append([2, 3, 4, 5, 6, 19, 18, 17, 16, 15])
-TARGET_QUBITS.append([13, 14, 15, 16, 17, 30, 29, 28, 27, 26])
-TARGET_QUBITS.append([69, 70, 71, 72, 73, 86, 85, 84, 83, 82])
+BAIHUA_TARGET_QUBITS = []
+BAIHUA_TARGET_QUBITS.append([2, 3, 4, 5, 6, 19, 18, 17, 16, 15])
+BAIHUA_TARGET_QUBITS.append([13, 14, 15, 16, 17, 30, 29, 28, 27, 26])
+BAIHUA_TARGET_QUBITS.append([69, 70, 71, 72, 73, 86, 85, 84, 83, 82])
+
+SHENGLIAN_TARGET_QUBITS = []
+SHENGLIAN_TARGET_QUBITS.append([74, 67, 61, 68, 62, 69, 76, 82, 75, 81])
 
 
 def _bell_qc() -> QuantumCircuit:
@@ -34,9 +37,9 @@ def _bell_obs():
     ]
 
 
-def _bell_quarkoptions(target_qubits):
+def _bell_quarkoptions(target_qubits, chip="Baihua"):
     return QuarkEstimatorOptions(
-        chip="Baihua",
+        chip=chip,
         shots=1024 * 20,
         target_qubits=target_qubits,
         name="Baihua-estimator-check",
@@ -53,28 +56,28 @@ async def bell_aer():
     return await run_estimator(aer_config)
 
 
-async def bell_quark(target_qubits):
+async def bell_quark(target_qubits, chip="Baihua"):
     qc = _bell_qc()
     baihua_config = EstimatorConfig(
         qc=qc,
         observables=_bell_obs(),
-        runner_opts=_bell_quarkoptions(target_qubits),
+        runner_opts=_bell_quarkoptions(target_qubits, chip=chip),
     )
     return await run_estimator(baihua_config)
 
 
-async def main():
+async def main(target_qubits, chip="Baihua"):
     aer_res = await bell_aer()
     print(f"Aer bell res: {aer_res['evs']}")
 
     pairs = []
-    for qubits in TARGET_QUBITS:
+    for qubits in target_qubits:
         for bit_idx in range(len(qubits) - 1):
             pairs.append((qubits[bit_idx], qubits[bit_idx + 1]))
         pairs.append((qubits[-1], qubits[0]))
 
     async def _run(pair):
-        return pair, np.mean(np.abs((await bell_quark(pair))["evs"]))
+        return pair, np.mean(np.abs((await bell_quark(pair, chip=chip))["evs"]))
 
     res = {}
     tasks = [asyncio.create_task(_run(p)) for p in pairs]
@@ -84,10 +87,11 @@ async def main():
     res = dict(sorted(res.items(), key=lambda kv: kv[1]))  # 排序
     print(res)
     HERE = Path(__file__).resolve().parent
-    path = HERE / "data/bell_compare.json"
+    path = HERE / f"data/{chip}_bell_compare.json"
     with open(path, "w", encoding="utf-8") as f:
         json.dump(res, f, ensure_ascii=False, indent=4)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(main(SHENGLIAN_TARGET_QUBITS, chip="Shenglian"))
+    # asyncio.run(main(BAIHUA_TARGET_QUBITS, chip="Baihua"))
