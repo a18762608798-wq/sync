@@ -16,9 +16,11 @@ class QuarkEstimatorOptions:
     shots: int = 1024
     name: str = "estimator"
     compiler: str = "qiskit"
-    correct: bool = True
+    correct: bool = False
     target_qubits: list[int] = field(default_factory=list)
     coupling_map: list | None = None
+    optimization_level: int = 3
+    basis_gates: list[str] = field(default_factory=lambda: ["rz", "rx", "ry", "cz"])
 
 
 @dataclass

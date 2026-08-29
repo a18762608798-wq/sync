@@ -1,7 +1,5 @@
 import asyncio
-import os
 
-import pytest
 from qiskit import QuantumCircuit
 from qiskit.quantum_info import SparsePauliOp
 

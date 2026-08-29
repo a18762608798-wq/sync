@@ -28,7 +28,7 @@ qc2 = transpile(
     qc,
     coupling_map=coupling_map,
     basis_gates=["rz", "sx", "x", "cx"],
-    routing_method="sabre", # 根据硬件连接图寻找可行路径, 要求优化
+    routing_method="sabre", # 根据硬件连接图寻找可行路径, 要求优化(默认开启)
     optimization_level=3, 
 )
 

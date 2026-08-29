@@ -14,7 +14,7 @@ print(tmgr.status()) # express the rows now.
 ```
 
 ```{python}
-info = tmgr.backend('Baihua',show_couplers_fidelity=True,show_quibts_attributes='T1',save_svg_fname='test')
+info = tmgr.backend('Shenglian',show_couplers_fidelity=True,show_quibts_attributes='T1',save_svg_fname='test')
 ```
 
 ```{python}

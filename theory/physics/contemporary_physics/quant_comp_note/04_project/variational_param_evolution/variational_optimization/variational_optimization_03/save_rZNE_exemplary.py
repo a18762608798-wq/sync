@@ -38,9 +38,21 @@ def save_rZNE_vals(zne_path, bell_path, zne_fitting_path, bell_fitting_path):
 
 if __name__ == "__main__":
     HERE = Path(__file__).resolve().parent
+    # chip = "Shenglian"
+    chip = "Shenglian"
+    data_dir = HERE / "data" / chip
     save_rZNE_vals(
-        HERE / "data" / "ZNE_exemplary.json",
-        HERE / "data" / "bell_ZNE_exemplary.json",
-        HERE / "data" / "rZNE_exemplary.json",
-        HERE / "data" / "bell_rZNE_exemplary.json",
+        data_dir / "ZNE_exemplary.json",
+        data_dir / "bell_ZNE_exemplary.json",
+        data_dir / "rZNE_exemplary.json",
+        data_dir / "bell_rZNE_exemplary.json",
+    )
+    # chip = "Baihua"
+    chip = "Baihua"
+    data_dir = HERE / "data" / chip
+    save_rZNE_vals(
+        data_dir / "ZNE_exemplary.json",
+        data_dir / "bell_ZNE_exemplary.json",
+        data_dir / "rZNE_exemplary.json",
+        data_dir / "bell_rZNE_exemplary.json",
     )

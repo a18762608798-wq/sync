@@ -174,10 +174,9 @@ async def _submit_quark(qc, tmgr, opts, name):
     """构造并提交 quark 任务, 返回 tid(不再等待结果)。"""
     basic_qc = transpile(
         qc,
-        basis_gates=["rz", "rx", "ry", "cz"],
-        optimization_level=3,  # 优化等级
+        basis_gates=opts.basis_gates,
+        optimization_level=opts.optimization_level,
         coupling_map=opts.coupling_map,
-        routing_method="sabre",
     )
     basic_qc = _guard_empty_qubits(basic_qc)
     task = {
@@ -196,18 +195,18 @@ async def _submit_quark(qc, tmgr, opts, name):
 
 
 async def _await_quark(tmgr, tid):
-    """轮询任务结果, 返回计数字典; 平台失败(无 "count" 键)时抛异常。
+    """轮询任务结果, 返回计数字典。
 
-    排队/运行中 quark 返回 {} (平台无法查询排队进度, 只能空转轮询);
-    返回非空但缺 "count" 键表示平台失败, 抛 RuntimeError 并把平台返回
-    的原始信息带进异常消息, 由上层取消其余轮询任务。
+    排队/运行中平台返回非空 dict 但缺 "count" 键 (error 为空);
+    若 "error" 有实际内容表示平台失败, 打印后继续轮询,
+    直到拿到含 "count" 的结果。
     """
     res = {}
-    while res == {}:
+    while "count" not in res:
         await asyncio.sleep(10)
         res = tmgr.result(tid)
-    if "count" not in res:
-        raise RuntimeError(f"quark 任务 {tid} 无计数结果: {res}")
+        if res.get("error"):
+            print(f"quark 任务 {tid}: {res['error']}")
     return res["count"]
 
 

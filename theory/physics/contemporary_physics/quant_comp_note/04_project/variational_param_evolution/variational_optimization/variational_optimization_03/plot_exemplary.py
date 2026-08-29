@@ -68,8 +68,17 @@ def plot_exemplary(zne_path, bell_path, fig_path):
 
 if __name__ == "__main__":
     HERE = Path(__file__).resolve().parent
+    # chip = "Baihua"
+    chip = "Baihua"
     plot_exemplary(
-        HERE / "./data/rZNE_exemplary.json",
-        HERE / "./data/bell_rZNE_exemplary.json",
-        HERE / "./pics/exemplary.jpg",
+        HERE / "data" / chip / "rZNE_exemplary.json",
+        HERE / "data" / chip / "bell_rZNE_exemplary.json",
+        HERE / "pics" / chip / "exemplary.jpg",
+    )
+    # chip = "Shenglian"
+    chip = "Shenglian"
+    plot_exemplary(
+        HERE / "data" / chip / "rZNE_exemplary.json",
+        HERE / "data" / chip / "bell_rZNE_exemplary.json",
+        HERE / "pics" / chip / "exemplary.jpg",
     )
