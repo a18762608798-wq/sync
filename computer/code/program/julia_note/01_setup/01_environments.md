@@ -1,12 +1,3 @@
----
-format: html
-engine: julia
-execute:
-  daemon: false
-julia:
-  exeflags: ["--project=.@"]
----
-
 # the environment configuration of julia
 
 ## the julia project
@@ -29,6 +20,11 @@ Pkg.instantiate()
 ```
 
 > 不同 Julia project/environment 可以隔离依赖版本，但共享下载缓存；同版本包一般不重复下载，不同版本、artifact、预编译缓存或不同 depot 才会额外占空间
+
+```bash
+# 启动 Julia，并把当前目录 . 作为 active project。
+julia --project=.
+```
 
 ## python in julia
 

@@ -2,18 +2,18 @@ import asyncio
 import os
 from pathlib import Path
 
+import numpy as np
 from qiskit import QuantumCircuit
 
 from qmeas.random import (
     AerOptions,
-    CorrectionInput,
     QuarkOptions,
     RandomMeasConfig,
     SettingRun,
     run_random,
 )
 
-test_idx = 4
+test_idx = 1
 
 if __name__ == "__main__":
     HERE = Path(__file__).resolve().parent
@@ -27,13 +27,18 @@ if __name__ == "__main__":
     if test_idx == 1:
         config = RandomMeasConfig(
             qc=qc,
-            setting_runs=[SettingRun(setting_num, shot_num)],
+            setting_runs=[
+                SettingRun(setting_num, shot_num),
+                SettingRun(setting_num + 1, shot_num * 2),
+            ],
             meas_indices=[(0,), (5,), (1,), (4,)],
-            ensemble="derandom",
+            ensemble="pauli",
+            seed=1,
             runner_opts=AerOptions(method="density_matrix"),
             output_dir=HERE / "data",
             name="my_job",
         )
+        result = asyncio.run(run_random(config))
 
     elif test_idx == 2:
         config = RandomMeasConfig(
@@ -65,16 +70,24 @@ if __name__ == "__main__":
             qc=qc,
             setting_runs=[SettingRun(setting_num, shot_num)],
             meas_indices=[(0, 5), (1, 4)],
-            ensemble="derandom",
+            ensemble="haar",
             runner_opts=QuarkOptions(
                 chip="Dongling",
                 token=os.environ["QUARK_TOKEN"],
-                correction_input=CorrectionInput(trivial_shot_num=1024),
+                correction=True,
             ),
             output_dir=HERE / "data",
             name="my_job",
         )
 
     result = asyncio.run(run_random(config))
-    print("counts:", result["count_group"])
-    print("trivial_counts:", result.get("trivial_count_group"))
+    print(result)
+    for npz_name in result["npz_files"]:
+        data = np.load(HERE / "data" / npz_name)
+        print(
+            npz_name,
+            "results:",
+            data["measurement_results"].shape,
+            "settings:",
+            data["measurement_settings"].shape,
+        )

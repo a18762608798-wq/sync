@@ -1,14 +1,17 @@
 import asyncio
-import json
 import os
 from dataclasses import dataclass
 
+import numpy as np
 from qiskit import QuantumCircuit, qasm2, transpile
+from qiskit.circuit import CircuitInstruction
+from qiskit.circuit.library import RZGate
 from qiskit_aer import AerSimulator
 from quark import Task
 
-from .config import AerOptions, CorrectionInput, QuarkOptions, RandomMeasConfig
+from .config import AerOptions, QuarkOptions, RandomMeasConfig
 from .ensemble import create_parameter_generator
+from .io import save_npz, write_summary
 
 Counts = dict[str, int]
 
@@ -20,37 +23,22 @@ class RunResult:
 
 
 async def run_random(config: RandomMeasConfig) -> dict:
-    """随机测量管线: 采样角度、加旋转门、按 setting 执行并落盘。"""
-    assert config.params is not None
-
-    param_gen = create_parameter_generator(config.ensemble)
+    """随机测量管线: 采样角度、加旋转门、按 setting 执行, 落盘为 npz + 轻量 json。"""
     qc_meas = add_meas(config.qc.copy(), config.params, config.meas_indices)
 
-    # 先全部主 setting, 再全部 trivial 参数, 保持 RNG 序列稳定
-    bind_groups = [
-        param_gen.generate(config.params, sr.setting_num)
-        for sr in config.setting_runs
+    # 每个 SettingRun 一个独立子流: 各自可复现, 互不干扰
+    param_gens = [
+        create_parameter_generator(config.ensemble, seed=c)
+        for c in np.random.SeedSequence(config.seed).spawn(len(config.setting_runs))
     ]
-    correction = _prepare_correction(config)
-    trivial_bind_groups = (
-        [
-            param_gen.generate(config.params, sr.setting_num)
-            for sr in config.setting_runs
-        ]
-        if correction is not None
-        else []
-    )
+    bind_groups = [
+        gen.generate(config.params, sr.setting_num)
+        for gen, sr in zip(param_gens, config.setting_runs)
+    ]
+    trivial_qc = _prepare_trivial_qc(config)
 
     run_results = []
     for run_idx, setting_run in enumerate(config.setting_runs):
-        correction_input = None
-        if correction is not None:
-            correction_input = CorrectionInput(
-                trivial_qc=correction.trivial_qc,
-                trivial_parameter_binds=trivial_bind_groups[run_idx],
-                trivial_shot_num=correction.trivial_shot_num,
-            )
-
         run_results.append(
             await _run_one(
                 config.runner_opts,
@@ -58,25 +46,39 @@ async def run_random(config: RandomMeasConfig) -> dict:
                 bind_groups[run_idx],
                 setting_run,
                 name=f"{config.name}_setting{run_idx}",
-                correction_input=correction_input,
+                trivial_qc=trivial_qc,
             )
         )
 
-    result = _build_result(config, bind_groups, trivial_bind_groups, run_results)
-    _write_result(config.output_dir, config.name, result)
-    return result
+    npz_paths = [
+        save_npz(
+            config,
+            run_idx,
+            setting_run,
+            bind_groups[run_idx],
+            run_results[run_idx].counts,
+            trivial_binds=(bind_groups[run_idx] if trivial_qc is not None else None),
+            trivial_counts=run_results[run_idx].trivial_counts,
+            trivial_shot_num=setting_run.shot_num if trivial_qc is not None else None,
+        )
+        for run_idx, setting_run in enumerate(config.setting_runs)
+    ]
+
+    return write_summary(config, npz_paths)
 
 
-async def _run_one(opts, qc, binds, setting_run, *, name, correction_input):
+async def _run_one(opts, qc, binds, setting_run, *, name, trivial_qc):
     if isinstance(opts, AerOptions):
-        return await _run_aer(opts, qc, binds, setting_run, name)
-    return await _run_quark(opts, qc, binds, setting_run, name, correction_input)
+        return await _run_aer(
+            opts, qc, binds, setting_run, name=name, trivial_qc=trivial_qc
+        )
+    return await _run_quark(opts, qc, binds, setting_run, name, trivial_qc)
 
 
 # ── Aer ────────────────────────────────────────────────────────────
 
 
-async def _run_aer(opts, qc, binds, setting_run, name):
+async def _run_aer(opts, qc, binds, setting_run, *, name, trivial_qc):
     simulator = AerSimulator(
         method=opts.method,
         device=opts.device,
@@ -87,25 +89,29 @@ async def _run_aer(opts, qc, binds, setting_run, name):
         shots=setting_run.shot_num,
         parameter_binds=[binds],
     )
-    counts = [
-        {bits[::-1]: v for bits, v in job.result().get_counts(i).items()}
-        for i in range(setting_run.setting_num)
+    counts = [job.result().get_counts(i) for i in range(setting_run.setting_num)]
+    if trivial_qc is None:
+        return RunResult(counts=counts)
+
+    trivial_job = simulator.run(
+        transpile(trivial_qc, simulator),
+        shots=setting_run.shot_num,
+        parameter_binds=[binds],
+    )
+    trivial_counts = [
+        trivial_job.result().get_counts(i) for i in range(setting_run.setting_num)
     ]
-    return RunResult(counts=counts)
+    return RunResult(counts=counts, trivial_counts=trivial_counts)
 
 
 # ── Quark ──────────────────────────────────────────────────────────
 
 
-async def _run_quark(opts, qc, binds, setting_run, *, name, correction_input):
-    qasm_ls = _bind_to_qasm2(qc, setting_run.setting_num, binds)
+async def _run_quark(opts, qc, binds, setting_run, *, name, trivial_qc):
+    qasm_ls = _to_qasm2(qc, setting_run.setting_num, binds, opts)
     trivial_qasm_ls = None
-    if correction_input is not None:
-        trivial_qasm_ls = _bind_to_qasm2(
-            correction_input.trivial_qc,
-            setting_run.setting_num,
-            correction_input.trivial_parameter_binds,
-        )
+    if trivial_qc is not None:
+        trivial_qasm_ls = _to_qasm2(trivial_qc, setting_run.setting_num, binds, opts)
 
     tmgr = Task(opts.token or os.environ["QUARK_TOKEN"])
     tids = []
@@ -119,7 +125,7 @@ async def _run_quark(opts, qc, binds, setting_run, *, name, correction_input):
                     tmgr,
                     opts,
                     trivial_qasm_ls[i],
-                    correction_input.trivial_shot_num,
+                    setting_run.shot_num,
                     f"{name}_calib_U{i}",
                 )
             )
@@ -145,7 +151,7 @@ def _submit_quark(tmgr, opts, qasm_str, shots, name):
         "circuit": qasm_str,
         "options": {
             "compiler": "qiskit",
-            "correct": True,
+            "correct": opts.correct,
             "target_qubits": opts.target_qubits,
         },
     }
@@ -183,73 +189,63 @@ def add_meas(qc, params, meas_indices):
     return qc
 
 
-def _bind_to_qasm2(qc, setting_num, binds):
-    return [
-        qasm2.dumps(
-            qc.assign_parameters({p: vals[i] for p, vals in binds.items()})
+def _to_qasm2(qc, setting_num, binds, opts):
+    """绑参数 → 本地 transpile → 防裸测量比特 → QASM2。"""
+    qasm_ls = []
+    for i in range(setting_num):
+        bound = qc.assign_parameters({p: vals[i] for p, vals in binds.items()})
+        basic = transpile(
+            bound,
+            basis_gates=opts.basis_gates,
+            optimization_level=opts.optimization_level,
+            coupling_map=opts.coupling_map,
         )
-        for i in range(setting_num)
-    ]
+        basic = _guard_empty_qubits(basic)
+        qasm_ls.append(qasm2.dumps(basic))
+    return qasm_ls
 
 
-def _prepare_correction(config):
-    """Quark 且开启 correction 时准备 trivial 电路, 否则返回 None。"""
-    if not isinstance(config.runner_opts, QuarkOptions):
+def _guard_empty_qubits(qc):
+    """Quark 平台缺陷 workaround: 防止"裸测量比特"。
+
+    quark 对"上面没有任何门、只有测量指令"的比特会直接报错。而 transpile
+    在高优化级别下会把恒等门优化删除, 例如 Z 基 (θ=φ=0) 的 u(0, 0, 0)。
+    这里扫描 transpile 后的电路, 给这类比特在测量前原地插入一个 rz(0):
+    允许的基底门、严格物理恒等, 不改变任何测量统计。
+    """
+    gated = set()
+    for inst in qc.data:
+        if inst.operation.name != "measure":
+            gated.update(qc.find_bit(q).index for q in inst.qubits)
+
+    guarded = set()
+    pos = 0
+    while pos < len(qc.data):
+        inst = qc.data[pos]
+        if inst.operation.name == "measure":
+            for q in inst.qubits:
+                i = qc.find_bit(q).index
+                if i not in gated and i not in guarded:
+                    qc.data.insert(
+                        pos, CircuitInstruction(RZGate(0.0), (qc.qubits[i],), ())
+                    )
+                    guarded.add(i)
+                    pos += 1
+        pos += 1
+    return qc
+
+
+def _prepare_trivial_qc(config):
+    """开启 correction 时构造 |0⟩^⊗n 的 trivial 测量电路, 否则返回 None。
+
+    trivial 电路 = 无态制备 + 与主电路相同的测量旋转与测量指令,
+    角度绑定与 shot 数均直接复用主电路的设置。
+    """
+    if not config.runner_opts.correction:
         return None
 
-    correction = config.runner_opts.correction_input
-    if correction is None or correction.trivial_qc is not None:
-        return correction
-
-    trivial_qc = add_meas(
+    return add_meas(
         QuantumCircuit(config.qc.num_qubits, config.qc.num_clbits),
         config.params,
         config.meas_indices,
     )
-    return CorrectionInput(
-        trivial_qc=trivial_qc,
-        trivial_shot_num=correction.trivial_shot_num,
-    )
-
-
-# ── Result ─────────────────────────────────────────────────────────
-
-
-def _build_result(config, bind_groups, trivial_bind_groups, run_results):
-    opts = config.runner_opts
-
-    result = {
-        "runner": "aer" if isinstance(opts, AerOptions) else "quark",
-        "ensemble": config.ensemble,
-        "setting_runs": [(sr.setting_num, sr.shot_num) for sr in config.setting_runs],
-        "qc_num_qubits": config.qc.num_qubits,
-        "qc_num_clbits": config.qc.num_clbits,
-        "meas_indices": config.meas_indices,
-        "params": [_binds_to_vec_dict(b, config.params) for b in bind_groups],
-        "count_group": [r.counts for r in run_results],
-    }
-    if isinstance(opts, QuarkOptions):
-        result["chip"] = opts.chip
-        result["target_qubits"] = opts.target_qubits
-
-    if trivial_bind_groups:
-        result["trivial_params"] = [
-            _binds_to_vec_dict(b, config.params) for b in trivial_bind_groups
-        ]
-        result["trivial_count_group"] = [r.trivial_counts for r in run_results]
-
-    return result
-
-
-def _binds_to_vec_dict(binds, params):
-    """按 ParameterVector 把绑定点转置成 {name: [[setting 0], [setting 1], ...]}。"""
-    return {
-        pvec.name: [list(col) for col in zip(*[binds[p] for p in pvec])]
-        for pvec in params
-    }
-
-
-def _write_result(output_dir, name, result):
-    output_dir.mkdir(parents=True, exist_ok=True)
-    with (output_dir / f"{name}.json").open("w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False, default=str)

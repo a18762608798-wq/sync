@@ -7,7 +7,6 @@ from qiskit import QuantumCircuit
 
 
 from qmeas.random import (
-    CorrectionInput,
     AerOptions,
     QuarkOptions,
     RandomMeasConfig,
@@ -21,7 +20,7 @@ test_idx = 2
 if __name__ == "__main__":
     HERE = Path(__file__).resolve().parent
     if test_idx == 1:
-        # aer: independence, derandom
+        # aer: independence, pauli
         qc = QuantumCircuit(4, 4)
         meas_indices = [(0,), (1,), (2,), (3,)]  # Arrange the swap bits together
         setting_runs = [
@@ -97,7 +96,7 @@ if __name__ == "__main__":
         res = asyncio.run(run_random(config=meas_config))
         print(res)
     elif test_idx == 4:
-        # quark-correction-pair, derandom
+        # quark-correction-pair, haar
         qc = QuantumCircuit(6, 4)
         qc.cx(list(range(0, 5)), list(range(1, 6)))
         meas_indices = [(2, 5), (3, 4)]
@@ -110,15 +109,13 @@ if __name__ == "__main__":
             chip="Dongling",
             target_qubits=[],
             token=os.environ["QUARK_TOKEN"],
-            correction_input=CorrectionInput(
-                trivial_shot_num=1024,
-            ),
+            correction=True,
         )
         meas_config = RandomMeasConfig(
             qc=qc,
             setting_runs=setting_runs,
             meas_indices=meas_indices,
-            ensemble="derandom",
+            ensemble="haar",
             runner_opts=quark_opts,
             output_dir=HERE / "data",
             name="quark-correction-pair",

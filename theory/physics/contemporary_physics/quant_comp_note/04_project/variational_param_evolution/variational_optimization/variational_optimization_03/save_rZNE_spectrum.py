@@ -86,7 +86,7 @@ async def save_rZNE_spectrum(chip):
 
 async def main():
     await asyncio.gather(
-        save_rZNE_spectrum("Shenglian"),
+        # save_rZNE_spectrum("Shenglian"),
         save_rZNE_spectrum("Baihua"),
     )
 

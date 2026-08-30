@@ -51,7 +51,7 @@ CondaPkg.withenv() do
 end
 ```
 
-本地可编辑安装：
+本地可编辑安装(**会自动添加toml配置**)：
 
 ```julia
 using CondaPkg

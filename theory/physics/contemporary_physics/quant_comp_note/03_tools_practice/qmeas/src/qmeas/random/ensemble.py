@@ -1,11 +1,10 @@
 from collections.abc import Callable
 from dataclasses import dataclass
-from itertools import product
 
 import numpy as np
-from qiskit.circuit import ParameterVector
 
-# 旋转角 [rx 角, ry 角], 对应待测 Pauli X / Y / Z。
+# 每行为测量轴 n̂ 的布洛赫角 (θ, φ), 对应待测 Pauli X / Y / Z;
+# 也是 add_meas 中 u(-θ, 0, -φ) 门的输入角。
 PAULI_ROTATIONS = np.array(
     [
         [np.pi / 2, 0],
@@ -32,19 +31,9 @@ def _sample_pauli(group_num, setting_num, rng):
     return PAULI_ROTATIONS[idx, 0], PAULI_ROTATIONS[idx, 1]
 
 
-def _sample_derandom(group_num, setting_num, rng):
-    if setting_num > 3**group_num:
-        raise ValueError(f"setting_num={setting_num} exceeds 3^{group_num}")
-
-    bases = np.array(list(product(range(3), repeat=group_num)), dtype=int)
-    selected = bases[rng.choice(3**group_num, size=setting_num, replace=False)].T
-    return PAULI_ROTATIONS[selected, 0], PAULI_ROTATIONS[selected, 1]
-
-
 ANGLE_SAMPLERS: dict[str, AngleSampler] = {
     "haar": _sample_haar,
     "pauli": _sample_pauli,
-    "derandom": _sample_derandom,
 }
 
 
@@ -54,9 +43,7 @@ class ParameterGenerator:
     rng: np.random.Generator
 
     def generate(self, params, setting_num):
-        theta_vals, phi_vals = self.angle_sampler(
-            len(params[0]), setting_num, self.rng
-        )
+        theta_vals, phi_vals = self.angle_sampler(len(params[0]), setting_num, self.rng)
         theta, phi = params
         binds = {theta[i]: theta_vals[i].tolist() for i in range(len(theta))}
         binds.update({phi[i]: phi_vals[i].tolist() for i in range(len(phi))})
