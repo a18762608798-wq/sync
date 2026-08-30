@@ -1,15 +1,13 @@
-include("../src/RandomMeasAdd.jl")
-using .RandomMeasAdd
-using RandomMeas
+using RandomMeasAdd
 
 N = 8
 site_indices = siteinds("Qubit", N);
 
-test_index = 3
+test_index = 1
 
 if test_index == 1
-    group_path = "./04_workflow/b_data_acquisition/random_group.npz"
-    permuted_order = [3, 6, 4, 5];
+    group_path = joinpath(@__DIR__, "data", "aer-independence_pauli_setting0_settings27_shots1024.npz")
+    permuted_order = [1, 2, 3, 4];
     permuted_group, permuted_indices = import_permuted_group(
         group_path, site_indices, permuted_order
     )

@@ -10,8 +10,17 @@ def zne_fun(m, a, b, c):
 
 def _get_rZNE_vals(record, ideal_val=None, r=None):
     m, y = np.array(record["m"]), record["vals"]
-    popt, _ = curve_fit(zne_fun, m, y, p0=[y[0] - y[-1], 0.3, y[-1]])
+    try:
+        popt, _ = curve_fit(
+            zne_fun, m, y, p0=[y[0] - y[-1], 0.3, y[-1]],
+            bounds=([-np.inf, 0, -np.inf], [np.inf, np.inf, np.inf]),
+            maxfev=10000,
+        )
+    except RuntimeError:
+        return None
     if r is None:
+        if ideal_val is None:
+            return None
         r = (ideal_val - popt[2]) / popt[0]
 
     record = dict(record)

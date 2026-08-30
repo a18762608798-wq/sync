@@ -1,6 +1,5 @@
 from .config import (
     AerOptions,
-    CorrectionInput,
     Ensemble,
     QuarkOptions,
     RandomMeasConfig,
@@ -11,7 +10,6 @@ from .runner import add_meas, run_random
 
 __all__ = [
     "AerOptions",
-    "CorrectionInput",
     "Ensemble",
     "QuarkOptions",
     "RandomMeasConfig",

@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Literal
+from typing import Literal
 
 from qiskit import QuantumCircuit
 from qiskit.circuit import ParameterVector
 
-Ensemble = Literal["haar", "pauli", "derandom"]
+Ensemble = Literal["haar", "pauli"]
 
 
 @dataclass(frozen=True)
@@ -16,16 +16,10 @@ class SettingRun:
 
 @dataclass(frozen=True)
 class AerOptions:
-    method: str = "statevector"
+    method: str = "matrix_product_state"
     device: str = "CPU"
     precision: str = "single"
-
-
-@dataclass
-class CorrectionInput:
-    trivial_qc: QuantumCircuit | None = None
-    trivial_parameter_binds: Any = None
-    trivial_shot_num: int = 1024
+    correction: bool = False
 
 
 @dataclass
@@ -33,7 +27,11 @@ class QuarkOptions:
     chip: str = "Baihua"
     token: str | None = None
     target_qubits: list[int] = field(default_factory=list)
-    correction_input: CorrectionInput | None = None
+    correction: bool = False
+    coupling_map: list | None = None
+    optimization_level: int = 3
+    basis_gates: list[str] = field(default_factory=lambda: ["rz", "rx", "ry", "cz"])
+    correct: bool = False
 
 
 @dataclass
@@ -41,26 +39,23 @@ class RandomMeasConfig:
     qc: QuantumCircuit
     setting_runs: list[SettingRun]
     meas_indices: list[tuple[int, ...]]
-
     runner_opts: AerOptions | QuarkOptions = field(default_factory=AerOptions)
-
     ensemble: Ensemble = "haar"
-
-    params: list[ParameterVector] | None = None
-
+    seed: int | None = None
     output_dir: Path = field(default_factory=lambda: Path("./data"))
     name: str = "experiment"
 
     def __post_init__(self) -> None:
         self.output_dir = Path(self.output_dir)
 
-        if self.params is None:
-            group_num = len(self.meas_indices)
-            self.params = [
-                ParameterVector("theta", group_num),
-                ParameterVector("phi", group_num),
-            ]
+        # 初始化 ParameterVector
+        group_num = len(self.meas_indices)
+        self.params = [
+            ParameterVector("theta", group_num),
+            ParameterVector("phi", group_num),
+        ]
 
+        # 检查输入格式
         if not self.setting_runs:
             raise ValueError("setting_runs cannot be empty")
 

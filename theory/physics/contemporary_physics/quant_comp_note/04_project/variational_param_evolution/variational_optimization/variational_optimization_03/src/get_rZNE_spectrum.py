@@ -62,10 +62,15 @@ async def get_rZNE_spectrum(
             get_rZNE_vals(
                 gs_zne_records[s_idx],
                 ideal_val=None,
-                r=bell_rzne_records[s_idx]["r"],
+                r=None
+                if bell_rzne_records[s_idx] is None
+                else bell_rzne_records[s_idx]["r"],
             )
             for s_idx in range(len(s_ls))
         )
     )
+
+    gs_rzne_records = [rec for rec in gs_rzne_records if rec is not None]
+    bell_rzne_records = [rec for rec in bell_rzne_records if rec is not None]
 
     return gs_rzne_records, bell_rzne_records

@@ -1,1 +1,0 @@
-include("./hamming/purity.jl")

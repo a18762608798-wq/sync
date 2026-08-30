@@ -33,7 +33,7 @@ shadows and reshapes it to the expected 2D form.
 """
 function modified_get_expect_shadow(
     O::MPO,
-    shadows::AbstractArray{<:AbstractShadow, 2};
+    shadows::AbstractArray{<:AbstractShadow,2};
     compute_sem::Bool=false,
     show_progress::Bool=true,
 )
@@ -72,7 +72,7 @@ Overload for a 1D vector of shadows. Internally reshapes the vector into a
 single-column 2D array and calls the 2D implementation.
 """
 function modified_get_expect_shadow(
-    O::MPO, shadows::AbstractArray{<:AbstractShadow, 1}; kwargs...
+    O::MPO, shadows::AbstractArray{<:AbstractShadow,1}; kwargs...
 )
     return modified_get_expect_shadow(O, reshape(shadows, length(shadows), 1); kwargs...)
 end
@@ -115,9 +115,9 @@ inputs and covariance estimation. A 1D shadows overload reshapes input to the
 expected 2D form.
 """
 function modified_get_trace_moment(
-    shadows::Array{<:AbstractShadow, 2},
+    shadows::Array{<:AbstractShadow,2},
     kth_moment::Int;
-    O::Union{Nothing, MPO}=nothing,
+    O::Union{Nothing,MPO}=nothing,
     compute_sem::Bool=false,
     compute_renyi::Bool=false,
     show_progress::Bool=true,
@@ -143,20 +143,6 @@ function modified_get_trace_moment(
         )
         return s[1]
     end
-end
-
-"""
-modified_get_trace_moment(shadows::AbstractShadow[]..., kth_moment; kwargs...)
-
-Overload for 1D shadow vectors. Reshapes shadows to a 2D single-column array and
-calls the main implementation.
-"""
-function modified_get_trace_moment(
-    shadows::Array{<:AbstractShadow, 1}, kth_moment::Int; kwargs...
-)
-    return modified_get_trace_moment(
-        reshape(shadows, length(shadows), 1), kth_moment; kwargs...
-    )
 end
 
 """
@@ -190,9 +176,9 @@ Returns
 - If compute_cov == true: returns (θ_est, bias_vec, Σ) where bias_vec = θ_est - θ_jack and Σ is the covariance matrix.
 """
 function modified_get_trace_moments(
-    shadows::Array{<:AbstractShadow, 2},
+    shadows::Array{<:AbstractShadow,2},
     k_vec::Vector{Int};
-    O::Union{Nothing, MPO}=nothing,
+    O::Union{Nothing,MPO}=nothing,
     compute_cov::Bool=false,
     compute_renyi::Bool=false,
     show_progress::Bool=true,
@@ -327,7 +313,7 @@ This function relies on calculate_purity_jackvals to obtain jackknife values for
 the purity estimator and then computes bias and SEM when requested.
 """
 function modified_get_purity_shadow(
-    shadows::Array{<:AbstractShadow, 2};
+    shadows::Array{<:AbstractShadow,2};
     compute_sem::Bool=false,
     compute_renyi::Bool=false,
     show_progress::Bool=true,
