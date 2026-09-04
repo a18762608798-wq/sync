@@ -1,36 +1,32 @@
 # -------------
-# get reflect shadow 
+# reflect 的 shadow 估计
 # -------------
 
 """
-get_reflect_shadow(filepath, site_indices, permuted_order; G, compute_sem, show_progress)
+get_reflect_shadow(filepath, sites, meas_indices_py, group_idx, permuted_order; G, compute_sem, show_progress)
 
-Compute the expectation value of the reflection operator Z_r using classical shadows.
+用经典 shadow 计算反射算符 Z_r 的期望值。
 
-Arguments
-- filepath::String
-    Path to the stored shadow/group data.
-- site_indices
-    Indices of sites (qubits) in the original system.
-- permuted_order
-    Permutation order applied to site_indices before computing shadows.
+参数
+- filepath::String：存好的 shadow/group 数据路径。
+- sites：全系统的 site index。
+- meas_indices_py：python 的 meas_indices（从 0 开始的二维列表）。
+- group_idx::Int：要导入第几个 group（Julia 从 1 开始编号）。
+- permuted_order：在算 shadow 之前对 site 做的置换顺序。
 
-Keyword arguments
-- G::Vector{Float64}
-    Weight vector per site (default: ones). It is permuted according to permuted_order.
-- compute_sem::Bool
-    If true, also compute and return the standard error of the mean (SEM).
-- show_progress::Bool
-    If true, display progress information when performing calculations.
+关键词参数
+- G::Vector{Float64}：每个 site 的权重（默认全 1），按 permuted_order 置换。
+- compute_sem::Bool：为 true 时同时计算均值标准误差（SEM）。
+- show_progress::Bool：为 true 时计算过程中显示进度。
 
-Returns
-- If compute_sem == false: returns real(expectation)::Float64.
-- If compute_sem == true: returns (real(expectation)::Float64, sem::Float64).
+返回
+- compute_sem == false：返回 real(expectation)::Float64。
+- compute_sem == true：返回 (real(expectation)::Float64, sem::Float64)。
 
-Notes
-This function loads a permuted group from filepath, constructs dense
-shadows for the permuted system, builds the adjacent-swap operator for reflection,
-and delegates the expectation/SEM estimation to modified_get_expect_shadow.
+说明
+本函数从 filepath 载入重排后的 group，为重排后的系统构造 dense shadow，
+再构造反射用的相邻 swap 算符，把期望/SEM 估计交给
+modified_get_expect_shadow。
 """
 function get_reflect_shadow(
     filepath::String,
@@ -69,28 +65,27 @@ function get_reflect_shadow(
 end
 
 # -------------
-# get reflect hamming 
+# reflect 的 hamming 估计
 # -------------
 """
 get_reflect_hamming(data::MeasurementData)
 
-Compute the reflection expectation value using the Hamming distance method
-for a single MeasurementData object.
+对单个 MeasurementData 用 Hamming 距离法算反射期望值。
 
-Arguments
-- data::MeasurementData: a single measurement dataset.
+参数
+- data::MeasurementData：单个测量数据集。
 
-Returns
-- reflect_est::Float64: estimated reflection expectation value.
+返回
+- reflect_est::Float64：反射期望的估计值。
 
-Notes
-The estimator uses the formula: R = (1/NM) * Σ_m 2^pairs * (-2)^(-hamming_dist(m)),
-where the system is split into adjacent odd/even site pairs.
+说明
+估计子公式：R = (1/NM) * Σ_m 2^pairs * (-2)^(-hamming_dist(m))，
+其中系统按相邻奇偶 site 配成对。
 """
 function get_reflect_hamming(
     data::MeasurementData,
 )
-    # get data
+    # 取数据
     qubits_num = data.N
     m_num = data.NM
     results = data.measurement_results
@@ -98,7 +93,7 @@ function get_reflect_hamming(
     odd_order = [2i - 1 for i in 1:pairs_num]
     even_order = [2i for i in 1:pairs_num]
 
-    # get reflect_est
+    # 算 reflect 估计
     ssum = 0
     for m_idx = 1:m_num
         result = results[m_idx, :]
@@ -115,29 +110,29 @@ function get_reflect_hamming(
 end
 
 """
-get_reflect_hamming(filepath, site_indices, permuted_order; compute_sem, show_progress)
+get_reflect_hamming(filepath, sites, meas_indices_py, group_idx, permuted_order; compute_sem, show_progress)
 
-Compute the reflection expectation value using the Hamming distance method
-from saved measurement data, averaging over random unitary settings.
+用 Hamming 距离法从存好的测量数据算反射期望值，对各随机幺正设置求平均。
 
-Arguments
-- filepath::String: path to the .npz file produced by the measurement routines.
-- site_indices: array of site indices corresponding to the group saved in the file.
-- permuted_order: permutation vector indicating the new ordering of sites.
+参数
+- filepath::String：qmeas.random 生成的 .npz 文件路径。
+- sites：全系统的 site index。
+- meas_indices_py：python 的 meas_indices（从 0 开始的二维列表）。
+- group_idx::Int：要导入第几个 group（Julia 从 1 开始编号）。
+- permuted_order：group 内 site 的置换向量。
 
-Keyword arguments
-- compute_sem::Bool: if true, compute and return the standard error of the mean (SEM)
-  across different random-unitary settings.
-- show_progress::Bool: if true, display progress information.
+关键词参数
+- compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
+- show_progress::Bool：为 true 时显示进度。
 
-Returns
-- If compute_sem == false: returns reflect_est::Float64.
-- If compute_sem == true: returns (reflect_est::Float64, sem::Float64).
+返回
+- compute_sem == false：返回 reflect_est::Float64。
+- compute_sem == true：返回 (reflect_est::Float64, sem::Float64)。
 
-Notes
-This function loads a permuted group, then for each random-unitary setting computes
-the Hamming-distance reflection estimator via get_reflect_hamming(::MeasurementData),
-and averages the results across settings.
+说明
+本函数载入重排后的 group，对每个随机幺正设置调用
+get_reflect_hamming(::MeasurementData) 算 Hamming 距离反射估计，
+再对各设置求平均。
 """
 function get_reflect_hamming(
     filepath::String,
@@ -148,7 +143,7 @@ function get_reflect_hamming(
     compute_sem=false,
     show_progress=true,
 )
-    # get data
+    # 取数据
     group, _ = import_random_group(
         filepath, sites, meas_indices_py, group_idx, permuted_order
     )
@@ -156,7 +151,7 @@ function get_reflect_hamming(
     datas = group.measurements
     reflect_ests = Vector{Float64}(undef, u_num)
 
-    # get reflect_est
+    # 算 reflect 估计
     ssum = 0
     @showprogress desc="hamming_est..." enabled=show_progress @threads  for u_idx = 1:u_num
         data = datas[u_idx]

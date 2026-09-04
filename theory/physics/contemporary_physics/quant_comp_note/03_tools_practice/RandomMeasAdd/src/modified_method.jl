@@ -1,35 +1,33 @@
 # --------------------
-# get expect shadow
+# 求期望 shadow
 # --------------------
 
 """
 modified_get_expect_shadow(O, shadows; compute_sem=false, show_progress=true)
 
-Estimate the expectation value of operator O using an array of classical shadows.
+用经典 shadow 数组估计算符 O 的期望值。
 
-Arguments
+参数
 - O::MPO
-    The operator (as an MPO) whose expectation value is to be estimated.
+    待估计期望的算符（MPO 形式）。
 - shadows::AbstractArray{<:AbstractShadow, 2}
-    A 2D array of shadows with dimensions (settings_num, shots). Each element is an
-    AbstractShadow representing the classical shadow for a given random unitary and shot.
+    (settings_num, shots) 的二维 shadow 数组，每个元素是
+    对应随机幺正和 shot 的经典 shadow（AbstractShadow）。
 
-Keyword arguments
+关键词参数
 - compute_sem::Bool=false
-    If true, return (mean, sem) where sem is the standard error of the mean across
-    different random-unitary settings.
+    为 true 时返回 (mean, sem)，sem 为各随机幺正设置间的均值标准误差。
 - show_progress::Bool=true
-    If true, display progress bars for inner loops.
+    为 true 时内层循环显示进度条。
 
-Returns
-- If compute_sem == false: returns mean_value::ComplexF64 (mean expectation).
-- If compute_sem == true: returns (mean_value::ComplexF64, sem_value::Float64).
+返回
+- compute_sem == false：返回 mean_value::ComplexF64（期望均值）。
+- compute_sem == true：返回 (mean_value::ComplexF64, sem_value::Float64)。
 
-Notes
-This function computes expectation values for each (setting, shot) pair by calling
-get_expect_shadow, averages over shots and settings, and optionally computes the
-standard error (SEM) across settings. A dispatch overload accepts a 1D vector of
-shadows and reshapes it to the expected 2D form.
+说明
+本函数对每个 (setting, shot) 对调 get_expect_shadow 求期望，
+再对 shot 和 setting 求平均，需要时算各设置间的标准误差（SEM）。
+另有一维向量版重载，会 reshape 成二维再调本函数。
 """
 function modified_get_expect_shadow(
     O::MPO,
@@ -37,10 +35,10 @@ function modified_get_expect_shadow(
     compute_sem::Bool=false,
     show_progress::Bool=true,
 )
-    # Ensure the array of shadows is not empty and is a matrix
+    # 确保 shadow 数组非空且为矩阵
     @assert !isempty(shadows) "Array of shadows is empty."
 
-    # Compute all expectation values
+    # 算所有期望值
     settings_num, shots = size(shadows)
     expect_values = Matrix{ComplexF64}(undef, settings_num, shots)
     @showprogress desc="Expectation Processing..." enabled=show_progress @threads for settings in
@@ -52,12 +50,12 @@ function modified_get_expect_shadow(
         end
     end
 
-    # Compute mean (of every settings num)
+    # 求均值（对每个 setting 数）
     mean_values = mean(expect_values; dims=2)
     mean_value = mean(mean_values)
 
     if compute_sem
-        # Compute standard error of the mean (SEM)
+        # 算均值标准误差（SEM）
         sem_value = std(mean_values) / sqrt(settings_num)
         return mean_value, sem_value
     else
@@ -68,8 +66,7 @@ end
 """
 modified_get_expect_shadow(O, shadows::AbstractShadow[]; kwargs...)
 
-Overload for a 1D vector of shadows. Internally reshapes the vector into a
-single-column 2D array and calls the 2D implementation.
+一维 shadow 向量版重载，内部 reshape 成单列二维数组再调二维实现。
 """
 function modified_get_expect_shadow(
     O::MPO, shadows::AbstractArray{<:AbstractShadow,1}; kwargs...
@@ -78,41 +75,38 @@ function modified_get_expect_shadow(
 end
 
 # --------------------
-# get trace moment
+# 求 trace 矩
 # --------------------
 
 """
 modified_get_trace_moment(shadows, kth_moment; O=nothing, compute_sem=false, compute_renyi=false, show_progress=true)
 
-Estimate the k-th trace moment (e.g. Tr(ρ^k) when O==nothing or generalized trace products when O provided)
-using classical shadows.
+用经典 shadow 估计 k 阶 trace 矩（O==nothing 时如 Tr(ρ^k)；给了 O 则为广义 trace 积）。
 
-Arguments
+参数
 - shadows::Array{<:AbstractShadow, 2}
-    A 2D array of shadows with dimensions (n_ru, n_m), where n_ru is the number of
-    random-unitary settings and n_m the number of measurement shots per setting.
+    (n_ru, n_m) 的二维 shadow 数组，n_ru 为随机幺正设置数，
+    n_m 为每个设置下的测量 shot 数。
 - kth_moment::Int
-    The moment k to estimate.
+    要估计的矩 k。
 
-Keyword arguments
+关键词参数
 - O::Union{Nothing, MPO}=nothing
-    Optional operator inserted into the trace product. When O==nothing the routine
-    estimates pure trace moments of the state.
+    插入 trace 积的可选算符。O==nothing 时估计态的纯 trace 矩。
 - compute_sem::Bool=false
-    If true, compute and return jackknife-based bias and standard error.
+    为 true 时计算并返回 jackknife 偏差和标准误差。
 - compute_renyi::Bool=false
-    If true, transform estimates to Rényi entropy form (uses (1/(1-k)) * log2(mean)).
+    为 true 时把估计换算成 Rényi 熵形式（用 (1/(1-k)) * log2(mean)）。
 - show_progress::Bool=true
-    Toggle progress display.
+    是否显示进度。
 
-Returns
-- If compute_sem == false: returns scalar moment estimate::Float64.
-- If compute_sem == true: returns (estimate::Float64, bias::Float64, sem::Float64).
+返回
+- compute_sem == false：返回标量矩估计::Float64。
+- compute_sem == true：返回 (estimate::Float64, bias::Float64, sem::Float64)。
 
-Notes
-This function delegates to modified_get_trace_moments which supports vectorized k
-inputs and covariance estimation. A 1D shadows overload reshapes input to the
-expected 2D form.
+说明
+本函数转调支持向量 k 输入和协方差估计的 modified_get_trace_moments。
+一维 shadows 重载会 reshape 成二维再调。
 """
 function modified_get_trace_moment(
     shadows::Array{<:AbstractShadow,2},
@@ -148,32 +142,30 @@ end
 """
 modified_get_trace_moments(shadows, k_vec; O=nothing, compute_cov=false, compute_renyi=false, show_progress=true)
 
-Estimate multiple trace moments specified by k_vec. Returns a vector of estimates
-and optionally jackknife-based bias and covariance matrix.
+估计 k_vec 指定的多个 trace 矩，返回估计向量，需要时返回 jackknife 偏差和协方差矩阵。
 
-Algorithm
-- Enumerates all permutations of k distinct random-unitary settings and the
-  Cartesian product over shots for those settings.
-- Computes per-permutation averages of trace products (via get_trace_product).
-- Optionally applies a Rényi transform for compute_renyi.
-- If compute_cov is true, computes jackknife values by leaving out each unitary
-  and constructs a covariance matrix and bias-corrected estimates.
+算法
+- 枚举 k 个不同随机幺正设置的全部置换，以及这些设置上 shot 的笛卡尔积。
+- 对每个置换算 trace 积（经 get_trace_product）再做平均。
+- compute_renyi 时做 Rényi 换算。
+- compute_cov 为 true 时，逐个去掉一个幺正算 jackknife 值，
+  由此构造协方差矩阵和偏差修正估计。
 
-Arguments
+参数
 - shadows::Array{<:AbstractShadow, 2}
-    Shadows arranged as (n_ru, n_m).
+    (n_ru, n_m) 排列的 shadow。
 - k_vec::Vector{Int}
-    List of integer moments to compute.
+    要算的整数矩列表。
 
-Keyword arguments
+关键词参数
 - O::Union{Nothing, MPO}=nothing
 - compute_cov::Bool=false
 - compute_renyi::Bool=false
 - show_progress::Bool=true
 
-Returns
-- If compute_cov == false: returns θ_est::Vector{Float64} of length nK.
-- If compute_cov == true: returns (θ_est, bias_vec, Σ) where bias_vec = θ_est - θ_jack and Σ is the covariance matrix.
+返回
+- compute_cov == false：返回长度 nK 的 θ_est::Vector{Float64}。
+- compute_cov == true：返回 (θ_est, bias_vec, Σ)，其中 bias_vec = θ_est - θ_jack，Σ 为协方差矩阵。
 """
 function modified_get_trace_moments(
     shadows::Array{<:AbstractShadow,2},
@@ -184,22 +176,22 @@ function modified_get_trace_moments(
     show_progress::Bool=true,
 )
     n_ru, n_m = size(shadows)
-    k_vec_sorted = sort(unique(k_vec)) # work on distinct, ascending k
+    k_vec_sorted = sort(unique(k_vec)) # 只算互不相同的 k，从小到大
     nK = length(k_vec_sorted)
 
-    # containers
+    # 容器
     θ_est = zeros(Float64, nK)
     jackmat = compute_cov ? zeros(Float64, n_ru, nK) : nothing
 
-    # --- helper: single-k estimator with optional jackknife ----------------
+    # --- 辅助函数：单个 k 的估计（含可选 jackknife）----------------
     function single_k(k::Int)
         @assert !(k == 1 && compute_renyi) "compute_renyi must be false when k == 1."
-        # pre-enumerate permutations and m–cartesian product
+        # 预先枚举置换和测量的笛卡尔积
         perms = collect(permutations(1:n_ru, k))
         cprod = collect(CartesianIndices(ntuple(_ -> 1:n_m, k)))
         n_perm = length(perms)
 
-        # average over measurements for each permutation
+        # 每个置换对测量求平均
         perm_avg = zeros(Float64, n_perm)
         @showprogress desc="Permutations Processing..." enabled=show_progress @threads for pidx in
                                                                                            eachindex(
@@ -215,7 +207,7 @@ function modified_get_trace_moments(
             perm_avg[pidx] = ssum / length(cprod)
         end
 
-        # define the averaging functional
+        # 定义平均泛函
         avgfun(x) = compute_renyi ? (1/(1-k))*log2(mean(x)) : mean(x)
 
         θ = avgfun(perm_avg)
@@ -224,7 +216,7 @@ function modified_get_trace_moments(
             return θ, nothing
         end
 
-        # jackknife groups: permutations not containing unitary i
+        # jackknife 分组：不含幺正 i 的置换
         jackvals = zeros(Float64, n_ru)
         @threads for i in 1:n_ru
             s = 0.0
@@ -242,7 +234,7 @@ function modified_get_trace_moments(
     end
     # -----------------------------------------------------------------------
 
-    # loop over desired moments
+    # 遍历要算的矩
     for (idx, k) in enumerate(k_vec_sorted)
         θ_est[idx], jv = single_k(k)
         if compute_cov
@@ -250,10 +242,10 @@ function modified_get_trace_moments(
         end
     end
 
-    # build covariance if requested
+    # 需要时构造协方差
     if compute_cov
         Σ = zeros(Float64, nK, nK)
-        for a in 1:nK, b in a:nK           # symmetric
+        for a in 1:nK, b in a:nK           # 对称
             cov =
                 (n_ru-1)^2/n_ru * dot(
                     jackmat[:, a] .- mean(jackmat[:, a]),
@@ -273,7 +265,7 @@ end
 """
 modified_get_trace_moment(shadows::Vector{<:AbstractShadow}, kth_moment::Int; kwargs...)
 
-Overload for vector of shadows. Reshapes to 2D and calls modified_get_trace_moment.
+shadow 向量版重载，reshape 成二维再调 modified_get_trace_moment。
 """
 function modified_get_trace_moment(
     shadows::Vector{<:AbstractShadow}, kth_moment::Int; kwargs...
@@ -284,33 +276,33 @@ function modified_get_trace_moment(
 end
 
 # --------------------
-# get purity
+# 求纯度
 # --------------------
 
-# This function is only for O == nothing.
+# 本函数只用于 O == nothing 的情形。
 """
 modified_get_purity_shadow(shadows; compute_sem=false, compute_renyi=false, show_progress=true)
 
-Estimate the purity Tr(ρ^2) of the underlying quantum state using classical shadows.
+用经典 shadow 估计底层量子态的纯度 Tr(ρ^2)。
 
-Arguments
+参数
 - shadows::Array{<:AbstractShadow, 2}
-    Shadows arranged as (n_ru, n_m).
+    (n_ru, n_m) 排列的 shadow。
 
-Keyword arguments
+关键词参数
 - compute_sem::Bool=false
-    If true, compute and return jackknife-based bias and standard error.
+    为 true 时计算并返回 jackknife 偏差和标准误差。
 - compute_renyi::Bool=false
-    If true, adapt the jackknife values for Rényi transform if applicable.
+    为 true 时对 jackknife 值做 Rényi 换算（如适用）。
 - show_progress::Bool=true
 
-Returns
-- If compute_sem == false: returns purity_estimate::Float64.
-- If compute_sem == true: returns (purity_estimate::Float64, bias::Float64, sem::Float64).
+返回
+- compute_sem == false：返回 purity_estimate::Float64。
+- compute_sem == true：返回 (purity_estimate::Float64, bias::Float64, sem::Float64)。
 
-Notes
-This function relies on calculate_purity_jackvals to obtain jackknife values for
-the purity estimator and then computes bias and SEM when requested.
+说明
+本函数靠 calculate_purity_jackvals 拿纯度估计的 jackknife 值，
+需要时再算偏差和 SEM。
 """
 function modified_get_purity_shadow(
     shadows::Array{<:AbstractShadow,2};
@@ -320,12 +312,12 @@ function modified_get_purity_shadow(
 )
     n_ru, n_m = size(shadows)
 
-    # loop over desired moments
+    # 遍历要算的矩
     θ_est, loos = get_purity_loos_shadow(
         shadows; compute_renyi=compute_renyi, show_progress=show_progress
     )
 
-    # build covariance if requested
+    # 需要时构造协方差
     if compute_sem
         variance = (n_ru - 1)^2 / n_ru * var(loos)
         sem = sqrt(variance)
@@ -339,7 +331,7 @@ end
 """
 modified_get_purity_shadow(shadows::Vector{<:AbstractShadow}; kwargs...)
 
-Overload for vector-of-shadows input. Reshapes to 2D and delegates to the main function.
+shadow 向量版重载，reshape 成二维再转调主函数。
 """
 function modified_get_purity_shadow(shadows::Vector{<:AbstractShadow}; kwargs...)
     return modified_get_purity_shadow(reshape(shadows, length(shadows), 1); kwargs...)
