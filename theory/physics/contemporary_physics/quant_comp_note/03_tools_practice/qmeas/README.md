@@ -111,7 +111,7 @@ basis = QubitwiseBasis()
 expects = basis.recover(groups[0], {"00": 1024}, shots=1024)
 
 # Aer 估计器
-qc = QuantumCircuit(2, 2)
+qc = QuantumCircuit(2)
 qc.h([0, 1])
 cfg = EstimatorConfig(qc=qc, observables=observables, runner_opts=AerEstimatorOptions())
 result = asyncio.run(run_estimator(cfg))
@@ -135,9 +135,9 @@ result = asyncio.run(run_estimator(cfg))
 qmeas/
 ├── src/qmeas/
 │   ├── estimator/
-│   │   ├── basis.py       # QubitwiseBasis（可扩展 PairBasis / GeneralBasis）
+│   │   ├── basis.py       # 逐比特测量流水线: group_qubitwise, QubitwiseBasis, rebuild_op_vals（可扩展 PairBasis / GeneralBasis）
 │   │   ├── config.py      # EstimatorConfig, AerEstimatorOptions, QuarkEstimatorOptions
-│   │   └── runner.py      # run_estimator, group_qubitwise
+│   │   └── runner.py      # run_estimator
 │   └── random/
 │       ├── config.py      # RandomMeasConfig, AerOptions, QuarkOptions, ...
 │       ├── ensemble.py    # ParameterGenerator, create_parameter_generator

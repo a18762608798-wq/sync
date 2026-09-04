@@ -8,7 +8,7 @@ The properties of tensors include order and **type**.
 
 For instance, 2 other include $(0, 2)$, $(1, 1)$, $(2, 0)$
 
-Input of superscripts, output of subscripts, therefore, the components of vector is superscripts, the components of matrix is such as $a_i^j$, **But the higher-order types are unknown to me**. 
+Input of superscripts, output of subscripts, therefore, the components of vector is superscripts, the components of matrix is such as $a_i^j$, **But the higher-order types are unknown to me**.
 
 ### Vector
 
@@ -55,6 +55,7 @@ $$
 $$
 
 ## Properties
+
 ### Tensorproduct
 
 $$
@@ -66,6 +67,7 @@ proof as follow
 ### Disassemble to subspace
 
 * $tr(\bigotimes_nA_n) = \prod_n tr(A_n)$
+* $tr(A)B = tr_1(A\otimes B)$
 * $(A \otimes B)(C \otimes D) = AC \otimes BD,$
 
 ### Commutative operations

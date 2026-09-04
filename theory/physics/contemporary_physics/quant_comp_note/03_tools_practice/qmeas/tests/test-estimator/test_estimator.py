@@ -13,7 +13,7 @@ from qmeas.estimator import (
 
 
 def _example_qc() -> QuantumCircuit:
-    qc = QuantumCircuit(3, 3)
+    qc = QuantumCircuit(3)
     qc.h(0)
     qc.x(1)
     qc.h(1)
@@ -48,16 +48,16 @@ if __name__ == "__main__":
     result = asyncio.run(run_estimator(aer_config))
     print("aer evs:", result["evs"])
 
-    # Baihua check
-    Baihua_config = EstimatorConfig(
+    # quafu check
+    Quafu_config = EstimatorConfig(
         qc=qc,
         observables=_observables(),
         runner_opts=QuarkEstimatorOptions(
-            chip="Shenglian",
+            chip="Dongling",
             shots=1024,
             # target_qubits=[138, 125],
             name="Dongling-estimator-check",
         ),
     )
-    result = asyncio.run(run_estimator(Baihua_config))
+    result = asyncio.run(run_estimator(Quafu_config))
     print("Baihua evs:", result["evs"])
