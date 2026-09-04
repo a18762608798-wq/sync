@@ -2,16 +2,14 @@ include("../src/RandomMeasAdd.jl")
 using .RandomMeasAdd
 using RandomMeas
 
-# Full-system sites; integer qubit numbers index into this vector.
+# 全系统的 site；整数 qubit 编号用来索引这个向量。
 N = 8
 sites = siteinds("Qubit", N)
 
-# Mirrors meas_indices in test/get_data.py (python 0-based 2D list).
-# NOTE: the current get_data.py uses singleton groups, so only single-site
-# estimators (purity) run against it. Reflect / z_r need an even-size group;
-# point group_path at a dataset generated with paired meas_indices
-# (e.g. [(2, 5), (3, 4)]) to run branches 3-5.
+# 对应 test/get_data.py 的 meas_indices（python 从 0 开始的二维列表）；
+# 整个 npz（一次 SettingRun）即一个 MeasurementGroup，共 4 个被测 site。
 meas_indices_py = [[2], [3], [4], [5]]
+permuted_order = [1, 2, 3, 4]
 group_path = joinpath(
     @__DIR__, "data", "aer-shadow",
     "aer-shadow_setting0_settings81_shots1024.npz",
@@ -21,25 +19,22 @@ test_index = 1
 
 if test_index == 1
     @show get_purity_shadow(
-        group_path, sites, meas_indices_py, 1, [1]; compute_sem=true,
+        group_path, sites, meas_indices_py, permuted_order; compute_sem=true,
     )
 elseif test_index == 2
     @show get_purity_hamming(
-        group_path, sites, meas_indices_py, 1, [1]; compute_sem=true,
+        group_path, sites, meas_indices_py, permuted_order; compute_sem=true,
     )
 elseif test_index == 3
-    # Requires an even-size group (e.g. paired meas_indices dataset).
     @show get_reflect_shadow(
-        group_path, sites, meas_indices_py, 1, [1, 2]; compute_sem=true,
+        group_path, sites, meas_indices_py, permuted_order; compute_sem=true,
     )
 elseif test_index == 4
-    # Requires an even-size group (e.g. paired meas_indices dataset).
     @show get_reflect_hamming(
-        group_path, sites, meas_indices_py, 1, [1, 2]; compute_sem=true,
+        group_path, sites, meas_indices_py, permuted_order; compute_sem=true,
     )
 elseif test_index == 5
-    # Requires an even-size group (e.g. paired meas_indices dataset).
     @show get_z_r_shadow(
-        group_path, sites, meas_indices_py, 1, [1, 2]; compute_sem=true,
+        group_path, sites, meas_indices_py, permuted_order; compute_sem=true,
     )
 end
