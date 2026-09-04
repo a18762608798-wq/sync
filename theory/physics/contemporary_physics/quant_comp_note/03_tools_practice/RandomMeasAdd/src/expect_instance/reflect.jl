@@ -3,23 +3,23 @@
 # -------------
 
 """
-get_reflect_shadow(filepath, sites, permuted_order; G, compute_sem, show_progress)
+get_reflect_shadow(filepath, sites; permuted_order, G, is_compute_sem, is_show_progress)
 
 用经典 shadow 计算反射算符 Z_r 的期望值。
 
 参数
 - filepath::String：存好的 shadow/group 数据路径。
 - sites：全系统的 site index。
-- permuted_order：在算 shadow 之前对 site 做的置换顺序。
 
 关键词参数
+- permuted_order：在算 shadow 之前对 site 做的置换顺序，缺省 `nothing` 表示链式。
 - G::Vector{Float64}：每个 site 的权重（默认全 1），按 permuted_order 置换。
-- compute_sem::Bool：为 true 时同时计算均值标准误差（SEM）。
-- show_progress::Bool：为 true 时计算过程中显示进度。
+- is_compute_sem::Bool：为 true 时同时计算均值标准误差（SEM）。
+- is_show_progress::Bool：为 true 时计算过程中显示进度。
 
 返回
-- compute_sem == false：返回 real(expectation)::Float64。
-- compute_sem == true：返回 (real(expectation)::Float64, sem::Float64)。
+- is_compute_sem == false：返回 real(expectation)::Float64。
+- is_compute_sem == true：返回 (real(expectation)::Float64, sem::Float64)。
 
 说明
 本函数从 filepath 载入重排后的 group，为重排后的系统构造 dense shadow，
@@ -28,33 +28,35 @@ modified_get_expect_shadow。
 """
 function get_reflect_shadow(
     filepath::String,
-    sites,
-    permuted_order;
+    sites;
+    permuted_order=nothing,
     G=nothing,
-    compute_sem=false,
-    show_progress=true,
+    is_compute_sem=false,
+    is_show_progress=false,
 )
     permuted_group, permuted_indices = import_random_group(
-        filepath, sites, permuted_order
+        filepath, sites; permuted_order
     )
-    permuted_G = isnothing(G) ? ones(length(permuted_indices)) : G[permuted_order]
+    n_site = length(permuted_indices)
+    order = isnothing(permuted_order) ? collect(1:n_site) : permuted_order
+    permuted_G = isnothing(G) ? ones(n_site) : G[order]
     permuted_shadows = get_dense_shadows(permuted_group; G=permuted_G)
     adjacent_swap_op = create_adjacent_swap_op(permuted_indices)
 
-    if compute_sem
+    if is_compute_sem
         reflect_expect, sem = modified_get_expect_shadow(
             adjacent_swap_op,
             permuted_shadows;
-            compute_sem=compute_sem,
-            show_progress=show_progress,
+            is_compute_sem=is_compute_sem,
+            is_show_progress=is_show_progress,
         )
         return real(reflect_expect), sem
     else
         reflect_expect = modified_get_expect_shadow(
             adjacent_swap_op,
             permuted_shadows;
-            compute_sem=compute_sem,
-            show_progress=show_progress,
+            is_compute_sem=is_compute_sem,
+            is_show_progress=is_show_progress,
         )
         return real(reflect_expect)
     end
@@ -106,22 +108,22 @@ function get_reflect_hamming(
 end
 
 """
-get_reflect_hamming(filepath, sites, permuted_order; compute_sem, show_progress)
+get_reflect_hamming(filepath, sites; permuted_order, is_compute_sem, is_show_progress)
 
 用 Hamming 距离法从存好的测量数据算反射期望值，对各随机幺正设置求平均。
 
 参数
 - filepath::String：qmeas.random 生成的 .npz 文件路径。
 - sites：全系统的 site index。
-- permuted_order：全部被测 site 的置换向量。
 
 关键词参数
-- compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
-- show_progress::Bool：为 true 时显示进度。
+- permuted_order：全部被测 site 的置换向量，缺省 `nothing` 表示链式。
+- is_compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
+- is_show_progress::Bool：为 true 时显示进度。
 
 返回
-- compute_sem == false：返回 reflect_est::Float64。
-- compute_sem == true：返回 (reflect_est::Float64, sem::Float64)。
+- is_compute_sem == false：返回 reflect_est::Float64。
+- is_compute_sem == true：返回 (reflect_est::Float64, sem::Float64)。
 
 说明
 本函数载入重排后的 group，对每个随机幺正设置调用
@@ -130,14 +132,14 @@ get_reflect_hamming(::MeasurementData) 算 Hamming 距离反射估计，
 """
 function get_reflect_hamming(
     filepath::String,
-    sites,
-    permuted_order;
-    compute_sem=false,
-    show_progress=true,
+    sites;
+    permuted_order=nothing,
+    is_compute_sem=false,
+    is_show_progress=false,
 )
     # 取数据
     group, _ = import_random_group(
-        filepath, sites, permuted_order
+        filepath, sites; permuted_order
     )
     u_num = group.NU
     datas = group.measurements
@@ -145,14 +147,14 @@ function get_reflect_hamming(
 
     # 算 reflect 估计
     ssum = 0
-    @showprogress desc="hamming_est..." enabled=show_progress @threads  for u_idx = 1:u_num
+    @showprogress desc="hamming_est..." enabled=is_show_progress @threads  for u_idx = 1:u_num
         data = datas[u_idx]
         reflect_ests[u_idx] = get_reflect_hamming(data)
     end
     
     reflect_est = mean(reflect_ests)
 
-    if compute_sem
+    if is_compute_sem
         sem = std(reflect_ests) / sqrt(u_num)
         return reflect_est, sem
     else

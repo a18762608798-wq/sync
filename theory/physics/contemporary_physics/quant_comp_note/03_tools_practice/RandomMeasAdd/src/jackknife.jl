@@ -13,7 +13,7 @@
 关键词参数
 - O::Union{Nothing, MPO}=nothing：传给 get_trace_product 的 MPO 算符
   （仅 k == 1 时允许）。
-- show_progress::Bool=true：是否显示进度。
+- is_show_progress::Bool=true：是否显示进度。
 
 返回
 - Array{Float64}，长度 choose(n_ru, k)：每个 k 置换在测量笛卡尔积上
@@ -23,7 +23,7 @@ function get_comb_avgs_shadow(
     shadows::Array{<:AbstractShadow, 2},
     k::Int;
     O::Union{Nothing, MPO}=nothing,
-    show_progress=true,
+    is_show_progress=false,
 )
     @assert (k == 2 && isnothing(O)) || (k == 1) "O must be nothing for k=2, and k in the range of [1, 2]"
 
@@ -35,7 +35,7 @@ function get_comb_avgs_shadow(
 
     # 每个置换对测量求平均
     comb_avgs = zeros(Float64, combs_num)
-    @showprogress desc="Combinations Processing..." enabled=show_progress @threads for pidx in eachindex(combs)
+    @showprogress desc="Combinations Processing..." enabled=is_show_progress @threads for pidx in eachindex(combs)
         r = combs[pidx]
         ssum = 0.0
         for m in cprod
@@ -94,16 +94,16 @@ end
 - shadows::Array{<:AbstractShadow, 2}：(n_ru, n_m) 的 shadow 数据。
 
 关键词参数
-- compute_renyi::Bool=false：为 true 时返回 Rényi-2 熵估计
+- is_compute_renyi::Bool=false：为 true 时返回 Rényi-2 熵估计
   （对平均纯度取 log2）；否则返回纯度。
-- show_progress::Bool=true：置换平均时是否显示进度。
+- is_show_progress::Bool=true：置换平均时是否显示进度。
 
 返回
-- θ：标量估计（纯度或 Rényi-2，取决于 compute_renyi）。
+- θ：标量估计（纯度或 Rényi-2，取决于 is_compute_renyi）。
 - loos::Vector{Float64}：每个随机幺正的 leave-one-out jackknife 估计。
 """
 function get_purity_loos_shadow(
-    shadows::Array{<:AbstractShadow, 2}; compute_renyi::Bool=false, show_progress::Bool=true
+    shadows::Array{<:AbstractShadow, 2}; is_compute_renyi::Bool=false, is_show_progress::Bool=true
 )
     n_ru, n_m = size(shadows)
     @assert n_ru ≥ 3 "At least 3 random unitaries are required for 2-moment estimation."
@@ -111,10 +111,10 @@ function get_purity_loos_shadow(
     combs = collect(combinations(1:n_ru, 2))
 
     # 每个置换对测量求平均
-    comb_avgs = get_comb_avgs_shadow(shadows, 2; show_progress=show_progress)
+    comb_avgs = get_comb_avgs_shadow(shadows, 2; is_show_progress=is_show_progress)
 
     # 定义平均泛函
-    avgfun(x) = compute_renyi ? (1 / (1 - 2)) * log2(mean(x)) : mean(x)
+    avgfun(x) = is_compute_renyi ? (1 / (1 - 2)) * log2(mean(x)) : mean(x)
 
     θ = avgfun(comb_avgs)
 
@@ -142,7 +142,7 @@ end
 关键词参数
 - O::Union{Nothing, MPO}=nothing：在 trace product 求值中用的 MPO 算符
   （估计期望值时用）。
-- show_progress::Bool=true：置换平均时是否显示进度。
+- is_show_progress::Bool=true：置换平均时是否显示进度。
 
 返回
 - θ：标量估计（平均期望值）。
@@ -151,14 +151,14 @@ end
 function get_momnet1_loos_shadow(
     shadows::Array{<:AbstractShadow, 2};
     O::Union{Nothing, MPO}=nothing,
-    show_progress::Bool=true,
+    is_show_progress::Bool=true,
 )
     n_ru, _ = size(shadows)
     @assert n_ru ≥ 2 "At least 2 random unitaries are required for 1-moment estimation."
     combs = collect(combinations(1:n_ru, 1))
 
     # 每个置换对测量求平均
-    comb_avgs = get_comb_avgs_shadow(shadows, 1; O=O, show_progress=show_progress)
+    comb_avgs = get_comb_avgs_shadow(shadows, 1; O=O, is_show_progress=is_show_progress)
     θ = mean(comb_avgs)
 
     # jackknife loo 分组：不含幺正 i 的置换
@@ -186,7 +186,7 @@ end
 - reflect_op::MPO：算 reflect 期望用的算符。
 
 关键词参数
-- show_progress::Bool=true：置换平均时是否显示进度。
+- is_show_progress::Bool=true：置换平均时是否显示进度。
 
 返回
 - z_r_val::Float64：组合后的估计值。
@@ -201,7 +201,7 @@ function get_z_r_loos_shadow(
     odd_shadows::Array{<:AbstractShadow, 2},
     even_shadows::Array{<:AbstractShadow, 2},
     reflect_op::MPO,
-    show_progress::Bool=true,
+    is_show_progress::Bool=true,
 )
     # 预先枚举置换（和测量的笛卡尔积）
     n_ru, _ = size(shadows)
@@ -211,15 +211,15 @@ function get_z_r_loos_shadow(
 
     # 每个置换对测量求平均
     reflect_comb_avgs = get_comb_avgs_shadow(
-        shadows, 1; O=reflect_op, show_progress=show_progress
+        shadows, 1; O=reflect_op, is_show_progress=is_show_progress
     )
     reflect_expect = mean(reflect_comb_avgs)
     odd_comb_avgs = get_comb_avgs_shadow(
-        odd_shadows, 2; show_progress=show_progress
+        odd_shadows, 2; is_show_progress=is_show_progress
     )
     odd_expect = mean(odd_comb_avgs)
     even_comb_avgs = get_comb_avgs_shadow(
-        even_shadows, 2; show_progress=show_progress
+        even_shadows, 2; is_show_progress=is_show_progress
     )
     even_expect = mean(even_comb_avgs)
 
@@ -257,14 +257,14 @@ function get_z_r_loos_shadow(
     odd_shadows::Array{<:AbstractShadow, 1},
     even_shadows::Array{<:AbstractShadow, 1},
     reflect_op::MPO,
-    show_progress::Bool=true,
+    is_show_progress::Bool=true,
 )
     return get_z_r_loos_shadow(
         reshape(shadows, length(shadows), 1),
         reshape(odd_shadows, length(odd_shadows), 1),
         reshape(even_shadows, length(even_shadows), 1),
         reflect_op,
-        show_progress,
+        is_show_progress,
     )
 end
 

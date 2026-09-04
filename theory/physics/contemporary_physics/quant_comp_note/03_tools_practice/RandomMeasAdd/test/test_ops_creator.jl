@@ -1,6 +1,4 @@
-include("../src/RandomMeasAdd.jl")
-using .RandomMeasAdd
-using RandomMeas
+using RandomMeasAdd
 
 # settings 
 N = 6
