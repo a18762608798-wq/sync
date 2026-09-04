@@ -2,14 +2,13 @@
 # purity（纯度）
 # ----------
 """
-get_purity_shadow(filepath, sites, meas_indices_py, permuted_order; G, compute_sem, show_progress)
+get_purity_shadow(filepath, sites, permuted_order; G, compute_sem, show_progress)
 
 用经典 shadow 从存好的测量数据估计纯度 Tr(ρ²)。
 
 参数
 - filepath::String：qmeas.random 生成的 .npz 文件路径。
 - sites：全系统的 site index。
-- meas_indices_py：python 的 meas_indices（从 0 开始的二维列表）。
 - permuted_order：全部被测 site 的置换向量。
 
 关键词参数
@@ -28,16 +27,15 @@ get_purity_shadow(filepath, sites, meas_indices_py, permuted_order; G, compute_s
 function get_purity_shadow(
     filepath::String,
     sites,
-    meas_indices_py,
     permuted_order;
-    G=fill(1.0, sum(length.(meas_indices_py)))::Vector{Float64},
+    G=nothing,
     compute_sem=false,
     show_progress=true,
 )
-    permuted_G = G[permuted_order]
     permuted_group, permuted_indices = import_random_group(
-        filepath, sites, meas_indices_py, permuted_order
+        filepath, sites, permuted_order
     )
+    permuted_G = isnothing(G) ? ones(length(permuted_indices)) : G[permuted_order]
     shadows = get_dense_shadows(permuted_group; G=permuted_G)
 
     if compute_sem
@@ -60,7 +58,7 @@ function get_purity_shadow(
 end
 
 """
-get_purity_hamming(filepath, sites, meas_indices_py, permuted_order; compute_sem, show_progress)
+get_purity_hamming(filepath, sites, permuted_order; compute_sem, show_progress)
 
 用基于重叠的方法（"hamming" 变体）从存好的测量数据估计纯度 Tr(ρ²)，
 对各随机幺正设置求平均。
@@ -68,7 +66,6 @@ get_purity_hamming(filepath, sites, meas_indices_py, permuted_order; compute_sem
 参数
 - filepath::String：qmeas.random 生成的 .npz 文件路径。
 - sites：全系统的 site index。
-- meas_indices_py：python 的 meas_indices（从 0 开始的二维列表）。
 - permuted_order：全部被测 site 的置换向量。
 
 关键词参数
@@ -87,13 +84,12 @@ get_overlap(data, data; apply_bias_correction=true) 算纯度，
 function get_purity_hamming(
     filepath::String,
     sites,
-    meas_indices_py,
     permuted_order;
     compute_sem=false,
     show_progress=true,
 )
     group, _ = import_random_group(
-        filepath, sites, meas_indices_py, permuted_order
+        filepath, sites, permuted_order
     )
 
     u_num = group.NU

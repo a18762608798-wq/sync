@@ -3,14 +3,13 @@
 # -------------
 
 """
-get_reflect_shadow(filepath, sites, meas_indices_py, permuted_order; G, compute_sem, show_progress)
+get_reflect_shadow(filepath, sites, permuted_order; G, compute_sem, show_progress)
 
 用经典 shadow 计算反射算符 Z_r 的期望值。
 
 参数
 - filepath::String：存好的 shadow/group 数据路径。
 - sites：全系统的 site index。
-- meas_indices_py：python 的 meas_indices（从 0 开始的二维列表）。
 - permuted_order：在算 shadow 之前对 site 做的置换顺序。
 
 关键词参数
@@ -30,16 +29,15 @@ modified_get_expect_shadow。
 function get_reflect_shadow(
     filepath::String,
     sites,
-    meas_indices_py,
     permuted_order;
-    G=fill(1.0, sum(length.(meas_indices_py)))::Vector{Float64},
+    G=nothing,
     compute_sem=false,
     show_progress=true,
 )
-    permuted_G = G[permuted_order]
     permuted_group, permuted_indices = import_random_group(
-        filepath, sites, meas_indices_py, permuted_order
+        filepath, sites, permuted_order
     )
+    permuted_G = isnothing(G) ? ones(length(permuted_indices)) : G[permuted_order]
     permuted_shadows = get_dense_shadows(permuted_group; G=permuted_G)
     adjacent_swap_op = create_adjacent_swap_op(permuted_indices)
 
@@ -108,14 +106,13 @@ function get_reflect_hamming(
 end
 
 """
-get_reflect_hamming(filepath, sites, meas_indices_py, permuted_order; compute_sem, show_progress)
+get_reflect_hamming(filepath, sites, permuted_order; compute_sem, show_progress)
 
 用 Hamming 距离法从存好的测量数据算反射期望值，对各随机幺正设置求平均。
 
 参数
 - filepath::String：qmeas.random 生成的 .npz 文件路径。
 - sites：全系统的 site index。
-- meas_indices_py：python 的 meas_indices（从 0 开始的二维列表）。
 - permuted_order：全部被测 site 的置换向量。
 
 关键词参数
@@ -134,14 +131,13 @@ get_reflect_hamming(::MeasurementData) 算 Hamming 距离反射估计，
 function get_reflect_hamming(
     filepath::String,
     sites,
-    meas_indices_py,
     permuted_order;
     compute_sem=false,
     show_progress=true,
 )
     # 取数据
     group, _ = import_random_group(
-        filepath, sites, meas_indices_py, permuted_order
+        filepath, sites, permuted_order
     )
     u_num = group.NU
     datas = group.measurements
