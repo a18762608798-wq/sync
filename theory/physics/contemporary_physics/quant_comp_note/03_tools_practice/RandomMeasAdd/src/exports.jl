@@ -1,6 +1,8 @@
 # RandomMeas（转导出）
 export siteinds
 export import_MeasurementGroup
+export get_dense_shadows
+export linkdims
 
 # 数据导入
 export import_random_group
@@ -12,7 +14,6 @@ export get_factorized_shadow_mpo
 export create_reflect_op
 export create_adjacent_swap_op
 export create_unitary_part_reversal_op
-export create_z_op
 
 # 改进后的方法
 export modified_get_expect_shadow
