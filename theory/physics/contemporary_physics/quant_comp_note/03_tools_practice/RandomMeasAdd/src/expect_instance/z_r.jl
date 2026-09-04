@@ -3,7 +3,7 @@
 # --------------------------------------
 
 """
-get_z_r_shadow(filepath, sites, meas_indices_py, permuted_order; G, compute_sem, show_progress)
+get_z_r_shadow(filepath, sites, permuted_order; G, compute_sem, show_progress)
 
 用经典 shadow 估计 Z_r 量（反射相关的观测量），
 做法是把系统按相邻 site 配对，再由这些配对算出 Z_r。
@@ -13,8 +13,6 @@ get_z_r_shadow(filepath, sites, meas_indices_py, permuted_order; G, compute_sem,
     存好的 shadow/group 数据路径。
 - sites
     全系统的 site index。
-- meas_indices_py
-    python 的 meas_indices（从 0 开始的二维列表）。
 - permuted_order
     算 shadow 之前对 site 做的置换顺序。
 
@@ -42,16 +40,15 @@ get_z_r_shadow(filepath, sites, meas_indices_py, permuted_order; G, compute_sem,
 function get_z_r_shadow(
     filepath::String,
     sites,
-    meas_indices_py,
     permuted_order;
-    G=fill(1.0, sum(length.(meas_indices_py)))::Vector{Float64},
+    G=nothing,
     compute_sem=false,
     show_progress=true,
 )
     # 取三个系统的信息
     # 取 group
     permuted_group, permuted_indices = import_random_group(
-        filepath, sites, meas_indices_py, permuted_order
+        filepath, sites, permuted_order
     )
     qubits_num = length(permuted_order)
     pairs_num = qubits_num ÷ 2
@@ -60,7 +57,7 @@ function get_z_r_shadow(
     odd_group = reduce_to_subsystem(permuted_group, odd_order)
     even_group = reduce_to_subsystem(permuted_group, even_order)
     # 取每个系统的 G
-    permuted_G = G[permuted_order]
+    permuted_G = isnothing(G) ? ones(length(permuted_indices)) : G[permuted_order]
     odd_G = permuted_G[odd_order]
     even_G = permuted_G[even_order]
     # 生成 shadow
