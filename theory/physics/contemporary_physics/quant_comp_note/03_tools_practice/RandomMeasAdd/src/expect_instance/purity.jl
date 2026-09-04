@@ -2,7 +2,7 @@
 # purity（纯度）
 # ----------
 """
-get_purity_shadow(filepath, sites, meas_indices_py, group_idx, permuted_order; G, compute_sem, show_progress)
+get_purity_shadow(filepath, sites, meas_indices_py, permuted_order; G, compute_sem, show_progress)
 
 用经典 shadow 从存好的测量数据估计纯度 Tr(ρ²)。
 
@@ -10,8 +10,7 @@ get_purity_shadow(filepath, sites, meas_indices_py, group_idx, permuted_order; G
 - filepath::String：qmeas.random 生成的 .npz 文件路径。
 - sites：全系统的 site index。
 - meas_indices_py：python 的 meas_indices（从 0 开始的二维列表）。
-- group_idx::Int：要导入第几个 group（Julia 从 1 开始编号）。
-- permuted_order：group 内 site 的置换向量。
+- permuted_order：全部被测 site 的置换向量。
 
 关键词参数
 - G::Vector{Float64}：每个 site 的权重（默认全 1），按 permuted_order 置换。
@@ -30,15 +29,14 @@ function get_purity_shadow(
     filepath::String,
     sites,
     meas_indices_py,
-    group_idx::Int,
     permuted_order;
-    G=fill(1.0, length(collect(meas_indices_py[group_idx])))::Vector{Float64},
+    G=fill(1.0, sum(length.(meas_indices_py)))::Vector{Float64},
     compute_sem=false,
     show_progress=true,
 )
     permuted_G = G[permuted_order]
     permuted_group, permuted_indices = import_random_group(
-        filepath, sites, meas_indices_py, group_idx, permuted_order
+        filepath, sites, meas_indices_py, permuted_order
     )
     shadows = get_dense_shadows(permuted_group; G=permuted_G)
 
@@ -62,7 +60,7 @@ function get_purity_shadow(
 end
 
 """
-get_purity_hamming(filepath, sites, meas_indices_py, group_idx, permuted_order; compute_sem, show_progress)
+get_purity_hamming(filepath, sites, meas_indices_py, permuted_order; compute_sem, show_progress)
 
 用基于重叠的方法（"hamming" 变体）从存好的测量数据估计纯度 Tr(ρ²)，
 对各随机幺正设置求平均。
@@ -71,8 +69,7 @@ get_purity_hamming(filepath, sites, meas_indices_py, group_idx, permuted_order; 
 - filepath::String：qmeas.random 生成的 .npz 文件路径。
 - sites：全系统的 site index。
 - meas_indices_py：python 的 meas_indices（从 0 开始的二维列表）。
-- group_idx::Int：要导入第几个 group（Julia 从 1 开始编号）。
-- permuted_order：group 内 site 的置换向量。
+- permuted_order：全部被测 site 的置换向量。
 
 关键词参数
 - compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
@@ -91,13 +88,12 @@ function get_purity_hamming(
     filepath::String,
     sites,
     meas_indices_py,
-    group_idx::Int,
     permuted_order;
     compute_sem=false,
     show_progress=true,
 )
     group, _ = import_random_group(
-        filepath, sites, meas_indices_py, group_idx, permuted_order
+        filepath, sites, meas_indices_py, permuted_order
     )
 
     u_num = group.NU

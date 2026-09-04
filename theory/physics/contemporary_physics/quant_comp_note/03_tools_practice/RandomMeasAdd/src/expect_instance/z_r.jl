@@ -3,7 +3,7 @@
 # --------------------------------------
 
 """
-get_z_r_shadow(filepath, sites, meas_indices_py, group_idx, permuted_order; G, compute_sem, show_progress)
+get_z_r_shadow(filepath, sites, meas_indices_py, permuted_order; G, compute_sem, show_progress)
 
 用经典 shadow 估计 Z_r 量（反射相关的观测量），
 做法是把系统按相邻 site 配对，再由这些配对算出 Z_r。
@@ -15,8 +15,6 @@ get_z_r_shadow(filepath, sites, meas_indices_py, group_idx, permuted_order; G, c
     全系统的 site index。
 - meas_indices_py
     python 的 meas_indices（从 0 开始的二维列表）。
-- group_idx::Int
-    要导入第几个 group（Julia 从 1 开始编号）。
 - permuted_order
     算 shadow 之前对 site 做的置换顺序。
 
@@ -45,16 +43,15 @@ function get_z_r_shadow(
     filepath::String,
     sites,
     meas_indices_py,
-    group_idx::Int,
     permuted_order;
-    G=fill(1.0, length(collect(meas_indices_py[group_idx])))::Vector{Float64},
+    G=fill(1.0, sum(length.(meas_indices_py)))::Vector{Float64},
     compute_sem=false,
     show_progress=true,
 )
     # 取三个系统的信息
     # 取 group
     permuted_group, permuted_indices = import_random_group(
-        filepath, sites, meas_indices_py, group_idx, permuted_order
+        filepath, sites, meas_indices_py, permuted_order
     )
     qubits_num = length(permuted_order)
     pairs_num = qubits_num ÷ 2
