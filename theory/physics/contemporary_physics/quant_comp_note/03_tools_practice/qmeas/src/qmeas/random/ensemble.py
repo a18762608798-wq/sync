@@ -20,14 +20,14 @@ AngleSampler = Callable[
 ]
 
 
-def _sample_haar(group_num, setting_num, rng):
-    theta = np.arccos(rng.uniform(-1.0, 1.0, size=(group_num, setting_num)))
-    phi = rng.uniform(0.0, 2.0 * np.pi, size=(group_num, setting_num))
+def _sample_haar(group_num, num_settings, rng):
+    theta = np.arccos(rng.uniform(-1.0, 1.0, size=(group_num, num_settings)))
+    phi = rng.uniform(0.0, 2.0 * np.pi, size=(group_num, num_settings))
     return theta, phi
 
 
-def _sample_pauli(group_num, setting_num, rng):
-    idx = rng.choice(3, size=(group_num, setting_num))
+def _sample_pauli(group_num, num_settings, rng):
+    idx = rng.choice(3, size=(group_num, num_settings))
     return PAULI_ROTATIONS[idx, 0], PAULI_ROTATIONS[idx, 1]
 
 
@@ -42,8 +42,10 @@ class ParameterGenerator:
     angle_sampler: AngleSampler
     rng: np.random.Generator
 
-    def generate(self, params, setting_num):
-        theta_vals, phi_vals = self.angle_sampler(len(params[0]), setting_num, self.rng)
+    def generate(self, params, num_settings):
+        theta_vals, phi_vals = self.angle_sampler(
+            len(params[0]), num_settings, self.rng
+        )
         theta, phi = params
         binds = {theta[i]: theta_vals[i].tolist() for i in range(len(theta))}
         binds.update({phi[i]: phi_vals[i].tolist() for i in range(len(phi))})

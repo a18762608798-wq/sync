@@ -14,19 +14,19 @@ def save_npz(
     *,
     trivial_binds,
     trivial_counts,
-    trivial_shot_num,
+    trivial_num_shots,
 ):
     """把一个 SettingRun 的原始计数与测量基写成 RandomMeas.jl 兼容的 npz。"""
-    setting_num = setting_run.setting_num
-    shot_num = setting_run.shot_num
+    num_settings = setting_run.num_settings
+    num_shots = setting_run.num_shots
     n_meas = sum(len(group) for group in config.meas_indices)
 
     group_data = {
         "measurement_results": counts_to_results(
-            counts, setting_num, shot_num, n_meas
+            counts, num_settings, num_shots, n_meas
         ),
         "measurement_settings": build_settings(
-            binds, config.params, setting_num, config.meas_indices
+            binds, config.params, num_settings, config.meas_indices
         ),
         "theta": binds_to_matrix(binds, config.params, "theta"),
         "phi": binds_to_matrix(binds, config.params, "phi"),
@@ -36,21 +36,21 @@ def save_npz(
         "group_sizes": np.asarray(
             [len(group) for group in config.meas_indices], dtype=np.int64
         ),
-        "setting_num": setting_num,
-        "shot_num": shot_num,
+        "num_settings": num_settings,
+        "num_shots": num_shots,
         "n_meas": n_meas,
-        "qc_num_qubits": config.qc.num_qubits,
-        "qc_num_clbits": config.qc.num_clbits,
+        "num_qubits": config.qc.num_qubits,
+        "num_clbits": n_meas,
     }
 
     if trivial_counts is not None:
         group_data["trivial_measurement_results"] = counts_to_results(
-            trivial_counts, setting_num, trivial_shot_num, n_meas
+            trivial_counts, num_settings, trivial_num_shots, n_meas
         )
         group_data["trivial_measurement_settings"] = build_settings(
-            trivial_binds, config.params, setting_num, config.meas_indices
+            trivial_binds, config.params, num_settings, config.meas_indices
         )
-        group_data["trivial_shot_num"] = trivial_shot_num
+        group_data["trivial_num_shots"] = trivial_num_shots
         group_data["trivial_theta"] = binds_to_matrix(
             trivial_binds, config.params, "theta"
         )
@@ -61,20 +61,20 @@ def save_npz(
     config.output_dir.mkdir(parents=True, exist_ok=True)
     filepath = (
         config.output_dir
-        / f"{config.name}_setting{run_idx}_settings{setting_num}_shots{shot_num}.npz"
+        / f"{config.name}_setting{run_idx}_settings{num_settings}_shots{num_shots}.npz"
     )
     np.savez(filepath, **group_data)
     return filepath
 
 
-def counts_to_results(counts, setting_num, shot_num, n_meas):
-    """把每 setting 的计数直方图展开成 (setting_num, shot_num, n_meas) 的 0/1 数组。
+def counts_to_results(counts, num_settings, num_shots, n_meas):
+    """把每 setting 的计数直方图展开成 (num_settings, num_shots, n_meas) 的 0/1 数组。
 
     qiskit (以及 quark 的 compiler=qiskit) 返回的 bitstring 是 little-endian:
     最左字符对应最高位 clbit。左侧补 0 到 n_meas 后反转, 使第 i 列对应
     meas_indices 展平顺序中的第 i 个比特。
     """
-    results = np.zeros((setting_num, shot_num, n_meas), dtype=np.uint8)
+    results = np.zeros((num_settings, num_shots, n_meas), dtype=np.uint8)
     for s, hist in enumerate(counts):
         row = 0
         for bits, count in sorted(hist.items()):
@@ -83,11 +83,11 @@ def counts_to_results(counts, setting_num, shot_num, n_meas):
             ) - ord("0")
             results[s, row : row + count, :] = vec
             row += count
-        assert row == shot_num, f"setting {s}: counts 合计 {row} != shots {shot_num}"
+        assert row == num_shots, f"setting {s}: counts 合计 {row} != shots {num_shots}"
     return results
 
 
-def build_settings(binds, params, setting_num, meas_indices):
+def build_settings(binds, params, num_settings, meas_indices):
     """每个 setting 每比特的 2x2 测量基矩阵。
 
     存电路实际施加的门 qc.u(-θ, 0, -φ) 的数值矩阵:
@@ -96,7 +96,7 @@ def build_settings(binds, params, setting_num, meas_indices):
     """
     theta, phi = params
     n_meas = sum(len(group) for group in meas_indices)
-    settings = np.zeros((setting_num, n_meas, 2, 2), dtype=np.complex128)
+    settings = np.zeros((num_settings, n_meas, 2, 2), dtype=np.complex128)
 
     col = 0
     for g, group in enumerate(meas_indices):
@@ -106,7 +106,7 @@ def build_settings(binds, params, setting_num, meas_indices):
         sin_half = np.sin(th / 2.0)
         phase = np.exp(-1j * ph)
 
-        u = np.empty((setting_num, 2, 2), dtype=np.complex128)
+        u = np.empty((num_settings, 2, 2), dtype=np.complex128)
         u[:, 0, 0] = cos_half
         u[:, 0, 1] = phase * sin_half
         u[:, 1, 0] = -sin_half
@@ -119,7 +119,7 @@ def build_settings(binds, params, setting_num, meas_indices):
 
 
 def binds_to_matrix(binds, params, name):
-    """把 ParameterVector 的绑定值整理成 (setting_num, n_groups) 数组。"""
+    """把 ParameterVector 的绑定值整理成 (num_settings, n_groups) 数组。"""
     pvec = next(p for p in params if p.name == name)
     return np.asarray([binds[p] for p in pvec], dtype=np.float64).T
 
@@ -132,10 +132,10 @@ def write_summary(config, npz_paths):
         "runner": "aer" if isinstance(opts, AerOptions) else "quark",
         "ensemble": config.ensemble,
         "setting_runs": [
-            (sr.setting_num, sr.shot_num) for sr in config.setting_runs
+            (sr.num_settings, sr.num_shots) for sr in config.setting_runs
         ],
-        "qc_num_qubits": config.qc.num_qubits,
-        "qc_num_clbits": config.qc.num_clbits,
+        "num_qubits": config.qc.num_qubits,
+        "num_clbits": sum(len(group) for group in config.meas_indices),
         "meas_indices": config.meas_indices,
         "npz_files": [p.name for p in npz_paths],
     }

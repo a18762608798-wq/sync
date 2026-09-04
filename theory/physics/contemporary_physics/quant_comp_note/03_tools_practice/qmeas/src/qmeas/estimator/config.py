@@ -30,3 +30,11 @@ class EstimatorConfig:
     runner_opts: AerEstimatorOptions | QuarkEstimatorOptions = field(
         default_factory=AerEstimatorOptions
     )
+
+    def __post_init__(self) -> None:
+        # 输入只接受纯态制备电路: 带经典位即报错
+        # (quark 路径所需经典位由 basis.add_meas 按 num_qubits 自动补齐)
+        if self.qc.num_clbits:
+            raise ValueError(
+                "qc 不能带经典比特, 请只给纯态制备电路 QuantumCircuit(n)"
+            )

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import numpy as np
 from qiskit import QuantumCircuit, qasm2, transpile
-from qiskit.circuit import CircuitInstruction
+from qiskit.circuit import CircuitInstruction, Clbit
 from qiskit.circuit.library import RZGate
 from qiskit_aer import AerSimulator
 from quark import Task
@@ -32,7 +32,7 @@ async def run_random(config: RandomMeasConfig) -> dict:
         for c in np.random.SeedSequence(config.seed).spawn(len(config.setting_runs))
     ]
     bind_groups = [
-        gen.generate(config.params, sr.setting_num)
+        gen.generate(config.params, sr.num_settings)
         for gen, sr in zip(param_gens, config.setting_runs)
     ]
     trivial_qc = _prepare_trivial_qc(config)
@@ -59,7 +59,7 @@ async def run_random(config: RandomMeasConfig) -> dict:
             run_results[run_idx].counts,
             trivial_binds=(bind_groups[run_idx] if trivial_qc is not None else None),
             trivial_counts=run_results[run_idx].trivial_counts,
-            trivial_shot_num=setting_run.shot_num if trivial_qc is not None else None,
+            trivial_num_shots=setting_run.num_shots if trivial_qc is not None else None,
         )
         for run_idx, setting_run in enumerate(config.setting_runs)
     ]
@@ -86,20 +86,20 @@ async def _run_aer(opts, qc, binds, setting_run, *, name, trivial_qc):
     )
     job = simulator.run(
         transpile(qc, simulator),
-        shots=setting_run.shot_num,
+        shots=setting_run.num_shots,
         parameter_binds=[binds],
     )
-    counts = [job.result().get_counts(i) for i in range(setting_run.setting_num)]
+    counts = [job.result().get_counts(i) for i in range(setting_run.num_settings)]
     if trivial_qc is None:
         return RunResult(counts=counts)
 
     trivial_job = simulator.run(
         transpile(trivial_qc, simulator),
-        shots=setting_run.shot_num,
+        shots=setting_run.num_shots,
         parameter_binds=[binds],
     )
     trivial_counts = [
-        trivial_job.result().get_counts(i) for i in range(setting_run.setting_num)
+        trivial_job.result().get_counts(i) for i in range(setting_run.num_settings)
     ]
     return RunResult(counts=counts, trivial_counts=trivial_counts)
 
@@ -108,16 +108,16 @@ async def _run_aer(opts, qc, binds, setting_run, *, name, trivial_qc):
 
 
 async def _run_quark(opts, qc, binds, setting_run, *, name, trivial_qc):
-    qasm_ls = _to_qasm2(qc, setting_run.setting_num, binds, opts)
+    qasm_ls = _to_qasm2(qc, setting_run.num_settings, binds, opts)
     trivial_qasm_ls = None
     if trivial_qc is not None:
-        trivial_qasm_ls = _to_qasm2(trivial_qc, setting_run.setting_num, binds, opts)
+        trivial_qasm_ls = _to_qasm2(trivial_qc, setting_run.num_settings, binds, opts)
 
     tmgr = Task(opts.token or os.environ["QUARK_TOKEN"])
     tids = []
     for i, qasm_str in enumerate(qasm_ls):
         tids.append(
-            _submit_quark(tmgr, opts, qasm_str, setting_run.shot_num, f"{name}_U{i}")
+            _submit_quark(tmgr, opts, qasm_str, setting_run.num_shots, f"{name}_U{i}")
         )
         if trivial_qasm_ls is not None:
             tids.append(
@@ -125,7 +125,7 @@ async def _run_quark(opts, qc, binds, setting_run, *, name, trivial_qc):
                     tmgr,
                     opts,
                     trivial_qasm_ls[i],
-                    setting_run.shot_num,
+                    setting_run.num_shots,
                     f"{name}_calib_U{i}",
                 )
             )
@@ -178,21 +178,25 @@ async def _await_quark(tmgr, tid):
 
 
 def add_meas(qc, params, meas_indices):
-    """按分组加随机测量旋转门与测量指令。"""
-    theta, phi = params
+    """按分组加随机测量旋转门与测量指令; 所需经典位由 meas 元素个数决定, 自动补齐。"""
     flat_indices = []
     for group_idx, group in enumerate(meas_indices):
         for qubit_idx in group:
+            flat_indices.append(qubit_idx)
+    if (missing := len(flat_indices) - qc.num_clbits) > 0:
+        qc.add_bits([Clbit() for _ in range(missing)])
+    theta, phi = params
+    for group_idx, group in enumerate(meas_indices):
+        for qubit_idx in group:
             qc.u(-theta[group_idx], 0, -phi[group_idx], qubit_idx)
-        flat_indices.extend(group)
     qc.measure(flat_indices, range(len(flat_indices)))
     return qc
 
 
-def _to_qasm2(qc, setting_num, binds, opts):
+def _to_qasm2(qc, num_settings, binds, opts):
     """绑参数 → 本地 transpile → 防裸测量比特 → QASM2。"""
     qasm_ls = []
-    for i in range(setting_num):
+    for i in range(num_settings):
         bound = qc.assign_parameters({p: vals[i] for p, vals in binds.items()})
         basic = transpile(
             bound,
@@ -236,16 +240,16 @@ def _guard_empty_qubits(qc):
 
 
 def _prepare_trivial_qc(config):
-    """开启 correction 时构造 |0⟩^⊗n 的 trivial 测量电路, 否则返回 None。
+    """开启 mitigation 时构造 |0⟩^⊗n 的 trivial 测量电路, 否则返回 None。
 
     trivial 电路 = 无态制备 + 与主电路相同的测量旋转与测量指令,
     角度绑定与 shot 数均直接复用主电路的设置。
     """
-    if not config.runner_opts.correction:
+    if not config.runner_opts.mitigation:
         return None
 
     return add_meas(
-        QuantumCircuit(config.qc.num_qubits, config.qc.num_clbits),
+        QuantumCircuit(config.qc.num_qubits),
         config.params,
         config.meas_indices,
     )

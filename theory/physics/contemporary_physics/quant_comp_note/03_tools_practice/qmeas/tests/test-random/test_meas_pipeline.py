@@ -21,35 +21,37 @@ if __name__ == "__main__":
     HERE = Path(__file__).resolve().parent
     if test_idx == 1:
         # aer: independence, pauli
-        qc = QuantumCircuit(4, 4)
+        qc = QuantumCircuit(4)
         meas_indices = [(0,), (1,), (2,), (3,)]  # Arrange the swap bits together
         setting_runs = [
-            SettingRun(setting_num=3**3, shot_num=1024),
-            SettingRun(setting_num=3**4, shot_num=1024),
+            SettingRun(num_settings=3**3, num_shots=1024),
+            SettingRun(num_settings=3**4, num_shots=1024),
         ]
-        aer_opts = AerOptions(method="statevector", device="CPU", precision="single")
+        aer_opts = AerOptions(
+            method="statevector", device="CPU", precision="single", mitigation=True
+        )
         meas_config = RandomMeasConfig(
             qc=qc,
             setting_runs=setting_runs,
             meas_indices=meas_indices,
             ensemble="pauli",
             runner_opts=aer_opts,
-            output_dir=HERE / "data",
-            name="aer-independence_pauli",
+            output_dir=HERE / "data/aer-mitigation-independence-pauli/",
+            name="aer-mitigation-independence-pauli",
         )
         res = asyncio.run(
             run_random(
                 config=meas_config,
             )
         )
-
+        print(res)
     elif test_idx == 2:
         # aer: pair, haar
-        qc = QuantumCircuit(6, 4)
+        qc = QuantumCircuit(6)
         meas_indices = [(2, 5), (3, 4)]  # Groups sharing rotation params
         setting_runs = [
-            SettingRun(setting_num=2, shot_num=1024),
-            SettingRun(setting_num=5, shot_num=1024),
+            SettingRun(num_settings=2, num_shots=1024),
+            SettingRun(num_settings=5, num_shots=1024),
         ]
         aer_opts = AerOptions(
             method="matrix_product_state", device="CPU", precision="single"
@@ -60,8 +62,8 @@ if __name__ == "__main__":
             meas_indices=meas_indices,
             ensemble="haar",
             runner_opts=aer_opts,
-            output_dir=HERE / "data",
-            name="aer-pair",
+            output_dir=HERE / "data/aer-pair-haar",
+            name="aer-pair-haar",
         )
         res = asyncio.run(
             run_random(
@@ -71,12 +73,12 @@ if __name__ == "__main__":
         print(res)
     elif test_idx == 3:
         # quark-native-independence, pauli
-        qc = QuantumCircuit(6, 4)
-        qc.cz(list(range(0, 5)), list(range(1, 6)))
+        qc = QuantumCircuit(6)
+        qc.cz(list(range(5)), list(range(1, 6)))
         meas_indices = [(2,), (3,), (4,), (5,)]
         setting_runs = [
-            SettingRun(setting_num=2, shot_num=1024),
-            SettingRun(setting_num=5, shot_num=2048),
+            SettingRun(num_settings=2, num_shots=1024),
+            SettingRun(num_settings=5, num_shots=2048),
         ]
 
         quark_opts = QuarkOptions(
@@ -90,26 +92,26 @@ if __name__ == "__main__":
             meas_indices=meas_indices,
             ensemble="pauli",
             runner_opts=quark_opts,
-            output_dir=HERE / "data",
-            name="quark-native-independence",
+            output_dir=HERE / "data/quark-independence-pauli",
+            name="quark-independence-pauli",
         )
         res = asyncio.run(run_random(config=meas_config))
         print(res)
     elif test_idx == 4:
-        # quark-correction-pair, haar
-        qc = QuantumCircuit(6, 4)
-        qc.cx(list(range(0, 5)), list(range(1, 6)))
+        # quark-mitigation-pair, haar
+        qc = QuantumCircuit(6)
+        qc.cx(list(range(5)), list(range(1, 6)))
         meas_indices = [(2, 5), (3, 4)]
         setting_runs = [
-            SettingRun(setting_num=2, shot_num=1024),
-            SettingRun(setting_num=5, shot_num=2048),
+            SettingRun(num_settings=2, num_shots=1024),
+            SettingRun(num_settings=5, num_shots=2048),
         ]
 
         quark_opts = QuarkOptions(
             chip="Dongling",
             target_qubits=[],
             token=os.environ["QUARK_TOKEN"],
-            correction=True,
+            mitigation=True,
         )
         meas_config = RandomMeasConfig(
             qc=qc,
@@ -117,8 +119,8 @@ if __name__ == "__main__":
             meas_indices=meas_indices,
             ensemble="haar",
             runner_opts=quark_opts,
-            output_dir=HERE / "data",
-            name="quark-correction-pair",
+            output_dir=HERE / "data/quark-mitigation-pair-haar",
+            name="quark-mitigation-pair-haar",
         )
         res = asyncio.run(run_random(config=meas_config))
         print(res)

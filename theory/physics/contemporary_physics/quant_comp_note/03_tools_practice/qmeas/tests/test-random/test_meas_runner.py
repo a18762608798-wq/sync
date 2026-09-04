@@ -17,9 +17,9 @@ test_idx = 1
 
 if __name__ == "__main__":
     HERE = Path(__file__).resolve().parent
-    setting_num = 2
-    shot_num = 1024
-    qc = QuantumCircuit(6, 4)
+    num_settings = 2
+    num_shots = 1024
+    qc = QuantumCircuit(6)
     qc.cx(0, 1)
     qc.cx(1, 2)
     qc.cx(3, 4)
@@ -28,8 +28,8 @@ if __name__ == "__main__":
         config = RandomMeasConfig(
             qc=qc,
             setting_runs=[
-                SettingRun(setting_num, shot_num),
-                SettingRun(setting_num + 1, shot_num * 2),
+                SettingRun(num_settings, num_shots),
+                SettingRun(num_settings + 1, num_shots * 2),
             ],
             meas_indices=[(0,), (5,), (1,), (4,)],
             ensemble="pauli",
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     elif test_idx == 2:
         config = RandomMeasConfig(
             qc=qc,
-            setting_runs=[SettingRun(setting_num, shot_num)],
+            setting_runs=[SettingRun(num_settings, num_shots)],
             meas_indices=[(0, 5), (1, 4)],
             ensemble="haar",
             runner_opts=AerOptions(),
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     elif test_idx == 3:
         config = RandomMeasConfig(
             qc=qc,
-            setting_runs=[SettingRun(setting_num, shot_num)],
+            setting_runs=[SettingRun(num_settings, num_shots)],
             meas_indices=[(0, 5), (1, 4)],
             ensemble="pauli",
             runner_opts=QuarkOptions(
@@ -68,13 +68,13 @@ if __name__ == "__main__":
     elif test_idx == 4:
         config = RandomMeasConfig(
             qc=qc,
-            setting_runs=[SettingRun(setting_num, shot_num)],
+            setting_runs=[SettingRun(num_settings, num_shots)],
             meas_indices=[(0, 5), (1, 4)],
             ensemble="haar",
             runner_opts=QuarkOptions(
                 chip="Dongling",
                 token=os.environ["QUARK_TOKEN"],
-                correction=True,
+                mitigation=True,
             ),
             output_dir=HERE / "data",
             name="my_job",

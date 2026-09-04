@@ -1,3 +1,3 @@
-from .xxz import get_initial_state
+"""物理模型: 每个模型独立子模块 (如 xxz), 按模型命名空间取初态与哈密顿量."""
 
-__all__ = ["get_initial_state"]
+__all__ = []

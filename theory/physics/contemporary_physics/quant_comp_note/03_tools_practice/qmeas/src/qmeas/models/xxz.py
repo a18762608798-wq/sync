@@ -1,12 +1,12 @@
 from qiskit import QuantumCircuit
 
 
-def get_initial_state(qubit_num, clbit_num, phase_idx=1):
+def get_initial_state(qubit_num, phase_idx=1):
     """构造 XXZ 模型各相的初态电路。
 
     phase_idx 取 1 / -1 / 0, 对应 XXZ 相图中的不同相区。
     """
-    qc = QuantumCircuit(qubit_num, clbit_num)
+    qc = QuantumCircuit(qubit_num)
     # s = 0, δ = 0
     if phase_idx == 1:
         for i in range(0, qubit_num, 1):

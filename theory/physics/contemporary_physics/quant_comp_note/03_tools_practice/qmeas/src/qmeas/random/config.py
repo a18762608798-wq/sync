@@ -10,8 +10,8 @@ Ensemble = Literal["haar", "pauli"]
 
 @dataclass(frozen=True)
 class SettingRun:
-    setting_num: int
-    shot_num: int
+    num_settings: int
+    num_shots: int
 
 
 @dataclass(frozen=True)
@@ -19,7 +19,7 @@ class AerOptions:
     method: str = "matrix_product_state"
     device: str = "CPU"
     precision: str = "single"
-    correction: bool = False
+    mitigation: bool = False
 
 
 @dataclass
@@ -27,7 +27,7 @@ class QuarkOptions:
     chip: str = "Baihua"
     token: str | None = None
     target_qubits: list[int] = field(default_factory=list)
-    correction: bool = False
+    mitigation: bool = False
     coupling_map: list | None = None
     optimization_level: int = 3
     basis_gates: list[str] = field(default_factory=lambda: ["rz", "rx", "ry", "cz"])
@@ -56,6 +56,10 @@ class RandomMeasConfig:
         ]
 
         # 检查输入格式
+        # 输入只接受纯态制备电路: 带经典位即报错
+        if self.qc.num_clbits:
+            raise ValueError("qc 不能带经典比特, 请只给纯态制备电路 QuantumCircuit(n)")
+
         if not self.setting_runs:
             raise ValueError("setting_runs cannot be empty")
 
@@ -64,3 +68,11 @@ class RandomMeasConfig:
 
         if any(len(group) == 0 for group in self.meas_indices):
             raise ValueError("meas_indices groups cannot be empty")
+
+        n = self.qc.num_qubits
+        for group in self.meas_indices:
+            for idx in group:
+                if not isinstance(idx, int) or not 0 <= idx < n:
+                    raise ValueError(
+                        f"meas_indices index {idx!r} out of range for {n}-qubit circuit"
+                    )
