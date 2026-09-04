@@ -1,10 +1,11 @@
-include("../src/RandomMeasAdd.jl")
-using .RandomMeasAdd
-using RandomMeas
+using RandomMeasAdd
 
 N = 8
 site_indices = siteinds("Qubit", N);
-group_path = "./04_workflow/b_data_acquisition/random_group.npz"
+group_path = joinpath(
+    @__DIR__, "data", "aer_independent_pidx_-1",
+    "aer_independent_pidx_-1_setting1_settings729_shots1024.npz",
+)
 
 test_index = 1
 
@@ -14,4 +15,3 @@ if test_index == 1
     shadows_mpo = get_factorized_shadow_mpo(shadows);
     @show size(shadows_mpo)
 end
-

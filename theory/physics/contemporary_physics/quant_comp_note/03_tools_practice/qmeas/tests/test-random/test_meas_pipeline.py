@@ -62,8 +62,8 @@ if __name__ == "__main__":
             meas_indices=meas_indices,
             ensemble="haar",
             runner_opts=aer_opts,
-            output_dir=HERE / "data/aer-pair-haar",
-            name="aer-pair-haar",
+            output_dir=HERE / "data/aer-shared-haar",
+            name="aer-shared-haar",
         )
         res = asyncio.run(
             run_random(
@@ -119,8 +119,8 @@ if __name__ == "__main__":
             meas_indices=meas_indices,
             ensemble="haar",
             runner_opts=quark_opts,
-            output_dir=HERE / "data/quark-mitigation-pair-haar",
-            name="quark-mitigation-pair-haar",
+            output_dir=HERE / "data/quark-mitigation-shared-haar",
+            name="quark-mitigation-shared-haar",
         )
         res = asyncio.run(run_random(config=meas_config))
         print(res)

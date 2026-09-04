@@ -2,23 +2,23 @@
 # purity（纯度）
 # ----------
 """
-get_purity_shadow(filepath, sites, permuted_order; G, compute_sem, show_progress)
+get_purity_shadow(filepath, sites; permuted_order, G, is_compute_sem, is_show_progress)
 
 用经典 shadow 从存好的测量数据估计纯度 Tr(ρ²)。
 
 参数
 - filepath::String：qmeas.random 生成的 .npz 文件路径。
 - sites：全系统的 site index。
-- permuted_order：全部被测 site 的置换向量。
 
 关键词参数
+- permuted_order：全部被测 site 的置换向量，缺省 `nothing` 表示链式（按 npz 列顺序）。
 - G::Vector{Float64}：每个 site 的权重（默认全 1），按 permuted_order 置换。
-- compute_sem::Bool：为 true 时同时计算均值标准误差（SEM）。
-- show_progress::Bool：为 true 时显示进度。
+- is_compute_sem::Bool：为 true 时同时计算均值标准误差（SEM）。
+- is_show_progress::Bool：为 true 时显示进度。
 
 返回
-- compute_sem == false：返回 purity::Float64。
-- compute_sem == true：返回 (purity::Float64, sem::Float64)。
+- is_compute_sem == false：返回 purity::Float64。
+- is_compute_sem == true：返回 (purity::Float64, sem::Float64)。
 
 说明
 本函数从 filepath 载入重排后的 group，构造 dense shadow，
@@ -26,31 +26,33 @@ get_purity_shadow(filepath, sites, permuted_order; G, compute_sem, show_progress
 """
 function get_purity_shadow(
     filepath::String,
-    sites,
-    permuted_order;
+    sites;
+    permuted_order=nothing,
     G=nothing,
-    compute_sem=false,
-    show_progress=true,
+    is_compute_sem=false,
+    is_show_progress=false,
 )
     permuted_group, permuted_indices = import_random_group(
-        filepath, sites, permuted_order
+        filepath, sites; permuted_order
     )
-    permuted_G = isnothing(G) ? ones(length(permuted_indices)) : G[permuted_order]
+    n_site = length(permuted_indices)
+    order = isnothing(permuted_order) ? collect(1:n_site) : permuted_order
+    permuted_G = isnothing(G) ? ones(n_site) : G[order]
     shadows = get_dense_shadows(permuted_group; G=permuted_G)
 
-    if compute_sem
+    if is_compute_sem
         purity, _, sem = modified_get_purity_shadow(
             shadows;
-            compute_sem=compute_sem,
-            show_progress=show_progress,
+            is_compute_sem=is_compute_sem,
+            is_show_progress=is_show_progress,
         )
         return purity, sem
 
     else
         purity = modified_get_purity_shadow(
             shadows;
-            compute_sem=compute_sem,
-            show_progress=show_progress,
+            is_compute_sem=is_compute_sem,
+            is_show_progress=is_show_progress,
         )
         return purity
 
@@ -58,7 +60,7 @@ function get_purity_shadow(
 end
 
 """
-get_purity_hamming(filepath, sites, permuted_order; compute_sem, show_progress)
+get_purity_hamming(filepath, sites; permuted_order, is_compute_sem, is_show_progress)
 
 用基于重叠的方法（"hamming" 变体）从存好的测量数据估计纯度 Tr(ρ²)，
 对各随机幺正设置求平均。
@@ -66,15 +68,15 @@ get_purity_hamming(filepath, sites, permuted_order; compute_sem, show_progress)
 参数
 - filepath::String：qmeas.random 生成的 .npz 文件路径。
 - sites：全系统的 site index。
-- permuted_order：全部被测 site 的置换向量。
 
 关键词参数
-- compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
-- show_progress::Bool：为 true 时显示进度。
+- permuted_order：全部被测 site 的置换向量，缺省 `nothing` 表示链式（按 npz 列顺序）。
+- is_compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
+- is_show_progress::Bool：为 true 时显示进度。
 
 返回
-- compute_sem == false：返回 purity_est::Float64。
-- compute_sem == true：返回 (purity_est::Float64, sem::Float64)。
+- is_compute_sem == false：返回 purity_est::Float64。
+- is_compute_sem == true：返回 (purity_est::Float64, sem::Float64)。
 
 说明
 本函数载入重排后的 group，对每个随机幺正设置调用
@@ -83,27 +85,27 @@ get_overlap(data, data; apply_bias_correction=true) 算纯度，
 """
 function get_purity_hamming(
     filepath::String,
-    sites,
-    permuted_order;
-    compute_sem=false,
-    show_progress=true,
+    sites;
+    permuted_order=nothing,
+    is_compute_sem=false,
+    is_show_progress=false,
 )
     group, _ = import_random_group(
-        filepath, sites, permuted_order
+        filepath, sites; permuted_order
     )
 
     u_num = group.NU
     datas = group.measurements
     purity_ests = Vector{Float64}(undef, u_num)
 
-    @showprogress desc="hamming_est..." enabled=show_progress @threads for u_idx = 1:u_num
+    @showprogress desc="hamming_est..." enabled=is_show_progress @threads for u_idx = 1:u_num
         data = datas[u_idx]
         purity_ests[u_idx] = get_overlap(data, data, apply_bias_correction=true)
     end
 
     purity_est = mean(purity_ests)
 
-    if compute_sem
+    if is_compute_sem
         sem = std(purity_ests) / sqrt(u_num)
         return purity_est, sem
 

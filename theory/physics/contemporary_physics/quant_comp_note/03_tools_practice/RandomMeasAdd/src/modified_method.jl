@@ -3,7 +3,7 @@
 # --------------------
 
 """
-modified_get_expect_shadow(O, shadows; compute_sem=false, show_progress=true)
+modified_get_expect_shadow(O, shadows; is_compute_sem=false, is_show_progress=false)
 
 用经典 shadow 数组估计算符 O 的期望值。
 
@@ -15,14 +15,14 @@ modified_get_expect_shadow(O, shadows; compute_sem=false, show_progress=true)
     对应随机幺正和 shot 的经典 shadow（AbstractShadow）。
 
 关键词参数
-- compute_sem::Bool=false
+- is_compute_sem::Bool=false
     为 true 时返回 (mean, sem)，sem 为各随机幺正设置间的均值标准误差。
-- show_progress::Bool=true
+- is_show_progress::Bool=true
     为 true 时内层循环显示进度条。
 
 返回
-- compute_sem == false：返回 mean_value::ComplexF64（期望均值）。
-- compute_sem == true：返回 (mean_value::ComplexF64, sem_value::Float64)。
+- is_compute_sem == false：返回 mean_value::ComplexF64（期望均值）。
+- is_compute_sem == true：返回 (mean_value::ComplexF64, sem_value::Float64)。
 
 说明
 本函数对每个 (setting, shot) 对调 get_expect_shadow 求期望，
@@ -32,8 +32,8 @@ modified_get_expect_shadow(O, shadows; compute_sem=false, show_progress=true)
 function modified_get_expect_shadow(
     O::MPO,
     shadows::AbstractArray{<:AbstractShadow,2};
-    compute_sem::Bool=false,
-    show_progress::Bool=true,
+    is_compute_sem::Bool=false,
+    is_show_progress::Bool=true,
 )
     # 确保 shadow 数组非空且为矩阵
     @assert !isempty(shadows) "Array of shadows is empty."
@@ -41,7 +41,7 @@ function modified_get_expect_shadow(
     # 算所有期望值
     settings_num, shots = size(shadows)
     expect_values = Matrix{ComplexF64}(undef, settings_num, shots)
-    @showprogress desc="Expectation Processing..." enabled=show_progress @threads for settings in
+    @showprogress desc="Expectation Processing..." enabled=is_show_progress @threads for settings in
                                                                                       1:settings_num
 
         for shot in 1:shots
@@ -54,7 +54,7 @@ function modified_get_expect_shadow(
     mean_values = mean(expect_values; dims=2)
     mean_value = mean(mean_values)
 
-    if compute_sem
+    if is_compute_sem
         # 算均值标准误差（SEM）
         sem_value = std(mean_values) / sqrt(settings_num)
         return mean_value, sem_value
@@ -79,7 +79,7 @@ end
 # --------------------
 
 """
-modified_get_trace_moment(shadows, kth_moment; O=nothing, compute_sem=false, compute_renyi=false, show_progress=true)
+modified_get_trace_moment(shadows, kth_moment; O=nothing, is_compute_sem=false, is_compute_renyi=false, is_show_progress=false)
 
 用经典 shadow 估计 k 阶 trace 矩（O==nothing 时如 Tr(ρ^k)；给了 O 则为广义 trace 积）。
 
@@ -93,16 +93,16 @@ modified_get_trace_moment(shadows, kth_moment; O=nothing, compute_sem=false, com
 关键词参数
 - O::Union{Nothing, MPO}=nothing
     插入 trace 积的可选算符。O==nothing 时估计态的纯 trace 矩。
-- compute_sem::Bool=false
+- is_compute_sem::Bool=false
     为 true 时计算并返回 jackknife 偏差和标准误差。
-- compute_renyi::Bool=false
+- is_compute_renyi::Bool=false
     为 true 时把估计换算成 Rényi 熵形式（用 (1/(1-k)) * log2(mean)）。
-- show_progress::Bool=true
+- is_show_progress::Bool=true
     是否显示进度。
 
 返回
-- compute_sem == false：返回标量矩估计::Float64。
-- compute_sem == true：返回 (estimate::Float64, bias::Float64, sem::Float64)。
+- is_compute_sem == false：返回标量矩估计::Float64。
+- is_compute_sem == true：返回 (estimate::Float64, bias::Float64, sem::Float64)。
 
 说明
 本函数转调支持向量 k 输入和协方差估计的 modified_get_trace_moments。
@@ -112,18 +112,18 @@ function modified_get_trace_moment(
     shadows::Array{<:AbstractShadow,2},
     kth_moment::Int;
     O::Union{Nothing,MPO}=nothing,
-    compute_sem::Bool=false,
-    compute_renyi::Bool=false,
-    show_progress::Bool=true,
+    is_compute_sem::Bool=false,
+    is_compute_renyi::Bool=false,
+    is_show_progress::Bool=true,
 )
-    if compute_sem
+    if is_compute_sem
         s, bias, cov = modified_get_trace_moments(
             shadows,
             [kth_moment];
             O=O,
-            compute_cov=compute_sem,
-            compute_renyi=compute_renyi,
-            show_progress=show_progress,
+            is_compute_cov=is_compute_sem,
+            is_compute_renyi=is_compute_renyi,
+            is_show_progress=is_show_progress,
         )
         return s[1], bias[1], sqrt(cov[1, 1])
     else
@@ -131,24 +131,24 @@ function modified_get_trace_moment(
             shadows,
             [kth_moment];
             O=O,
-            compute_cov=compute_sem,
-            compute_renyi=compute_renyi,
-            show_progress=show_progress,
+            is_compute_cov=is_compute_sem,
+            is_compute_renyi=is_compute_renyi,
+            is_show_progress=is_show_progress,
         )
         return s[1]
     end
 end
 
 """
-modified_get_trace_moments(shadows, k_vec; O=nothing, compute_cov=false, compute_renyi=false, show_progress=true)
+modified_get_trace_moments(shadows, k_vec; O=nothing, is_compute_cov=false, is_compute_renyi=false, is_show_progress=false)
 
 估计 k_vec 指定的多个 trace 矩，返回估计向量，需要时返回 jackknife 偏差和协方差矩阵。
 
 算法
 - 枚举 k 个不同随机幺正设置的全部置换，以及这些设置上 shot 的笛卡尔积。
 - 对每个置换算 trace 积（经 get_trace_product）再做平均。
-- compute_renyi 时做 Rényi 换算。
-- compute_cov 为 true 时，逐个去掉一个幺正算 jackknife 值，
+- is_compute_renyi 时做 Rényi 换算。
+- is_compute_cov 为 true 时，逐个去掉一个幺正算 jackknife 值，
   由此构造协方差矩阵和偏差修正估计。
 
 参数
@@ -159,21 +159,21 @@ modified_get_trace_moments(shadows, k_vec; O=nothing, compute_cov=false, compute
 
 关键词参数
 - O::Union{Nothing, MPO}=nothing
-- compute_cov::Bool=false
-- compute_renyi::Bool=false
-- show_progress::Bool=true
+- is_compute_cov::Bool=false
+- is_compute_renyi::Bool=false
+- is_show_progress::Bool=true
 
 返回
-- compute_cov == false：返回长度 nK 的 θ_est::Vector{Float64}。
-- compute_cov == true：返回 (θ_est, bias_vec, Σ)，其中 bias_vec = θ_est - θ_jack，Σ 为协方差矩阵。
+- is_compute_cov == false：返回长度 nK 的 θ_est::Vector{Float64}。
+- is_compute_cov == true：返回 (θ_est, bias_vec, Σ)，其中 bias_vec = θ_est - θ_jack，Σ 为协方差矩阵。
 """
 function modified_get_trace_moments(
     shadows::Array{<:AbstractShadow,2},
     k_vec::Vector{Int};
     O::Union{Nothing,MPO}=nothing,
-    compute_cov::Bool=false,
-    compute_renyi::Bool=false,
-    show_progress::Bool=true,
+    is_compute_cov::Bool=false,
+    is_compute_renyi::Bool=false,
+    is_show_progress::Bool=true,
 )
     n_ru, n_m = size(shadows)
     k_vec_sorted = sort(unique(k_vec)) # 只算互不相同的 k，从小到大
@@ -181,11 +181,11 @@ function modified_get_trace_moments(
 
     # 容器
     θ_est = zeros(Float64, nK)
-    jackmat = compute_cov ? zeros(Float64, n_ru, nK) : nothing
+    jackmat = is_compute_cov ? zeros(Float64, n_ru, nK) : nothing
 
     # --- 辅助函数：单个 k 的估计（含可选 jackknife）----------------
     function single_k(k::Int)
-        @assert !(k == 1 && compute_renyi) "compute_renyi must be false when k == 1."
+        @assert !(k == 1 && is_compute_renyi) "is_compute_renyi must be false when k == 1."
         # 预先枚举置换和测量的笛卡尔积
         perms = collect(permutations(1:n_ru, k))
         cprod = collect(CartesianIndices(ntuple(_ -> 1:n_m, k)))
@@ -193,7 +193,7 @@ function modified_get_trace_moments(
 
         # 每个置换对测量求平均
         perm_avg = zeros(Float64, n_perm)
-        @showprogress desc="Permutations Processing..." enabled=show_progress @threads for pidx in
+        @showprogress desc="Permutations Processing..." enabled=is_show_progress @threads for pidx in
                                                                                            eachindex(
             perms
         )
@@ -208,11 +208,11 @@ function modified_get_trace_moments(
         end
 
         # 定义平均泛函
-        avgfun(x) = compute_renyi ? (1/(1-k))*log2(mean(x)) : mean(x)
+        avgfun(x) = is_compute_renyi ? (1/(1-k))*log2(mean(x)) : mean(x)
 
         θ = avgfun(perm_avg)
 
-        if !compute_cov
+        if !is_compute_cov
             return θ, nothing
         end
 
@@ -228,7 +228,7 @@ function modified_get_trace_moments(
                 end
             end
             μ = s / count
-            jackvals[i] = compute_renyi ? (1 / (1 - k)) * log2(μ) : μ
+            jackvals[i] = is_compute_renyi ? (1 / (1 - k)) * log2(μ) : μ
         end
         return θ, jackvals
     end
@@ -237,13 +237,13 @@ function modified_get_trace_moments(
     # 遍历要算的矩
     for (idx, k) in enumerate(k_vec_sorted)
         θ_est[idx], jv = single_k(k)
-        if compute_cov
+        if is_compute_cov
             jackmat[:, idx] = jv
         end
     end
 
     # 需要时构造协方差
-    if compute_cov
+    if is_compute_cov
         Σ = zeros(Float64, nK, nK)
         for a in 1:nK, b in a:nK           # 对称
             cov =
@@ -281,7 +281,7 @@ end
 
 # 本函数只用于 O == nothing 的情形。
 """
-modified_get_purity_shadow(shadows; compute_sem=false, compute_renyi=false, show_progress=true)
+modified_get_purity_shadow(shadows; is_compute_sem=false, is_compute_renyi=false, is_show_progress=false)
 
 用经典 shadow 估计底层量子态的纯度 Tr(ρ^2)。
 
@@ -290,15 +290,15 @@ modified_get_purity_shadow(shadows; compute_sem=false, compute_renyi=false, show
     (n_ru, n_m) 排列的 shadow。
 
 关键词参数
-- compute_sem::Bool=false
+- is_compute_sem::Bool=false
     为 true 时计算并返回 jackknife 偏差和标准误差。
-- compute_renyi::Bool=false
+- is_compute_renyi::Bool=false
     为 true 时对 jackknife 值做 Rényi 换算（如适用）。
-- show_progress::Bool=true
+- is_show_progress::Bool=true
 
 返回
-- compute_sem == false：返回 purity_estimate::Float64。
-- compute_sem == true：返回 (purity_estimate::Float64, bias::Float64, sem::Float64)。
+- is_compute_sem == false：返回 purity_estimate::Float64。
+- is_compute_sem == true：返回 (purity_estimate::Float64, bias::Float64, sem::Float64)。
 
 说明
 本函数靠 calculate_purity_jackvals 拿纯度估计的 jackknife 值，
@@ -306,19 +306,19 @@ modified_get_purity_shadow(shadows; compute_sem=false, compute_renyi=false, show
 """
 function modified_get_purity_shadow(
     shadows::Array{<:AbstractShadow,2};
-    compute_sem::Bool=false,
-    compute_renyi::Bool=false,
-    show_progress::Bool=true,
+    is_compute_sem::Bool=false,
+    is_compute_renyi::Bool=false,
+    is_show_progress::Bool=true,
 )
     n_ru, n_m = size(shadows)
 
     # 遍历要算的矩
     θ_est, loos = get_purity_loos_shadow(
-        shadows; compute_renyi=compute_renyi, show_progress=show_progress
+        shadows; is_compute_renyi=is_compute_renyi, is_show_progress=is_show_progress
     )
 
     # 需要时构造协方差
-    if compute_sem
+    if is_compute_sem
         variance = (n_ru - 1)^2 / n_ru * var(loos)
         sem = sqrt(variance)
         θ_jack = n_ru * θ_est - (n_ru - 1) * mean(loos)

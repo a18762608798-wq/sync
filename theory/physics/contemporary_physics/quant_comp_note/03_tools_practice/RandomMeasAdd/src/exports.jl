@@ -1,5 +1,6 @@
 # RandomMeas（转导出）
 export siteinds
+export import_MeasurementGroup
 
 # 数据导入
 export import_random_group
@@ -24,3 +25,4 @@ export get_z_r_shadow
 export get_reflect_hamming
 export get_purity_shadow
 export get_purity_hamming
+
