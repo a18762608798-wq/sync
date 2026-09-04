@@ -1,24 +1,24 @@
-# RandomMeas
+# RandomMeas（转导出）
 export siteinds
 
-# I/O
+# 数据导入
 export import_random_group
 
-# shadow utils
+# shadow 工具
 export get_factorized_shadow_mpo
 
-# create ops
+# 算符构造
 export create_reflect_op
 export create_adjacent_swap_op
 export create_unitary_part_reversal_op
 export create_z_op
 
-# modified method
+# 改进后的方法
 export modified_get_expect_shadow
 export modified_get_trace_moment
 export modified_get_purity_shadow
 
-# expect_instance
+# 具体物理量估计
 export get_reflect_shadow
 export get_z_r_shadow
 export get_reflect_hamming

@@ -1,28 +1,30 @@
 # ----------
-# purity
+# purity（纯度）
 # ----------
 """
-get_purity_shadow(filepath, site_indices, permuted_order; G, compute_sem, show_progress)
+get_purity_shadow(filepath, sites, meas_indices_py, group_idx, permuted_order; G, compute_sem, show_progress)
 
-Estimate the purity Tr(ρ²) using classical shadows from saved measurement data.
+用经典 shadow 从存好的测量数据估计纯度 Tr(ρ²)。
 
-Arguments
-- filepath::String: path to the .npz file produced by the measurement routines.
-- site_indices: array of site indices corresponding to the group saved in the file.
-- permuted_order: permutation vector indicating the new ordering of sites.
+参数
+- filepath::String：qmeas.random 生成的 .npz 文件路径。
+- sites：全系统的 site index。
+- meas_indices_py：python 的 meas_indices（从 0 开始的二维列表）。
+- group_idx::Int：要导入第几个 group（Julia 从 1 开始编号）。
+- permuted_order：group 内 site 的置换向量。
 
-Keyword arguments
-- G::Vector{Float64}: weight vector per site (default: ones). It is permuted according to permuted_order.
-- compute_sem::Bool: if true, also compute and return the standard error of the mean (SEM).
-- show_progress::Bool: if true, display progress information.
+关键词参数
+- G::Vector{Float64}：每个 site 的权重（默认全 1），按 permuted_order 置换。
+- compute_sem::Bool：为 true 时同时计算均值标准误差（SEM）。
+- show_progress::Bool：为 true 时显示进度。
 
-Returns
-- If compute_sem == false: returns purity::Float64.
-- If compute_sem == true: returns (purity::Float64, sem::Float64).
+返回
+- compute_sem == false：返回 purity::Float64。
+- compute_sem == true：返回 (purity::Float64, sem::Float64)。
 
-Notes
-This function loads a permuted group from filepath, constructs dense shadows,
-and delegates purity estimation to modified_get_purity_shadow.
+说明
+本函数从 filepath 载入重排后的 group，构造 dense shadow，
+再交给 modified_get_purity_shadow 做纯度估计。
 """
 function get_purity_shadow(
     filepath::String,
@@ -60,29 +62,30 @@ function get_purity_shadow(
 end
 
 """
-get_purity_hamming(filepath, site_indices, permuted_order; compute_sem, show_progress)
+get_purity_hamming(filepath, sites, meas_indices_py, group_idx, permuted_order; compute_sem, show_progress)
 
-Estimate the purity Tr(ρ²) using the overlap-based method ("hamming" variant)
-from saved measurement data, averaging over random unitary settings.
+用基于重叠的方法（"hamming" 变体）从存好的测量数据估计纯度 Tr(ρ²)，
+对各随机幺正设置求平均。
 
-Arguments
-- filepath::String: path to the .npz file produced by the measurement routines.
-- site_indices: array of site indices corresponding to the group saved in the file.
-- permuted_order: permutation vector indicating the new ordering of sites.
+参数
+- filepath::String：qmeas.random 生成的 .npz 文件路径。
+- sites：全系统的 site index。
+- meas_indices_py：python 的 meas_indices（从 0 开始的二维列表）。
+- group_idx::Int：要导入第几个 group（Julia 从 1 开始编号）。
+- permuted_order：group 内 site 的置换向量。
 
-Keyword arguments
-- compute_sem::Bool: if true, compute and return the standard error of the mean (SEM)
-  across different random-unitary settings.
-- show_progress::Bool: if true, display progress information.
+关键词参数
+- compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
+- show_progress::Bool：为 true 时显示进度。
 
-Returns
-- If compute_sem == false: returns purity_est::Float64.
-- If compute_sem == true: returns (purity_est::Float64, sem::Float64).
+返回
+- compute_sem == false：返回 purity_est::Float64。
+- compute_sem == true：返回 (purity_est::Float64, sem::Float64)。
 
-Notes
-This function loads a permuted group, then for each random-unitary setting computes
-the purity via get_overlap(data, data; apply_bias_correction=true),
-and averages the results across settings.
+说明
+本函数载入重排后的 group，对每个随机幺正设置调用
+get_overlap(data, data; apply_bias_correction=true) 算纯度，
+再对各设置求平均。
 """
 function get_purity_hamming(
     filepath::String,
