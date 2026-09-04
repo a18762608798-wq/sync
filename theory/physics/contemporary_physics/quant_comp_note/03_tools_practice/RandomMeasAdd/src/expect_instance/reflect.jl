@@ -34,15 +34,17 @@ and delegates the expectation/SEM estimation to modified_get_expect_shadow.
 """
 function get_reflect_shadow(
     filepath::String,
-    site_indices,
+    sites,
+    meas_indices_py,
+    group_idx::Int,
     permuted_order;
-    G=fill(1.0, length(site_indices))::Vector{Float64},
+    G=fill(1.0, length(collect(meas_indices_py[group_idx])))::Vector{Float64},
     compute_sem=false,
     show_progress=true,
 )
     permuted_G = G[permuted_order]
-    permuted_group, permuted_indices = import_permuted_group(
-        filepath, site_indices, permuted_order
+    permuted_group, permuted_indices = import_random_group(
+        filepath, sites, meas_indices_py, group_idx, permuted_order
     )
     permuted_shadows = get_dense_shadows(permuted_group; G=permuted_G)
     adjacent_swap_op = create_adjacent_swap_op(permuted_indices)
@@ -139,14 +141,16 @@ and averages the results across settings.
 """
 function get_reflect_hamming(
     filepath::String,
-    site_indices,
+    sites,
+    meas_indices_py,
+    group_idx::Int,
     permuted_order;
     compute_sem=false,
     show_progress=true,
 )
     # get data
-    group, _ = import_permuted_group(
-        filepath, site_indices, permuted_order
+    group, _ = import_random_group(
+        filepath, sites, meas_indices_py, group_idx, permuted_order
     )
     u_num = group.NU
     datas = group.measurements
@@ -168,112 +172,5 @@ function get_reflect_hamming(
         reflect_est = mean(reflect_ests)
         return reflect_est
     end
-
-end
-
-# ------------------
-# get reflect pauli
-# ------------------
-function clean_reflect_data(
-    nontrivial_meas_re::AbstractArray{<:Integer, 1}, 
-    nontrivial_base::AbstractArray{<:Integer, 1},
-)
-    # get info
-    qubit_num = length(nontrivial_meas_re)
-    pair_num = qubit_num ÷ 2
-    # storage result
-    dims_vec = [4 for _ = 1:qubit_num]
-    general_meas_re = fill(NaN, Tuple(dims_vec))
-
-    # calculate pauli_est
-    # nontrival
-    general_meas_re[nontrivial_base...] = prod(nontrivial_meas_re)
-
-    # include partial trivial and totally trivial
-    for trivial_num = 1:pair_num
-        for trivial_pair_index in combinations(1:pair_num, trivial_num)
-            # find the trivial indices
-            odd_trivial_indices = 2trivial_pair_index .- 1
-            even_trivial_indices = 2trivial_pair_index
-            # revise the trivial re
-            meas_re = copy(nontrivial_meas_re)
-            meas_re[odd_trivial_indices] .= 1
-            meas_re[even_trivial_indices] .= 1
-            pauli_est = prod(meas_re) 
-            # revise the trivial bases
-            general_base = copy(nontrivial_base)
-            general_base[odd_trivial_indices] .= 1
-            general_base[even_trivial_indices] .= 1
-            # storage
-            general_meas_re[general_base...] = pauli_est
-        end
-    end
-
-    return general_meas_re
-end
-
-function get_reflect_pauli(
-    nontrivial_meas_res::AbstractArray{<:Integer, 2}, 
-    nontrivial_bases::AbstractArray{<:Integer, 2},
-)
-    # get info
-    nontrivial_bases_num, qubit_num = size(nontrivial_bases)
-    # storage
-    dims_vec = [4 for _ = 1:qubit_num]
-    base_sums = zeros(Tuple(dims_vec))
-    base_count = zeros(Int, Tuple(dims_vec))
-    # calculate the est of pauli bases
-    # calculat the sum of pauli bases
-    for base_idx = 1:nontrivial_bases_num
-        nontrivial_meas_re = @view nontrivial_meas_res[base_idx, :]
-        base = @view nontrivial_bases[base_idx, :]
-        meas_re = clean_reflect_data(
-            nontrivial_meas_re,
-            base,
-        )
-
-        hit_pos = .!isnan.(meas_re)
-        base_count .+= hit_pos
-        base_sums[hit_pos] .+= meas_re[hit_pos]
-    end
-    # calculate the est of pauli bases
-    hit_pos = base_count .> 0
-    base_ests = base_sums[hit_pos] ./ base_count[hit_pos]
-    base_est = 1 / sqrt(2)^qubit_num * sum(base_ests)
-
-    return base_est
-end
-
-function get_reflect_pauli(
-    nontrivial_meas_res::AbstractArray{<:Integer, 3}, 
-    nontrivial_bases::AbstractArray{<:Integer, 2};
-    compute_sem=false,
-)
-    shot_num = size(nontrivial_meas_res, 2)
-    base_ests = Vector{Float64}(undef, shot_num)
-    @threads for shot_idx = 1:shot_num
-        nontrivial_meas_re = nontrivial_meas_res[:, shot_idx, :]
-        base_ests[shot_idx] = get_reflect_pauli(
-            nontrivial_meas_re,
-            nontrivial_bases,
-        )
-    end
-    est = mean(base_ests)
-    if compute_sem
-        sem = std(base_ests) / sqrt(shot_num)
-        return est, sem
-    else
-        return est
-    end
-
-end
-
-function get_reflect_pauli(
-    filepath,
-    permuted_order;
-    kwargs...
-)
-    res, bases = import_permuted_pauli(filepath, permuted_order)
-    return get_reflect_pauli(res, bases; kwargs...)
 
 end

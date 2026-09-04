@@ -2,8 +2,7 @@
 export siteinds
 
 # I/O
-export import_permuted_group
-export import_permuted_pauli
+export import_random_group
 
 # shadow utils
 export get_factorized_shadow_mpo
@@ -25,5 +24,3 @@ export get_z_r_shadow
 export get_reflect_hamming
 export get_purity_shadow
 export get_purity_hamming
-export get_reflect_pauli
-export get_purity_pauli

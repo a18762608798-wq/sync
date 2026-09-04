@@ -26,15 +26,17 @@ and delegates purity estimation to modified_get_purity_shadow.
 """
 function get_purity_shadow(
     filepath::String,
-    site_indices,
+    sites,
+    meas_indices_py,
+    group_idx::Int,
     permuted_order;
-    G=fill(1.0, length(site_indices))::Vector{Float64},
+    G=fill(1.0, length(collect(meas_indices_py[group_idx])))::Vector{Float64},
     compute_sem=false,
     show_progress=true,
 )
     permuted_G = G[permuted_order]
-    permuted_group, permuted_indices = import_permuted_group(
-        filepath, site_indices, permuted_order
+    permuted_group, permuted_indices = import_random_group(
+        filepath, sites, meas_indices_py, group_idx, permuted_order
     )
     shadows = get_dense_shadows(permuted_group; G=permuted_G)
 
@@ -84,20 +86,22 @@ and averages the results across settings.
 """
 function get_purity_hamming(
     filepath::String,
-    site_indices,
+    sites,
+    meas_indices_py,
+    group_idx::Int,
     permuted_order;
     compute_sem=false,
     show_progress=true,
 )
-    group, _ = import_permuted_group(
-        filepath, site_indices, permuted_order
+    group, _ = import_random_group(
+        filepath, sites, meas_indices_py, group_idx, permuted_order
     )
 
     u_num = group.NU
     datas = group.measurements
     purity_ests = Vector{Float64}(undef, u_num)
 
-    @showprogress desc="hamming_est..." enabled=show_progress @threads  for u_idx = 1:u_num
+    @showprogress desc="hamming_est..." enabled=show_progress @threads for u_idx = 1:u_num
         data = datas[u_idx]
         purity_ests[u_idx] = get_overlap(data, data, apply_bias_correction=true)
     end
@@ -115,31 +119,5 @@ function get_purity_hamming(
     end
 end
 
-# ------------
-# get pauli purity
-# ------------
-function get_purity_pauli(
-    pauli_path::String,
-    permuted_order::Vector;
-    compute_sem=false,
-    show_progress=true,
-)
-    res, bases = import_permuted_pauli(
-        pauli_path, permuted_order
-    );
-    shot_num = size(res, 2)
-    base_ests = clean_pauli_data(res, bases)
-    purity_est, loos = get_purity_loos_pauli(
-        base_ests;
-        show_progress=show_progress,
-    )
 
-    if compute_sem
-        variance = (shot_num - 1)^2 / shot_num * var(loos)
-        sem = sqrt(variance)
-        return purity_est, sem
-    else
-        return purity_est
-    end
-end
 

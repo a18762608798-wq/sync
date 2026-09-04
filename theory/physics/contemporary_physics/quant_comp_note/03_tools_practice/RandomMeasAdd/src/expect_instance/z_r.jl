@@ -39,16 +39,18 @@ This function:
 """
 function get_z_r_shadow(
     filepath::String,
-    site_indices,
+    sites,
+    meas_indices_py,
+    group_idx::Int,
     permuted_order;
-    G=fill(1.0, length(site_indices))::Vector{Float64},
+    G=fill(1.0, length(collect(meas_indices_py[group_idx])))::Vector{Float64},
     compute_sem=false,
     show_progress=true,
 )
     # get the info of three systems
     # get the groups
-    permuted_group, permuted_indices = import_permuted_group(
-        filepath, site_indices, permuted_order
+    permuted_group, permuted_indices = import_random_group(
+        filepath, sites, meas_indices_py, group_idx, permuted_order
     )
     qubits_num = length(permuted_order)
     pairs_num = qubits_num ÷ 2
