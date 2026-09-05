@@ -28,3 +28,7 @@ tool/file_transform/pdf_to_mark/MinerU/02_core_CIL/output/
 
 # Recreation
 /recreation/
+
+# 已拆分为独立仓库，本地仅作工作区/存档，sync 不再跟踪
+/theory/physics/contemporary_physics/quant_comp_note/03_tools_practice/qmeas/
+/theory/physics/contemporary_physics/quant_comp_note/03_tools_practice/RandomMeasAdd/
