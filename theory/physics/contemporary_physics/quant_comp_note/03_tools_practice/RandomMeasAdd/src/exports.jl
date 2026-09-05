@@ -19,6 +19,7 @@ export create_unitary_part_reversal_op
 export modified_get_expect_shadow
 export modified_get_trace_moment
 export modified_get_purity_shadow
+export modified_get_calibration_vector
 
 # 具体物理量估计
 export get_reflect_shadow
@@ -26,4 +27,5 @@ export get_z_r_shadow
 export get_reflect_hamming
 export get_purity_shadow
 export get_purity_hamming
+
 

@@ -1,13 +1,11 @@
 using RandomMeasAdd
 
 # get sub shadows
-N = 8
-sites = siteinds("Qubit", N)
 group_path = joinpath(
     @__DIR__, "data", "aer_independent_pidx_1",
     "aer_independent_pidx_1_setting1_settings729_shots1024.npz",
 )
-sub_group, sub_indices = import_random_group(group_path, sites; permuted_order=[1, 2, 3, 4]);
+sub_group, sub_indices, _ = import_random_group(group_path; permuted_order=[1, 2, 3, 4]);
 sub_shadows = get_dense_shadows(sub_group);
 
 test_indices = [1, 2]

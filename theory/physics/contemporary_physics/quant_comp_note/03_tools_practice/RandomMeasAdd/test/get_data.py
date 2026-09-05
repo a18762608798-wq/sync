@@ -24,7 +24,9 @@ setting_runs = [
     SettingRun(num_settings=3**5, num_shots=1024),
     SettingRun(num_settings=3**6, num_shots=1024),
 ]
-aer_opts = AerOptions(method="matrix_product_state", device="CPU", precision="single")
+aer_opts = AerOptions(
+    method="matrix_product_state", device="CPU", precision="single", mitigation=True
+)
 
 for scheme_name, meas_indices in schemes.items():
     for pidx in (1, 0, -1):

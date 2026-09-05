@@ -336,3 +336,51 @@ shadow 向量版重载，reshape 成二维再转调主函数。
 function modified_get_purity_shadow(shadows::Vector{<:AbstractShadow}; kwargs...)
     return modified_get_purity_shadow(reshape(shadows, length(shadows), 1); kwargs...)
 end
+
+# --------------------
+# 校准向量 G（复刻上游，加进度条开关）
+# --------------------
+
+"""
+modified_get_calibration_vector(ψ0, measurement_group; is_show_progress=false)
+
+由校准初态 ψ0（通常取 |00…0>）和 trivial 测量数据估计校准向量 G，
+用于 process shadow 求值。参考文献 Vitale et al, PRXQ 2025。
+
+复刻自 RandomMeas 的 `get_calibration_vector`，唯一区别是上游进度条
+写死常开，这里加 `is_show_progress` 开关（默认关闭）。
+
+参数
+- ψ0::MPS：校准初态。
+- measurement_group::MeasurementGroup：trivial 测量数据。
+
+关键词参数
+- is_show_progress::Bool=false：为 true 时显示逐 qubit 进度条。
+
+返回
+- G_e::Vector{Float64}：每个 qubit 的校准值。
+"""
+function modified_get_calibration_vector(
+    ψ0::MPS, measurement_group::MeasurementGroup; is_show_progress=false
+)
+    N = length(ψ0)
+    NU = measurement_group.NU
+    # G_e 存每个 qubit 的 G 估计值。
+    G_e = zeros(Float64, N)
+    @showprogress dt=1 enabled=is_show_progress for i in 1:N
+        reduced_measurement_group = reduce_to_subsystem(measurement_group, [i])
+
+        for r in 1:NU
+            # 用实际测量数据算第 i 个 qubit 的 Born 概率
+            data = reduced_measurement_group.measurements[r]
+            P_measured = MeasurementProbability(data).measurement_probability
+            # 用理想无噪声态 ψ0 算第 i 个 qubit 的期望 Born 概率
+            P_expected = MeasurementProbability(reduce_to_subsystem(ψ0, collect(i:i)), data.measurement_setting).measurement_probability
+            cross_corr = (P_measured * P_expected)[]
+            self_corr = (P_expected * P_expected)[]
+
+            G_e[i] += 3 * (cross_corr - self_corr) / NU + 1 / NU
+        end
+    end
+    return G_e
+end

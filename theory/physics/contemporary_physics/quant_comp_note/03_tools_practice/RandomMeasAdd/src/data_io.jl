@@ -15,8 +15,6 @@ summary json 只给人看，导入不需要它。
 
 参数
 - filepath::String：qmeas.random 生成的单个 .npz 文件路径。
-- sites：全系统的 site index（`siteinds("Qubit", N)`）；整数 qubit 编号
-  用来索引这个向量。
 - permuted_order：全部被测 site 的置换向量（Julia 从 1 开始编号），
   长度等于被测 qubit 总数。缺省为 `nothing`，表示链式（恒等置换），
   即按 npz 列顺序直接导入。
@@ -25,10 +23,12 @@ summary json 只给人看，导入不需要它。
 - permuted_group::MeasurementGroup
 - permuted_sites：重排后的 site Index 对象。
 """
-function import_random_group(filepath::String, sites; permuted_order=nothing)
+function import_random_group(filepath::String; permuted_order=nothing, is_mitigation=false)
     group_data = npzread(filepath)
-    # python 从 0 开始 -> julia 从 1 开始的 qubit 编号，再索引 sites
+    # python 从 0 开始 -> julia 从 1 开始的 qubit 编号
     qubits_jl = vec(Int64.(group_data["meas_indices"])) .+ 1
+    # 全系统 site 数取最大 qubit 编号，在函数内直接构造 sites
+    sites = siteinds("Qubit", maximum(qubits_jl))
     site_indices = sites[qubits_jl]
 
     meas_res = 2 .- Int64.(group_data["measurement_results"])
@@ -44,6 +44,26 @@ function import_random_group(filepath::String, sites; permuted_order=nothing)
         settings[:, permuted_order, :, :],
         permuted_indices,
     )
-    return permuted_group, permuted_indices
+
+    # trivial group
+    G = nothing
+    if is_mitigation
+        @assert haskey(group_data, "trivial_measurement_results") "npz 缺少 trivial_measurement_results：生成该文件时未测 trivial 校准数据，is_mitigation 须为 false"
+        @assert haskey(group_data, "trivial_measurement_settings") "npz 缺少 trivial_measurement_settings：生成该文件时未测 trivial 校准数据，is_mitigation 须为 false"
+        # get group
+        trivial_meas_res = 2 .- Int64.(group_data["trivial_measurement_results"])
+        trivial_settings = ComplexF64.(group_data["trivial_measurement_settings"])
+        permuted_trivial_group = MeasurementGroup(
+            trivial_meas_res[:, :, permuted_order],
+            trivial_settings[:, permuted_order, :, :],
+            permuted_indices,
+        )
+        # get G
+        ψ0 = MPS(permuted_indices, "1")
+        G = modified_get_calibration_vector(ψ0, permuted_trivial_group)
+    end
+    return permuted_group, permuted_indices, G
 end
+
+
 
