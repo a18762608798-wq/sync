@@ -7,7 +7,7 @@ pidx = -1
 permuted_order = [1, 2, 3, 4]
 run_tag = "setting1_settings729_shots1024"
 
-test_indices = collect(1:5)
+test_indices = collect(1:6)
 
 if 1 in test_indices
     scheme = "independent"
@@ -60,5 +60,17 @@ if 5 in test_indices
         group_path; permuted_order=permuted_order, is_compute_sem=true, is_show_progress=true,
     )
 end
+if 6 in test_indices
+    scheme = "shared"
+    group_path = joinpath(
+        @__DIR__, "data", "aer_$(scheme)_pidx_$(pidx)",
+        "aer_$(scheme)_pidx_$(pidx)_$(run_tag).npz",
+    )
+    @show get_z_r_hamming(
+        group_path; permuted_order=permuted_order, is_compute_sem=true, is_show_progress=true,
+    )
+end
+
+
 
 
