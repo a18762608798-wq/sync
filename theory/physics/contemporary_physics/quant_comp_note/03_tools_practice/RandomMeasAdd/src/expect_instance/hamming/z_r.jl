@@ -78,6 +78,11 @@ get_z_r_hamming(filepath; permuted_order, is_mitigation, is_compute_sem, is_show
 - is_mitigation::Bool=false：占位输入，hamming 暂未实现误差缓解，只能为 false。
 - is_compute_sem::Bool：为 true 时同时返回 jackknife 偏差估计和 SEM。
 - is_show_progress::Bool：为 true 时显示进度。
+
+说明
+filepath 也可传文件夹：此时按文件名排序对其中每个 .npz 依次计算，
+返回 (vals::Vector{Float64}, sems::Vector{Float64}) 两个列表
+（bias 不保留）。
 """
 function get_z_r_hamming(
     filepath::String;
@@ -87,6 +92,22 @@ function get_z_r_hamming(
     is_show_progress=false,
 )
     @assert !is_mitigation "get_z_r_hamming 暂未实现误差缓解，is_mitigation 只能为 false"
+    if isdir(filepath)
+        files = sort(filter(
+            f -> endswith(f, ".npz"), readdir(filepath; join=true)
+        ))
+        @assert !isempty(files) "文件夹中没有 .npz 文件：$filepath"
+        vals = Vector{Float64}(undef, length(files))
+        sems = Vector{Float64}(undef, length(files))
+        for (i, f) in enumerate(files)
+            v, _, s = get_z_r_hamming(
+                f; permuted_order, is_mitigation,
+                is_compute_sem=true, is_show_progress,
+            )
+            vals[i], sems[i] = v, s
+        end
+        return vals, sems
+    end
     group, _, _ = import_random_group(
         filepath; permuted_order, is_mitigation
     )

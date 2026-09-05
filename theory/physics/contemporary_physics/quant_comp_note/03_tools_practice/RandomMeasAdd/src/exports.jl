@@ -25,6 +25,8 @@ export modified_get_calibration_vector
 # 具体物理量估计
 export get_reflect_shadow
 export get_z_r_shadow
+export get_reversal_shadow
+export get_z_t_shadow
 export get_reflect_hamming
 export get_purity_shadow
 export get_purity_hamming

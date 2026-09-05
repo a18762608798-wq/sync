@@ -103,16 +103,44 @@ get_z_t_hamming(filepath1, filepath2; permuted_order, is_mitigation, is_compute_
 - is_mitigation::Bool=false：占位输入，hamming 暂未实现误差缓解，只能为 false。
 - is_compute_sem::Bool：为 true 时同时返回 jackknife 偏差估计和 SEM。
 - is_show_progress::Bool：为 true 时显示进度。
+
+说明
+filepath1 也可传文件夹：此时把其中文件名含 exp1/exp2 的 .npz
+各自排序后按顺序配对（要求两两文件名除 exp 标记外完全一致），
+逐对计算并返回 (vals::Vector{Float64}, sems::Vector{Float64}) 两个列表
+（bias 不保留）。此时 filepath2 被忽略。
 """
 function get_z_t_hamming(
     filepath1::String,
-    filepath2::String;
+    filepath2::String="";
     permuted_order=nothing,
     is_mitigation=false,
     is_compute_sem=false,
     is_show_progress=false,
 )
     @assert !is_mitigation "get_z_t_hamming 暂未实现误差缓解，is_mitigation 只能为 false"
+    if isdir(filepath1)
+        all_files = sort(filter(
+            f -> endswith(f, ".npz"), readdir(filepath1; join=true)
+        ))
+        files1 = filter(f -> occursin("exp1", basename(f)), all_files)
+        files2 = filter(f -> occursin("exp2", basename(f)), all_files)
+        @assert !isempty(files1) && length(files1) == length(files2) "配对文件数量不一致或为空：$filepath1"
+        @assert all(
+            replace(basename(a), "exp1" => "exp2") == basename(b)
+            for (a, b) in zip(files1, files2)
+        ) "exp1/exp2 文件名除 exp 标记外必须一一对应。"
+        vals = Vector{Float64}(undef, length(files1))
+        sems = Vector{Float64}(undef, length(files1))
+        for (i, (a, b)) in enumerate(zip(files1, files2))
+            v, _, s = get_z_t_hamming(
+                a, b; permuted_order, is_mitigation,
+                is_compute_sem=true, is_show_progress,
+            )
+            vals[i], sems[i] = v, s
+        end
+        return vals, sems
+    end
     group1, group2, _, _, _ = import_random_pair(
         filepath1, filepath2; permuted_order, is_mitigation
     )

@@ -11,13 +11,12 @@ if !@isdefined(run_tag)
     run_tag = "setting1_settings729_shots1024"
 end
 
-# shadow z_r：independent 数据。
-# NOTE: 这里对permted_order的 odd 和 even 相间要求已经被在get_data的时候考虑.
+# hamming purity：independent 数据，各比特独立幺正。
 scheme = "independent"
 group_path = joinpath(
-    @__DIR__, "..", "..", "data", "aer_$(scheme)_pidx_$(pidx)",
+    @__DIR__, "..", "..", "..", "data", "aer_$(scheme)_pidx_$(pidx)",
     "aer_$(scheme)_pidx_$(pidx)_$(run_tag).npz",
 )
-@show get_z_r_shadow(
+@show get_purity_hamming(
     group_path; permuted_order=permuted_order, is_compute_sem=true, is_show_progress=true,
 )

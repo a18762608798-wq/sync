@@ -10,12 +10,11 @@ DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 
 # 真机按需调小设置数与 shot 数；芯片与比特映射按实际任务填写
 setting_runs = [
-    SettingRun(num_settings=3**5, num_shots=1024),
-    SettingRun(num_settings=3**6, num_shots=1024),
+    SettingRun(num_settings=3**4, num_shots=1024),
 ]
 
 QUARK_TOKEN = os.environ.get("QUARK_TOKEN")
-CHIP = "Dongling"
+CHIP = "Baihua"
 TARGET_QUBITS: list = []
 
 
