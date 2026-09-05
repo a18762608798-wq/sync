@@ -6,6 +6,7 @@ export linkdims
 
 # 数据导入
 export import_random_group
+export import_random_pair
 
 # shadow 工具
 export get_factorized_shadow_mpo
@@ -28,6 +29,8 @@ export get_reflect_hamming
 export get_purity_shadow
 export get_purity_hamming
 export get_z_r_hamming
+export get_reversal_hamming
+export get_z_t_hamming
 
 
 
