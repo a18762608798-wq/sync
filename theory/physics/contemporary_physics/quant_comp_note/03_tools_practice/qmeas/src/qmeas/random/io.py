@@ -15,6 +15,7 @@ def save_npz(
     trivial_binds,
     trivial_counts,
     trivial_num_shots,
+    tag=None,
 ):
     """把一个 SettingRun 的原始计数与测量基写成 RandomMeas.jl 兼容的 npz。"""
     num_settings = setting_run.num_settings
@@ -59,9 +60,10 @@ def save_npz(
         )
 
     config.output_dir.mkdir(parents=True, exist_ok=True)
+    stem = config.name if tag is None else f"{config.name}_{tag}"
     filepath = (
         config.output_dir
-        / f"{config.name}_setting{run_idx}_settings{num_settings}_shots{num_shots}.npz"
+        / f"{stem}_setting{run_idx}_settings{num_settings}_shots{num_shots}.npz"
     )
     np.savez(filepath, **group_data)
     return filepath
@@ -124,7 +126,7 @@ def binds_to_matrix(binds, params, name):
     return np.asarray([binds[p] for p in pvec], dtype=np.float64).T
 
 
-def write_summary(config, npz_paths):
+def write_summary(config, npz_paths, *, pair_info=None):
     """轻量 json: 只含字符串与结构信息, 计数与角度已进 npz。"""
     opts = config.runner_opts
 
@@ -139,6 +141,8 @@ def write_summary(config, npz_paths):
         "meas_indices": config.meas_indices,
         "npz_files": [p.name for p in npz_paths],
     }
+    if pair_info is not None:
+        summary["conjugate_pair"] = pair_info
     if isinstance(opts, QuarkOptions):
         summary["chip"] = opts.chip
         summary["target_qubits"] = opts.target_qubits

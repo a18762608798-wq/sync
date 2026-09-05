@@ -61,3 +61,17 @@ def create_parameter_generator(ensemble, *, seed=None):
         ) from None
 
     return ParameterGenerator(sampler, np.random.default_rng(seed))
+
+
+def conjugate_binds(binds, params, i1_groups):
+    """由实验一的角度绑定构造实验二的绑定：I_1 区各 group 的 φ 取反。
+
+    电路实际施加 u(-θ, 0, -φ)，而 conj(u(-θ, 0, -φ)) = u(-θ, 0, +φ)，
+    故复共轭等价于 φ 变号、θ 不变。不消耗随机数，可复现。
+    """
+    _, phi = params
+    new_binds = dict(binds)
+    for g in i1_groups:
+        p = phi[g]
+        new_binds[p] = [-v for v in binds[p]]
+    return new_binds
