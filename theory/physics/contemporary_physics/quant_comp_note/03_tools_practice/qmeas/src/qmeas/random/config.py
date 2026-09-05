@@ -18,7 +18,9 @@ class SettingRun:
 class AerOptions:
     method: str = "matrix_product_state"
     device: str = "CPU"
-    precision: str = "single"
+    # shadow 估计子里有 3^n 量级的系数放大，单精度舍入噪声会被同步放大，
+    # 故默认双精度。
+    precision: str = "double"
     mitigation: bool = False
 
 

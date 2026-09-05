@@ -25,7 +25,7 @@ setting_runs = [
     SettingRun(num_settings=3**6, num_shots=1024),
 ]
 aer_opts = AerOptions(
-    method="matrix_product_state", device="CPU", precision="single", mitigation=True
+    method="matrix_product_state", device="CPU", precision="double", mitigation=True
 )
 
 for scheme_name, meas_indices in schemes.items():
