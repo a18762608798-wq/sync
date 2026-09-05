@@ -2,17 +2,15 @@
 # purity（纯度）
 # ----------
 """
-get_purity_shadow(filepath, sites; permuted_order, G, is_compute_sem, is_show_progress)
+get_purity_shadow(permuted_group, G; is_compute_sem, is_show_progress)
 
-用经典 shadow 从存好的测量数据估计纯度 Tr(ρ²)。
+用经典 shadow 从重排好的测量 group 估计纯度 Tr(ρ²)。
 
 参数
-- filepath::String：qmeas.random 生成的 .npz 文件路径。
-- sites：全系统的 site index。
+- permuted_group::MeasurementGroup：已重排好的测量 group。
+- G：已处于重排 frame 的校准权重向量（`nothing` 表示全 1）。
 
 关键词参数
-- permuted_order：全部被测 site 的置换向量，缺省 `nothing` 表示链式（按 npz 列顺序）。
-- G::Vector{Float64}：每个 site 的权重（默认全 1），按 permuted_order 置换。
 - is_compute_sem::Bool：为 true 时同时计算均值标准误差（SEM）。
 - is_show_progress::Bool：为 true 时显示进度。
 
@@ -21,23 +19,17 @@ get_purity_shadow(filepath, sites; permuted_order, G, is_compute_sem, is_show_pr
 - is_compute_sem == true：返回 (purity::Float64, sem::Float64)。
 
 说明
-本函数从 filepath 载入重排后的 group，构造 dense shadow，
+本函数为重排好的 group 构造 dense shadow，
 再交给 modified_get_purity_shadow 做纯度估计。
 """
 function get_purity_shadow(
-    filepath::String,
-    sites;
-    permuted_order=nothing,
-    G=nothing,
+    permuted_group,
+    G=nothing;
     is_compute_sem=false,
     is_show_progress=false,
 )
-    permuted_group, permuted_indices = import_random_group(
-        filepath, sites; permuted_order
-    )
-    n_site = length(permuted_indices)
-    order = isnothing(permuted_order) ? collect(1:n_site) : permuted_order
-    permuted_G = isnothing(G) ? ones(n_site) : G[order]
+    n_site = permuted_group.N
+    permuted_G = isnothing(G) ? ones(n_site) : G
     shadows = get_dense_shadows(permuted_group; G=permuted_G)
 
     if is_compute_sem
@@ -60,17 +52,45 @@ function get_purity_shadow(
 end
 
 """
-get_purity_hamming(filepath, sites; permuted_order, is_compute_sem, is_show_progress)
+get_purity_shadow(filepath; permuted_order, is_mitigation, is_compute_sem, is_show_progress)
 
-用基于重叠的方法（"hamming" 变体）从存好的测量数据估计纯度 Tr(ρ²)，
-对各随机幺正设置求平均。
+文件版重载：输入与 `import_random_group` 一致，先导入再调核心方法。
 
 参数
 - filepath::String：qmeas.random 生成的 .npz 文件路径。
-- sites：全系统的 site index。
 
 关键词参数
 - permuted_order：全部被测 site 的置换向量，缺省 `nothing` 表示链式（按 npz 列顺序）。
+- is_mitigation::Bool=false：为 true 时用 trivial 数据算校准向量 G。
+- is_compute_sem::Bool：为 true 时同时计算均值标准误差（SEM）。
+- is_show_progress::Bool：为 true 时显示进度。
+"""
+function get_purity_shadow(
+    filepath::String;
+    permuted_order=nothing,
+    is_mitigation=false,
+    is_compute_sem=false,
+    is_show_progress=false,
+)
+    permuted_group, _, G = import_random_group(
+        filepath; permuted_order, is_mitigation
+    )
+    return get_purity_shadow(
+        permuted_group, G;
+        is_compute_sem, is_show_progress,
+    )
+end
+
+"""
+get_purity_hamming(group; is_compute_sem, is_show_progress)
+
+用基于重叠的方法（"hamming" 变体）从重排好的测量 group 估计纯度 Tr(ρ²)，
+对各随机幺正设置求平均。
+
+参数
+- group::MeasurementGroup：已重排好的测量 group。
+
+关键词参数
 - is_compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
 - is_show_progress::Bool：为 true 时显示进度。
 
@@ -79,21 +99,15 @@ get_purity_hamming(filepath, sites; permuted_order, is_compute_sem, is_show_prog
 - is_compute_sem == true：返回 (purity_est::Float64, sem::Float64)。
 
 说明
-本函数载入重排后的 group，对每个随机幺正设置调用
+本函数对每个随机幺正设置调用
 get_overlap(data, data; apply_bias_correction=true) 算纯度，
 再对各设置求平均。
 """
 function get_purity_hamming(
-    filepath::String,
-    sites;
-    permuted_order=nothing,
+    group;
     is_compute_sem=false,
     is_show_progress=false,
 )
-    group, _ = import_random_group(
-        filepath, sites; permuted_order
-    )
-
     u_num = group.NU
     datas = group.measurements
     purity_ests = Vector{Float64}(undef, u_num)
@@ -116,5 +130,36 @@ function get_purity_hamming(
     end
 end
 
+"""
+get_purity_hamming(filepath; permuted_order, is_mitigation, is_compute_sem, is_show_progress)
+
+文件版重载：输入与 `import_random_group` 一致，先导入再调核心方法。
+注意 hamming 方法暂未实现误差缓解，`is_mitigation` 只能为 false。
+
+参数
+- filepath::String：qmeas.random 生成的 .npz 文件路径。
+
+关键词参数
+- permuted_order：全部被测 site 的置换向量，缺省 `nothing` 表示链式（按 npz 列顺序）。
+- is_mitigation::Bool=false：占位输入，hamming 暂未实现误差缓解，只能为 false。
+- is_compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
+- is_show_progress::Bool：为 true 时显示进度。
+"""
+function get_purity_hamming(
+    filepath::String;
+    permuted_order=nothing,
+    is_mitigation=false,
+    is_compute_sem=false,
+    is_show_progress=false,
+)
+    @assert !is_mitigation "get_purity_hamming 暂未实现误差缓解，is_mitigation 只能为 false"
+    group, _, _ = import_random_group(
+        filepath; permuted_order, is_mitigation
+    )
+    return get_purity_hamming(
+        group;
+        is_compute_sem, is_show_progress,
+    )
+end
 
 

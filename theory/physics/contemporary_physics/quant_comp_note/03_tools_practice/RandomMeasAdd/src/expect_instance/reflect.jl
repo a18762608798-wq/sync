@@ -3,17 +3,16 @@
 # -------------
 
 """
-get_reflect_shadow(filepath, sites; permuted_order, G, is_compute_sem, is_show_progress)
+get_reflect_shadow(permuted_group, permuted_indices, G; is_compute_sem, is_show_progress)
 
 用经典 shadow 计算反射算符 Z_r 的期望值。
 
 参数
-- filepath::String：存好的 shadow/group 数据路径。
-- sites：全系统的 site index。
+- permuted_group::MeasurementGroup：已重排好的测量 group。
+- permuted_indices：重排后的 site Index 对象。
+- G：已处于重排 frame 的校准权重向量（`nothing` 表示全 1）。
 
 关键词参数
-- permuted_order：在算 shadow 之前对 site 做的置换顺序，缺省 `nothing` 表示链式。
-- G::Vector{Float64}：每个 site 的权重（默认全 1），按 permuted_order 置换。
 - is_compute_sem::Bool：为 true 时同时计算均值标准误差（SEM）。
 - is_show_progress::Bool：为 true 时计算过程中显示进度。
 
@@ -22,24 +21,18 @@ get_reflect_shadow(filepath, sites; permuted_order, G, is_compute_sem, is_show_p
 - is_compute_sem == true：返回 (real(expectation)::Float64, sem::Float64)。
 
 说明
-本函数从 filepath 载入重排后的 group，为重排后的系统构造 dense shadow，
+本函数为重排后的系统构造 dense shadow，
 再构造反射用的相邻 swap 算符，把期望/SEM 估计交给
 modified_get_expect_shadow。
 """
 function get_reflect_shadow(
-    filepath::String,
-    sites;
-    permuted_order=nothing,
-    G=nothing,
+    permuted_group,
+    permuted_indices,
+    G=nothing;
     is_compute_sem=false,
     is_show_progress=false,
 )
-    permuted_group, permuted_indices = import_random_group(
-        filepath, sites; permuted_order
-    )
-    n_site = length(permuted_indices)
-    order = isnothing(permuted_order) ? collect(1:n_site) : permuted_order
-    permuted_G = isnothing(G) ? ones(n_site) : G[order]
+    permuted_G = isnothing(G) ? ones(length(permuted_indices)) : G
     permuted_shadows = get_dense_shadows(permuted_group; G=permuted_G)
     adjacent_swap_op = create_adjacent_swap_op(permuted_indices)
 
@@ -60,6 +53,36 @@ function get_reflect_shadow(
         )
         return real(reflect_expect)
     end
+end
+
+"""
+get_reflect_shadow(filepath; permuted_order, is_mitigation, is_compute_sem, is_show_progress)
+
+文件版重载：输入与 `import_random_group` 一致，先导入再调核心方法。
+
+参数
+- filepath::String：存好的 shadow/group 数据路径。
+
+关键词参数
+- permuted_order：在算 shadow 之前对 site 做的置换顺序，缺省 `nothing` 表示链式。
+- is_mitigation::Bool=false：为 true 时用 trivial 数据算校准向量 G。
+- is_compute_sem::Bool：为 true 时同时计算均值标准误差（SEM）。
+- is_show_progress::Bool：为 true 时计算过程中显示进度。
+"""
+function get_reflect_shadow(
+    filepath::String;
+    permuted_order=nothing,
+    is_mitigation=false,
+    is_compute_sem=false,
+    is_show_progress=false,
+)
+    permuted_group, permuted_indices, G = import_random_group(
+        filepath; permuted_order, is_mitigation
+    )
+    return get_reflect_shadow(
+        permuted_group, permuted_indices, G;
+        is_compute_sem, is_show_progress,
+    )
 end
 
 # -------------
@@ -108,16 +131,15 @@ function get_reflect_hamming(
 end
 
 """
-get_reflect_hamming(filepath, sites; permuted_order, is_compute_sem, is_show_progress)
+get_reflect_hamming(group; is_compute_sem, is_show_progress)
 
-用 Hamming 距离法从存好的测量数据算反射期望值，对各随机幺正设置求平均。
+用 Hamming 距离法从重排好的测量 group 算反射期望值，
+对各随机幺正设置求平均。
 
 参数
-- filepath::String：qmeas.random 生成的 .npz 文件路径。
-- sites：全系统的 site index。
+- group::MeasurementGroup：已重排好的测量 group。
 
 关键词参数
-- permuted_order：全部被测 site 的置换向量，缺省 `nothing` 表示链式。
 - is_compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
 - is_show_progress::Bool：为 true 时显示进度。
 
@@ -126,32 +148,27 @@ get_reflect_hamming(filepath, sites; permuted_order, is_compute_sem, is_show_pro
 - is_compute_sem == true：返回 (reflect_est::Float64, sem::Float64)。
 
 说明
-本函数载入重排后的 group，对每个随机幺正设置调用
+本函数对每个随机幺正设置调用
 get_reflect_hamming(::MeasurementData) 算 Hamming 距离反射估计，
 再对各设置求平均。
 """
 function get_reflect_hamming(
-    filepath::String,
-    sites;
-    permuted_order=nothing,
+    group;
     is_compute_sem=false,
     is_show_progress=false,
 )
     # 取数据
-    group, _ = import_random_group(
-        filepath, sites; permuted_order
-    )
     u_num = group.NU
     datas = group.measurements
     reflect_ests = Vector{Float64}(undef, u_num)
 
     # 算 reflect 估计
     ssum = 0
-    @showprogress desc="hamming_est..." enabled=is_show_progress @threads  for u_idx = 1:u_num
+    @showprogress desc="hamming_est..." enabled=is_show_progress @threads for u_idx = 1:u_num
         data = datas[u_idx]
         reflect_ests[u_idx] = get_reflect_hamming(data)
     end
-    
+
     reflect_est = mean(reflect_ests)
 
     if is_compute_sem
@@ -163,3 +180,36 @@ function get_reflect_hamming(
     end
 
 end
+
+"""
+get_reflect_hamming(filepath; permuted_order, is_mitigation, is_compute_sem, is_show_progress)
+
+文件版重载：输入与 `import_random_group` 一致，先导入再调核心方法。
+注意 hamming 方法暂未实现误差缓解，`is_mitigation` 只能为 false。
+
+参数
+- filepath::String：qmeas.random 生成的 .npz 文件路径。
+
+关键词参数
+- permuted_order：全部被测 site 的置换向量，缺省 `nothing` 表示链式。
+- is_mitigation::Bool=false：占位输入，hamming 暂未实现误差缓解，只能为 false。
+- is_compute_sem::Bool：为 true 时计算各随机幺正设置间的均值标准误差（SEM）。
+- is_show_progress::Bool：为 true 时显示进度。
+"""
+function get_reflect_hamming(
+    filepath::String;
+    permuted_order=nothing,
+    is_mitigation=false,
+    is_compute_sem=false,
+    is_show_progress=false,
+)
+    @assert !is_mitigation "get_reflect_hamming 暂未实现误差缓解，is_mitigation 只能为 false"
+    group, _, _ = import_random_group(
+        filepath; permuted_order, is_mitigation
+    )
+    return get_reflect_hamming(
+        group;
+        is_compute_sem, is_show_progress,
+    )
+end
+

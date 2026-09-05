@@ -3,22 +3,18 @@
 # --------------------------------------
 
 """
-get_z_r_shadow(filepath, sites; permuted_order, G, is_compute_sem, is_show_progress)
+get_z_r_shadow(permuted_group, permuted_indices, G; is_compute_sem, is_show_progress)
 
 用经典 shadow 估计 Z_r 量（反射相关的观测量），
 做法是把系统按相邻 site 配对，再由这些配对算出 Z_r。
 
 参数
-- filepath::String
-    存好的 shadow/group 数据路径。
-- sites
-    全系统的 site index。
+- permuted_group::MeasurementGroup：已重排好的测量 group。
+- permuted_indices：重排后的 site Index 对象。
+- G：已处于重排 frame 的校准权重向量（`nothing` 表示全 1）；
+  子系统权重由本函数按奇偶位置索引得到，不需要调用方预拆。
 
 关键词参数
-- permuted_order
-    算 shadow 之前对 site 做的置换顺序，缺省 `nothing` 表示链式。
-- G::Vector{Float64}
-    每个 site 的权重（默认全 1），按 permuted_order 置换。
 - is_compute_sem::Bool
     为 true 时同时返回 jackknife 偏差估计和 SEM。
 - is_show_progress::Bool
@@ -31,35 +27,27 @@ get_z_r_shadow(filepath, sites; permuted_order, G, is_compute_sem, is_show_progr
 
 说明
 本函数：
-- 载入重排后的 group，
 - 把 qubit 按相邻配对拆成奇偶两个子系统，
 - 为全系统和子系统分别构造 dense shadow，
 - 构造相邻 swap 算符，
 - 经 get_z_r_loos_shadow 算 jackknife 值，得到估计和（可选的）SEM。
 """
 function get_z_r_shadow(
-    filepath::String,
-    sites;
-    permuted_order=nothing,
-    G=nothing,
+    permuted_group,
+    permuted_indices,
+    G=nothing;
     is_compute_sem=false,
     is_show_progress=false,
 )
     # 取三个系统的信息
-    # 取 group
-    permuted_group, permuted_indices = import_random_group(
-        filepath, sites; permuted_order
-    )
     qubits_num = length(permuted_indices)
     pairs_num = qubits_num ÷ 2
     odd_order = [2i - 1 for i in 1:pairs_num]
     even_order = [2i for i in 1:pairs_num]
     odd_group = reduce_to_subsystem(permuted_group, odd_order)
     even_group = reduce_to_subsystem(permuted_group, even_order)
-    # 取每个系统的 G
-    n_site = length(permuted_indices)
-    order = isnothing(permuted_order) ? collect(1:n_site) : permuted_order
-    permuted_G = isnothing(G) ? ones(n_site) : G[order]
+    # 取每个系统的 G（G 已处于重排 frame，只需按奇偶位置索引）
+    permuted_G = isnothing(G) ? ones(qubits_num) : G
     odd_G = permuted_G[odd_order]
     even_G = permuted_G[even_order]
     # 生成 shadow
@@ -85,4 +73,35 @@ function get_z_r_shadow(
         return z_r_est
     end
 end
+
+"""
+get_z_r_shadow(filepath; permuted_order, is_mitigation, is_compute_sem, is_show_progress)
+
+文件版重载：输入与 `import_random_group` 一致，先导入再调核心方法。
+
+参数
+- filepath::String：qmeas.random 生成的单个 .npz 文件路径。
+
+关键词参数
+- permuted_order：全部被测 site 的置换向量，缺省 `nothing` 表示链式。
+- is_mitigation::Bool=false：为 true 时用 trivial 数据算校准向量 G。
+- is_compute_sem::Bool：为 true 时同时返回 jackknife 偏差估计和 SEM。
+- is_show_progress::Bool：为 true 时计算过程中显示进度。
+"""
+function get_z_r_shadow(
+    filepath::String;
+    permuted_order=nothing,
+    is_mitigation=false,
+    is_compute_sem=false,
+    is_show_progress=false,
+)
+    permuted_group, permuted_indices, G = import_random_group(
+        filepath; permuted_order, is_mitigation
+    )
+    return get_z_r_shadow(
+        permuted_group, permuted_indices, G;
+        is_compute_sem, is_show_progress,
+    )
+end
+
 
