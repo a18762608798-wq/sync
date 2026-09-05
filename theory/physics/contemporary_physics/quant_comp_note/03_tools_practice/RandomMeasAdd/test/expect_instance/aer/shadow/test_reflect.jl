@@ -11,12 +11,12 @@ if !@isdefined(run_tag)
     run_tag = "setting1_settings729_shots1024"
 end
 
-# hamming z_r：shared 数据。
-scheme = "shared"
+# shadow reflect：independent 数据，各比特独立幺正。
+scheme = "independent"
 group_path = joinpath(
-    @__DIR__, "..", "..", "data", "aer_$(scheme)_pidx_$(pidx)",
+    @__DIR__, "..", "..", "..", "data", "aer_$(scheme)_pidx_$(pidx)",
     "aer_$(scheme)_pidx_$(pidx)_$(run_tag).npz",
 )
-@show get_z_r_hamming(
+@show get_reflect_shadow(
     group_path; permuted_order=permuted_order, is_compute_sem=true, is_show_progress=true,
 )

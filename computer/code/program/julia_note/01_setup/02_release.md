@@ -24,3 +24,10 @@ pkg> dev ~/sync/theory/physics/contemporary_physics/quant_comp_note/03_tools_pra
 dev  = 跟踪本地源码目录
 add  = 安装一个“版本/提交状态”
 ```
+
+## github
+
+```julia
+pkg> activate .
+pkg> add https://github.com/Owner/Repo.jl
+```

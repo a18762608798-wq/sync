@@ -86,3 +86,95 @@ function get_combs_loos_shadow(
 
     return loos
 end
+
+"""
+get_reversal_pair_value(shadow_a, shadow_b_T, U, Ud, deltas)
+
+算一对 shadow 的时间反演交叠值 Tr(A·U·B_T·U†)（已验证过的缩并链）。
+
+参数
+- shadow_a::DenseShadow：第一个设置的 shadow（未转置）。
+- shadow_b_T::DenseShadow：第二个设置的 shadow（已在 I_1 区做部分转置）。
+- U::ITensor：u_T 算符（I_1 区逐比特 σ^y）。
+- Ud::ITensor：U 的 dagger（`dag(U)`，prime 层已验证）。
+- deltas::Vector{ITensor}：预先配好的 δ 张量（按 id 把 plev 0 与 plev 4 腿粘起来求迹）。
+
+返回
+- val::Float64：该有序对的估计值（取实部）。
+
+说明
+缩并链：M1 = A·U(+1) → M2 = M1·Bt(+2) → M3 = M2·Ud(+3)，
+最后用 deltas 缩掉首尾腿。括号内为 prime 层提升数。
+"""
+function get_reversal_pair_value(
+    shadow_a::DenseShadow,
+    shadow_b_T::DenseShadow,
+    U::ITensor,
+    Ud::ITensor,
+    deltas::Vector{ITensor},
+)
+    A = shadow_a.shadow_data
+    Bt = shadow_b_T.shadow_data
+    M1 = A * prime(U, 1)
+    M2 = M1 * prime(Bt, 2)
+    M3 = M2 * prime(Ud, 3)
+    acc = M3
+    for d in deltas
+        acc = acc * d
+    end
+    return real(acc[])
+end
+
+"""
+get_reversal_comb_avgs_shadow(shadows, uT, tpos; is_show_progress)
+
+对随机幺正的所有 2 元组合算时间反演交叠平均（shadow 版 Z_T 分子）。
+
+参数
+- shadows::Vector{DenseShadow}：每设置的 dense shadow（已按 shots 平均）。
+- uT::ITensor：u_T 算符。
+- tpos::Vector{Int}：做部分转置的 site 位置（I_1 区，重排 frame 下的奇位）。
+
+关键词参数
+- is_show_progress::Bool=false：是否显示进度。
+
+返回
+- combs：`combinations(1:n_ru, 2)` 的组合向量。
+- avgs::Vector{Float64}：每个无序对的交叠平均（两 orientation 的均值）。
+
+说明
+每个无序对 {a,b} 的值 = (f(a,b) + f(b,a))/2，其中 f(a,b) 把转置放在
+第二个上。转置 shadow 预先算好（NU 次），deltas 预先配好（1 次）。
+"""
+function get_reversal_comb_avgs_shadow(
+    shadows::Vector{DenseShadow},
+    uT::ITensor,
+    tpos::Vector{Int};
+    is_show_progress=false,
+)
+    n_ru = length(shadows)
+    @assert n_ru ≥ 3 "At least 3 random unitaries are required for reversal estimation."
+    Ud = dag(uT)
+    shadows_T = [partial_transpose(sh, tpos) for sh in shadows]
+
+    # 预配 deltas：任取一对做出 M3，按 id 把 plev 0 腿与 plev 4 腿配起来
+    probe = shadows[1].shadow_data * prime(uT, 1) * prime(shadows_T[2].shadow_data, 2) * prime(Ud, 3)
+    r0 = [ind for ind in inds(probe) if plev(ind) == 0]
+    s4 = [ind for ind in inds(probe) if plev(ind) == 4]
+    deltas = ITensor[]
+    for r in r0
+        s = only([x for x in s4 if id(x) == id(r)])
+        push!(deltas, delta(r, s))
+    end
+
+    combs = collect(combinations(1:n_ru, 2))
+    avgs = Vector{Float64}(undef, length(combs))
+    @showprogress desc="Reversal pairs..." enabled=is_show_progress @threads for pidx in eachindex(combs)
+        a, b = combs[pidx]
+        fwd = get_reversal_pair_value(shadows[a], shadows_T[b], uT, Ud, deltas)
+        bwd = get_reversal_pair_value(shadows[b], shadows_T[a], uT, Ud, deltas)
+        avgs[pidx] = (fwd + bwd) / 2
+    end
+
+    return combs, avgs
+end

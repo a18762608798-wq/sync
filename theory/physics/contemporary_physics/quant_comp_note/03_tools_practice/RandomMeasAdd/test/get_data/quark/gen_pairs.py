@@ -18,7 +18,7 @@ pair_indices = [(2,), (5,), (3,), (4,)]
 
 def gen_pairs():
     """生成时间反演配对数据（Z_T hamming 用，真机）。"""
-    for pidx in (1, 0, -1):
+    for pidx in (1,):
         qc = get_initial_state(N_QUBITS, pidx=pidx)
         name = f"quark_pair_pidx_{pidx}"
         meas_config = RandomMeasConfig(

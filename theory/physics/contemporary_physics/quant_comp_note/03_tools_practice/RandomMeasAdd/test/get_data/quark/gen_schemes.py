@@ -21,7 +21,7 @@ schemes = {
 def gen_schemes():
     """生成 independent/shared 两套方案数据（shadow 与 z_r 用，真机）。"""
     for scheme_name, meas_indices in schemes.items():
-        for pidx in (1, 0, -1):
+        for pidx in (1,):
             qc = get_initial_state(N_QUBITS, pidx=pidx)
             name = f"quark_{scheme_name}_pidx_{pidx}"
             meas_config = RandomMeasConfig(
