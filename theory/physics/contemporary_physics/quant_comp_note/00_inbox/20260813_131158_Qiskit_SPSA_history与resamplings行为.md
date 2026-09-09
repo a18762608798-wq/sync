@@ -6,7 +6,9 @@
 
 ## 背景
 
-在变分参数演化项目（variational_param_evolution）中，用 Qiskit 的 `SPSA` 优化器对含噪目标函数（真机/Aer 采样）做参数优化。需要记录优化轨迹并理解最终结果含义，排查"history 里很多 `fun` 比 `res.fun` 更优"的疑惑。
+在变分参数演化项目（variational_param_evolution）中，用 Qiskit 的 `SPSA` 优化器
+对含噪目标函数（真机/Aer 采样）做参数优化。需要记录优化轨迹并理解最终结果含义，
+排查"history 里很多 `fun` 比 `res.fun` 更优"的疑惑。
 
 ## 内容
 
@@ -30,27 +32,33 @@ optimizer.callback = callback
 
 要点：
 - 只记录 `accepted=True` 的点（blocking/trust_region 判定真正被接受的更新）。
-- 让 objective 收到的 `history=None`，避免 objective 内部重复记录，history 完全由 callback 统一管理。
+- 让 objective 收到的 `history=None`，避免 objective 内部重复记录，history 完全
+  由 callback 统一管理。
 - 初始点 t0、被拒绝的点都不进 history。
 
 ### 2. SPSA 的 result 是"最后一个被接受点"，非最优点
 
 - Qiskit SPSA 本质是随机梯度下降，**默认不维护 best-so-far**。
-- `result.x` / `result.fun` 对应**最后一次被接受的迭代点**及其函数值，因此可能比 history 中某些访问过的点更差。
+- `result.x` / `result.fun` 对应**最后一次被接受的迭代点**及其函数值，因此可能比
+  history 中某些访问过的点更差。
 - 想要返回最优，需在 callback 里自己维护：`min(history, key=lambda h: h["fun"])`。
 
 ### 3. result.fun 是在最终参数处重新评估一次
 
-同一组参数在 history 中记录的 `value` 与 `res.fun` 可能不同（如 `-2.8918` vs `-2.8544`）：
+同一组参数在 history 中记录的 `value` 与 `res.fun` 可能不同（如 `-2.8918` vs
+`-2.8544`）：
 - 因为 SPSA 结束时用最终 `result.x` **重新评估一次**目标函数，写入 `result.fun`。
 - 目标函数含噪（shot noise / 多样本平均）时，同一参数两次评估结果不同。
-- 结论：含噪场景下 `res.fun` 或单次 history 值都不稳，应在最优参数处多次评估取均值。
+- 结论：含噪场景下 `res.fun` 或单次 history 值都不稳，应在最优参数处多次评估取均
+  值。
 
 ### 4. resamplings 参数：每次迭代都重采样
 
-- `resamplings=N` 表示**每次参数更新（每次迭代）**用 N 个不同扰动向量 Δ 做 N 次梯度估计并取平均，用于压低 shot 噪声。
+- `resamplings=N` 表示**每次参数更新（每次迭代）**用 N 个不同扰动向量 Δ 做 N 次
+  梯度估计并取平均，用于压低 shot 噪声。
 - 非"只在最后一个点"重采样。
-- 代价：每迭代目标评估次数变为 `2 × resamplings`（blocking 时还要额外验算），增大 resamplings 会按比例增加评估开销。
+- 代价：每迭代目标评估次数变为 `2 × resamplings`（blocking 时还要额外验算），增
+  大 resamplings 会按比例增加评估开销。
 
 ## 要点
 

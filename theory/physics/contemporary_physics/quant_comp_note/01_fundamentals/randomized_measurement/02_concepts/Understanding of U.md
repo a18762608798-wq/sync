@@ -2,7 +2,8 @@
 
 ## Definition
 
-Which is a Sencond order tensor, one input and one output. There are two kinds of viewpoint: basics vectors and coordinate.
+Which is a Sencond order tensor, one input and one output. There are two kinds
+of viewpoint: basics vectors and coordinate.
 
 **We prefer the viewpoint of basis vectors.**
 

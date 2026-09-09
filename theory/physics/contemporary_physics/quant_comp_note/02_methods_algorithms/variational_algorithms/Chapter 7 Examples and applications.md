@@ -17,7 +17,8 @@ observable_1 = SparsePauliOp.from_list([("II", 2), ("XX", -2), ("YY", 3), ("ZZ",
 
 ## 7.2 VQD example
 
-* Change betas: ensuring they are bigger than the difference between eigenvalues.
+* Change betas: ensuring they are bigger than the difference between
+  eigenvalues.
 * Calculate the eigenvalue follow the order.
 
 ## 7.3 Quantum chemistry: ground state and excited energy solver

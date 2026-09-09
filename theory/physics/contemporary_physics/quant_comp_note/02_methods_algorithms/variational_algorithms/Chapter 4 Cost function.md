@@ -14,41 +14,53 @@ jupyter:
     name: python3
 ---
 
-we'll learn about *Qiskit Runtime primitives* and define a "cost function"-a problem-specific function that defines the problem's goal for the optimizer to minimize (or maximize).
-![[Chapter 1 Variational algorithms#^3]]
+we'll learn about *Qiskit Runtime primitives* and define a "cost function"-a
+problem-specific function that defines the problem's goal for the optimizer to
+minimize (or maximize). [Chapter 1 Variational algorithms](<./Chapter 1 Variational algorithms.md#11-simplified-hybrid-workflow>)
 
 ## 4.1 Primitives
 
-* `Sampler`: Give a quatum state $\psi$, then obtains the probability of **each possible computational basis** state. 
-* `Estimator`: Give a a quantum observable $\hat H$ and a state $\psi$, this primitive computes the **expected value** of $\hat H$.
+* `Sampler`: Give a quatum state $\psi$, then obtains the probability of **each
+  possible computational basis** state.
+* `Estimator`: Give a a quantum observable $\hat H$ and a state $\psi$, this
+  primitive computes the **expected value** of $\hat H$.
 [^1]: The computational basis usually refers to the standard basis spanned by |0⟩ and |1⟩. For instance $|k\rangle = |0100011\rangle$
 
 ### 4.1.1 Sampler
 
-The Sampler does not rely on theoretical calculations but rather on **simulated measurement processes**. So it is only efficient *for sparse probability distributions*;
+The Sampler does not rely on theoretical calculations but rather on **simulated
+measurement processes**. So it is only efficient *for sparse probability
+distributions*;
 [^2]: The sparsity is to reduce the number of shots while maintaining accuracy. Classical algorithms can also utilize sparsity.
 [^3]: High-dimensional cases, sampler can also be roughly estimated.
 
 ### 4.1.2 Estimator
 
-**Experimentally**, The Estimator calculating the expectation value by breaking down the observable into a combination of other observables whose eigenbasis we do know **as the hardware could only be directed measured on a computational basis and we always do not know the U operation that transforms to the Pauli basis.**
+**Experimentally**, The Estimator calculating the expectation value by breaking
+down the observable into a combination of other observables whose eigenbasis we
+do know **as the hardware could only be directed measured on a computational
+basis and we always do not know the U operation that transforms to the Pauli
+basis.**
 
 <span style="color:red">However, StatevectorEstimator using the analytical method but with experimental input...</span>, such that when using the eigenvalue estimator, **we only need the original reference circuit.**
 
-Give a a quantum observable $\hat H$ and a state $\psi$, assume $\hat H = \sum_{k=0}^{4^n - 1} \omega_k \hat P_k$
+Give a a quantum observable $\hat H$ and a state $\psi$, assume
+$\hat H = \sum_{k=0}^{4^n - 1} \omega_k \hat P_k$
 
 $$
 \langle\hat H\rangle_{\psi} = \sum_{k=0}^{4^n - 1} \omega_k \sum_{j=0}^{2^n} p_{kj}\lambda_{kj}
 $$
 where 
 * n is the number of bits,
-* $\langle \hat P_k\rangle = \sum_{j=0}^{2^n}p_{kj}\lambda_{kj}$, $\hat P_k$ is a Pauli basis.
+* $\langle \hat P_k\rangle = \sum_{j=0}^{2^n}p_{kj}\lambda_{kj}$, $\hat P_k$ is
+  a Pauli basis.
 * $k_l \in \{0, 1, 2, 3\}$,
 * $\{\sigma_0, \sigma_1, \sigma_2, \sigma_3\} := \{I, X, Y, Z\}$.
 [^4]: the dim of matrix basis is $N^2$ and  the dim of $\hat H$ is $2^n$, therefore the num of Pauli basis is $4^n$. Which Consistent with the composition of the Pauli basis.
 [^5]: Similarly it is only efficient *for sparse distributions*.
 
-For instance, $\langle +|\hat H|+\rangle = 2\langle +|\hat X|+\rangle - \langle +|\hat Z|+\rangle$
+For instance,
+$\langle +|\hat H|+\rangle = 2\langle +|\hat X|+\rangle - \langle +|\hat Z|+\rangle$
 
 ```python
 from qiskit import QuantumCircuit
@@ -90,7 +102,8 @@ aux_circuits[0].draw()
 aux_circuits[1].draw()
 ```
 
-We can now carry out the computation manually using `Sampler` and check the results on `Estimator`:
+We can now carry out the computation manually using `Sampler` and check the
+results on `Estimator`:
 
 ```python
 from qiskit.primitives import StatevectorSampler, StatevectorEstimator
@@ -160,7 +173,9 @@ for obs, expval in zip(observables, estimator_expvals): # a list composed of tup
 
 ### 4.2.1 Challenges
 
-Notice how we will only be able to minimize the cost function for the limited set of states that we are considering. This leads us to two separate possibilities:
+Notice how we will only be able to minimize the cost function for the limited
+set of states that we are considering. This leads us to two separate
+possibilities:
 
 - Our ansatz does not define the solution state across the search space.
 - Local optimal solution.
@@ -215,7 +230,8 @@ print(cost)
 
 #### 4.2.2.2  real quantum computer computation
 
-Isa format is not matched for quark studio, we will talk this question in the future.
+Isa format is not matched for quark studio, we will talk this question in the
+future.
 
 ### 4.2.3 Max-Cut question
 
@@ -237,16 +253,19 @@ mpl_draw(
 )
 ```
 
-This problem can be expressed as a binary optimization problem. The classical cost function form:
+This problem can be expressed as a binary optimization problem. The classical
+cost function form:
 
 $$
 C(\vec \theta) = \sum_{i,j=0}^n w_{ij}x_i(1-x_j)
 $$
-where the value of $x_i$ depends on the set to which it belongs(0 or 1), $w_{ij}$ is the weight between $x_i$ and $x_j$. 
+where the value of $x_i$ depends on the set to which it belongs(0 or 1),
+$w_{ij}$ is the weight between $x_i$ and $x_j$.
 
 #### 4.2.3.2 quantum form
 
- The observables that Qiskit admits natively consist of Pauli operators, that have eigenvalues 1 and −1 instead of 0 and 1. 
+The observables that Qiskit admits natively consist of Pauli operators, that
+have eigenvalues 1 and −1 instead of 0 and 1.
 
 $$
 C(\vec \theta) = \sum_{i,j=0}^n w_{ij}\frac{1-z_i}{2}(1-\frac{1-z_i}{2}) = \sum_{i,j=0}\frac{w_{ij}}{4} - \sum_{i,j=0} \frac{w_{ij}}{4}z_iz_j
@@ -259,7 +278,8 @@ $$
 C(\vec \theta) = \frac{1}{2} \sum_{i = 0}^n \sum_{j = 0}^i \omega_{ij} - \frac{1}{2}\sum_{i = 0}^n \sum_{j = 0}^i w_{ij} z_i z_j 
 $$
 
-Moreover, the natural tendency of a quantum computer is to find minima (usually the lowest energy)
+Moreover, the natural tendency of a quantum computer is to find minima (usually
+the lowest energy)
 
 * case of classical query:
 
@@ -339,13 +359,15 @@ print(max_cut_cost)
 
 #### 4.3.1 Error Suppression
 
-Error suppression refers to techniques used to **optimize and transform a circuit during compilation** in order to minimize errors.
+Error suppression refers to techniques used to **optimize and transform a
+circuit during compilation** in order to minimize errors.
 
 - Expressing the circuit using the native gates available on a quantum system
 - Mapping the virtual qubits to physical qubits
 - Adding SWAPs based on connectivity requirements
 - Optimizing 1Q and 2Q gates
-- Adding dynamical decoupling to idle qubits to prevent the effects of decoherence.
+- Adding dynamical decoupling to idle qubits to prevent the effects of
+  decoherence.
 
 ```python
 from qiskit.circuit import Parameter, QuantumCircuit
@@ -445,7 +467,8 @@ plt.show()
 
 ### 4.2.1 Hilbert-Schmidt内积
 
-对于n维矩阵，可由n个矩阵规范正交完备矩阵构成，这玩意应该要点数学理论，但是我其实根本上是不完全清楚的。
+对于n维矩阵，可由n个矩阵规范正交完备矩阵构成，这玩意应该要点数学理论，但是我其实
+根本上是不完全清楚的。
 
 
 * 正交要求：
@@ -464,7 +487,8 @@ $$
 $$
 \sum_i A_i\otimes A_i^\dagger = I_{HS}
 $$
-综上，假$\hat{\mathcal{H}}$ 是希尔伯特空间, $\{\hat B_i\}_{i=1}^{N^2}$ 是一组完备基矢，则有：
+综上，假$\hat{\mathcal{H}}$ 是希尔伯特空间, $\{\hat B_i\}_{i=1}^{N^2}$ 是一组完
+备基矢，则有：
 
 $$
 \begin{cases}
@@ -475,7 +499,8 @@ $$
 
 ### 4.2.2 Theorem of Adiabatic Process
 
-根据量子绝热定理，当哈密顿量随时间缓慢变化时，若系统初始处于某非简并本征态（通常是基态），则系统将始终保持在该哈密顿量的瞬时本征态上.
+根据量子绝热定理，当哈密顿量随时间缓慢变化时，若系统初始处于某非简并本征态（通常
+是基态），则系统将始终保持在该哈密顿量的瞬时本征态上.
 #### 4.2.2.1 Continuous adiabatic evolution
 
 For the Hamiltonian of the form:
@@ -486,8 +511,9 @@ $$
 where: 
 * Initially, the system is the ground state of $\hat H_B$.
 * $\hat H_C$ is the targeted Hamiltonian, $\hat H_B$ is the primal Hamiltonian, 
-* when $\hat H(t)$ from $\hat H_B$ to $\hat H_C$, $T \rightarrow \infty$, 
-**The system has been in the $\hat H(t)$ ground state, and will be in the ground state of $\hat H_C$ at the last.**
+* when $\hat H(t)$ from $\hat H_B$ to $\hat H_C$, $T \rightarrow \infty$, **The
+  system has been in the $\hat H(t)$ ground state, and will be in the ground
+  state of $\hat H_C$ at the last.**
 
 #### 4.2.2.2 Discrete adiabatic evolution
 

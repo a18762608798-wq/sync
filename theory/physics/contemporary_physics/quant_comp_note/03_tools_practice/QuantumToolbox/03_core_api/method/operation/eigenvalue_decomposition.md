@@ -21,14 +21,15 @@ eigenenergies(A::QuantumObject; sparse::Union{Bool,Val}=Val(false), kwargs...)
 > 计算力学量期望；可以选择稀疏与否, 并继承对应的eigenstates的关键字参数.
 
 * A::QuantumObject: the QuantumObject(主要是力学量) to solve eigenvalues
-* sparse::Union{Bool,Val}: if false call eigvals(A::QuantumObject; kwargs...), otherwise call eigsolve. Default to Val(false).
+* sparse::Union{Bool,Val}: if false call eigvals(A::QuantumObject; kwargs...),
+  otherwise call eigsolve. Default to Val(false).
 * kwargs: Additional keyword arguments passed to the solver.
     If sparse=true, the keyword arguments are passed to `eigsolve`,
         - `eigvals`（个数）、`krylovdim`、`tol`、`maxiter`（迭代精度类）
         - `sigma`（位移）、`v0`（初向量）
         - `sortby`、`rev`（排序）
         - `solver`（线性求解器）+ 其它传给 LinearSolve 的 kwargs（如 `abstol`、`reltol`）
-    otherwise to `LinearAlgebra.eigen/eigvals`.
+          otherwise to `LinearAlgebra.eigen/eigvals`.
         - `sortby`(按照...排序) 等.
 
 ## 对角化

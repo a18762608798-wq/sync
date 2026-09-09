@@ -83,9 +83,11 @@ result
 $$
 C(\vec \theta) = \sum_{j = 0}^{k - 1} w_j \langle \rho_j | U_V^\dagger(\vec\theta)\hat H U_V(\vec \theta) |\rho_j\rangle
 $$
-Where $\langle \rho_i|\rho_j\rangle = \delta_{ij}$, $k \le N$; If $j < l < k$ then $\omega_j > \omega_l$.
+Where $\langle \rho_i|\rho_j\rangle = \delta_{ij}$, $k \le N$; If $j < l < k$
+then $\omega_j > \omega_l$.
 
-The advantage of this algorithm is to calculate the eigenvalue subspace $\{\lambda_0, \lambda_1, ..., \lambda_j, ..., \lambda_{k-1}\}$
+The advantage of this algorithm is to calculate the eigenvalue subspace
+$\{\lambda_0, \lambda_1, ..., \lambda_j, ..., \lambda_{k-1}\}$
 
 [^1]: of course you will get some same eigenvalues when the system is degenerate.
 
@@ -177,7 +179,9 @@ $$
 C_{k}(\vec \theta) := \langle \psi(\vec \theta)|\hat H_k|\psi(\vec \theta)\rangle
 $$
 
-where, $\hat H_k = \hat H_{k - 1} + \beta_{k - 1} |\psi(\vec \theta^{k - 1})\rangle\langle \psi(\vec \theta^{k - 1})\rangle$, $\hat H_0 = \hat H$, $\beta_{k - 1} < \lambda_{k} - \lambda_{k - 1}$.
+where,
+$\hat H_k = \hat H_{k - 1} + \beta_{k - 1} |\psi(\vec \theta^{k - 1})\rangle\langle \psi(\vec \theta^{k - 1})\rangle$,
+$\hat H_0 = \hat H$, $\beta_{k - 1} < \lambda_{k} - \lambda_{k - 1}$.
 
 Therefore, the form of this cost function: 
 

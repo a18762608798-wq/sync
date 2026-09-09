@@ -7,7 +7,7 @@
 设置 → 高级
 → 勾选“允许此计算机上的其他应用程序与 Zotero 通信”
 
-使用本地 API 时不需要 Zotero API Key，但 Zotero 桌面程序必须保持运行。本地模式读取速度快，并支持 PDF 全文访问。
+使用本地 API 时不需要 Zotero API Key，**但 Zotero 桌面程序必须保持运行**。本地模式读取速度快，并支持 PDF 全文访问。
 
 ## 安装 uv
 

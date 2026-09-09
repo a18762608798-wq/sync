@@ -32,6 +32,27 @@
   }
 ```
 
+## 配置pi MCP
+
+关闭自更新, 因为无法检测代理地址.
+
+```json
+{
+  "mcpServers": {
+    "zotero": {
+      "command": "zotero-mcp",
+      "args": ["serve"],
+      "transport": "stdio",
+      "lifecycle": "eager",
+      "env": {
+        "FASTMCP_CHECK_FOR_UPDATES": "off",
+        "NO_PROXY": "127.0.0.1,localhost"
+      }
+    }
+  }
+}
+```
+
 ## 语义搜索
 
 ### 基础配置

@@ -16,7 +16,8 @@ dims = (2, 2, 2)
 
 ### basis method
 
-basis([T::Type=ComplexF64,] N::Int, j::Int=0; dims::Union{Int,AbstractVector{Int},Tuple}=N, sparse::Union{Bool,Val}=Val(false))
+basis([T::Type=ComplexF64,] N::Int, j::Int=0; dims::Union{Int,AbstractVector{Int},Tuple}=N,
+sparse::Union{Bool,Val}=Val(false))
 
 > 创造单位态.
 
@@ -37,9 +38,11 @@ dims = (2, 2, 2)
 
 ### fock method
 
-fock_dm([T::Type=ComplexF64,] N::Int, j::Int=0; dims::Union{Int,AbstractVector{Int},Tuple}=N, sparse::Union{Bool,Val}=Val(false))
+fock_dm([T::Type=ComplexF64,] N::Int, j::Int=0; dims::Union{Int,AbstractVector{Int},Tuple}=N,
+sparse::Union{Bool,Val}=Val(false))
 
->Density matrix representation of a Fock state with element type T = ComplexF64 (default).
+>Density matrix representation of a Fock state with element type T = ComplexF64
+>(default).
 
 ---
 
@@ -86,7 +89,8 @@ zero_ket(ComplexF32, (2, 3, 3)) # the room: 2 * 3 * 3
 zero_ket([T::Type=ComplexF64,] dims)
 ```
 
->Returns a zero Ket vector with given argument dimensions and element type T = ComplexF64
+>Returns a zero Ket vector with given argument dimensions and element type T =
+>ComplexF64
 (default).
 
 ## conherent

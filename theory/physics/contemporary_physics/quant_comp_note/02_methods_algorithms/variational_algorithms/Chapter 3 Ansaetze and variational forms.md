@@ -14,9 +14,9 @@ jupyter:
     name: python3
 ---
 
-According to Chapter 1, ![[Chapter 1 Variational algorithms#^2]]
-we'll construct our ansatz by applying this variational form to our reference state, viz., construct 
-$\hat U_V(\vec \theta)$; 
+According to Chapter 1, [Chapter 1 Variational algorithms](<./Chapter 1 Variational algorithms.md#11-simplified-hybrid-workflow>) we'll construct
+our ansatz by applying this variational form to our reference state, viz.,
+construct $\hat U_V(\vec \theta)$;
 [^1]: We refer to the combination of these two halves as an ansatz: $\hat U_V(\vec \theta)\hat U_R = \hat U_A​$, but they are two separated part continuous function in circuit.
 [^2]: There dimensionality of n-quant system is $2^{2n}$, meaning the complexity of  **traversing** the target state $|\psi(\vec \theta)\rangle$ during the optimization process is too tough. To counter this setback, it is common practice to impose some **reasonable constraints on the variational form**(Mainly the form of the restricted state and restrict our circuit search space to a specific type, The specific parameter path still depends on the classic optimization algorithms.) such that **only the most relevant states are explored**.
 
@@ -46,13 +46,20 @@ circ.draw("mpl")
 
 ## 3.2 Heuristic ansaetze and trade-offs
 
-If you do not have any information about your particular problem that can help restrict the dimensionality, you can try an arbitrary family of parameterized circuits with fewer than $2^{2n}$ parameters. However, reducing the space could risk excluding the actual solution to the problem, leading to suboptimal solutions. 
+If you do not have any information about your particular problem that can help
+restrict the dimensionality, you can try an arbitrary family of parameterized
+circuits with fewer than $2^{2n}$ parameters. However, reducing the space could
+risk excluding the actual solution to the problem, leading to suboptimal
+solutions.
 
 ### 3.2.1 N-local circuits
 
-Definition: These circuits consist of *rotation and entanglement layers* that are repeated alternatively one or more times; Each layer is formed by **gates of size at most N**.
+Definition: These circuits consist of *rotation and entanglement layers* that
+are repeated alternatively one or more times; Each layer is formed by **gates of
+size at most N**.
 [^3]: Optionally(Always), an extra rotation layer is added to the end of the circuit.
-Advantage: it is easy to be achieved and could captures important correlations...
+Advantage: it is easy to be achieved and could captures important
+correlations...
 
 #### 3.2.1.1 TwoLocal
 

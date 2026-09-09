@@ -20,7 +20,8 @@ jupyter:
 
 #### 5.1.1.1 SLSQP
 
-This implies that the convergence of these algorithms will usually be **fast**, but can be  be especially vulnerable to **local minima**.
+This implies that the convergence of these algorithms will usually be **fast**,
+but can be be especially vulnerable to **local minima**.
 
 ```python
 from qiskit import QuantumCircuit
@@ -93,7 +94,9 @@ result
 
 #### 5.1.1.2 COBYLA
 
-Gradient-free optimization algorithms do not require gradient information and can be useful in situations **where computing the gradient is difficult, expensive, or too noisy**.
+Gradient-free optimization algorithms do not require gradient information and
+can be useful in situations **where computing the gradient is difficult,
+expensive, or too noisy**.
 [^1]: First, use a coarser mesh to probe the local lowest direction, and then **dynamically adjust** the mesh density based on the results: expand the exploration if the results are good, and shrink the mesh for a finer search if the results are poor.
 [^2]: **Gradient-free optimization has no particular resistance to Barren Plateaus.**
 
@@ -112,16 +115,23 @@ result
 
 ### Global optimizers
 
-Global optimizers evaluating it iteratively (that is, **at iteration i) over a set of parameter vectors** $\Theta_{i} := \vec \theta_{i, j}| j \in \mathcal{J}_{opt}^i$​ determined by the optimizer.  This makes them less susceptible to local minima and somewhat independent of initialization, but also significantly slower to converge to a proposed solution.
+Global optimizers evaluating it iteratively (that is, **at iteration i) over a
+set of parameter vectors**
+$\Theta_{i} := \vec \theta_{i, j}| j \in \mathcal{J}_{opt}^i$​ determined by the
+optimizer. This makes them less susceptible to local minima and somewhat
+independent of initialization, but also significantly slower to converge to a
+proposed solution.
 
 ### bootstrapping optimization
 
-Set the initial value for parameters $\vec \theta$ based on a prior optimization. meaning: 
+Set the initial value for parameters $\vec \theta$ based on a prior
+optimization. meaning:
 
 $$
 |\psi(\vec \theta_0)\rangle = \hat U_V(\vec \theta_0) |\rho\rangle
 $$
 
-$\hat U_V(\vec \theta_0)$ has same structure with latter iterative $\vec \theta$ circuit.
+$\hat U_V(\vec \theta_0)$ has same structure with latter iterative $\vec \theta$
+circuit.
 
 

@@ -41,7 +41,8 @@ $$
 - 变分层: 对插值演化算符做 Trotter 离散,
   得到每层作用在偶/奇键上的两比特门
   - $U_{\mathrm{even/odd}}(\{\theta\}) = \prod_{j} e^{-i\theta_x \sigma_x^{[j]}\sigma_x^{[j+1]} - i\theta_y \sigma_y^{[j]}\sigma_y^{[j+1]} - i\theta_z \sigma_z^{[j]}\sigma_z^{[j+1]}}$
-  - 即 $N_L$ 层的 $|\psi_{\mathrm{ansatz}}(\{\theta\})\rangle = \prod_{l=1}^{N_L} U^{(l)}_{\mathrm{even}}(\{\theta_e\}) U^{(l)}_{\mathrm{odd}}(\{\theta_o\}) |\psi_{\mathrm{singlets}}\rangle$.
+  - 即 $N_L$ 层的
+    $|\psi_{\mathrm{ansatz}}(\{\theta\})\rangle = \prod_{l=1}^{N_L} U^{(l)}_{\mathrm{even}}(\{\theta_e\}) U^{(l)}_{\mathrm{odd}}(\{\theta_o\}) |\psi_{\mathrm{singlets}}\rangle$.
 
 ### 后处理方法
 

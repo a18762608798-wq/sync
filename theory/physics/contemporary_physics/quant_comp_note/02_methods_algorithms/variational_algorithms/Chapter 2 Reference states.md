@@ -14,8 +14,10 @@ jupyter:
     name: python3
 ---
 
-According to Chapter 1, ![[Chapter 1 Variational algorithms#^1]]
-In this lesson, we will explore how we can initialize our system with a **reference state to help our variational algorithm converge faster** and **affects the quality of the solution**. 
+According to Chapter 1, [Chapter 1 Variational algorithms](<./Chapter 1 Variational algorithms.md#11-simplified-hybrid-workflow>) In this lesson,
+we will explore how we can initialize our system with a **reference state to
+help our variational algorithm converge faster** and **affects the quality of
+the solution**.
 [^1]: In the fact, Its function is not only to enhance the convergence speed, but also to **Problem-specific encoding**. In applications such as quantum machine learning, the reference state can be used to encode training data, as shown in *zz_feature_map*.
 
 ## 2.1 Default state
@@ -79,7 +81,10 @@ display(circ.draw("mpl"))
 ```
 ### 2.3.3 Quantum machine learning
 
-Aim to **feature map the input dataset to the parms of the parameters of initialize circuit** to form the reference state, the `zz_feature_map` is a type of parameterized circuit that can be utilized to pass our data points (x) to this feature map.
+Aim to **feature map the input dataset to the parms of the parameters of
+initialize circuit** to form the reference state, the `zz_feature_map` is a type
+of parameterized circuit that can be utilized to pass our data points (x) to
+this feature map.
 
 ```python
 from qiskit.circuit.library import zz_feature_map
