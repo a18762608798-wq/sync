@@ -1,5 +1,9 @@
 # the params solution
 
+## purity
+
+> 这个证明不涉及 $\omega_j$ 的具体形式
+
 Known
 
 $$
@@ -12,7 +16,7 @@ $$
 $$
 \begin{split}
 &u = tr(\tau_j^{(2)}(\omega_j)) = tr(\omega_j) \\
-&t = tr(S_j\tau_j^{(2)}(\omega_j)) = tr(S_j\omega_j) \\
+&t = tr(S_j\tau_j^{(2)}(\omega_j)) = tr(S_j\omega_j) \\ \tag{1}
 \end{split}
 $$
 
@@ -36,8 +40,8 @@ $$
 
 $$
 \begin{cases}
-tr[\tau^{(2)}(\omega_j)] = 4a + 2b = u\\
-tr[S_j\tau^{(2)}(\omega_j)] = 2a + 4b = t
+tr(\tau_j^{(2)}(\omega_j)) = 4a + 2b = u\\
+tr(S_j\tau_j^{(2)}(\omega_j)) = 2a + 4b = t
 \end{cases}
 $$
 
@@ -49,5 +53,3 @@ u = 2\\
 t = 4
 \end{cases}
 $$
-
-> two-copy local unitary “twirling channel” [@Vitale-etal-2024, p. 12]

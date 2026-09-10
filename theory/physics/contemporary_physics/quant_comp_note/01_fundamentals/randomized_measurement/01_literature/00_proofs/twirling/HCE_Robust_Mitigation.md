@@ -108,22 +108,22 @@ $$
 对一切 $\rho$ 无偏，当且仅当
 $\tau^{(2)}(\tilde W)=2^{-N}S$，
 即逐比特 $\tau_j(Q_j)=S_j/2$。
-记 $t_j=\mathrm{tr}Q_j$，$u_j=\mathrm{Tr}S_jQ_j$，条件是
-（对照你 Pair 一节的展开式：$t_j$ 管 $I\otimes I$ 项的系数，
-$u_j$ 管 SWAP 项的系数）
+记 $u_j=\mathrm{tr}Q_j$，$t_j=\mathrm{Tr}S_jQ_j$，条件是
+（对照你 Pair 一节的展开式：$u_j$ 管 $I\otimes I$ 项的系数，
+$t_j$ 管 SWAP 项的系数）
 
 $$
-t_j=1,\qquad u_j=2.
+u_j=1,\qquad t_j=2.
 $$
 
-## $t_j$ 方程：与噪声无关的求和规则
+## $u_j$ 方程：与噪声无关的求和规则
 
 保迹给出
 $\mathrm{tr}\,\Lambda^*(|a\rangle\langle a|)
 =\mathrm{tr}(|a\rangle\langle a|\Lambda(I))=1$，所以
 
 $$
-t_j=\sum_{a,b}g_j(a,b)=2x_j+2y_j=1.
+u_j=\sum_{a,b}g_j(a,b)=2x_j+2y_j=1.
 $$
 
 即
@@ -134,12 +134,12 @@ $$
 
 跟噪声完全无关。还剩一个方程定核函数。
 
-## $u_j$ 方程：每比特只需一个噪声参数
+## $t_j$ 方程：每比特只需一个噪声参数
 
 用 $\mathrm{tr}(S(A\otimes B))=\mathrm{tr}(AB)$，
 
 $$
-u_j=\sum_{a,b}g_j(a,b)M^{(j)}_{ab}
+t_j=\sum_{a,b}g_j(a,b)M^{(j)}_{ab}
 =A_jx_j+B_jy_j=2,
 $$
 
@@ -281,7 +281,7 @@ $A=4G^2-4G+2$；
 $c_a:=\mathrm{tr}\,\Lambda^*(|a\rangle\langle a|)=1$。
 对 amplitude damping 这类非 unital 信道，
 $c_0=1+\delta$、$c_1=1-\delta$，
-$t_j=1$ 的条件变成
+$u_j=1$ 的条件变成
 $x(c_0^2+c_1^2)+2yc_0c_1=1$。
 $c_a/2$ 可直接从 calibration 单 shots 频率
 的 Haar 平均读出（单拷贝 twirl），
