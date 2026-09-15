@@ -53,6 +53,47 @@
 }
 ```
 
+## 编辑模式开启
+
+原因：`Zotero` 本地 API 只读，`local-only` 下写工具直接报错
+`Cannot perform write operations in local-only mode`。
+需切 `hybrid` 模式（本地读 + `web API` 写）：
+
+1. 取凭证（需先登录）：`https://www.zotero.org/settings/keys/new`
+   （`Settings → Feeds/API → Create new private key`），`Description` 如 `opencode-mcp-write`；
+   `Personal Library` 勾 `Allow library access + Allow notes access + Allow write access`，
+   `Default Group Permissions` 不用群组库选 `None`。
+   同页顶部 `Your userID for use in API calls is ...` 即数字 `userID`（如 `17874348`，
+   不是用户名，也不是本地的 `0/1`；群组库才用 `groupID` + `ZOTERO_LIBRARY_TYPE=group`）。
+2. 密钥存 `~/.profile`，不明文落盘：
+
+```bash
+export ZOTERO_API_TOKEN="..."
+export ZOTERO_USERID="17874348"
+```
+
+3. 改 `~/.config/opencode/opencode.jsonc` 的 `mcp.zotero.environment`，用 `{env:...}` 引用
+   （`zotero-mcp` 只认 `ZOTERO_API_KEY`，名字必须对上）：
+
+```jsonc
+"zotero": {
+  "type": "local",
+  "command": ["/home/mintusr/.local/bin/zotero-mcp"],
+  "enabled": true,
+  "environment": {
+    "ZOTERO_LOCAL": "true",
+    "ZOTERO_API_KEY": "{env:ZOTERO_API_TOKEN}",
+    "ZOTERO_LIBRARY_ID": "{env:ZOTERO_USERID}",
+    "ZOTERO_LIBRARY_TYPE": "user"
+  }
+}
+```
+
+4. 从 `source ~/.profile` 过的终端重启 `opencode`
+   （桌面图标启动继承不到变量会掉回只读），`opencode mcp list` 显示 `zotero connected` 即通；
+   写后桌面端点 `Sync` 才能看到。
+5. 含密钥引用，注意 `chmod 600 ~/.config/opencode/opencode.jsonc`，别提交。
+
 ## 语义搜索
 
 ### 基础配置
