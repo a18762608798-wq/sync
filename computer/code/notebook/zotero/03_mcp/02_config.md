@@ -65,14 +65,14 @@
    `Default Group Permissions` 不用群组库选 `None`。
    同页顶部 `Your userID for use in API calls is ...` 即数字 `userID`（如 `17874348`，
    不是用户名，也不是本地的 `0/1`；群组库才用 `groupID` + `ZOTERO_LIBRARY_TYPE=group`）。
-2. 密钥存 `~/.profile`，不明文落盘：
+2. 密钥存 `~/.bashrc`，不明文落盘：
 
 ```bash
 export ZOTERO_API_TOKEN="..."
 export ZOTERO_USERID="17874348"
 ```
 
-3. 改 `~/.config/opencode/opencode.jsonc` 的 `mcp.zotero.environment`，用 `{env:...}` 引用
+1. 改 `~/.config/opencode/opencode.jsonc` 的 `mcp.zotero.environment`，用 `{env:...}` 引用
    （`zotero-mcp` 只认 `ZOTERO_API_KEY`，名字必须对上）：
 
 ```jsonc
@@ -89,10 +89,10 @@ export ZOTERO_USERID="17874348"
 }
 ```
 
-4. 从 `source ~/.profile` 过的终端重启 `opencode`
+1. 从 `source ~/.bashrc` 过的终端重启 `opencode`
    （桌面图标启动继承不到变量会掉回只读），`opencode mcp list` 显示 `zotero connected` 即通；
    写后桌面端点 `Sync` 才能看到。
-5. 含密钥引用，注意 `chmod 600 ~/.config/opencode/opencode.jsonc`，别提交。
+2. 含密钥引用，注意 `chmod 600 ~/.config/opencode/opencode.jsonc`，别提交。
 
 ## 语义搜索
 
@@ -147,10 +147,11 @@ nvim ~/.config/zotero-mcp/config.json
 ```text
 "embedding_model": "openai",
 "embedding_config": {
-  "model_name": "text-embedding-v4"
+  "model_name": "text-embedding-v4",
+  "request_batch_size": 20
 },
 "openai_batch": {
-  "enabled": false
+  "enabled": true
 },
 ```
 

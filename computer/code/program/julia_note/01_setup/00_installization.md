@@ -7,7 +7,7 @@
 ```bash
 rm -rf ~/.juliaup ~/.julia 2>/dev/null
 curl -fsSL https://install.julialang.org | sh
-source ~/.profile  # 使配置生效
+source ~/.bashrc  # 使配置生效
 ```
 
 the further renew
@@ -37,4 +37,4 @@ Simply download the exe file.
 
 ### multithreading
 
-add `export JULIA_NUM_THREADS=8` in `~/.profile`
+add `export JULIA_NUM_THREADS=8` in `~/.bashrc`

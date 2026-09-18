@@ -35,8 +35,8 @@ curl -sSf https://join.golem.network/as-provider | bash -
 安装完后，更新你的环境变量（只需做一次）：（一般系统添加过了。）
 
 ```bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.profile
-source ~/.profile
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ---

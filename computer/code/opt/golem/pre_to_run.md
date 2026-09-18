@@ -29,8 +29,8 @@ cargo install gftp --features bin --locked
 
  3) 确认版本并加入 PATH（~/.cargo/bin）
 ~/.cargo/bin/gftp --version
-echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.profile
-source ~/.profile
+echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 
 
 需要逆天密钥
