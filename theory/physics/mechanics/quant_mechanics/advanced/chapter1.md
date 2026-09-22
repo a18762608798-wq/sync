@@ -25,12 +25,13 @@ collection:
 性质：
 
 - 测 $F$ 得 $F_n$ 的概率 $P(F_n) = \mathrm{tr}(P_n\rho) = |C_n|^2$。
-- 密度算符运动方程 $d\rho/dt = [H,\rho]/i\hbar$（von Neumann 方程），对比 Heisenberg 绘景力学量演化多一负号。
+- 密度算符运动方程 $i\hbar \frac{d \rho}{d t} = [H,\rho]$（von Neumann 方程），
+对比 Heisenberg 绘景力学量演化多一负号。
 - 能量表象是其特例的直接推论（见下条）。
 
 ### 能量表象演化 energy-representation evolution (PDF p47)
 
-定义：以 $H$ 本征态为基时 $\dot\rho_{nn'} = (E_n - E_{n'})\rho_{nn'}/i\hbar$。
+定义：以 $H$ 本征态为基时 $i\hbar\dot\rho_{nn'} = (E_n - E_{n'})\rho_{nn'}$。
 
 性质：
 
@@ -62,7 +63,7 @@ collection:
 
 ### 流密度 probability current (PDF p47)
 
-定义：$K = [Pr\cdot p + p\cdot rP(r)]/2m$ 在 $|\psi\rangle$ 下平均值即流密度 $j(r)$。
+定义：$K = [P(r)r\cdot p + p\cdot rP(r)]/2m$ 在 $|\psi\rangle$ 下平均值即流密度 $j(r)$。
 
 性质：
 
@@ -70,11 +71,13 @@ collection:
 
 ### 混合态 mixed state (PDF p50)
 
-定义：体系以概率 $p_k$ 处于纯态 $|\psi_k\rangle$ 的统计混合，$\rho = \sum_k p_k|\psi_k\rangle\langle\psi_k|$，$0 \le p_k \le 1$，$\sum_k p_k = 1$。
+定义：体系以概率 $p_k$ 处于纯态 $|\psi_k\rangle$ 的统计混合，
+$\rho = \sum_k p_k|\psi_k\rangle\langle\psi_k|$，$0 \le p_k \le 1$，$\sum_k p_k = 1$。
 
 性质：
 
-- 除 $\rho^2 = \rho$ 不再成立，其余纯态性质照旧：$\rho^\dagger = \rho$、$\mathrm{tr}\rho = 1$、$d\rho/dt = [H,\rho]/i\hbar$。
+- 除 $\rho^2 = \rho$ 不再成立，其余纯态性质照旧：
+$\rho^\dagger = \rho$、$\mathrm{tr}\rho = 1$、$i\hbar d\rho/dt = [H,\rho]$。
 - $\mathrm{tr}\rho^2 \le 1$，等号只对纯态成立。
 - 平均值公式形式不变：$\langle G\rangle = \mathrm{tr}(\rho G)$。
 
@@ -113,17 +116,6 @@ collection:
 - 不同制备可得相同密度矩阵：各向同性无规指向与 $z/\bar z$ 各半混合都是 $I/2$，注意此时 $\rho^2 \ne \rho$ 并不违反纯态性质因它本是混合态。
 - 完全极化态 $\rho(n) = (1 + \sigma\cdot n)/2$。
 
-### 正则系综 canonical ensemble (PDF p52)
-
-定义：与大热源平衡的体系 $\rho = e^{-\beta H}/Z$，$\beta = 1/kT$，$Z = \mathrm{tr}\,e^{-\beta H}$。
-
-性质：
-
-- 能量表象对角，占有概率 $P(E_n) = e^{-\beta E_n}/Z$。
-- 谐振子 $\langle E\rangle = \hbar\omega(1/2 + 1/(e^{\beta\hbar\omega} - 1))$，高温回经典 $kT$，低温归基态。
-
-关系（§1.2 内）：纯态 vs 混合态——判据是 $\rho^2 = \rho$（纯）还是 $\mathrm{tr}\rho^2 < 1$（混）；叠加 vs 混合——前者是相干叠加（非对角元活着），后者是统计混合（制备信息丢失），例 4 的荒谬推论即混淆二者所致；$W(r)$ vs $W(p)$——各给其一都定不了态，相位信息不在其中。
-
 ## §1.3 复合体系
 
 ### 直积态与纠缠态 product and entangled states (PDF p53)
@@ -133,7 +125,7 @@ collection:
 性质：
 
 - 推广到 $N$ 体：全可分解才算直积态。
-- 混合态纠缠复杂得多，见 Horodecki RMP 2009。
+- 混合态纠缠复杂得多(MPO? 暂不讨论.)，见 Horodecki RMP 2009。
 - EPR 佯谬是最早的非定域性表述，Schrödinger 猫态见第 3 章。
 
 ### 约化密度矩阵 reduced density matrix (PDF p54)
@@ -153,6 +145,7 @@ collection:
 性质：
 
 - 这是密度矩阵语言下直积/纠缠的充要判据，与 §1.3.1 矢量定义等价。
+- 在MPO语言中是两个系统中间 link dim 为 1(**但是$D \ge 2$的时候不一定纠缠**)
 
 ### Schmidt 分解 Schmidt decomposition (PDF p55–56)
 

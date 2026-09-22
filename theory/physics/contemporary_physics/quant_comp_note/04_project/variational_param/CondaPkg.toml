@@ -2,3 +2,6 @@
 numpy = ""
 matplotlib = ""
 pandas = ""
+scipy = "1.18.1"
+qiskit = "2.5.2"
+qiskit-aer = "0.17.2"
