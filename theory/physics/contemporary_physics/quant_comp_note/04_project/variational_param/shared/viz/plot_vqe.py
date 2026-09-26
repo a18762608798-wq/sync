@@ -50,11 +50,20 @@ def main() -> None:
     ap.add_argument("--png", default="task3_vqe/data/figures/vqe_comparison_deltap1.png")
     ap.add_argument("--no-pdf", action="store_true", help="skip same-name PDF output")
     ap.add_argument("--title", default="VQE vs analytic (L=8)")
-    ap.add_argument("--mode", choices=("full", "min", "q", "zr"), default="full",
+    ap.add_argument("--mode", choices=("full", "min", "q", "zr", "o", "s"), default="full",
                     help="full: 5 lines (E0/E1 + 3 inits); min: 3 lines (E0/E1 + min(VQE)); "
-                         "q: 2 lines (analytic Q + Q_vqe); zr: 2 lines (analytic tilde_ZR + ZR_vqe)")
+                         "q: 2 lines (analytic Q + Q_vqe); zr: 2 lines (analytic tilde_ZR + ZR_vqe); "
+                         "o: 2 lines (analytic O_str_norm + O_norm_vqe); "
+                         "s: 2 lines (analytic S_pi_norm + S_norm_vqe)")
     ap.add_argument("--q-vqe-csv", default="task3_vqe/data/interim/vqe_Q_L8_OBC.csv")
     ap.add_argument("--q-csv", default="task1_baseline/data/interim/Q_L8_OBC.csv")
+    ap.add_argument("--os-vqe-csv", default="task8_hardware_vqe/data/interim/vqe_sym_OS_L8_OBC.csv")
+    ap.add_argument("--ostr-csv", default="task1_baseline/data/interim/Ostr_L8_OBC.csv")
+    ap.add_argument("--spi-csv", default="task1_baseline/data/interim/Spi_L8_OBC.csv")
+    ap.add_argument("--os-aer-csv", default=None,
+                    help="Aer-d1 O/S 第三线（列 s,delta,O_norm,S_norm），给出则加画")
+    ap.add_argument("--ylim", nargs=2, type=float, default=None,
+                    help="覆盖默认纵轴范围，如 --ylim -1.6 1.6（后选择 Q 可超 [-1,1]）")
     ap.add_argument("--zr-vqe-csv", default="task3_vqe/data/interim/vqe_ZR_L8_OBC.csv")
     ap.add_argument("--zr-csv", default="task1_baseline/data/interim/tilde_ZR_L8_OBC.csv")
     args = ap.parse_args()
@@ -73,6 +82,65 @@ def main() -> None:
     for col in ("s", "delta", "E0", "E1"):
         if col not in a.columns:
             fail(f"{args.spectra_csv} missing column: {col}")
+
+    if args.mode in ("o", "s"):
+        is_o = args.mode == "o"
+        vcol, acol, alabel, vlabel, ylabel = (
+            ("O_norm", "O_str_norm", r"$O_{\mathrm{str,norm}}$ analytic",
+             r"$O_{\mathrm{norm,VQE}}$", r"$O_{\mathrm{norm}}$") if is_o else
+            ("S_norm", "S_pi_norm", r"$S_{\mathrm{norm}}$ analytic",
+             r"$S_{\mathrm{norm,VQE}}$", r"$S_{\mathrm{norm}}$"))
+        acsv = args.ostr_csv if is_o else args.spi_csv
+        for p in (args.os_vqe_csv, acsv):
+            if not os.path.isfile(p):
+                fail(f"input CSV not found: {p}")
+        try:
+            ov = pd.read_csv(args.os_vqe_csv)
+            oa = pd.read_csv(acsv)
+        except Exception as e:  # noqa: BLE001
+            fail(f"cannot parse CSV: {e}")
+        for col in ("s", "delta", vcol):
+            if col not in ov.columns:
+                fail(f"{args.os_vqe_csv} missing column: {col}")
+        if acol not in oa.columns:
+            fail(f"{acsv} missing column: {acol}")
+        vv = ov[abs(ov["delta"] - args.delta) < 1e-12].sort_values("s")
+        aa = oa[abs(oa["delta"] - args.delta) < 1e-12].sort_values("s")
+        if len(vv) == 0 or len(aa) == 0:
+            fail(f"no rows for delta={args.delta}")
+        aer = None
+        if args.os_aer_csv:
+            if not os.path.isfile(args.os_aer_csv):
+                fail(f"input CSV not found: {args.os_aer_csv}")
+            try:
+                aer = pd.read_csv(args.os_aer_csv)
+            except Exception as e:  # noqa: BLE001
+                fail(f"cannot parse CSV: {e}")
+            for col in ("s", "delta", vcol):
+                if col not in aer.columns:
+                    fail(f"{args.os_aer_csv} missing column: {col}")
+            aer = aer[abs(aer["delta"] - args.delta) < 1e-12].sort_values("s")
+            if len(aer) == 0:
+                fail(f"no rows for delta={args.delta} in {args.os_aer_csv}")
+        fig, ax = plt.subplots(figsize=(8, 5.2), dpi=150)
+        ax.plot(aa["s"], aa[acol], label=alabel, color="black")
+        if aer is not None:
+            ax.plot(aer["s"], aer[vcol], label=r"$\mathrm{Aer}$-$d1$",
+                    color="green", linestyle="--")
+        ax.plot(vv["s"], vv[vcol], label=vlabel, marker="D",
+                markersize=3, linestyle="-", color="C3")
+        ax.set_xlabel("s")
+        ax.set_ylabel(ylabel)
+        ax.set_title(args.title)
+        ax.legend(loc="best")
+        fig.tight_layout()
+        atomic_save(fig, args.png)
+        print(f"wrote {args.png}")
+        if not args.no_pdf:
+            pdf = os.path.splitext(args.png)[0] + ".pdf"
+            atomic_save(fig, pdf)
+            print(f"wrote {pdf}")
+        return
 
     if args.mode == "q":
         for p in (args.q_vqe_csv, args.q_csv):
@@ -98,7 +166,7 @@ def main() -> None:
                 markersize=3, linestyle="-", color="C3")
         ax.set_xlabel("s")
         ax.set_ylabel("Q")
-        ax.set_ylim(-1.1, 1.1)
+        ax.set_ylim(args.ylim if args.ylim else (-1.1, 1.1))
         ax.set_title(args.title)
         ax.legend(loc="best")
         fig.tight_layout()

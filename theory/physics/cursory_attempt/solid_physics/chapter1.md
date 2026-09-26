@@ -7,7 +7,7 @@ collection:
 
 # Kittel Ch1 Crystal Structure — 主线概念
 
-本书：@kittel2020introduction
+本书：@Kittel-
 
 ## 1. 晶体构成
 
@@ -15,6 +15,7 @@ collection:
 
 - 定义：全同重复的结构单元，可为单原子或多原子。
 - 性质：基元内第 $j$ 原子相对位置为
+
 $$
 \mathbf{r}_j = x_j\mathbf{a}_1 + y_j\mathbf{a}_2 + z_j\mathbf{a}_3
 $$
@@ -24,6 +25,7 @@ $0 \le x_j,y_j,z_j < 1$。
 
 - 定义：基元代表点即格点 (lattice point，也称阵点)的无限周期集合。
 - 性质：点阵平移不变，格矢为
+
 $$
 \mathbf{r}' = \mathbf{r} + u_1\mathbf{a}_1 + u_2\mathbf{a}_2 + u_3\mathbf{a}_3
 $$
@@ -40,6 +42,7 @@ $$
 
 - 定义：体积最小的周期重复单元。
 - 性质：每原胞只含 1 格点，体积为
+
 $$
 V_c = \mathbf{a}_1 \cdot \mathbf{a}_2 \times \mathbf{a}_3
 $$

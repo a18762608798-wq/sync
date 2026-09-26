@@ -1,8 +1,7 @@
-贴出来，我帮你判断有没有改善 👍
-
-# 关于tailscale:
+# 关于tailscale
 
 ## 部署
+
 * ✅ 1️⃣ 安装
 
 ```bash
@@ -22,19 +21,23 @@ sudo tailscale up
 ```bash
 tailscale status
 ```
+
 ## 一般功能
 
 👉 能看到一个 `100.x.x.x` 的 IP 就行
 
-# 连接
+### 连接
+
 sudo tailscale up
 
-# 断开
+### 断开
+
 sudo tailscale down
 
-# 查看状态
+### 查看状态
+
 tailscale status
 
-# 完全退出
-sudo tailscale logout
+## 完全退出
 
+sudo tailscale logout
