@@ -2,7 +2,7 @@
 
 ## 可利用的库
 
-`qmeas` 库中有对于 ssh 初始态(注意边界需要True)和哈密顿量.
+`qmeas` 库位置：`quant_comp_note/03_tools_practice/qmeas`（内有 ssh 初始态和哈密顿量，注意边界需要 True）。
 
 ## 真机比特
 
