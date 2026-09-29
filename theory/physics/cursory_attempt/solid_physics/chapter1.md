@@ -21,9 +21,9 @@ $$
 $$
 $0 \le x_j,y_j,z_j < 1$。
 
-### 点阵 (lattice，也称晶格、布拉维格子 Bravais lattice)
+### 点阵 (lattice，也称晶格、**布拉维格子** Bravais lattice)
 
-- 定义：基元代表点即格点 (lattice point，也称阵点)的无限周期集合。
+- 定义：基元代表点即格点 (lattice point，也称阵点)的无限周期集合, **不考虑basis内部结构**。
 - 性质：点阵平移不变，格矢为
 
 $$
@@ -50,7 +50,7 @@ $$
 
 ### 晶胞 (unit cell) / 惯用晶胞 (conventional cell)
 
-- 定义：为反映对称性约定的重复单元，常用惯用晶胞。
+- 定义：为反映对称性约定的重复单元，常用惯用晶胞(**不同于Bravais lattice, 需要考虑basis内部结构**)。
 - 性质：体积为原胞整数倍，可含多个格点。
 - 例：只有简单立方 sc (simple cubic)的惯用晶胞同时是原胞，体心立方 bcc (body-centered cubic)含 2 格点，面心立方 fcc (face-centered cubic)含 4 格点。
 
