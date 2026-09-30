@@ -6,7 +6,7 @@
 
 ## $S(q)$ 的 $q$ 选取
 
-$S(q)$ 选三相代表点（trivial $(s,\delta)=(0.02,0.06)$、topo $(0.98,0.06)$、AFM $(0.5,2.94)$，各一条 $S(q)$ vs $q$ 曲线，说明 AFM 点在 $q=\pi$ 的响应，引出后文只保留 $S(\pi)$；
+$S(q)$ 选三相代表点（trivial $(s,\delta)=(0.02,0.06)$、topo $(0.98,0.06)$、AFM $(0.5,2.94)$，各一条 $S(q)$ vs $q$ 曲线，$q$ 在 $[0,2\pi)$ 取49个点），说明 AFM 点在 $q=\pi$ 的响应，引出后文只保留 $S(\pi)$；
 
 ## $2\times2$ observable 表征
 
@@ -15,6 +15,8 @@ $S(q)$ 选三相代表点（trivial $(s,\delta)=(0.02,0.06)$、topo $(0.98,0.06)
 $$
 \boxed{S(\pi),\quad O_{\rm str},\quad Q,\quad \tilde Z_{\mathcal R}}
 $$
+
+热力图所用基态向量在shared数据中, 直接利用防止重复计算.
 
 > 逻辑链：phase diagram $\to$ 三相代表点 $\to$ $S(q)$ 为什么取 $\pi$ $\to$ $S(\pi),O_{\rm str}$ 为什么值得真机测；
 

@@ -22,13 +22,33 @@ specify init --here --integration opencode --script sh
 实测生成以下文件：
 
 ```text
-.opencode/commands/speckit.{specify,clarify,plan,tasks,implement,...}.md
-.specify/
-├── memory/constitution.md   项目原则，长期保留
-├── templates/               spec/plan/tasks/checklist 模板
-├── scripts/bash/            create-new-feature.sh 等自动化脚本
-├── integration.json
-└── init-options.json
+your-project/
+│
+├── .opencode/commands/speckit.{specify,clarify,plan,tasks,implement,...}.md
+├── .specify/
+│   ├── memory/
+│   │   └── constitution.md      ★ 项目级规则
+│   │
+│   ├── templates/               ← Spec Kit 自己的模板
+│   ├── scripts/                 ← 自动化脚本
+│   └── ...
+│
+└── specs/
+    │
+    └── 001-user-auth/
+        ├── spec.md              ★ 需求：WHAT / WHY
+        ├── plan.md              ★ 技术方案：HOW
+        ├── tasks.md             ★ 实现任务
+        │
+        ├── research.md          ○ 技术调研/决策
+        ├── data-model.md        ○ 数据模型
+        ├── quickstart.md        ○ 验证/使用场景
+        │
+        ├── contracts/           ○ API/interface contract
+        │   └── ...
+        │
+        └── checklists/
+            └── requirements.md  ○ 需求质量检查
 ```
 
 分工：`.opencode/` 是给 OpenCode 看的操作说明，`.specify/` 是 SDD 引擎（规则+模板+脚本）。`scripts/` 一般不要手工改。

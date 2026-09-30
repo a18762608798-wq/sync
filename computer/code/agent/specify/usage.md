@@ -44,9 +44,9 @@ specs/001-user-auth/
 
 - `/speckit.constitution`：定一次(就最开始)，管长期（如 REST/架构/测试/错误格式约束）。
 - `/speckit.specify`：只讲 what/why，不讲技术栈。
-- `/speckit.clarify`：消歧义，必须在 plan 之前。
+- `/speckit.clarify`：消歧义，必须在 plan 之前, **类似gril me, 但是轻量, 空命令让ai提问就可以**。
 - `/speckit.plan`：定技术栈和设计。
-- `/speckit.checklist`：给需求做质量门禁。
+- `/speckit.checklist`：给需求做质量门禁, 类似精确的收敛条件(**有风险的任务采用, 一般不需要**)。
 - `/speckit.tasks`：拆出可执行任务。
 - `/speckit.analyze`：只读检查 spec/plan/tasks 一致性，有问题回源头改。
 - `/speckit.implement`：这时才写代码。

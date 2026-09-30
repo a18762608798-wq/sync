@@ -1,8 +1,17 @@
 # data spec
 
+## 计算语言选择
+
+对于所有数值计算偏向julia, 画图用python, 真机实现用python qiskit.
+
 ## 可利用的库
 
 `qmeas` 库位置：`quant_comp_note/03_tools_practice/qmeas`（内有 ssh 初始态和哈密顿量，注意边界需要 True）。
+
+对于基态能量和其相关物理量期望计算, 使用 julia `QuantumToolbox.jl` 中 `sparse` 对角化即可.
+
+拟设模拟优化用 julia `Yao.jl`（参数化电路 + 自带电路自动微分，不用管硬件拓扑），优化器配 `Optim.jl`（COBYLA polish）+ 差分进化全局搜索。
+注意比特顺序：Yao qubit $m$ 对应态矢量第 $m-1$ 位，与 Qiskit 一致，格点 $m$ 直接对应 Yao qubit $m$，态矢量层无需翻转。读出字符串两边都是最左为最高位，用之前都要反转。
 
 ## 真机比特
 

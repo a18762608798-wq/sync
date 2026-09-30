@@ -6,11 +6,11 @@ $$
 C_{a}(\theta)=\langle\psi_{a}(\theta)|H(s^{*},\delta^{*})|\psi_{a}(\theta)\rangle
 $$
 
-* $|\psi_{a}(\theta)\rangle$ 为 orbit 拟设电路作用在初态 $a$ 上的态，各路子层顺序按 ansatz.md 的 $F$ 规则；
+* $|\psi_{a}(\theta)\rangle = U(\theta)\,|\psi_{\mathrm{init},a}\rangle$，即 [orbit 拟设](./ansatz.md)电路作用在[初态](./psi0.md) $a$ 上的态；
 * 上报的最优值为三路分别优化后再取最小：
 
 $$
 C^{*}(s^{*},\delta^{*})=\min_{a}\min_{\theta}C_{a}(\theta)
 $$
 
-* 每路内可用多种子 restart，同样取最小（参考 v0.1.0 sweep/derive 流程）。
+* 每路内可用多种子 restart，同样取最小.

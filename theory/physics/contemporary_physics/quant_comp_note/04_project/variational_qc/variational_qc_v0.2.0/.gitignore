@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+.CondaPkg/
+.venv/
+venv/
+*.npz
+!tests/**/fixtures/*.npz
+figs/
+data/exp*/
+!data/exp*/*_manifest.json
+.pytest_cache/
+*.log
+.DS_Store
