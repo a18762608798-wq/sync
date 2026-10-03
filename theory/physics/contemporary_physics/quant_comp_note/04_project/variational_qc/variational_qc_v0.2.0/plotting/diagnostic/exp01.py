@@ -8,7 +8,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from plotting.diagnostic.exp01_scaling import fit_scaling
-from ssh_xxz.io.store import iter_points
+from plotting.v2read import iter_points
 
 
 def rebuild_all(data_dir, out_dir):
@@ -39,14 +39,15 @@ def rebuild_all(data_dir, out_dir):
         made.append(str(out / "phase_diag.png"))
 
     if gaps:
+        dline = sorted({r["delta"] for r in gaps})
         fig, ax = plt.subplots()
         for L in sorted({r["L"] for r in gaps}):
             pts = sorted((r["s"], r["draw"]) for r in gaps if r["L"] == L)
-            ax.plot([p[0] for p in pts], [p[1] for p in pts], label=f"L={L}")
+            ax.plot([p[0] for p in pts], [p[1] for p in pts], label=f"L={int(L)}")
         ax.set_xlabel("s")
         ax.set_ylabel("Delta_raw")
         ax.legend()
-        ax.set_title("raw gaps at delta=1 (diagnostic)")
+        ax.set_title(f"raw gaps at delta={dline} (diagnostic)")
         fig.savefig(out / "gaps_diag.png")
         plt.close(fig)
         made.append(str(out / "gaps_diag.png"))

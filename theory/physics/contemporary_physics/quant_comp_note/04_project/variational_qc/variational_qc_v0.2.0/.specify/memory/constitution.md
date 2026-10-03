@@ -1,12 +1,12 @@
 <!-- Sync Impact Report (temporary review scratch, remove before commit)
-- Version change: 0.1.1 → 0.2.0 (minor: new principle XI, substantive scope extension)
-- Source: user-supplied Initial Implementation Scope constraint (experiments 01–04 only)
-- Modified principles: none (I–X untouched)
-- Added sections: Core Principles XI (in-scope list, explicitly out-of-scope list, anti-speculation rule, converge gating for 05+)
+- Version change: 0.2.0 → 0.3.0 (minor: new principle XII, second Julia cycle)
+- Source: user-supplied second-cycle stack/schema directive
+- Modified principles: none (I–XI untouched)
+- Added sections: Core Principles XII (Julia stack lock, Python core archived read-only, H.md physics pin, schema v2 with III.4 exception, qmeas-reuse pause with baseline cross-check)
 - Removed sections: none
 - Follow-up TODOs:
-  - NOTE(DATE) resolved: local date confirmed 2026-09-30, so Ratified/Amended 2026-09-30 is correct; earlier UTC-vs-local doubt closed.
-  - When 01–04 pass /speckit.converge, amend XI (or supersede it) to open the next cycle; treat as minor or patch per Governance §2.
+  - Cross-check tolerance (Julia vs archived baseline) deferred to /speckit.clarify per XII.4.
+  - v1 data deletion requires a converge archive record first (XII.2 gate).
 -->
 
 # SSH-XXZ Numerical Project Constitution
@@ -245,6 +245,20 @@ $$
 
 4. 实验 01–04 完成并通过 `/speckit.converge` 后，再开启新的 specification cycle 扩展后续实验。
 
+### XII. Second-Cycle Compute Stack Is Julia
+
+本轮（Julia cycle）主计算栈锁定 Julia；`src/ssh_xxz` 下 Python 核心封存为只读——不得修改，只能作为对照基线读取。
+
+1. 物理口径以 `doc/plan/theory/H.md` 为准（条目 I 在本轮的具体化；冲突时更具体的 binding rule 优先）。
+
+2. 数据 schema 升为 `exp01-04/v2`；旧 v1 数据在 converge 记录封存后可删。此条为对 III.4（raw 永久保留）的本轮例外，除此之外 III 全文仍然有效。
+
+3. v1 删除后，仅保留 5 点等价子集定义与解析态 $+1/-1/0$ 作为交叉验证锚点（grid-01-02 §5 五点；trivial $+1$、topological $-1$、AFM GHZ $0$）。
+
+4. II.5 qmeas 复用本轮暂停；改为 Julia 新栈 vs 封存 Python 基线的数值对照，对照容差交 `/speckit.clarify` 确定。
+
+5. 其余 I–XI 不动；本条仅约束本轮计算栈与数据代际，不改变 XI 的实验 scope 锁。
+
 ## Scope Boundaries
 
 本 Constitution 只规定项目级工程与科学计算规则。系统尺度、扫描网格、代表点、优化器超参数、硬件比特与单个实验输出由 theory/spec/experiment 文件规定，不得重复冻结在本 Constitution 中，除非属于全项目不变量。
@@ -277,4 +291,4 @@ $$
 
 4. 冲突解决：explicit current user decision 与已确认 physical definition 优先；其余情况下更具体的 binding rule 优先；禁止不报告冲突而选择易实现的一方。
 
-**Version**: 0.2.0 | **Ratified**: 2026-09-30 | **Last Amended**: 2026-09-30
+**Version**: 0.3.0 | **Ratified**: 2026-09-30 | **Last Amended**: 2026-09-30

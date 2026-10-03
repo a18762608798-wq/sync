@@ -7,7 +7,7 @@ matplotlib.use("Agg")
 import numpy as np
 from matplotlib import pyplot as plt
 
-from ssh_xxz.io.store import iter_points
+from plotting.v2read import iter_points
 
 
 def _pivot(recs, key):

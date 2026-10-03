@@ -1,4 +1,6 @@
-# 使用
+# default
+
+> 这里提供原版的默认流程进行理解.
 
 ## 前提
 
@@ -19,14 +21,20 @@ src/                  最后实现的代码
 `specs/` 是 `init` 时没有的，做第一个 feature 后才产生：
 
 ```text
-specs/001-user-auth/
-├── spec.md          做什么（需求+验收）
-├── plan.md          怎么做（含 research/data-model/contracts/quickstart）
-├── tasks.md         拆成什么（可执行、有依赖顺序）
-└── checklists/
+.specify/
+├── memory/
+    └── constitution.md      ★ 项目级规则(放跨 cycle 不变的规则)
+
+specs/
+│
+└── 001-user-auth/
+    ├── spec.md              ★ 需求：WHAT / WHY(具体实验细节需求, 本cycle不变的规则)
+    ├── tasks.md             ★ 实现任务(主要是门)
+    └── checklists/
+        └── requirements.md  ★ 需求质量检查(但是一般用不到, 除非有安全问题)
 ```
 
-### 主流程（一次敲一个，看完结果再下一步）
+### 主流程
 
 小功能短路径：
 
@@ -52,14 +60,9 @@ specs/001-user-auth/
 - `/speckit.implement`：这时才写代码。
 - `/speckit.converge`：对照 spec 查遗漏，未收敛则补 tasks 再 implement。
 
-### 与 OpenSpec 的分工
+### 人应该做什么
 
-```text
-新项目 / 大改造 / 需重做完整设计 → Spec Kit（建立基线）
-日常需求 / 改规则 / 小功能 / 局部调整 → OpenSpec（proposal → apply → archive）
-```
-
-不要同时用两套维护同一份事实（如 `specs/001-auth/spec.md` 和 `openspec/specs/auth/spec.md` 各说一套）。建议：`constitution` 长期保留管“必须遵守什么”，`openspec/specs/` 管“系统现在是什么”，大架构改造再切回 Spec Kit。
+对于一个项目, 人应该做什么?
 
 ## 验证
 

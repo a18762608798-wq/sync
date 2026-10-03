@@ -57,7 +57,7 @@ $$
 对于 Experiment 01：
 
 * 主系统尺度：$L=8$（以 `doc/` 为准，见 Binding Clarifications 与 Session 2026-09-30）。
-* 参数区域：$s\in[0,1],\qquad \delta\in[0,3]$，实际计算取冻结的 $49\times49$ 内点网格：$s_i=i/50\;(i=1,\dots,49)$，$\delta_j=3j/50\;(j=1,\dots,49)$，即 $s\in[0.02,0.98]$、$\delta\in[0.06,2.94]$，不含参数空间边界。
+* 参数区域：$s\in[0,1],\qquad \delta\in[0,3]$，实际计算取冻结的 $49\times49$ 内点网格：$s_i=i/50\;(i=1,\dots,49)$，$\delta_j=2j/50\;(j=1,\dots,49)$，即 $s\in[0.02,0.98]$、$\delta\in[0.04,1.96]$，不含参数空间边界。（2026-10-01 修订：$\delta$ 网格按现行 `doc/` 由 $3j/50$ 改为 $2j/50$。）
 * 在该网格上计算 exact ground-state $\tilde Z_{\mathcal R}(s,\delta)$ 并形成 phase-diagram source data。
 * 在 $\delta=1$ 上计算 $L=4,8,12,16$ 的 raw full-Hilbert-space energy gap $\Delta_{\rm raw}(s,L)=E_1(s,L)-E_0(s,L)$。
 * raw gap 使用物理 Hamiltonian $H$ 的完整谱定义，不加入 $P$ penalty，不进行 symmetry-sector gap 替换。
@@ -84,7 +84,7 @@ $$
 
 **Required scientific outputs**:
 
-Experiment 02 使用 $L=8$，与 Experiment 01 严格共享同一 $49\times49$ 内点网格（$s_i=i/50$，$\delta_j=3j/50$，$i,j=1,\dots,49$；见 Binding Clarifications CL-001）。
+Experiment 02 使用 $L=8$，与 Experiment 01 严格共享同一 $49\times49$ 内点网格（$s_i=i/50$，$\delta_j=2j/50$，$i,j=1,\dots,49$；见 Binding Clarifications CL-001，2026-10-01 按现行 `doc/` 修订）。
 
 Experiment 02 与 Experiment 01 对相同 phase-space coordinates 必须使用一致的 exact-state convention。
 
@@ -229,9 +229,10 @@ CL-001–CL-003 已冻结为 binding specification，不再是 open 问题。来
 
 ### CL-001 — Experiment 01/02 phase-space grid = 1A
 
-- 01 与 02 使用同一 $49\times49$ 内点网格：$s_i=i/50\;(i=1,\dots,49)$，$\delta_j=3j/50\;(j=1,\dots,49)$。
-- 即 $s\in[0.02,0.98]$，$\delta\in[0.06,2.94]$；参数空间边界 excluded。
+- 01 与 02 使用同一 $49\times49$ 内点网格：$s_i=i/50\;(i=1,\dots,49)$，$\delta_j=2j/50\;(j=1,\dots,49)$。
+- 即 $s\in[0.02,0.98]$，$\delta\in[0.04,1.96]$；参数空间边界 excluded。
 - 01 与 02 必须共享完全相同的 coordinates（与 `doc/plan/experiment/01_phase_observables.md`、`02_topological_op.md` 一致）。
+- （2026-10-01 修订：$\delta$ 网格由 $3j/50$ 改为 $2j/50$；1A 的同网格方法与共享规则不变。）
 
 ### CL-002 — Finite-size linear fit convention = 2A
 

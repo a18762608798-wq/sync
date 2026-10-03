@@ -8,9 +8,9 @@
 
 `qmeas` 库位置：`quant_comp_note/03_tools_practice/qmeas`（内有 ssh 初始态和哈密顿量，注意边界需要 True）。
 
-对于基态能量和其相关物理量期望计算, 使用 julia `QuantumToolbox.jl` 中 `sparse` 对角化即可.
+对于基态能量和其相关物理量期望计算, 使用 julia `KrylovKit.jl` 中 `eigsolve` 稀疏对角化即可.
 
-拟设模拟优化用 julia `Yao.jl`（参数化电路 + 自带电路自动微分，不用管硬件拓扑），优化器配 `Optim.jl`（COBYLA polish）+ 差分进化全局搜索。
+拟设模拟优化用 julia `Yao.jl`（参数化电路 + 自带电路自动微分，不用管硬件拓扑），优化器配 `BlackBoxOptim` 自适应差分进化全局搜索 + `NLopt` COBYLA polish。
 注意比特顺序：Yao qubit $m$ 对应态矢量第 $m-1$ 位，与 Qiskit 一致，格点 $m$ 直接对应 Yao qubit $m$，态矢量层无需翻转。读出字符串两边都是最左为最高位，用之前都要反转。
 
 ## 真机比特
@@ -24,5 +24,7 @@
 ## 数据保存
 
 完整保留中间计算结果数据, 以供后续调用和检查.
+
+基矢 canonical 保存：01 相图网格（$L=8$）与 gaps（$L=8,12,16$）的精确基态向量全部存入 shared；02 直接利用 01 网格基矢，03 的 $\delta=0$ 线直接利用 01-gap 的 $L=8$ 基矢；凡 shared 已有同 $(L,s,\delta)$ 基矢，一律复用，不得重复对角化。
 
 子实验有很多图像不会在正式论文中展示, 但是依然需要作为阶段性结果绘制.

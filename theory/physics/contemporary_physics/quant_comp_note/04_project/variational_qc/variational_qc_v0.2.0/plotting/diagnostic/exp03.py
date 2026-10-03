@@ -6,7 +6,7 @@ matplotlib.use("Agg")
 
 from matplotlib import pyplot as plt
 
-from experiments.exp03_reference import iter_reference
+from plotting.v2read import iter_reference
 
 
 def rebuild_all(data_dir, out_dir):
@@ -20,7 +20,7 @@ def rebuild_all(data_dir, out_dir):
         fig, ax = plt.subplots()
         for d in sorted({r["delta"] for r in recs}):
             pts = sorted((r["s"], r[key]) for r in recs if r["delta"] == d)
-            ax.plot([p[0] for p in pts], [p[1] for p in pts], label=f"d={d}")
+            ax.plot([p[0] for p in pts], [p[1] for p in pts], label=f"d={d:g}")
         ax.set_xlabel("s")
         ax.set_ylabel(title)
         ax.legend()

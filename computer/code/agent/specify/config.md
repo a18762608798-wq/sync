@@ -19,7 +19,7 @@ specify init --here --integration opencode --script sh
 - `--here`：在当前目录初始化；目录非空需加 `--force`。
 - `--script sh`：Linux Mint 用 `sh`；Windows 用 `ps`，或统一用 `py`。
 
-实测生成以下文件：
+实测生成以下文件(**默认工作流**)：
 
 ```text
 your-project/
@@ -27,7 +27,7 @@ your-project/
 ├── .opencode/commands/speckit.{specify,clarify,plan,tasks,implement,...}.md
 ├── .specify/
 │   ├── memory/
-│   │   └── constitution.md      ★ 项目级规则
+│   │   └── constitution.md      ★ 项目级规则(放跨 cycle 不变的规则)
 │   │
 │   ├── templates/               ← Spec Kit 自己的模板
 │   ├── scripts/                 ← 自动化脚本
@@ -36,9 +36,9 @@ your-project/
 └── specs/
     │
     └── 001-user-auth/
-        ├── spec.md              ★ 需求：WHAT / WHY
-        ├── plan.md              ★ 技术方案：HOW
-        ├── tasks.md             ★ 实现任务
+        ├── spec.md              ★ 需求：WHAT / WHY(具体实验细节需求, 本cycle不变的规则)
+        ├── tasks.md             ★ 实现任务(主要是门)
+        ├── plan.md              ○ 技术方案：HOW
         │
         ├── research.md          ○ 技术调研/决策
         ├── data-model.md        ○ 数据模型
@@ -48,7 +48,7 @@ your-project/
         │   └── ...
         │
         └── checklists/
-            └── requirements.md  ○ 需求质量检查
+            └── requirements.md  ★ 需求质量检查(但是一般用不到, 除非有安全问题)
 ```
 
 分工：`.opencode/` 是给 OpenCode 看的操作说明，`.specify/` 是 SDD 引擎（规则+模板+脚本）。`scripts/` 一般不要手工改。

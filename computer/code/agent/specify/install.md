@@ -28,4 +28,4 @@ specify self check
 
 ## 验证
 
-`specify version` 输出版本号即成功。
+`specify version` 输出版本号即成功（本机实测 `1.0.12`）。
