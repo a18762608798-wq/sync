@@ -1,10 +1,10 @@
 schema_version: "1.0"
 
 preset:
-  id: "scientific-computing"
-  name: "Scientific Computing"
-  version: "0.2.0"
-  description: "面向科学计算与数值实验的精简 Spec-Driven Development 工作流。"
+  id: "scientific-paper"
+  name: "Scientific Paper"
+  version: "0.3.1"
+  description: "面向数值结果到正式 LaTeX 论文的 Spec-Driven 写作流：消费 scientific-computing 产物，8 个 paper skills 按 Spec Kit 阶段协作。"
   author: "YOUR_NAME"
 
 requires:
@@ -16,44 +16,44 @@ provides:
     - type: "template"
       name: "constitution-template"
       file: "templates/constitution-template.md"
-      description: "科学计算项目 Constitution"
+      description: "论文项目 Constitution"
       replaces: "constitution-template"
 
     - type: "template"
       name: "spec-template"
       file: "templates/spec-template.md"
-      description: "科学计算 feature specification"
+      description: "论文 feature specification（含证据绑定与缺件协议）"
       replaces: "spec-template"
 
     - type: "template"
       name: "plan-template"
       file: "templates/plan-template.md"
-      description: "科学计算实现计划"
+      description: "论文实现计划（章节→skill 映射）"
       replaces: "plan-template"
 
     - type: "template"
       name: "tasks-template"
       file: "templates/tasks-template.md"
-      description: "精简 implementation 与 validation 任务列表"
+      description: "论文写作与 post-implement review 任务列表"
       replaces: "tasks-template"
 
     # Commands
     - type: "command"
       name: "speckit.specify"
       file: "commands/speckit.specify.md"
-      description: "创建或更新科学计算 feature specification"
+      description: "创建或更新论文 feature specification"
       replaces: "speckit.specify"
 
     - type: "command"
       name: "speckit.clarify"
       file: "commands/speckit.clarify.md"
-      description: "澄清影响科学语义的关键歧义"
+      description: "澄清主张口径与解释推测"
       replaces: "speckit.clarify"
 
     - type: "command"
       name: "speckit.plan"
       file: "commands/speckit.plan.md"
-      description: "根据 specification 生成实现计划"
+      description: "根据 specification 生成写作计划"
       replaces: "speckit.plan"
 
     - type: "command"
@@ -71,17 +71,17 @@ provides:
     - type: "command"
       name: "speckit.implement"
       file: "commands/speckit.implement.md"
-      description: "实施、验证并连续执行正式实验"
+      description: "执行写作、编译，并衔接 post-implement review skills"
       replaces: "speckit.implement"
 
     - type: "command"
       name: "speckit.converge"
       file: "commands/speckit.converge.md"
-      description: "审计实际实现并将剩余工作收敛回 tasks"
+      description: "审计成文是否满足 spec，推测转正或降级"
       replaces: "speckit.converge"
 
 tags:
   - "scientific"
-  - "numerical"
-  - "research"
+  - "paper"
+  - "latex"
   - "workflow"
