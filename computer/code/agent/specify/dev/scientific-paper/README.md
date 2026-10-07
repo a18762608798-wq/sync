@@ -81,4 +81,6 @@ specify integration upgrade opencode --force --script sh
 修改本 preset 源目录后，先用 `specify preset update` 更新项目中的 preset，
 再用 `specify integration upgrade` 更新 OpenCode 的 `.opencode/commands/` 集成文件。
 不要手工把 preset command 复制到 `.opencode/commands/`；priority 越小越优先，
-当前论文项目使用 `scientific-paper` priority 4 覆盖 `scientific-computing` priority 5。
+当前项目通常使用 `scientific-computing` priority 3 管理实验 feature，使用
+`scientific-paper` priority 4 管理论文 feature。需要切换到论文命令时，暂时将
+`scientific-paper` 调整为更高优先级（更小的数字）。
