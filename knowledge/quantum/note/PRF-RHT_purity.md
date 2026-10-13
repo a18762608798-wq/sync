@@ -362,8 +362,9 @@ $$
 \begin{split}
 f_{0, l, i} = \mathbb E_{U_i}[P_{\Lambda_{l, i}}(0|U_i)] &= tr(\mathbb E_{U_i}[\sigma_i]\Lambda^{\ast}_{l, i}(|0\rangle \langle 0|))\\
 &= \frac{1}{2}tr[\Lambda^{\ast}_{l, i}(|0\rangle\langle 0|)]\\
-&= \frac{1 + \delta_{l, i}}{2} \tag{17}
+&= \frac{1 + \delta_{l, i}}{2}
 \end{split}
+\tag{17}
 $$
 
 Similarly,
