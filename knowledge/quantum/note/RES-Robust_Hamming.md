@@ -68,7 +68,6 @@ $$
 **INTERPRET:**
 
 - 纯度的hamming公式pair位于同一个比特, 噪声通道是相等的.
-- $\hat{f}_{0, i}$ 需要在 $|0\rangle$ 后接随机 $U_i$.
 - $\hat{g}$ 具体选择 $x_i$ 还是 $y_i$ 取决于态制备电路; $x_i$ 和 $y_i$ 的具体形式(也即 $\hat R$ 和 $\hat f$)取决于 $|0\rangle$ 电路.
 
 **PROPERTY:**
