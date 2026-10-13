@@ -87,8 +87,9 @@ $$
 
 $$
 \begin{split}
-\mathbb E_{U, s, s'}[\hat{\mathcal{P}}] &= tr[(\rho \otimes \rho)\tau(W)] \tag{3}
+\mathbb E_{U, s, s'}[\hat{\mathcal{P}}] &= tr[(\rho \otimes \rho)\tau(W)]
 \end{split}
+\tag{3}
 $$
 
 **SUFFICES:**
@@ -104,8 +105,9 @@ $$
 $$
 \begin{split}
 &PWP^\dagger = \bigotimes_i w_i = \bigotimes_i \sum_{s_i, s_i'} f(s_i, s_i)|s\rangle \langle s|\otimes |s'\rangle \langle s'| \\
-&PSP^\dagger = \bigotimes_i S_i \tag{5}
+&PSP^\dagger = \bigotimes_i S_i
 \end{split}
+\tag{5}
 $$
 
 **WHERE:**
