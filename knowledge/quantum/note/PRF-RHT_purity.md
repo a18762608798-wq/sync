@@ -9,7 +9,7 @@ This phase give the SUFFICES condition.
 **REQUIRE:**
 
 - (1) 噪声局域: $\Lambda=\otimes_i\Lambda_i$.
-- (2) TP: $tr(\Lambda(\rho)) = tr(\rho) \rightarrow \Lambda^*(I) = I$
+- (2) TP: $tr(\Lambda(\rho)) = tr(\rho) \rightarrow \Lambda^{\ast}(I) = I$
 - (3) $\Lambda_{l, i}(I) = (1+\delta_{l, i})|0\rangle\langle 0| + (1-\delta_{l, i})|1\rangle\langle 1|,\quad l = 1, 2$
 
 **GOAL:**
@@ -39,23 +39,23 @@ $$
 \mathbb E_{U, s, s'}[\hat{\mathcal{P}}]
 &= \mathbb E_{U} [\sum_{s, s'}\prod_i g_i(s_i, s'_i) P_{\Lambda_1}(s|U)P_{\Lambda_2}(s'|U)]\\
 &= \mathbb E_{U} [\sum_{s, s'}\prod_i g_i(s_i, s'_i) tr(\Lambda_1(\sigma)|s\rangle \langle s|) tr(\Lambda_2(\sigma)|s'\rangle \langle s'|)]\\
-&= \mathbb E_{U} [\sum_{s, s'}\prod_i g_i(s_i, s'_i) tr(\sigma\Lambda^*_1(|s\rangle \langle s|)) tr(\sigma\Lambda^*_2(|s'\rangle \langle s'|))]\\
+&= \mathbb E_{U} [\sum_{s, s'}\prod_i g_i(s_i, s'_i) tr(\sigma\Lambda^{\ast}_{1}(|s\rangle \langle s|)) tr(\sigma\Lambda^{\ast}_{2}(|s'\rangle \langle s'|))]\\
 \end{split}
 $$
 
 **CONSIDER:**
 
 $$
-tr(\sigma\Lambda^*_1(|s\rangle \langle s|)) tr(\sigma\Lambda^*_2(|s'\rangle \langle s'|))
+tr(\sigma\Lambda^{\ast}_{1}(|s\rangle \langle s|)) tr(\sigma\Lambda^{\ast}_{2}(|s'\rangle \langle s'|))
 $$
 
 **HAVE:**
 
 $$
 \begin{split}
-tr(\sigma\Lambda^*_1(|s\rangle \langle s|)) tr(\sigma\Lambda^*_2(|s'\rangle \langle s'|))
-&= tr(\rho U^\dagger\Lambda^*_1(|s\rangle\langle s|)U)tr(\rho U^\dagger\Lambda^*_2(|s'\rangle\langle s'|)U)\\
-&= tr[\rho^{\otimes 2}(U^\dagger)^{\otimes 2} \Lambda^*_1(|s\rangle\langle s|)\otimes \Lambda^*_2(|s'\rangle \langle s'|) U^{\otimes 2}]
+tr(\sigma\Lambda^{\ast}_{1}(|s\rangle \langle s|)) tr(\sigma\Lambda^{\ast}_{2}(|s'\rangle \langle s'|))
+&= tr(\rho U^\dagger\Lambda^{\ast}_{1}(|s\rangle\langle s|)U)tr(\rho U^\dagger\Lambda^{\ast}_{2}(|s'\rangle\langle s'|)U)\\
+&= tr[\rho^{\otimes 2}(U^\dagger)^{\otimes 2} \Lambda^{\ast}_{1}(|s\rangle\langle s|)\otimes \Lambda^{\ast}_{2}(|s'\rangle \langle s'|) U^{\otimes 2}]
 \end{split}
 $$
 
@@ -64,7 +64,7 @@ $$
 $$
 \begin{split}
 \mathbb E_{U, s, s'}[\hat{\mathcal{P}}] &= tr[(\rho \otimes \rho) \mathbb E_U[(U^\dagger)^{\otimes 2}
-(\sum_{s, s'} g(s, s') \Lambda_1^*(|s\rangle\langle s|) \otimes \Lambda_2^*(|s'\rangle \langle s'|))U^{\otimes 2}]]\\
+(\sum_{s, s'} g(s, s') \Lambda^{\ast}_{1}(|s\rangle\langle s|) \otimes \Lambda^{\ast}_{2}(|s'\rangle \langle s'|))U^{\otimes 2}]]\\
 \end{split}
 $$
 
@@ -74,7 +74,7 @@ $$
 \begin{split}
 &V = U^\dagger \\
 &\tau(\cdot) = \mathbb E_V[V^{\otimes 2} (\cdot) (V^\dagger)^{\otimes 2}] \\
-&W' = \sum_{s, s'} \prod_i g_i(s_i, s'_i) \Lambda_1^*(|s\rangle\langle s|) \otimes \Lambda_2^*(|s'\rangle \langle s'|)
+&W' = \sum_{s, s'} \prod_i g_i(s_i, s'_i) \Lambda^{\ast}_{1}(|s\rangle\langle s|) \otimes \Lambda^{\ast}_{2}(|s'\rangle \langle s'|)
 \end{split}
 $$
 
@@ -100,7 +100,7 @@ $$
 
 $$
 \begin{split}
-&\Pi W'\Pi^\dagger = \bigotimes_i w_i = \bigotimes_i \sum_{s_i, s_i'} g_i(s_i, s_i') \Lambda_{1, i}^*(|s_i\rangle \langle s_i|)\otimes \Lambda_{2, i}^*(|s_i'\rangle \langle s_i'|) \\
+&\Pi W'\Pi^\dagger = \bigotimes_i w_i = \bigotimes_i \sum_{s_i, s_i'} g_i(s_i, s_i') \Lambda^{\ast}_{1, i}(|s_i\rangle \langle s_i|)\otimes \Lambda^{\ast}_{2, i}(|s_i'\rangle \langle s_i'|) \\
 &\Pi S\Pi^\dagger = \bigotimes_i S_i
 \end{split}
 $$
@@ -129,7 +129,7 @@ $$
 and
 
 $$
-w_i = \sum_{s_i, s_i'}g_i(s_i, s_i')\Lambda_{1, i}^*(|s_i\rangle \langle s_i|) \otimes \Lambda_{2, i}^*(|s_i'\rangle \langle s_i'|)
+w_i = \sum_{s_i, s_i'}g_i(s_i, s_i')\Lambda^{\ast}_{1, i}(|s_i\rangle \langle s_i|) \otimes \Lambda^{\ast}_{2, i}(|s_i'\rangle \langle s_i'|)
 $$
 
 **WHERE:**
@@ -163,7 +163,7 @@ $$
 $$
 \begin{split}
 u &= tr(w_i) \\
-&= \sum_{s_i, s_i'}g_i(s_i, s_i')tr(\Lambda_{1, i}^*(|s_i\rangle \langle s_i|))tr(\Lambda_{2, i}^*(|s_i'\rangle \langle s_i'|))\\
+&= \sum_{s_i, s_i'}g_i(s_i, s_i')tr(\Lambda^{\ast}_{1, i}(|s_i\rangle \langle s_i|))tr(\Lambda^{\ast}_{2, i}(|s_i'\rangle \langle s_i'|))\\
 &= \sum_{s_i, s_i'}g_i(s_i, s_i')tr(\Lambda_{1, i}(I)|s_i\rangle \langle s_i|)tr(\Lambda_{2, i}(I)|s_i'\rangle \langle s_i'|) \\
 \end{split}
 $$
@@ -201,8 +201,8 @@ $$
 $$
 \begin{split}
 t &= tr(S_iw_i) \\
-&=\sum_{s_i, s_i'}g_i(s_i, s_i')tr(S_i(\Lambda_{1, i}^*(|s_i\rangle \langle s_i|) \otimes \Lambda_{2, i}^*(|s_i'\rangle \langle s_i'|))) \\
-&=\sum_{s_i, s_i'}g_i(s_i, s_i')tr(\Lambda_{1, i}^*(|s_i\rangle \langle s_i|)\Lambda_{2, i}^*(|s_i'\rangle \langle s_i'|))
+&=\sum_{s_i, s_i'}g_i(s_i, s_i')tr(S_i(\Lambda^{\ast}_{1, i}(|s_i\rangle \langle s_i|) \otimes \Lambda^{\ast}_{2, i}(|s_i'\rangle \langle s_i'|))) \\
+&=\sum_{s_i, s_i'}g_i(s_i, s_i')tr(\Lambda^{\ast}_{1, i}(|s_i\rangle \langle s_i|)\Lambda^{\ast}_{2, i}(|s_i'\rangle \langle s_i'|))
 \end{split}
 $$
 
@@ -210,7 +210,7 @@ $$
 
 $$
 \begin{cases}
-M_{s_i, s'_i} = tr(\Lambda_{1, i}^*(|s_i\rangle \langle s_i|)\Lambda_{2, i}^*(|s_i'\rangle \langle s_i'|))\\
+M_{s_i, s'_i} = tr(\Lambda^{\ast}_{1, i}(|s_i\rangle \langle s_i|)\Lambda^{\ast}_{2, i}(|s_i'\rangle \langle s_i'|))\\
 A_i = M_{00} + M_{11} \\
 B_i = M_{01} + M_{10}
 \end{cases} \tag{6}
@@ -227,8 +227,8 @@ $$
 $$
 \begin{split}
 A_i + B_i &= \sum_{s_i, s_i'}M_{s_i, s_i'}\\
-&= tr(\Lambda_{1, i}^*(\sum_{s_i}|s_i\rangle\langle s_i|)\Lambda_{2, i}^*(\sum_{s_i'}|s_i'\rangle\langle s_i'|))\\
-&= tr(\Lambda_{1, i}^*(I)\Lambda_{2, i}^*(I))\\
+&= tr(\Lambda^{\ast}_{1, i}(\sum_{s_i}|s_i\rangle\langle s_i|)\Lambda^{\ast}_{2, i}(\sum_{s_i'}|s_i'\rangle\langle s_i'|))\\
+&= tr(\Lambda^{\ast}_{1, i}(I)\Lambda^{\ast}_{2, i}(I))\\
 & = tr(I) = 2
 \end{split} \tag{8}
 $$
@@ -260,7 +260,7 @@ where
 $$
 \begin{split}
 &\varepsilon_i = \delta_{1, i}\delta_{2, i}\\
-&A_i = tr(\Lambda_{1, i}^*(|0\rangle \langle 0|)\Lambda_{2, i}^*(|0\rangle \langle 0|)) + tr(\Lambda_{1, i}^*(|1\rangle \langle 1|)\Lambda_{2, i}^*(|1\rangle \langle 1|))
+&A_i = tr(\Lambda^{\ast}_{1, i}(|0\rangle \langle 0|)\Lambda^{\ast}_{2, i}(|0\rangle \langle 0|)) + tr(\Lambda^{\ast}_{1, i}(|1\rangle \langle 1|)\Lambda^{\ast}_{2, i}(|1\rangle \langle 1|))
 \end{split} \tag{11}
 $$
 
@@ -282,7 +282,7 @@ $$
 
 $$
 \begin{split}
-R_i &= \mathbb E_{U_i}[\sum_{s_i} tr(\sigma_i \Lambda_{1, i}^*(|s_i\rangle\langle s_i|)) tr(\sigma_i \Lambda_{2, i}^*(|s_i\rangle\langle s_i|))]\\
+R_i &= \mathbb E_{U_i}[\sum_{s_i} tr(\sigma_i \Lambda^{\ast}_{1, i}(|s_i\rangle\langle s_i|)) tr(\sigma_i \Lambda^{\ast}_{2, i}(|s_i\rangle\langle s_i|))]\\
 &= \mathbb E_{U_i} [tr[\sigma_i^{\otimes 2}D_i]]\\
 &= tr[\rho_i^{\otimes 2}\tau_i(D_i)]
 \end{split}
@@ -295,7 +295,7 @@ $$
 **WHERE:**
 
 $$
-D_i = \sum_{s_i} \Lambda_{1, i}^*(|s_i\rangle\langle s_i|) \otimes \Lambda_{2, i}^*(|s_i\rangle\langle s_i|)
+D_i = \sum_{s_i} \Lambda^{\ast}_{1, i}(|s_i\rangle\langle s_i|) \otimes \Lambda^{\ast}_{2, i}(|s_i\rangle\langle s_i|)
 $$
 
 **ASSUME:**
@@ -325,7 +325,7 @@ $$
 
 $$
 \begin{split}
-tr(D_i) &= \sum_{s_i} tr(\Lambda_{1, i}^*(|s_i\rangle\langle s_i|))tr(\Lambda_{2, i}^*(|s_i\rangle\langle s_i|))\\
+tr(D_i) &= \sum_{s_i} tr(\Lambda^{\ast}_{1, i}(|s_i\rangle\langle s_i|))tr(\Lambda^{\ast}_{2, i}(|s_i\rangle\langle s_i|))\\
 &= \sum_{s_i} [(1+\delta_{1, i})tr(|0\rangle\langle 0|s_i\rangle\langle s_i|) + (1-\delta_{1, i})tr(|1\rangle\langle 1|s_i\rangle\langle s_i|)] \times\\
 &[(1+\delta_{2, i})tr(|0\rangle\langle 0|s_i\rangle\langle s_i|) + (1-\delta_{2, i})tr(|1\rangle\langle 1|s_i\rangle\langle s_i|)]\\
 &=(1 + \delta_{1, i})(1 + \delta_{2, i}) + (1 - \delta_{1, i})(1 - \delta_{2, i})\\
@@ -337,7 +337,7 @@ and
 
 $$
 \begin{split}
-tr(S_iD_i) &= \sum_{s_i}tr[\Lambda_{1, i}^*(|s_i\rangle\langle s_i|)\Lambda_{2, i}^*(|s_i\rangle\langle s_i|)] \\
+tr(S_iD_i) &= \sum_{s_i}tr[\Lambda^{\ast}_{1, i}(|s_i\rangle\langle s_i|)\Lambda^{\ast}_{2, i}(|s_i\rangle\langle s_i|)] \\
 &= A_i
 \end{split} \tag{15}
 $$
@@ -360,8 +360,8 @@ $$
 
 $$
 \begin{split}
-f_{0, l, i} = \mathbb E_{U_i}[P_{\Lambda_{l, i}}(0|U_i)] &= tr(\mathbb E_{U_i}[\sigma_i]\Lambda_{l, i}^*(|0\rangle \langle 0|))\\
-&= \frac{1}{2}tr[\Lambda_{l, i}^*(|0\rangle\langle 0|)]\\
+f_{0, l, i} = \mathbb E_{U_i}[P_{\Lambda_{l, i}}(0|U_i)] &= tr(\mathbb E_{U_i}[\sigma_i]\Lambda^{\ast}_{l, i}(|0\rangle \langle 0|))\\
+&= \frac{1}{2}tr[\Lambda^{\ast}_{l, i}(|0\rangle\langle 0|)]\\
 &= \frac{1 + \delta_{l, i}}{2} \tag{17}
 \end{split}
 $$

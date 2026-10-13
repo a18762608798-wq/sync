@@ -14,7 +14,7 @@
 
 (5) 噪声局域: $\Lambda=\otimes_i\Lambda_i$.
 
-(6) TP: $tr(\Lambda(\rho)) = tr(\rho) \rightarrow \Lambda^*(I) = I$
+(6) TP: $tr(\Lambda(\rho)) = tr(\rho) \rightarrow \Lambda^{\ast}(I) = I$
 
 **BY:**
 
