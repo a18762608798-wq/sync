@@ -20,21 +20,20 @@ collection:
 
 - hamming
 
-hamming 有两个而外假设:
+hamming 有一个额外假设；pair 配对（同一 $U$、$m\ne m'$ 独立、无自配对）只是操作要求，不计入物理假设:
 
 | # | 内容 | 出处 |
 | --- | --- | --- |
-| 5 | Pair 同分布(在求纯度时只是操作要求)：同一 $U$ 下 pair 两腿看同一个 $\Lambda$，且 $m\ne m'$ 独立 | 名义原文也有（单 $U$ 下多 shots 默认 i.i.d.），但 Hamming 更严：漂移在这里变 bias 而不只是方差，且 calibration 必须同结构配对 |
-| 6 | Unital $\Lambda(I)=I$（至少对角元相等）：$t$ 方程和 calibration 的 $\mathrm{tr}D_j=2$ 要用；$T_1$ 型需多标 $\delta$ | **Hamming 新增**，原文靠 $\beta\mathbb{1}$ 躲掉 |
+| 5 | 对角 unital：$\Lambda_1,\Lambda_2$ 的 $\Lambda(I)$ 对角元均为 $1$（不需要完整 $\Lambda(I)=I$）：$u$、$t$ 方程和 calibration 的 $\mathrm{tr}D_j=2$ 要用 | **Hamming 新增**，原文靠 $\beta\mathbb{1}$ 躲掉 |
+| 5* | $T_1$ 扩展（可选）：只考虑 $T_1$ 型非 unital 噪声，设 $\Lambda(I)$ 为对角形，需每比特多标一个 $\delta_j$ | 扩展；振幅阻尼见 Nielsen–Chuang 第 8 章 |
 
 > Hamming 误差缓解相对 robust shadow，**物理假设只多半条**
 
- **关于 #6**：本推导默认 unital
-（至少 $\Lambda(I)$ 对角元相等），
-$t$ 方程与 calibration 的 $\mathrm{tr}D_j=2$ 都依赖它。
-若去掉该假设（如 $T_1$ 型非 unital 噪声），
-则 $\Lambda(I) = (1 + \gamma)|0\rangle \langle 0| + (1 - \gamma)|1\rangle \langle 1|$
-需每比特多标一个 $\delta_j$(只考虑$T_1$噪声作用非unital那就是$\gamma$)，
+ **关于 #5**：本推导默认对角 unital
+（即 $\Lambda(I)$ 对角元为 $1$，不需要完整 $\Lambda(I)=I$），
+$u$ 方程 $(1)$、$t$ 方程与 calibration 的 $\mathrm{tr}D_j=2$ 都依赖它。
+
+**关于 #5\***：$\Lambda(I) = (1 + \gamma)|0\rangle \langle 0| + (1 - \gamma)|1\rangle \langle 1|$，每比特多标一个 $\delta_j(=\gamma_j)$，仅限 $T_1$ 型对角情形；其中 $\gamma=1-e^{-t/T_1}$ 为阻尼概率，$t$ 为噪声作用时长。重证见 [RE-5\*](./00_proofs/RE-5*.md)。
 
 ## hamming distance
 
@@ -59,12 +58,12 @@ $$
 
 $$
 \mathbb E_{U} [\sum_{s, s'} g(s, s')
-tr(\rho P_\Lambda(U, s))tr(\rho P_\Lambda(U, s'))]\\
+tr(\rho P_{\Lambda_1}(U, s))tr(\rho P_{\Lambda_2}(U, s'))]\\
 $$
 
 **其中 $g(s, s')$ 是无噪声下估计器 $f(s, s')$ 的变式,
 用来保证噪声通道下估计器的无偏性**.
-写成 twirling 通道格式:
+写成 twirling 通道格式（pair 两腿分别记为 $\Lambda_1,\Lambda_2$）:
 
 $$
 \begin{split}
@@ -72,8 +71,8 @@ expr
 &= tr[(\rho \otimes \rho)
 \mathbb E_U[U^{\otimes 2}
 (\sum_{s, s'} g(s, s')
-\Lambda^* (|s\rangle\langle s|)
-\otimes \Lambda^*(|s'\rangle \langle s'|))
+\Lambda_1^* (|s\rangle\langle s|)
+\otimes \Lambda_2^*(|s'\rangle \langle s'|))
 (U^\dagger)^{\otimes 2}]]\\
 &= tr[(\rho \otimes \rho)\tau^{(2)}(\tilde W)]
 \end{split}
@@ -86,8 +85,8 @@ Where
 $$
 \begin{split}
 &\tilde W = \sum_{s, s'} g(s, s')
-\Lambda^*(|s\rangle\langle s|)
-\otimes \Lambda^*(|s'\rangle\langle s'|)\\
+\Lambda_1^*(|s\rangle\langle s|)
+\otimes \Lambda_2^*(|s'\rangle\langle s'|)\\
 &\tau^{(2)}[\cdot]
 = \mathbb E_U[U^{\otimes 2}(\cdot)(U^\dagger)^{\otimes 2}]
 \end{split}
@@ -100,7 +99,7 @@ Ref to [twirling_channel](./00_proofs/twirling/twirling_channel.md),
 
 $$
 W = \otimes_j \omega_j
-= \otimes_j (\sum_{s_j, s_j'}g(s_j, s_j')\Lambda^*(|s_j\rangle\langle s_j|)\otimes \Lambda^*(|s_j'\rangle \langle s_j'|)),
+= \otimes_j (\sum_{s_j, s_j'}g(s_j, s_j')\Lambda_1^*(|s_j\rangle\langle s_j|)\otimes \Lambda_2^*(|s_j'\rangle \langle s_j'|)),
 $$
 
 $$
@@ -118,7 +117,7 @@ Ref to [the_params_solution](./00_proofs/twirling/the_params_solution.md)
 变化为:
 
 $$
-\omega_j = \sum_{s, s'} g(s_j, s_j')\Lambda^*(|s_j\rangle\langle s_j|) \otimes \Lambda^*(|s_j'\rangle \langle s_j'|)
+\omega_j = \sum_{s, s'} g(s_j, s_j')\Lambda_1^*(|s_j\rangle\langle s_j|) \otimes \Lambda_2^*(|s_j'\rangle \langle s_j'|)
 $$
 
 Ref 中 $(1)$ 的等式依然成立, 和噪声无关,
@@ -129,8 +128,8 @@ Ref 中 $(1)$ 的等式依然成立, 和噪声无关,
 $$
 \begin{split}
 tr(\omega_j) &=\sum_{s_j, s_j'}g(s_j, s_j')
-tr(\Lambda^*(|s_j\rangle \langle s_j|))
-tr(\Lambda^*(|s_j'\rangle \langle s_j'|)) \\
+tr(\Lambda_1^*(|s_j\rangle \langle s_j|))
+tr(\Lambda_2^*(|s_j'\rangle \langle s_j'|)) \\
 &= \sum_{s, s'} g(s, s') = 2g(0, 0) + 2g(0, 1) = 2
 \end{split} \\
 \Rightarrow x_j + y_j = 1 \tag{1}
@@ -138,11 +137,13 @@ $$
 
 > 依然使用**对称因子假设**; 其中设$x_j = g(0, 0), y_j = g(0, 1)$
 
+> 此处第二个等号已用**假设 5**：$tr[\Lambda_1^*(|s_j\rangle\langle s_j|)]=tr[\Lambda_2^*(|s_j\rangle\langle s_j|)]=1$，即 $\Lambda_1(I),\Lambda_2(I)$ 对角元均为 $1$；仅用假设 4 保迹得不到逐个迹为 $1$。
+
 相对于无噪声这没有什么变化. 对于 $tr(S_j\omega_j)$:
 
 $$
 tr(S_j\omega_j) = \sum_{s_j, s_j'} g(s_j, s_j')
-tr[\Lambda^*(|s_j\rangle \langle s_j|) \Lambda^*(|s_j'\rangle\langle s_j'|)]
+tr[\Lambda_1^*(|s_j\rangle \langle s_j|) \Lambda_2^*(|s_j'\rangle\langle s_j'|)]
 $$
 
 令
@@ -161,12 +162,11 @@ $$
 **注意到**:
 
 $$
-\sum_{s_j, s_j'} tr[\Lambda^*(|s_j\rangle\langle s_j|)\Lambda^*(|s_j'\rangle\langle s_j'|)]
-= tr(\Lambda^*(I)^2) = 2 = A_j + B_j \tag{3}
+\sum_{s_j, s_j'} tr[\Lambda_1^*(|s_j\rangle\langle s_j|)\Lambda_2^*(|s_j'\rangle\langle s_j'|)]
+= tr(\Lambda_1^*(I)\Lambda_2^*(I)) = 2 = A_j + B_j \tag{3}
 $$
 
-> 根据**假设4**, 由于 $tr(\Lambda(F)) = tr(F)$, 必然有: $tr(F \Lambda^*(I)) = tr(F)$,
-也即 $\Lambda^*(I) = I$.
+> 根据**假设4**，$\Lambda_1,\Lambda_2$ 均保迹，故 $\Lambda_1^*(I) = \Lambda_2^*(I) = I$，从而 $tr(\Lambda_1^*(I)\Lambda_2^*(I)) = 2$。
 
 联立 $(1), (2), (3)$, 可以给出hamming core形式:
 
@@ -182,26 +182,26 @@ Where:
 $$
 \begin{split}
 &A_j = M_{00} + M_{11}\\
-&= tr[\Lambda^*(|0\rangle \langle 0|)\Lambda^*(|0\rangle \langle 0|)]
-+ tr[\Lambda^*(|1\rangle \langle 1|)\Lambda^*(|1\rangle \langle 1|)]\\
+&= tr[\Lambda_1^*(|0\rangle \langle 0|)\Lambda_2^*(|0\rangle \langle 0|)]
++ tr[\Lambda_1^*(|1\rangle \langle 1|)\Lambda_2^*(|1\rangle \langle 1|)]\\
 &B_j = M_{01} + M_{10}
 \end{split}
 $$
 
 ### survival rate estimator
 
-我们需要给出 $A_j$ 或 $B_j$ 的 estimator, 
+我们需要给出 $A_j$ 或 $B_j$ 的 estimator,
 **这意味着我们需要建立 $A_j$ 和某些统计量关联.**
 
 首先提出**一致率**概念, 一对 shots 在比特位相等的概率是:
 
 $$
 \begin{split}
-&\sum_{s_j \in \{0, 1\}} P_{\Lambda}(s_j |U_j)^2\\
-&= \sum_{s_j} tr(\sigma \Lambda^*(|s_j\rangle \langle s_j|))^2\\
+&\sum_{s_j \in \{0, 1\}} P_{\Lambda_1}(s_j |U_j)P_{\Lambda_2}(s_j |U_j)\\
+&= \sum_{s_j} tr(\sigma \Lambda_1^*(|s_j\rangle \langle s_j|))tr(\sigma \Lambda_2^*(|s_j\rangle \langle s_j|))\\
 &= tr[(\sigma \otimes \sigma)
-\sum_{s_j} (\Lambda^*(|s_j\rangle\langle s_j|
-\otimes \Lambda^*(|s_j\rangle \langle s_j|)))]\\
+\sum_{s_j} (\Lambda_1^*(|s_j\rangle\langle s_j|
+\otimes \Lambda_2^*(|s_j\rangle \langle s_j|)))]\\
 &= tr[\sigma^{\otimes 2} D_j]
 \end{split}
 $$
@@ -209,7 +209,7 @@ $$
 Where
 
 $$
-D_j = \sum_{s_j} \Lambda^*(|s_j\rangle \langle s_j|)^{\otimes 2}
+D_j = \sum_{s_j} \Lambda_1^*(|s_j\rangle \langle s_j|)\otimes \Lambda_2^*(|s_j\rangle \langle s_j|)
 $$
 
 实际实验时初态取 $|0\rangle$
@@ -219,7 +219,7 @@ $s_j$ 仍遍历 $\{0,1\}$；
 
 $$
 \begin{split}
-E_j^{(=)} &= \mathbb E_{U}[\sum_{s_j} P_{\Lambda}(s_j|U_j)^2] \\
+E_j^{(=)} &= \mathbb E_{U}[\sum_{s_j} P_{\Lambda_1}(s_j|U_j)P_{\Lambda_2}(s_j|U_j)] \\
 &= \mathbb E_{U}[ tr[\sigma^{\otimes 2}D_j]]\\
 &= tr[|00\rangle\langle00| \tau_j^{(2)}(D_j)]
 \end{split} \tag{4}
@@ -241,18 +241,18 @@ t_D = 2c + 4d = tr(S_jD_j)\\
 \end{cases}
 $$
 
-等式右需要用到**假设6** $\Lambda(I) = I$; 其中:
+等式右需要用到**假设5** $\Lambda_1(I) = \Lambda_2(I) = I$; 其中:
 
 $$
-tr(D_j) = \sum\limits_{s_j} tr^2[\Lambda^*(|s_j\rangle\langle s_j|)]
+tr(D_j) = \sum\limits_{s_j} tr[\Lambda_1^*(|s_j\rangle\langle s_j|)]tr[\Lambda_2^*(|s_j\rangle\langle s_j|)]
 $$
 
 又有:
 
 $$
-tr[\Lambda^*(|s_j\rangle \langle s_j|)]
-= tr(\Lambda(I) |s_j\rangle \langle s_j|)
-= tr(|s_j\rangle \langle s_j|) = 1
+tr[\Lambda_1^*(|s_j\rangle \langle s_j|)]
+= tr[\Lambda_2^*(|s_j\rangle \langle s_j|)]
+= 1
 $$
 
 显然有:
@@ -264,7 +264,7 @@ $$
 对于:
 
 $$
-tr(S_j D_j) = \sum_{s_j}tr(\Lambda^*(|s_j\rangle\langle s_j|)^2) = A_j
+tr(S_j D_j) = \sum_{s_j}tr(\Lambda_1^*(|s_j\rangle\langle s_j|)\Lambda_2^*(|s_j\rangle\langle s_j|)) = A_j
 $$
 
 真是注意力惊人. 由此得到
