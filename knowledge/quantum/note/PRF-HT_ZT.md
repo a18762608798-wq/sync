@@ -51,6 +51,8 @@ $$
 
 $\tilde\rho$ 是实验 1 中经 $u_{\mathcal T}$ 作用后的态, $\rho$ 是原态.
 
+$U^{(1)}, U^{(2)}$ 是关联实验的两组U.
+
 **HAVE:**
 
 $$
@@ -105,6 +107,13 @@ $$
 \tau^\Psi_i(w_i) = T_i \quad (i \in I_1), \qquad \tau^F_i(w_i) = S_i \quad (i \in I_2)
 $$
 
+**WHERE:**
+
+$$
+\tau^\Psi_i(\cdot) = \mathbb E_{U_i}[(U_i^\dagger \otimes U_i^T)(\cdot)(U_i \otimes U_i^\ast)], \quad
+\tau^F_i(\cdot) = \mathbb E_{U_i}[(U_i^\dagger \otimes U_i^\dagger)(\cdot)(U_i \otimes U_i)]
+$$
+
 **NOTE:**
 
 $I_1$ 与 $I_2$ 的单点 twirl 通道不同, 但 $T_i$ 与 $S_i$ 满足同样的迹数 $tr(T_i) = tr(S_i) = 2$, $tr(T_i^2) = tr(S_i^2) = 4$, 故 Phase 2 的方程两边完全一致.
@@ -117,7 +126,7 @@ $$
 \begin{cases}
 u = 2\\
 t = 4
-\end{cases}
+\end{cases} \tag{3}
 $$
 
 and
@@ -157,14 +166,18 @@ $$
 **HAVE:**
 
 $$
-u = tr(w_i) = 2x_i + 2y_i
+u = tr(w_i) = 2x_i + 2y_i \tag{4}
 $$
 
 and
 
 $$
-t = tr(S_iw_i) = tr(T_iw_i) = 2x_i
+t = tr(S_iw_i) = tr(T_iw_i) = 2x_i \tag{5}
 $$
+
+**BY:**
+
+(3), (4), (5)
 
 **THEREFORE:**
 

@@ -146,9 +146,9 @@ $$
 \begin{split}
 &\hat x_i = \frac{\hat p_i + \hat q_i}{2}, \quad \hat y_i = \frac{\hat p_i - \hat q_i}{2}\\
 &\hat p_i = 1 - \hat \varepsilon_i \hat q_i, \quad \hat q_i = \frac{3}{\hat A_i - 1 - \hat \varepsilon_i}\\
-&\hat \varepsilon_i = \hat \delta_{1, i}\hat \delta_{2, i}, \quad \hat A_i = 6\hat R_i - 2 - 2\hat \varepsilon_i\\
-&\hat \delta_{1, i} = \hat \delta_{2, i} = \hat \delta_i = 2\hat f_{0, i} - 1\\
-&\hat R_i = \frac{1}{MK} \sum_{m, k} \delta_{s_i^{(m, k)}, s_{\bar i}^{(m, k)}}, \quad \hat f_{0, i} = \frac{1}{MK} \sum_{m, k} \delta_{0, s_i^{(m, k)}}
+&\hat \varepsilon_i = \hat \delta_{i}\hat \delta_{\bar i}, \quad \hat A_i = 6\hat R_i - 2 - 2\hat \varepsilon_i\\
+&\hat \delta_{i} = 2\hat f_{0, i} - 1, \quad \hat \delta_{\bar i} = 2\hat f_{0, \bar i} - 1\\
+&\hat R_i = \frac{1}{MK} \sum_{m, k} \delta_{s_i^{(m, k)}, s_{\bar i}^{(m, k)}}, \quad \hat f_{0, i} = \frac{1}{MK} \sum_{m, k} \delta_{0, s_i^{(m, k)}}, \quad \hat f_{0, \bar i} = \frac{1}{MK} \sum_{m, k} \delta_{0, s_{\bar i}^{(m, k)}}
 \end{split}
 $$
 
@@ -161,4 +161,51 @@ $$
 
 $$
 \mathbb E_{U, s}[\hat Z_{\mathcal R}] = tr(\rho \mathcal R) = Z_{\mathcal R}
+$$
+
+## ZT
+
+**BY:**
+
+[RHT ZT](PRF-RHT_ZT.md)
+
+**CONCEPT:**
+
+$$
+\hat Z_{\mathcal T} = \frac{1}{MK^2} \sum_{m}\sum_{k, k'}\prod_{i \in I} \hat{g}_i(s_i^{(m, k)}, s_i^{\prime(m, k')})
+$$
+
+where
+
+$$
+\begin{cases}
+\hat{g}_i(0, 0) = \hat{g}_i(1, 1) = \hat{x}_i\\
+\hat{g}_i(0, 1) = \hat{g}_i(1, 0) = \hat{y}_i
+\end{cases}
+$$
+
+$I = I_1 \cup I_2$ 是两次实验共用的 $2n$ 比特区间, $k$ ($k'$) 是实验 1 (实验 2) 的 shot 标记, 两发天然独立故无 $k \neq k'$ 约束.
+
+**WHERE:**
+
+$$
+\begin{split}
+&\hat{x}_i = \frac{\hat{p}_i + \hat{q}_i}{2}, \quad \hat{y}_i = \frac{\hat{p}_i - \hat{q}_i}{2}\\
+&\hat{p}_i = 1 - \hat{\varepsilon}_i \hat{q}_i, \quad \hat{q}_i = \frac{3}{\hat{A}_i - 1 - \hat{\varepsilon}_i}\\
+&\hat{\varepsilon}_i = \hat{\delta}_{1, i}\hat{\delta}_{2, i}, \quad \hat{A}_i = 6\hat{R}_i - 2 - 2\hat{\varepsilon}_i\\
+&\hat{\delta}_{1, i} = 2\hat{f}_{0, i}^{(1)} - 1, \quad \hat{\delta}_{2, i} = 2\hat{f}_{0, i}^{(2)} - 1\\
+&\hat{R}_i = \frac{1}{MK^2} \sum_{m}\sum_{k, k'} \delta_{s_i^{(m, k)}, s_i^{\prime(m, k')}}, \quad \hat{f}_{0, i}^{(a)} = \frac{1}{MK} \sum_{m, k} \delta_{0, s_i^{(m, k, a)}}
+\end{split}
+$$
+
+**INTERPRET:**
+
+- ZT 的 hamming formula pair 位于两次实验的同一比特, $i$ 逐比特取遍 $I_1 \cup I_2$.
+- 实验 1 在 $I_1$ 上先作用 $u_{\mathcal T}$; 两次实验在 $I_1$ 上的随机幺正取共轭配对, 在 $I_2$ 上取相同, 但标定量 $\hat R_i, \hat f$ 只用读出计数, 形式与 purity 相同.
+- $\hat{g}$ 具体选择 $x_i$ 还是 $y_i$ 取决于态制备电路; $x_i$ 和 $y_i$ 的具体形式(也即 $\hat R$ 和 $\hat f$)取决于 $|0\rangle$ 电路.
+
+**PROPERTY:**
+
+$$
+\mathbb E_{U, s, s'}[\hat Z_{\mathcal T}] = Z_{\mathcal T}
 $$
