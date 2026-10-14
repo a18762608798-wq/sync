@@ -1,5 +1,7 @@
 # Hamming core
 
+## Phase 1
+
 **GOAL:**
 
 Calculate:

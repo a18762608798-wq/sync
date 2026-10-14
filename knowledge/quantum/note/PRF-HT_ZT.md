@@ -79,6 +79,10 @@ $$
 \end{split}
 $$
 
+**BY:**
+
+[ZT form](PRF-ZT_form.md), $Z_{\mathcal T}$ 已写成 $tr[(\tilde\rho \otimes \rho)(T_{I_1} \otimes S_{I_2})]$, 故只需 twirl 到 $T_{I_1} \otimes S_{I_2}$.
+
 **SUFFICES:**
 
 $$
