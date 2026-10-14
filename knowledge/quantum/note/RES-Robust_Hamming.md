@@ -75,3 +75,90 @@ $$
 $$
 \mathbb E_{U, s, s'}[\hat{\mathcal{P}}] = tr(\rho^2)
 $$
+
+**CHECK:**
+
+无噪声时,
+
+$\delta_{i} = 0$, $\varepsilon_{i} = 0$.
+
+$\rho_{i} = |0\rangle\langle 0|$,
+$\sigma_{i} = U_{i}\rho_{i}U_{i}^{\dagger}$:
+
+$$
+R_{i} = \mathbb E_{U_{i}}[\sum_{s_{i}}P(s_{i}|U_{i})^{2}]
+$$
+
+$$
+= \sum_{s_{i}}tr(\mathbb E_{U_{i}}[\sigma_{i}^{\otimes 2}]\,|s_{i}\rangle\langle s_{i}|^{\otimes 2})
+$$
+
+**CONSIDER:**
+
+$$
+\mathbb E_{U_{i}}[\sigma_{i}^{\otimes 2}] = \frac{I + S_{i}}{6}
+$$
+
+**BY:**
+
+[PRF-Hamming_core](./PRF-Hamming_core.md), 相同的计算方式, 可以计算出系数都为 $\frac{1}{6}$.
+
+**HAVE:**
+
+$$
+R_i = \frac{1}{6}tr((I + S)|00\rangle \langle 00| + (I + S)|11\rangle \langle 11|) = \frac{2}{3}
+$$
+
+**THEREFORE:**
+
+$A_{i} = 6 \times \frac{2}{3} - 2 - 0 = 2$,
+
+$q_{i} = 3$, $p_{i} = 1$,
+
+$x_{i} = 2$, $y_{i} = -1$, 回到标准 Hamming 核.
+
+## ZR
+
+**BY:**
+
+[RHT ZR](PRF-RHT_ZR.md)
+
+**CONCEPT:**
+
+$$
+\hat Z_{\mathcal R} = \frac{1}{MK} \sum_{m}\sum_{k}\prod_{i=1}^n \hat g_i(s_i^{(m, k)}, s_{\bar i}^{(m, k)})
+$$
+
+where
+
+$$
+\begin{cases}
+\hat g_i(0, 0) = \hat g_i(1, 1) = \hat x_i\\
+\hat g_i(0, 1) = \hat g_i(1, 0) = \hat y_i
+\end{cases}
+$$
+
+$i$ is the subscript of mirror pair, $\bar i$ is its reflection counterpart, $n$ is the number of pairs.
+
+**WHERE:**
+
+$$
+\begin{split}
+&\hat x_i = \frac{\hat p_i + \hat q_i}{2}, \quad \hat y_i = \frac{\hat p_i - \hat q_i}{2}\\
+&\hat p_i = 1 - \hat \varepsilon_i \hat q_i, \quad \hat q_i = \frac{3}{\hat A_i - 1 - \hat \varepsilon_i}\\
+&\hat \varepsilon_i = \hat \delta_{1, i}\hat \delta_{2, i}, \quad \hat A_i = 6\hat R_i - 2 - 2\hat \varepsilon_i\\
+&\hat \delta_{1, i} = \hat \delta_{2, i} = \hat \delta_i = 2\hat f_{0, i} - 1\\
+&\hat R_i = \frac{1}{MK} \sum_{m, k} \delta_{s_i^{(m, k)}, s_{\bar i}^{(m, k)}}, \quad \hat f_{0, i} = \frac{1}{MK} \sum_{m, k} \delta_{0, s_i^{(m, k)}}
+\end{split}
+$$
+
+**INTERPRET:**
+
+- ZR 的 hamming formula pair 位于同一发的镜像对上, 噪声通道是两点各自一个.
+- 这里的 $i$ 读成对标号, 不是比特标号; $\hat f$ 仍取对内任意一侧的单点计数即可.
+
+**PROPERTY:**
+
+$$
+\mathbb E_{U, s}[\hat Z_{\mathcal R}] = tr(\rho \mathcal R) = Z_{\mathcal R}
+$$

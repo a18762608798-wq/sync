@@ -69,7 +69,20 @@ $$
 tr(\tau_i(Sw_i)) = tr(S\tau_i(w_i)) = 2a + 4b \tag{8}
 $$
 
+**BY:**
+
+(1), (3), (5), (6), (7), (8)
+
 **THEREFORE:**
+
+$$
+\begin{cases}
+a = 1\\
+b = 1
+\end{cases}
+$$
+
+and,
 
 $$
 \begin{cases}
@@ -77,7 +90,3 @@ u = 2\\
 t = 4
 \end{cases}
 $$
-
-**BY:**
-
-(1), (3), (5), (6), (7), (8)
