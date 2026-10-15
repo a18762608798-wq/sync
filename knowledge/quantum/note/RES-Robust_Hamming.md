@@ -32,6 +32,8 @@ $$
 \delta_k = \gamma_k = 1-e^{-t_k/T_1}
 $$
 
+$\delta_k$ 由 $t_k$ 决定, 假设(2)噪声不变即假设同一发内 $t_k$ 不变.
+
 ## purity
 
 **BY:**
