@@ -205,9 +205,19 @@ $$
 - ZT 的 hamming formula pair 位于两次实验的同一比特, $i$ 逐比特取遍 $I_1 \cup I_2$.
 - 实验 1 在 $I_1$ 上先作用 $u_{\mathcal T}$; 两次实验在 $I_1$ 上的随机幺正取共轭配对, 在 $I_2$ 上取相同, 但标定量 $\hat R_i, \hat f$ 只用读出计数, 形式与 purity 相同.
 - $\hat{g}$ 具体选择 $x_i$ 还是 $y_i$ 取决于态制备电路; $x_i$ 和 $y_i$ 的具体形式(也即 $\hat R$ 和 $\hat f$)取决于 $|0\rangle$ 电路.
+- 标定 trivial 取共轭配对：exp1 用 plain，exp2 用共轭绑定；两份实验共用同一积分变量 $U_i$，实验二在 $I_1$ 区的 Born 概率实际按 $U_i^{\ast}$ 计算。
 
 **PROPERTY:**
 
 $$
 \mathbb E_{U, s, s'}[\hat Z_{\mathcal T}] = Z_{\mathcal T}
 $$
+
+## VERIFY
+
+- 状态: 已通过
+- 目录: `VER-Robust_Hamming/`
+- 内容:
+  - `purity`: 验证同设置跨发配对下 $R_i, f_{0,i} \to x_i, y_i$ 标定链、$\tau^F_i(w_i) = S_i$ 及 $\hat{\mathcal P}$ 无偏性.
+  - `ZR`: 验证单发内镜像对配对下 $R_i, f_{0,i}, f_{0,\bar i} \to x_i, y_i$ 标定链及 $\hat Z_{\mathcal R}$ 无偏性.
+  - `ZT`: 验证跨实验共轭/相同配对下 $\tau^\Psi_i(w_i) = T_i$, $\tau^F_i(w_i) = S_i$ 标定链及 $\hat Z_{\mathcal T}$ 无偏性.

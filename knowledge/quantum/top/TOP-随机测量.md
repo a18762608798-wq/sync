@@ -2,8 +2,8 @@
 
 ## 估计器
 
-- [Classical Shadow](../note/CON-Classical_Shadow.md)
-- [Hamming Distance](../note/CON-Hamming_Distance.md)
+- [Classical Shadow](../note/RES-Classical_Shadow.md)
+- [Hamming Distance](../note/RES-Hamming_Distance.md)
 
 ## 误差缓解
 
