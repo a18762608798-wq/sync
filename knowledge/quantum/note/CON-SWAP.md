@@ -8,7 +8,7 @@ $$
 
 **BY:**
 
-[PRF-S_form](S_form.md)
+[PRF-S_form](PRF-S_form.md)
 
 **THEREFORE:**
 

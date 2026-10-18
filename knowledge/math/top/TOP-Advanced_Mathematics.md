@@ -2,4 +2,4 @@
 
 ## Series
 
-- [CON-Fourier_series](../note/CON-001.md)
+- [CON-Fourier_series](../note/CON-Fourier_Series.md)
