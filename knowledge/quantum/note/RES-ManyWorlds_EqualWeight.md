@@ -6,7 +6,7 @@
 
 **ASSUME:**
 
-全域幺正、无坍缩，观察者 $O$ 随之分裂，分支已退相干正交。
+全域幺正、无坍缩，**观察者 $O$ 随之分裂(可以理解为受控位的CNOT)**，分支已退相干正交。
 
 **CONCEPT:**
 
@@ -22,11 +22,13 @@ $$
 |\Psi\rangle = \frac{1}{\sqrt{M}} \sum_{k=1}^M |b_k\rangle|O_k\rangle \tag{2}
 $$
 
-其中 $k$ 枚举 $E$ 正交微观态， $k \leq m$ 时 $|b_k\rangle = |0\rangle$ ， $k > m$ 时 $|b_k\rangle = |1\rangle$ ， $|0\rangle$ 与 $|1\rangle$ 已合并 $S$ ， $A$ 指标； **$|b_k\rangle$ 加 $|O_k\rangle$ 即第 $k$ 个世界分支的全部自由度标签**。
+**WHRER:**
+
+ $k$ 枚举 $E$ 正交微观态， $k \leq m$ 时 $|b_k\rangle = |0\rangle$ ， $k > m$ 时 $|b_k\rangle = |1\rangle$ ， $|0\rangle$ 与 $|1\rangle$ 已合并 $S$ ， $A$ 指标； **$|b_k\rangle$ 加 $|O_k\rangle$ 即第 $k$ 个世界分支的全部自由度标签**。
 
 **BECAUSE:**
 
-(2) 系数全等故严格对称；$m$ 个正交单位向量合并长为 $\sqrt{m}$ ，故 $\alpha = \sqrt{m/M}$ 。判据同 [CON-Measurement_Requirement](../note/CON-Measurement_Requirement.md) 单值性要求。
+(2) 系数全等故严格对称；$m$ 个正交单位向量合并长为 $\sqrt{m}$ ，故 $\alpha = \sqrt{m/M}$ 。
 
 **THEREFORE:**
 
@@ -36,6 +38,6 @@ $$
 
 **CAVEAT:**
 
-(3) 是分支内自我定位概率；单次随机性仍需诠释补充。
+(3) 是没有写出全部量子标记造成的简并度罢了。
 
 **QED**
