@@ -1,0 +1,14 @@
+- generic [ref=f8e2]:
+  - separator [ref=f8e3]
+  - iframe [ref=f8e8]:
+    - generic [ref=f9e2]:
+      - generic [ref=f9e3]:
+        - checkbox "进行人机身份验证" [ref=f9e7]
+        - generic [aria-hidden] [ref=f9e11]: 进行人机身份验证
+      - generic [ref=f9e12]: reCAPTCHA
+  - separator [ref=f8e9]
+  - generic [ref=f8e10]:
+    - text: About this page Our systems have detected unusual traffic from your computer network. This page checks to see if it's really you sending the requests, and not a robot.
+    - link "Why did this happen?" [ref=f8e11] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f8e12]: "IP address: 146.19.196.203Time: 2026-10-27T01:31:53ZURL: https://www.google.com/search?q=%22Exponential+Time+Hypothesis%22+OpenAI+subexponential+algorithm+claim&hl=en&sei=CP_fatTwEtaZ4-EP9KjPkA4"

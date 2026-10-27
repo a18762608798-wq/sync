@@ -1,0 +1,393 @@
+- generic [ref=f49e2]:
+  - generic [ref=f49e3]:
+    - link "Skip to content" [ref=f49e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=f49e9]:
+      - heading "Navigation Menu" [level=2] [ref=f49e10]
+      - generic [ref=f49e11]:
+        - link "Homepage" [ref=f49e13] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f49e16]:
+          - navigation "Global" [ref=f49e17]:
+            - list [ref=f49e18]:
+              - listitem [ref=f49e19]:
+                - button "Platform" [ref=f49e21] [cursor=pointer]
+              - listitem [ref=f49e24]:
+                - button "Solutions" [ref=f49e26] [cursor=pointer]
+              - listitem [ref=f49e29]:
+                - button "Resources" [ref=f49e31] [cursor=pointer]
+              - listitem [ref=f49e34]:
+                - button "Open Source" [ref=f49e36] [cursor=pointer]
+              - listitem [ref=f49e39]:
+                - button "Enterprise" [ref=f49e41] [cursor=pointer]
+              - listitem [ref=f49e44]:
+                - link "Pricing" [ref=f49e45] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+          - generic [ref=f49e46]:
+            - button "Search or jump to, type / to search" [ref=f49e48] [cursor=pointer]
+            - generic [ref=f49e54]:
+              - link "Sign in" [ref=f49e56] [cursor=pointer]:
+                - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fopenai%2Fmath
+              - link "Sign up" [ref=f49e59] [cursor=pointer]:
+                - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E&source=header-repo&source_repo=openai%2Fmath
+              - button "Appearance settings" [ref=f49e62] [cursor=pointer]
+  - main [ref=f49e69]:
+    - generic "Global navigation menu" [ref=f49e72]:
+      - navigation "Breadcrumbs" [ref=f49e75]:
+        - list [ref=f49e76]:
+          - listitem [ref=f49e77]:
+            - link "openai" [ref=f49e78] [cursor=pointer]:
+              - /url: /openai
+          - listitem [ref=f49e80]:
+            - link "math" [ref=f49e81] [cursor=pointer]:
+              - /url: /openai/math
+      - heading "Repository navigation" [level=2] [ref=f49e84]
+      - navigation "Repository" [ref=f49e85]:
+        - list [ref=f49e86]:
+          - listitem [ref=f49e87]:
+            - link "Code" [ref=f49e88] [cursor=pointer]:
+              - /url: /openai/math
+          - listitem [ref=f49e93]:
+            - link "Pull requests" [ref=f49e94] [cursor=pointer]:
+              - /url: /openai/math/pulls
+          - listitem [ref=f49e100]:
+            - link "Actions" [ref=f49e101] [cursor=pointer]:
+              - /url: /openai/math/actions
+          - listitem [ref=f49e106]:
+            - link "Security and quality" [ref=f49e107] [cursor=pointer]:
+              - /url: /openai/math/security
+          - listitem [ref=f49e112]:
+            - link "Insights" [ref=f49e113] [cursor=pointer]:
+              - /url: /openai/math/pulse
+    - generic [ref=f49e130]:
+      - generic [ref=f49e134]:
+        - generic [ref=f49e137]:
+          - img "openai" [ref=f49e138]
+          - generic "math" [ref=f49e139]:
+            - strong [ref=f49e140]:
+              - link "math" [ref=f49e141] [cursor=pointer]:
+                - /url: /openai/math
+          - generic [ref=f49e142]: Public
+        - list [ref=f49e144]:
+          - listitem [ref=f49e145]:
+            - link "You must be signed in to change notification settings" [ref=f49e146] [cursor=pointer]:
+              - /url: /login?return_to=%2Fopenai%2Fmath
+              - generic [ref=f49e147]: Notifications
+          - listitem [ref=f49e149]:
+            - link "You must be signed in to fork a repository" [ref=f49e150] [cursor=pointer]:
+              - /url: /login?return_to=%2Fopenai%2Fmath
+              - generic [ref=f49e152]:
+                - text: Fork
+                - generic [aria-hidden] [ref=f49e153]: 1.8k
+                - generic [ref=f49e154]: (1.8k)
+          - listitem [ref=f49e155]:
+            - link "Star (15.6k)" [ref=f49e156] [cursor=pointer]:
+              - /url: /login?return_to=%2Fopenai%2Fmath
+              - generic [ref=f49e158]:
+                - text: Star
+                - generic [aria-hidden] [ref=f49e159]: 15.6k
+                - generic [ref=f49e160]: (15.6k)
+      - generic [ref=f49e161]:
+        - generic [ref=f49e164]:
+          - generic [ref=f49e165]:
+            - generic [ref=f49e166]:
+              - button "main branch" [ref=f49e168] [cursor=pointer]:
+                - generic [ref=f49e169]: main
+              - generic [ref=f49e173]:
+                - link "Branches" [ref=f49e174] [cursor=pointer]:
+                  - /url: /openai/math/branches
+                - link "Tags" [ref=f49e177] [cursor=pointer]:
+                  - /url: /openai/math/tags
+            - generic [ref=f49e180]:
+              - combobox "Go to file" [ref=f49e188]
+              - button "Code" [ref=f49e189] [cursor=pointer]
+          - generic [ref=f49e192]:
+            - generic [ref=f49e193]:
+              - generic [ref=f49e195]:
+                - heading "Latest commit" [level=2] [ref=f49e196]
+                - generic [ref=f49e199]:
+                  - heading "History" [level=2] [ref=f49e200]
+                  - link "7 Commits" [ref=f49e201] [cursor=pointer]:
+                    - /url: /openai/math/commits/main/
+              - heading "Folders and files" [level=2] [ref=f49e204]
+              - table "Folders and files" [ref=f49e206]:
+                - rowgroup:
+                  - row "Name Last commit message Last commit date":
+                    - columnheader "Name"
+                    - columnheader "Last commit message"
+                    - columnheader "Last commit date"
+                - rowgroup [ref=f49e207]:
+                  - row ".github/workflows, (Directory)" [ref=f49e208]:
+                    - cell [ref=f49e209]:
+                      - link ".github/workflows, (Directory)" [ref=f49e216] [cursor=pointer]:
+                        - /url: /openai/math/tree/main/.github/workflows
+                        - text: .github/workflows
+                    - cell [ref=f49e217]
+                    - cell [ref=f49e219]
+                  - row "lean, (Directory)" [ref=f49e222]:
+                    - cell [ref=f49e223]:
+                      - link "lean, (Directory)" [ref=f49e230] [cursor=pointer]:
+                        - /url: /openai/math/tree/main/lean
+                        - text: lean
+                    - cell [ref=f49e231]
+                    - cell [ref=f49e233]
+                  - row "preprints, (Directory)" [ref=f49e236]:
+                    - cell [ref=f49e237]:
+                      - link "preprints, (Directory)" [ref=f49e244] [cursor=pointer]:
+                        - /url: /openai/math/tree/main/preprints
+                        - text: preprints
+                    - cell [ref=f49e245]
+                    - cell [ref=f49e247]
+                  - row "reasoning_traces, (Directory)" [ref=f49e250]:
+                    - cell [ref=f49e251]:
+                      - link "reasoning_traces, (Directory)" [ref=f49e258] [cursor=pointer]:
+                        - /url: /openai/math/tree/main/reasoning_traces
+                        - text: reasoning_traces
+                    - cell [ref=f49e259]
+                    - cell [ref=f49e261]
+                  - row "CONTENTS.md, (File)" [ref=f49e264]:
+                    - cell [ref=f49e265]:
+                      - link "CONTENTS.md, (File)" [ref=f49e272] [cursor=pointer]:
+                        - /url: /openai/math/blob/main/CONTENTS.md
+                        - text: CONTENTS.md
+                    - cell [ref=f49e273]
+                    - cell [ref=f49e275]
+                  - row "LICENSE, (File)" [ref=f49e278]:
+                    - cell [ref=f49e279]:
+                      - link "LICENSE, (File)" [ref=f49e286] [cursor=pointer]:
+                        - /url: /openai/math/blob/main/LICENSE
+                        - text: LICENSE
+                    - cell [ref=f49e287]
+                    - cell [ref=f49e289]
+                  - row "README.md, (File)" [ref=f49e292]:
+                    - cell [ref=f49e293]:
+                      - link "README.md, (File)" [ref=f49e300] [cursor=pointer]:
+                        - /url: /openai/math/blob/main/README.md
+                        - text: README.md
+                    - cell [ref=f49e301]
+                    - cell [ref=f49e303]
+                  - row "history.md, (File)" [ref=f49e306]:
+                    - cell [ref=f49e307]:
+                      - link "history.md, (File)" [ref=f49e314] [cursor=pointer]:
+                        - /url: /openai/math/blob/main/history.md
+                        - text: history.md
+                    - cell [ref=f49e315]
+                    - cell [ref=f49e317]
+                  - row "overview.pdf, (File)" [ref=f49e320]:
+                    - cell [ref=f49e321]:
+                      - link "overview.pdf, (File)" [ref=f49e328] [cursor=pointer]:
+                        - /url: /openai/math/blob/main/overview.pdf
+                        - text: overview.pdf
+                    - cell [ref=f49e329]
+                    - cell [ref=f49e331]
+                  - row "overview.tex, (File)" [ref=f49e334]:
+                    - cell [ref=f49e335]:
+                      - link "overview.tex, (File)" [ref=f49e342] [cursor=pointer]:
+                        - /url: /openai/math/blob/main/overview.tex
+                        - text: overview.tex
+                    - cell [ref=f49e343]
+                    - cell [ref=f49e345]
+            - generic [ref=f49e349]:
+              - generic [ref=f49e350]:
+                - heading "Repository files navigation" [level=2] [ref=f49e351]
+                - navigation "Repository files" [ref=f49e352]:
+                  - list [ref=f49e353]:
+                    - listitem [ref=f49e354]:
+                      - link "README" [ref=f49e355] [cursor=pointer]:
+                        - /url: "#"
+                    - listitem [ref=f49e360]:
+                      - link "Apache-2.0 license" [ref=f49e361] [cursor=pointer]:
+                        - /url: "#"
+                - button "Outline" [ref=f49e366] [cursor=pointer]
+              - article [ref=f49e370]:
+                - generic [ref=f49e371]:
+                  - heading "Readme" [level=1] [ref=f49e372]
+                  - 'link "Permalink: Readme" [ref=f49e373] [cursor=pointer]':
+                    - /url: "#readme"
+                - paragraph [ref=f49e376]: This repository contains mathematical manuscripts and supporting proof artifacts produced by an unnamed internal OpenAI model.
+                - paragraph [ref=f49e377]: As part of model development, we evaluate our models on open research problems. We expanded these evaluations after performance on our existing mathematical evaluations saturated. Some outputs build upon earlier results produced by the models.
+                - paragraph [ref=f49e378]: This collection includes results at different stages of verification. Not all have accompanying Lean formalizations. We will continue to update this repository with Lean formalizations as we obtain them.
+                - paragraph [ref=f49e379]: Some of the unformalized results could have issues. We will endeavor to fix any such issues quickly. We are also exploring community-hosted repositories for these materials.
+                - paragraph [ref=f49e380]: In our view, these manuscripts are best understood as a form of raw research data, rather than polished academic papers. We defer to the math community completely on matters of credit, precedence, and concurrent work.
+                - generic [ref=f49e381]:
+                  - heading "Navigating the collection" [level=2] [ref=f49e382]
+                  - 'link "Permalink: Navigating the collection" [ref=f49e383] [cursor=pointer]':
+                    - /url: "#navigating-the-collection"
+                - paragraph [ref=f49e386]: The current catalogue contains 721 manuscripts organized into 373 families. A family groups related papers, which may include a principal result, companion arguments, consequences, or alternative proofs. Each family is classified by mathematical discipline.
+                - list [ref=f49e387]:
+                  - listitem [ref=f49e388]:
+                    - text: Start with the
+                    - link "overview" [ref=f49e389] [cursor=pointer]:
+                      - /url: /openai/math/blob/main/overview.pdf
+                    - text: for descriptions of the families.
+                  - listitem [ref=f49e390]:
+                    - text: Use the
+                    - link "manuscript map" [ref=f49e391] [cursor=pointer]:
+                      - /url: /openai/math/blob/main/CONTENTS.md
+                    - text: to find individual papers and their supporting materials.
+                  - listitem [ref=f49e392]:
+                    - text: The
+                    - link [ref=f49e393] [cursor=pointer]:
+                      - /url: /openai/math/blob/main/preprints
+                      - code [ref=f49e394]: preprints/
+                    - text: directory contains PDFs, source files, and manuscript-specific citation and build instructions.
+                  - listitem [ref=f49e395]:
+                    - text: The
+                    - link "Lean library" [ref=f49e396] [cursor=pointer]:
+                      - /url: /openai/math/blob/main/lean/README.md
+                    - text: and
+                    - link "formalization catalogue" [ref=f49e397] [cursor=pointer]:
+                      - /url: /openai/math/blob/main/lean/formalization.yaml
+                    - text: describe the available formal proofs, their associated papers, and verification configurations. See the
+                    - link "Comparator instructions" [ref=f49e398] [cursor=pointer]:
+                      - /url: /openai/math/blob/main/lean/ComparatorChallenges/README.md
+                    - text: for additional checking instructions. The repository has ~42% top-line results formalized.
+                  - listitem [ref=f49e399]:
+                    - text: Updates to the repo are described in the
+                    - link "history" [ref=f49e400] [cursor=pointer]:
+                      - /url: /openai/math/blob/main/history.md
+                    - text: .
+                - generic [ref=f49e401]:
+                  - heading "Reasoning summaries" [level=3] [ref=f49e402]
+                  - 'link "Permalink: Reasoning summaries" [ref=f49e403] [cursor=pointer]':
+                    - /url: "#reasoning-summaries"
+                - paragraph [ref=f49e406]: "We are also releasing abridged summaries of the model's reasoning, covering the following results:"
+                - table [ref=f49e408]:
+                  - rowgroup [ref=f49e409]:
+                    - row [ref=f49e410]:
+                      - columnheader "Family" [ref=f49e411]
+                      - columnheader "Subject" [ref=f49e412]
+                  - rowgroup [ref=f49e413]:
+                    - row [ref=f49e414]:
+                      - cell "007" [ref=f49e415]
+                      - cell [ref=f49e416]:
+                        - link "Ordinary two-point correlations of multiplicative functions" [ref=f49e417] [cursor=pointer]:
+                          - /url: /openai/math/blob/main/reasoning_traces/ordinary-two-point-correlations.pdf
+                    - row [ref=f49e418]:
+                      - cell "017" [ref=f49e419]
+                      - cell [ref=f49e420]:
+                        - link "The irrationality exponent of π" [ref=f49e421] [cursor=pointer]:
+                          - /url: /openai/math/blob/main/reasoning_traces/irrationality-exponent-of-pi.pdf
+                    - row [ref=f49e422]:
+                      - cell "087" [ref=f49e423]
+                      - cell [ref=f49e424]:
+                        - link "Symmetric and general Mahler conjectures" [ref=f49e425] [cursor=pointer]:
+                          - /url: /openai/math/blob/main/reasoning_traces/symmetric-and-general-mahler-conjectures.pdf
+                    - row [ref=f49e426]:
+                      - cell "102" [ref=f49e427]
+                      - cell [ref=f49e428]:
+                        - link "Ordinary NP-hardness at the basic semidefinite threshold" [ref=f49e429] [cursor=pointer]:
+                          - /url: /openai/math/blob/main/reasoning_traces/basic-semidefinite-threshold-np-hardness.pdf
+                    - row [ref=f49e430]:
+                      - cell "159" [ref=f49e431]
+                      - cell [ref=f49e432]:
+                        - link "Quasipolynomial bounds for arithmetic progressions" [ref=f49e433] [cursor=pointer]:
+                          - /url: /openai/math/blob/main/reasoning_traces/quasipolynomial-arithmetic-progressions.pdf
+                    - row [ref=f49e434]:
+                      - cell "197" [ref=f49e435]
+                      - cell [ref=f49e436]:
+                        - link "Kaplansky's direct-finiteness conjecture in characteristic two" [ref=f49e437] [cursor=pointer]:
+                          - /url: /openai/math/blob/main/reasoning_traces/kaplansky-direct-finiteness-characteristic-two.pdf
+                    - row [ref=f49e438]:
+                      - cell "221" [ref=f49e439]
+                      - cell [ref=f49e440]:
+                        - link "The Mézard–Parisi formula for diluted spin glasses" [ref=f49e441] [cursor=pointer]:
+                          - /url: /openai/math/blob/main/reasoning_traces/mezard-parisi-formula.pdf
+                    - row [ref=f49e442]:
+                      - cell "271" [ref=f49e443]
+                      - cell [ref=f49e444]:
+                        - link "Spontaneous magnetization in the quantum Heisenberg ferromagnet" [ref=f49e445] [cursor=pointer]:
+                          - /url: /openai/math/blob/main/reasoning_traces/spontaneous-magnetization-quantum-heisenberg-ferromagnet.pdf
+                    - row [ref=f49e446]:
+                      - cell "287" [ref=f49e447]
+                      - cell [ref=f49e448]:
+                        - link "Isomorphism of free group factors" [ref=f49e449] [cursor=pointer]:
+                          - /url: /openai/math/blob/main/reasoning_traces/free-group-factor-isomorphism.pdf
+                    - row [ref=f49e450]:
+                      - cell "362" [ref=f49e451]
+                      - cell [ref=f49e452]:
+                        - link "The three-dimensional relativistic Vlasov–Maxwell system" [ref=f49e453] [cursor=pointer]:
+                          - /url: /openai/math/blob/main/reasoning_traces/relativistic-vlasov-maxwell.pdf
+                - generic [ref=f49e454]:
+                  - heading "How the results were produced" [level=2] [ref=f49e455]
+                  - 'link "Permalink: How the results were produced" [ref=f49e456] [cursor=pointer]':
+                    - /url: "#how-the-results-were-produced"
+                - paragraph [ref=f49e459]: The vast majority of results were obtained with the same procedure using an unreleased internal OpenAI model. On average, each result used three hours of ChatGPT Pro thinking compute with that model. Over the course of the evaluation, the model was posed approximately 4,000 problems. Aggregating the output into result families and manuscripts and requiring an appropriate level of significance led to the catalog outlined above.
+                - paragraph [ref=f49e460]: Exceptions to this fixed procedure include work on a zero-free region for the Riemann zeta function and proof of the Hodge Conjecture for CM abelian varieties. Additionally, the writeup for the Re(s) > 11/12 zero-free region for the Riemann zeta function was human edited for readability.
+                - generic [ref=f49e461]:
+                  - heading "Versions and citations" [level=2] [ref=f49e462]
+                  - 'link "Permalink: Versions and citations" [ref=f49e463] [cursor=pointer]':
+                    - /url: "#versions-and-citations"
+                - paragraph [ref=f49e466]: We will preserve the public release history of this collection. Corrections and revisions will be recorded as new versions, with previously released versions remaining accessible.
+                - paragraph [ref=f49e467]: To cite the individual manuscript, use the BibTeX block in its directory.
+        - generic [ref=f49e470]:
+          - generic [ref=f49e471]:
+            - heading "About" [level=2] [ref=f49e472]
+            - generic [ref=f49e473]: No description, website, or topics provided.
+            - heading "Resources" [level=3] [ref=f49e474]
+            - link "Readme" [ref=f49e476] [cursor=pointer]:
+              - /url: "#readme-ov-file"
+            - link "Apache-2.0 license" [ref=f49e480] [cursor=pointer]:
+              - /url: "#Apache-2.0-1-ov-file"
+            - generic [ref=f49e483]:
+              - generic [ref=f49e484]:
+                - link "Activity" [ref=f49e486] [cursor=pointer]:
+                  - /url: /openai/math/activity
+                - link "Custom properties" [ref=f49e490] [cursor=pointer]:
+                  - /url: /openai/math/custom-properties
+              - generic [ref=f49e493]:
+                - heading "Stars" [level=3] [ref=f49e494]
+                - generic [ref=f49e496]:
+                  - strong [ref=f49e499]: 15.6k
+                  - text: stars
+                - heading "Watchers" [level=3] [ref=f49e500]
+                - generic [ref=f49e502]:
+                  - strong [ref=f49e505]: "352"
+                  - text: watching
+                - heading "Forks" [level=3] [ref=f49e506]
+                - link [ref=f49e508] [cursor=pointer]:
+                  - /url: /openai/math/forks
+                  - strong [ref=f49e512]: 1.8k
+                  - text: forks
+            - link "Report repository" [ref=f49e514] [cursor=pointer]:
+              - /url: /contact/report-content?content_url=https%3A%2F%2Fgithub.com%2Fopenai%2Fmath&report=openai+%28user%29
+          - heading "Releases" [level=2] [ref=f49e516]
+          - heading "Packages" [level=2] [ref=f49e520]
+          - heading "Used by" [level=2] [ref=f49e523]
+          - heading "Contributors" [level=2] [ref=f49e526]
+          - heading "Languages" [level=2] [ref=f49e529]
+  - contentinfo [ref=f49e532]:
+    - heading "Footer" [level=2] [ref=f49e533]
+    - generic [ref=f49e534]:
+      - generic [ref=f49e535]:
+        - link "GitHub Homepage" [ref=f49e536] [cursor=pointer]:
+          - /url: https://github.com
+        - generic [ref=f49e539]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=f49e540]:
+        - heading "Footer navigation" [level=3] [ref=f49e541]
+        - list "Footer navigation" [ref=f49e542]:
+          - listitem [ref=f49e543]:
+            - link "Terms" [ref=f49e544] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=f49e545]:
+            - link "Privacy" [ref=f49e546] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=f49e547]:
+            - link "Security" [ref=f49e548] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=f49e549]:
+            - link "Status" [ref=f49e550] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=f49e551]:
+            - link "Community" [ref=f49e552] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=f49e553]:
+            - link "Docs" [ref=f49e554] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=f49e555]:
+            - link "Contact" [ref=f49e556] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=f49e557]:
+            - button "Manage cookies" [ref=f49e559] [cursor=pointer]
+          - listitem [ref=f49e560]:
+            - button "Do not share my personal information" [ref=f49e562] [cursor=pointer]

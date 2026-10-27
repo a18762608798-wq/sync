@@ -1,0 +1,416 @@
+- generic [active] [ref=f18e1]:
+  - link "Jump to content" [ref=f18e2] [cursor=pointer]:
+    - /url: "#bodyContent"
+  - banner [ref=f18e4]:
+    - generic [ref=f18e5]:
+      - navigation "Site" [ref=f18e6]:
+        - generic "Main menu" [ref=f18e7]:
+          - button "Main menu" [ref=f18e8] [cursor=pointer]
+          - generic [ref=f18e11]: Main menu
+      - link [ref=f18e12] [cursor=pointer]:
+        - /url: /wiki/Main_Page
+        - generic [ref=f18e13]:
+          - img "Wikipedia" [ref=f18e14]
+          - img "The Free Encyclopedia" [ref=f18e15]
+    - generic [ref=f18e16]:
+      - search [ref=f18e17]:
+        - generic [ref=f18e20]:
+          - searchbox "Search Wikipedia" [ref=f18e23]
+          - button "Search" [ref=f18e25]
+      - navigation "Personal tools" [ref=f18e26]:
+        - list [ref=f18e30]:
+          - listitem [ref=f18e31]:
+            - link "Donate" [ref=f18e32] [cursor=pointer]:
+              - /url: https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en
+          - listitem [ref=f18e33]:
+            - link "Create account" [ref=f18e34] [cursor=pointer]:
+              - /url: /w/index.php?title=Special:CreateAccount&returnto=Special%3ASearch&returntoquery=fulltext%3D1%26profile%3Ddefault%26search%3DOpenAI%2BExponential%2BTime%2BHypothesis
+          - listitem [ref=f18e35]:
+            - link "Log in" [ref=f18e36] [cursor=pointer]:
+              - /url: /w/index.php?title=Special:UserLogin&returnto=Special%3ASearch&returntoquery=fulltext%3D1%26profile%3Ddefault%26search%3DOpenAI%2BExponential%2BTime%2BHypothesis
+  - generic [ref=f18e38]:
+    - main [ref=f18e42]:
+      - generic [ref=f18e43]:
+        - heading "Search results" [level=1] [ref=f18e44]
+        - link "Help" [ref=f18e47] [cursor=pointer]:
+          - /url: /wiki/Help:Searching
+      - generic [ref=f18e50]:
+        - generic:
+          - navigation "Namespaces"
+        - generic [ref=f18e51]:
+          - navigation "Views"
+          - navigation "Page tools" [ref=f18e52]:
+            - generic [ref=f18e53]:
+              - button "Tools" [ref=f18e54] [cursor=pointer]
+              - generic [ref=f18e57]: Tools
+      - navigation "Appearance" [ref=f18e60]:
+        - generic [ref=f18e63]:
+          - generic [ref=f18e64]: Appearance
+          - button "Hide Appearance" [ref=f18e65] [cursor=pointer]: hide
+      - generic "Search results" [ref=f18e66]:
+        - generic [ref=f18e67]:
+          - generic [ref=f18e71]:
+            - generic:
+              - generic [ref=f18e74]:
+                - searchbox [ref=f18e77]: OpenAI Exponential Time Hypothesis
+                - button "Search" [ref=f18e80] [cursor=pointer]
+              - generic [ref=f18e81]:
+                - text: Results
+                - strong [ref=f18e82]: 1 – 20
+                - text: of
+                - strong [ref=f18e83]: "91"
+          - generic [ref=f18e84]:
+            - paragraph [ref=f18e86]:
+              - generic [ref=f18e87]:
+                - text: The page "
+                - link "OpenAI Exponential Time Hypothesis" [ref=f18e88] [cursor=pointer]:
+                  - /url: /w/index.php?title=OpenAI_Exponential_Time_Hypothesis&action=edit&redlink=1
+                - text: "\" does not exist. You can"
+                - link "create a draft and submit it for review" [ref=f18e89] [cursor=pointer]:
+                  - /url: /wiki/Wikipedia:Article_wizard
+                - text: or
+                - link "request that a redirect be created" [ref=f18e90] [cursor=pointer]:
+                  - /url: /wiki/Wikipedia:Articles_for_creation/Redirects
+                - text: ", but consider checking the search results below to see whether the topic is already covered."
+            - generic [ref=f18e92]:
+              - combobox [ref=f18e95]:
+                - option "20 items" [selected]
+                - option "50 items"
+                - option "100 items"
+                - option "250 items"
+                - option "500 items"
+              - generic [ref=f18e96]:
+                - button "First page" [ref=f18e97] [cursor=pointer]
+                - button "Previous page" [ref=f18e99] [cursor=pointer]
+                - button "Next page" [ref=f18e101] [cursor=pointer]
+            - list [ref=f18e104]:
+              - listitem [ref=f18e105]:
+                - generic [ref=f18e111]:
+                  - generic [ref=f18e112]:
+                    - link "Artificial general intelligence" [ref=f18e113] [cursor=pointer]:
+                      - /url: /wiki/Artificial_general_intelligence
+                    - generic [ref=f18e114]:
+                      - text: (redirect from
+                      - link "Hard AI" [ref=f18e115] [cursor=pointer]:
+                        - /url: /wiki/Hard_AI
+                      - text: )
+                  - generic [ref=f18e116]: reprogramming. Creating AGI is a stated goal of technology companies such as OpenAI, Google, SpaceXAI, and Meta. A 2020 survey identified 72 active AGI research...
+                  - generic [ref=f18e117]: 111 KB (12,232 words) – 20:13, 11 October 2026
+              - listitem [ref=f18e118]:
+                - generic [ref=f18e124]:
+                  - generic [ref=f18e125]:
+                    - link "Artificial intelligence" [ref=f18e126] [cursor=pointer]:
+                      - /url: /wiki/Artificial_intelligence
+                    - generic [ref=f18e127]:
+                      - text: (redirect from
+                      - link "AI" [ref=f18e128] [cursor=pointer]:
+                        - /url: /wiki/AI
+                      - text: )
+                  - generic [ref=f18e129]: and economics. AI also draws upon psychology, linguistics, philosophy, neuroscience, and other fields. Some companies, such as OpenAI, Google DeepMind...
+                  - generic [ref=f18e130]: 278 KB (28,071 words) – 18:18, 26 October 2026
+              - listitem [ref=f18e131]:
+                - generic [ref=f18e137]:
+                  - generic [ref=f18e138]:
+                    - link "Technological singularity" [ref=f18e139] [cursor=pointer]:
+                      - /url: /wiki/Technological_singularity
+                    - generic [ref=f18e140]:
+                      - text: (redirect from
+                      - link "Singularity hypothesis" [ref=f18e141] [cursor=pointer]:
+                        - /url: /wiki/Singularity_hypothesis
+                      - text: )
+                  - generic [ref=f18e142]: transition remained part of "one crazy exponential" curve without a single decisive tipping point. In July 2026, OpenAI CEO Sam Altman and SpaceXAI CEO Elon...
+                  - generic [ref=f18e143]: 101 KB (10,393 words) – 08:59, 21 October 2026
+              - listitem [ref=f18e144]:
+                - generic [ref=f18e145]:
+                  - link [ref=f18e147] [cursor=pointer]:
+                    - /url: /wiki/Riemann_hypothesis
+                    - img "Thumbnail for Riemann hypothesis" [ref=f18e148]
+                  - generic [ref=f18e149]:
+                    - link "Riemann hypothesis" [ref=f18e151] [cursor=pointer]:
+                      - /url: /wiki/Riemann_hypothesis
+                    - generic [ref=f18e152]: Quasi-Riemann Hypothesis", GitHub, OpenAI, September 30, 2026, retrieved October 14, 2026 "The quasi-Riemann hypothesis", GitHub, OpenAI, October 6, 2026...
+                    - generic [ref=f18e153]: 143 KB (18,803 words) – 00:02, 24 October 2026
+              - listitem [ref=f18e154]:
+                - generic [ref=f18e155]:
+                  - link [ref=f18e157] [cursor=pointer]:
+                    - /url: /wiki/History_of_artificial_intelligence
+                    - img "Thumbnail for History of artificial intelligence" [ref=f18e158]
+                  - generic [ref=f18e159]:
+                    - generic [ref=f18e160]:
+                      - link "History of artificial intelligence" [ref=f18e161] [cursor=pointer]:
+                        - /url: /wiki/History_of_artificial_intelligence
+                      - generic [ref=f18e162]:
+                        - text: (redirect from
+                        - link "History of AI" [ref=f18e163] [cursor=pointer]:
+                          - /url: /wiki/History_of_AI
+                        - text: )
+                    - generic [ref=f18e164]: January 2025, OpenAI announced a new AI, ChatGPT-Gov, which would be specifically designed for US government agencies to use securely. Open AI said that agencies...
+                    - generic [ref=f18e165]: 174 KB (19,713 words) – 06:47, 26 October 2026
+              - listitem [ref=f18e166]:
+                - generic [ref=f18e172]:
+                  - generic [ref=f18e173]:
+                    - link "Existential risk from artificial intelligence" [ref=f18e174] [cursor=pointer]:
+                      - /url: /wiki/Existential_risk_from_artificial_intelligence
+                    - generic [ref=f18e175]:
+                      - text: (redirect from
+                      - link "Existential risk of AI" [ref=f18e176] [cursor=pointer]:
+                        - /url: /wiki/Existential_risk_of_AI
+                      - text: )
+                  - generic [ref=f18e177]: arXiv:2209.00626 [cs.AI]. "Introducing Superalignment". openai.com. Retrieved 16 July 2023. "OpenAI dissolves Superalignment AI safety team". cnbc.com...
+                  - generic [ref=f18e178]: 134 KB (13,803 words) – 23:30, 23 October 2026
+              - listitem [ref=f18e179]:
+                - generic [ref=f18e180]:
+                  - link [ref=f18e182] [cursor=pointer]:
+                    - /url: /wiki/Fermi_paradox
+                    - img "Thumbnail for Fermi paradox" [ref=f18e183]
+                  - generic [ref=f18e184]:
+                    - generic [ref=f18e185]:
+                      - link "Fermi paradox" [ref=f18e186] [cursor=pointer]:
+                        - /url: /wiki/Fermi_paradox
+                      - generic [ref=f18e187]:
+                        - text: (redirect from
+                        - link "Transcension hypothesis" [ref=f18e188] [cursor=pointer]:
+                          - /url: /wiki/Transcension_hypothesis
+                        - text: )
+                    - generic [ref=f18e189]: to the common assumption that such progress will continue at exponential rates as time goes by, eventually leading to the progress level required for...
+                    - generic [ref=f18e190]: 146 KB (16,584 words) – 19:41, 21 October 2026
+              - listitem [ref=f18e191]:
+                - generic [ref=f18e197]:
+                  - generic [ref=f18e198]:
+                    - link "Symbolic artificial intelligence" [ref=f18e199] [cursor=pointer]:
+                      - /url: /wiki/Symbolic_artificial_intelligence
+                    - generic [ref=f18e200]:
+                      - text: (redirect from
+                      - link "Good old-fashioned AI" [ref=f18e201] [cursor=pointer]:
+                        - /url: /wiki/Good_old-fashioned_AI
+                      - text: )
+                  - generic [ref=f18e202]: practically every AI algorithm today but is still no magic bullet; its guarantee of completeness is bought at the cost of worst-case exponential time. Early work...
+                  - generic [ref=f18e203]: 87 KB (10,945 words) – 13:57, 25 October 2026
+              - listitem [ref=f18e204]:
+                - generic [ref=f18e205]:
+                  - link [ref=f18e207] [cursor=pointer]:
+                    - /url: /wiki/Neural_scaling_law
+                    - img "Thumbnail for Neural scaling law" [ref=f18e208]
+                  - generic [ref=f18e209]:
+                    - generic [ref=f18e210]:
+                      - link "Neural scaling law" [ref=f18e211] [cursor=pointer]:
+                        - /url: /wiki/Neural_scaling_law
+                      - generic [ref=f18e212]:
+                        - text: (redirect from
+                        - link "Test-time compute" [ref=f18e213] [cursor=pointer]:
+                          - /url: /wiki/Test-time_compute
+                        - text: )
+                    - generic [ref=f18e214]: inference-time searching improves performance at a similar tradeoff ratio, for up to 100,000× effective increase in training-time compute. In 2024, the OpenAI o1...
+                    - generic [ref=f18e215]: 44 KB (5,951 words) – 05:25, 24 October 2026
+              - listitem [ref=f18e216]:
+                - generic [ref=f18e222]:
+                  - link "NP-intermediate" [ref=f18e224] [cursor=pointer]:
+                    - /url: /wiki/NP-intermediate
+                  - generic [ref=f18e225]: logarithm. Under the exponential time hypothesis, there exist natural problems that require quasi-polynomial time, and can be solved in that time, including finding...
+                  - generic [ref=f18e226]: 16 KB (1,625 words) – 10:41, 21 October 2026
+              - listitem [ref=f18e227]:
+                - generic [ref=f18e233]:
+                  - generic [ref=f18e234]:
+                    - link "Collatz conjecture" [ref=f18e235] [cursor=pointer]:
+                      - /url: /wiki/Collatz_conjecture
+                    - generic [ref=f18e236]:
+                      - text: (redirect from
+                      - link "Collatz hypothesis" [ref=f18e237] [cursor=pointer]:
+                        - /url: /wiki/Collatz_hypothesis
+                      - text: )
+                  - generic [ref=f18e238]: "to define a complex interpolating function, such as using the complex exponential instead of sine and cosine: f ( z ) = z 2 + 1 4 ( 2 z + 1 ) ( 1 − e i..."
+                  - generic [ref=f18e239]: 60 KB (7,336 words) – 19:47, 8 October 2026
+              - listitem [ref=f18e240]:
+                - generic [ref=f18e246]:
+                  - link "Singularitarianism" [ref=f18e248] [cursor=pointer]:
+                    - /url: /wiki/Singularitarianism
+                  - generic [ref=f18e249]: exponential. He says his critics mistakenly take an intuitive, linear view of technological advancement rather than accounting for that exponential growth...
+                  - generic [ref=f18e250]: 15 KB (1,614 words) – 07:21, 23 October 2026
+              - listitem [ref=f18e251]:
+                - generic [ref=f18e252]:
+                  - link [ref=f18e254] [cursor=pointer]:
+                    - /url: /wiki/Replication_crisis
+                    - img "Thumbnail for Replication crisis" [ref=f18e255]
+                  - generic [ref=f18e256]:
+                    - generic [ref=f18e257]:
+                      - link "Replication crisis" [ref=f18e258] [cursor=pointer]:
+                        - /url: /wiki/Replication_crisis
+                      - generic [ref=f18e259]:
+                        - text: (section
+                        - link "Problem with null hypothesis testing" [ref=f18e260] [cursor=pointer]:
+                          - /url: /wiki/Replication_crisis#Problem_with_null_hypothesis_testing
+                        - text: )
+                    - generic [ref=f18e261]: "{\\displaystyle p=0.0} and roughly exponential, though the precise shape of the p-value distribution depends on what the alternative hypothesis is. Because the p-values..."
+                    - generic [ref=f18e262]: 202 KB (22,612 words) – 06:43, 21 October 2026
+              - listitem [ref=f18e263]:
+                - generic [ref=f18e269]:
+                  - generic [ref=f18e270]:
+                    - link "List of unsolved problems in mathematics" [ref=f18e271] [cursor=pointer]:
+                      - /url: /wiki/List_of_unsolved_problems_in_mathematics
+                    - generic [ref=f18e272]:
+                      - text: (redirect from
+                      - link "Open problems in mathematics" [ref=f18e273] [cursor=pointer]:
+                        - /url: /wiki/Open_problems_in_mathematics
+                      - text: )
+                  - generic [ref=f18e274]: polynomial time? Can a discrete logarithm be computed in polynomial time? Can a discrete logarithm on a elliptic curve be computed in sub-exponential time? Does...
+                  - generic [ref=f18e275]: 183 KB (19,150 words) – 20:21, 21 October 2026
+              - listitem [ref=f18e276]:
+                - generic [ref=f18e277]:
+                  - link [ref=f18e279] [cursor=pointer]:
+                    - /url: /wiki/Terence_Tao
+                    - img "Thumbnail for Terence Tao" [ref=f18e280]
+                  - generic [ref=f18e281]:
+                    - generic [ref=f18e282]:
+                      - link "Terence Tao" [ref=f18e283] [cursor=pointer]:
+                        - /url: /wiki/Terence_Tao
+                      - generic [ref=f18e284]:
+                        - text: (section
+                        - link "Assessments of AI capability" [ref=f18e285] [cursor=pointer]:
+                          - /url: /wiki/Terence_Tao#Assessments_of_AI_capability
+                        - text: )
+                    - generic [ref=f18e286]: creative professions. The declaration followed reports days earlier that OpenAI had claimed a proof related to one of the Millennium Prize Problems, and...
+                    - generic [ref=f18e287]: 96 KB (8,492 words) – 00:10, 27 October 2026
+              - listitem [ref=f18e288]:
+                - generic [ref=f18e294]:
+                  - generic [ref=f18e295]:
+                    - link "Outline of artificial intelligence" [ref=f18e296] [cursor=pointer]:
+                      - /url: /wiki/Outline_of_artificial_intelligence
+                    - generic [ref=f18e297]:
+                      - text: (redirect from
+                      - link "List of open-source AI development tools" [ref=f18e298] [cursor=pointer]:
+                        - /url: /wiki/List_of_open-source_AI_development_tools
+                      - text: )
+                  - generic [ref=f18e299]: right program.) Technological singularity. The short period of time when an exponentially self-improving computer is able to increase its capabilities to...
+                  - generic [ref=f18e300]: 45 KB (4,976 words) – 02:51, 11 October 2026
+              - listitem [ref=f18e301]:
+                - generic [ref=f18e307]:
+                  - generic [ref=f18e308]:
+                    - link "Canonical correlation" [ref=f18e309] [cursor=pointer]:
+                      - /url: /wiki/Canonical_correlation
+                    - generic [ref=f18e310]:
+                      - text: (section
+                      - link "Hypothesis testing" [ref=f18e311] [cursor=pointer]:
+                        - /url: /wiki/Canonical_correlation#Hypothesis_testing
+                      - text: )
+                  - generic [ref=f18e312]: other packages, including candisc, CCA and vegan. CCP for statistical hypothesis testing in canonical correlation analysis. SAS as proc cancorr Python...
+                  - generic [ref=f18e313]: 24 KB (3,600 words) – 02:48, 16 August 2026
+              - listitem [ref=f18e314]:
+                - generic [ref=f18e315]:
+                  - link [ref=f18e317] [cursor=pointer]:
+                    - /url: /wiki/Monte_Carlo_method
+                    - img "Thumbnail for Monte Carlo method" [ref=f18e318]
+                  - generic [ref=f18e319]:
+                    - link "Monte Carlo method" [ref=f18e321] [cursor=pointer]:
+                      - /url: /wiki/Monte_Carlo_method
+                    - generic [ref=f18e322]: freedom. Monte Carlo methods provide a way out of this exponential increase in computation time. As long as the function in question is reasonably well-behaved...
+                    - generic [ref=f18e323]: 94 KB (10,960 words) – 17:53, 23 September 2026
+              - listitem [ref=f18e324]:
+                - generic [ref=f18e325]:
+                  - link [ref=f18e327] [cursor=pointer]:
+                    - /url: /wiki/Riemann_zeta_function
+                    - img "Thumbnail for Riemann zeta function" [ref=f18e328]
+                  - generic [ref=f18e329]:
+                    - generic [ref=f18e330]:
+                      - link "Riemann zeta function" [ref=f18e331] [cursor=pointer]:
+                        - /url: /wiki/Riemann_zeta_function
+                      - generic [ref=f18e332]:
+                        - text: (section
+                        - link "Zeros, the critical line, and the Riemann hypothesis" [ref=f18e333] [cursor=pointer]:
+                          - /url: /wiki/Riemann_zeta_function#Zeros,_the_critical_line,_and_the_Riemann_hypothesis
+                        - text: )
+                    - generic [ref=f18e334]: Quasi-Riemann Hypothesis". GitHub. OpenAI. 30 September 2026. Retrieved 14 October 2026. "The quasi-Riemann hypothesis". GitHub. OpenAI. 6 October 2026...
+                    - generic [ref=f18e335]: 80 KB (10,845 words) – 10:39, 22 October 2026
+              - listitem [ref=f18e336]:
+                - generic [ref=f18e337]:
+                  - link [ref=f18e339] [cursor=pointer]:
+                    - /url: /wiki/Genetic_algorithm
+                    - img "Thumbnail for Genetic algorithm" [ref=f18e340]
+                  - generic [ref=f18e341]:
+                    - generic [ref=f18e342]:
+                      - link "Genetic algorithm" [ref=f18e343] [cursor=pointer]:
+                        - /url: /wiki/Genetic_algorithm
+                      - generic [ref=f18e344]:
+                        - text: (redirect from
+                        - link "Building block hypothesis" [ref=f18e345] [cursor=pointer]:
+                          - /url: /wiki/Building_block_hypothesis
+                        - text: )
+                    - generic [ref=f18e346]: of elements which are exposed to mutation is large there is often an exponential increase in search space size. This makes it extremely difficult to use...
+                    - generic [ref=f18e347]: 69 KB (8,286 words) – 01:27, 25 October 2026
+            - generic [ref=f18e348]:
+              - list:
+                - listitem [ref=f18e349]:
+                  - link "Quotes from Wikiquote" [ref=f18e352] [cursor=pointer]:
+                    - /url: https://en.wikiquote.org/wiki/Special:Search?search=OpenAI+Exponential+Time+Hypothesis&fulltext=1
+                  - link "Yuval Noah Harari" [ref=f18e354] [cursor=pointer]:
+                    - /url: https://en.wikiquote.org/wiki/Yuval_Noah_Harari
+                  - generic [ref=f18e355]: food per unit of territory, and... enabled Homo sapiens to multiply exponentially. Neither did the early farmers understand that feeding children with
+                  - link "See all results" [ref=f18e357] [cursor=pointer]:
+                    - /url: https://en.wikiquote.org/wiki/Special:Search?search=OpenAI+Exponential+Time+Hypothesis&fulltext=1
+                - listitem [ref=f18e358]:
+                  - link "Texts from Wikisource" [ref=f18e361] [cursor=pointer]:
+                    - /url: https://en.wikisource.org/wiki/Special:Search?search=OpenAI+Exponential+Time+Hypothesis&fulltext=1
+                  - link "Scientific Methods/Chapter 3" [ref=f18e363] [cursor=pointer]:
+                    - /url: https://en.wikisource.org/wiki/Scientific_Methods/Chapter_3
+                  - generic [ref=f18e364]: "transforms do yield correlations significant at the 99% confidence level: an exponential fit of the form Y=b+10mx (although this curve fit underestimates current"
+                  - link "See all results" [ref=f18e366] [cursor=pointer]:
+                    - /url: https://en.wikisource.org/wiki/Special:Search?search=OpenAI+Exponential+Time+Hypothesis&fulltext=1
+                - listitem [ref=f18e367]:
+                  - link "Textbooks from Wikibooks" [ref=f18e370] [cursor=pointer]:
+                    - /url: https://en.wikibooks.org/wiki/Special:Search?search=OpenAI+Exponential+Time+Hypothesis&fulltext=1
+                  - 'link "Taking Bearings: Artificial Intelligence in Knowledge Platforms and Open, Social Scholarship/AI and Scholarship" [ref=f18e372] [cursor=pointer]':
+                    - /url: https://en.wikibooks.org/wiki/Taking_Bearings:_Artificial_Intelligence_in_Knowledge_Platforms_and_Open,_Social_Scholarship/AI_and_Scholarship
+                  - generic [ref=f18e373]: proprietary LLM with OpenAI technology, while “Writefull” “aims to simplify… the often challenging task of scholarly writing” by employing custom AI models. Mitchell
+                  - link "See all results" [ref=f18e375] [cursor=pointer]:
+                    - /url: https://en.wikibooks.org/wiki/Special:Search?search=OpenAI+Exponential+Time+Hypothesis&fulltext=1
+            - generic [ref=f18e377]:
+              - combobox [ref=f18e380]:
+                - option "20 items" [selected]
+                - option "50 items"
+                - option "100 items"
+                - option "250 items"
+                - option "500 items"
+              - generic [ref=f18e381]:
+                - button "First page" [ref=f18e382] [cursor=pointer]
+                - button "Previous page" [ref=f18e384] [cursor=pointer]
+                - button "Next page" [ref=f18e386] [cursor=pointer]
+    - contentinfo [ref=f18e389]:
+      - list:
+        - listitem [ref=f18e390]:
+          - link "Privacy policy" [ref=f18e391] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy
+        - listitem [ref=f18e392]:
+          - link "About Wikipedia" [ref=f18e393] [cursor=pointer]:
+            - /url: /wiki/Wikipedia:About
+        - listitem [ref=f18e394]:
+          - link "Disclaimers" [ref=f18e395] [cursor=pointer]:
+            - /url: /wiki/Wikipedia:General_disclaimer
+        - listitem [ref=f18e396]:
+          - link "Contact Wikipedia" [ref=f18e397] [cursor=pointer]:
+            - /url: //en.wikipedia.org/wiki/Wikipedia:Contact_us
+        - listitem [ref=f18e398]:
+          - link "Legal & safety contacts" [ref=f18e399] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Legal:Wikimedia_Foundation_Legal_and_Safety_Contact_Information
+        - listitem [ref=f18e400]:
+          - link "Code of Conduct" [ref=f18e401] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Universal_Code_of_Conduct
+        - listitem [ref=f18e402]:
+          - link "Developers" [ref=f18e403] [cursor=pointer]:
+            - /url: https://developer.wikimedia.org
+        - listitem [ref=f18e404]:
+          - link "Statistics" [ref=f18e405] [cursor=pointer]:
+            - /url: https://stats.wikimedia.org/#/en.wikipedia.org
+        - listitem [ref=f18e406]:
+          - link "Cookie statement" [ref=f18e407] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Cookie_statement
+        - listitem [ref=f18e408]:
+          - link "Mobile view" [ref=f18e409] [cursor=pointer]:
+            - /url: //en.wikipedia.org/w/index.php?title=Special:Search&fulltext=1&profile=default&search=OpenAI+Exponential+Time+Hypothesis&mobileaction=toggle_view_mobile
+      - list [ref=f18e410]:
+        - listitem [ref=f18e411]:
+          - link [ref=f18e412] [cursor=pointer]:
+            - /url: https://www.wikimedia.org/
+            - img "Wikimedia Foundation" [ref=f18e414]
+        - listitem [ref=f18e415]:
+          - link [ref=f18e416] [cursor=pointer]:
+            - /url: https://www.mediawiki.org/
+            - img "Powered by MediaWiki" [ref=f18e418]

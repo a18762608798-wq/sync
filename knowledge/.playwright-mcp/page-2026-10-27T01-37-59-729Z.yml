@@ -1,0 +1,269 @@
+- generic [ref=f47e2]:
+  - generic [ref=f47e3]:
+    - link "Skip to content" [ref=f47e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=f47e9]:
+      - heading "Navigation Menu" [level=2] [ref=f47e10]
+      - generic [ref=f47e11]:
+        - link "Homepage" [ref=f47e13] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f47e16]:
+          - navigation "Global" [ref=f47e17]:
+            - list [ref=f47e18]:
+              - listitem [ref=f47e19]:
+                - button "Platform" [ref=f47e21] [cursor=pointer]
+              - listitem [ref=f47e24]:
+                - button "Solutions" [ref=f47e26] [cursor=pointer]
+              - listitem [ref=f47e29]:
+                - button "Resources" [ref=f47e31] [cursor=pointer]
+              - listitem [ref=f47e34]:
+                - button "Open Source" [ref=f47e36] [cursor=pointer]
+              - listitem [ref=f47e39]:
+                - button "Enterprise" [ref=f47e41] [cursor=pointer]
+              - listitem [ref=f47e44]:
+                - link "Pricing" [ref=f47e45] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+          - generic [ref=f47e46]:
+            - button "Search or jump to, type / to search" [ref=f47e48] [cursor=pointer]
+            - generic [ref=f47e54]:
+              - link "Sign in" [ref=f47e56] [cursor=pointer]:
+                - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fopenai%2Fmath%2Fcommits%2Fmain
+              - link "Sign up" [ref=f47e59] [cursor=pointer]:
+                - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fcommits%2Fshow&source=header-repo&source_repo=openai%2Fmath
+              - button "Appearance settings" [ref=f47e62] [cursor=pointer]
+  - main [ref=f47e69]:
+    - generic "Global navigation menu" [ref=f47e72]:
+      - navigation "Breadcrumbs" [ref=f47e75]:
+        - list [ref=f47e76]:
+          - listitem [ref=f47e77]:
+            - link "openai" [ref=f47e78] [cursor=pointer]:
+              - /url: /openai
+          - listitem [ref=f47e80]:
+            - link "math" [ref=f47e81] [cursor=pointer]:
+              - /url: /openai/math
+      - heading "Repository navigation" [level=2] [ref=f47e84]
+      - navigation "Repository" [ref=f47e85]:
+        - list [ref=f47e86]:
+          - listitem [ref=f47e87]:
+            - link "Code" [ref=f47e88] [cursor=pointer]:
+              - /url: /openai/math
+          - listitem [ref=f47e93]:
+            - link "Pull requests" [ref=f47e94] [cursor=pointer]:
+              - /url: /openai/math/pulls
+          - listitem [ref=f47e100]:
+            - link "Actions" [ref=f47e101] [cursor=pointer]:
+              - /url: /openai/math/actions
+          - listitem [ref=f47e106]:
+            - link "Security and quality" [ref=f47e107] [cursor=pointer]:
+              - /url: /openai/math/security
+          - listitem [ref=f47e112]:
+            - link "Insights" [ref=f47e113] [cursor=pointer]:
+              - /url: /openai/math/pulse
+    - generic [ref=f47e123]:
+      - heading "Commits" [level=1] [ref=f47e127]
+      - generic [ref=f47e132]:
+        - generic [ref=f47e133]:
+          - heading "Branch selector" [level=2] [ref=f47e134]
+          - button "main branch" [ref=f47e135] [cursor=pointer]:
+            - generic [ref=f47e136]: main
+          - generic [ref=f47e140]:
+            - heading "User selector" [level=2] [ref=f47e141]
+            - button "All users" [ref=f47e143] [cursor=pointer]
+            - heading "Datepicker" [level=2] [ref=f47e151]
+            - button "All time" [ref=f47e152] [cursor=pointer]
+        - generic [ref=f47e155]:
+          - heading "Commit history" [level=2] [ref=f47e156]
+          - list [ref=f47e157]:
+            - listitem [ref=f47e158]:
+              - generic [ref=f47e163]:
+                - heading "Commits on Oct 26, 2026" [level=3] [ref=f47e164]
+                - list "Commits on Oct 26, 2026" [ref=f47e167]:
+                  - listitem "More information available below." [ref=f47e168]:
+                    - generic [ref=f47e169]:
+                      - heading [level=4] [ref=f47e170]:
+                        - 'link "Merge pull request #3 from openai/codex/update-10-26" [ref=f47e171] [cursor=pointer]':
+                          - /url: /openai/math/commit/7ef5c0cc5ca4b0e072b7a050fca09ab24bc6fa3a
+                      - button "Show description for 7ef5c0c" [ref=f47e172] [cursor=pointer]
+                    - generic [ref=f47e179]:
+                      - generic [ref=f47e180]:
+                        - link [ref=f47e181] [cursor=pointer]:
+                          - /url: /dr-openai
+                          - img "dr-openai" [ref=f47e182]
+                        - link "commits by dr-openai" [ref=f47e183] [cursor=pointer]:
+                          - /url: /openai/math/commits?author=dr-openai
+                          - text: dr-openai
+                      - generic [ref=f47e184]: authored
+                    - generic [ref=f47e190]:
+                      - generic [ref=f47e191]:
+                        - link "7ef5c0c" [ref=f47e192] [cursor=pointer]:
+                          - /url: /openai/math/commit/7ef5c0cc5ca4b0e072b7a050fca09ab24bc6fa3a
+                        - button "Copy full SHA for 7ef5c0c" [ref=f47e196] [cursor=pointer]
+                      - link "Browse repository at this point" [ref=f47e200] [cursor=pointer]:
+                        - /url: /openai/math/tree/7ef5c0cc5ca4b0e072b7a050fca09ab24bc6fa3a
+                  - listitem "More information available below." [ref=f47e203]:
+                    - heading [level=4] [ref=f47e205]:
+                      - link "Update math/cs papers, formalizations, and verification data" [ref=f47e206] [cursor=pointer]:
+                        - /url: /openai/math/commit/42907c9e999cc00d6abe7a50bfc1023250edd1b9
+                    - generic [ref=f47e211]:
+                      - generic [ref=f47e212]:
+                        - link [ref=f47e213] [cursor=pointer]:
+                          - /url: /dr-openai
+                          - img "dr-openai" [ref=f47e214]
+                        - link "commits by dr-openai" [ref=f47e215] [cursor=pointer]:
+                          - /url: /openai/math/commits?author=dr-openai
+                          - text: dr-openai
+                      - generic [ref=f47e216]: committed
+                    - generic [ref=f47e222]:
+                      - generic [ref=f47e223]:
+                        - link "42907c9" [ref=f47e224] [cursor=pointer]:
+                          - /url: /openai/math/commit/42907c9e999cc00d6abe7a50bfc1023250edd1b9
+                        - button "Copy full SHA for 42907c9" [ref=f47e228] [cursor=pointer]
+                      - link "Browse repository at this point" [ref=f47e232] [cursor=pointer]:
+                        - /url: /openai/math/tree/42907c9e999cc00d6abe7a50bfc1023250edd1b9
+            - listitem [ref=f47e235]:
+              - generic [ref=f47e240]:
+                - heading "Commits on Oct 12, 2026" [level=3] [ref=f47e241]
+                - list "Commits on Oct 12, 2026" [ref=f47e244]:
+                  - listitem "More information available below." [ref=f47e245]:
+                    - generic [ref=f47e246]:
+                      - heading [level=4] [ref=f47e247]:
+                        - 'link "Merge pull request #2 from openai/codex/lock-prs" [ref=f47e248] [cursor=pointer]':
+                          - /url: /openai/math/commit/1581d4cbdd69a0faf34b2089614fe2a814316a6a
+                      - button "Show description for 1581d4c" [ref=f47e249] [cursor=pointer]
+                    - generic [ref=f47e256]:
+                      - generic [ref=f47e257]:
+                        - link [ref=f47e258] [cursor=pointer]:
+                          - /url: /dr-openai
+                          - img "dr-openai" [ref=f47e259]
+                        - link "commits by dr-openai" [ref=f47e260] [cursor=pointer]:
+                          - /url: /openai/math/commits?author=dr-openai
+                          - text: dr-openai
+                      - generic [ref=f47e261]: authored
+                    - generic [ref=f47e267]:
+                      - generic [ref=f47e268]:
+                        - link "1581d4c" [ref=f47e269] [cursor=pointer]:
+                          - /url: /openai/math/commit/1581d4cbdd69a0faf34b2089614fe2a814316a6a
+                        - button "Copy full SHA for 1581d4c" [ref=f47e273] [cursor=pointer]
+                      - link "Browse repository at this point" [ref=f47e277] [cursor=pointer]:
+                        - /url: /openai/math/tree/1581d4cbdd69a0faf34b2089614fe2a814316a6a
+                  - listitem "More information available below." [ref=f47e280]:
+                    - heading [level=4] [ref=f47e282]:
+                      - link "Lock pull request conversations when opened" [ref=f47e283] [cursor=pointer]:
+                        - /url: /openai/math/commit/2710f995ca1a469f236fda466400926d4a80cf4a
+                    - generic [ref=f47e288]:
+                      - generic [ref=f47e289]:
+                        - link [ref=f47e290] [cursor=pointer]:
+                          - /url: /jchan-oai
+                          - img "jchan-oai" [ref=f47e291]
+                        - link "commits by jchan-oai" [ref=f47e292] [cursor=pointer]:
+                          - /url: /openai/math/commits?author=jchan-oai
+                          - text: jchan-oai
+                      - generic [ref=f47e293]: committed
+                    - generic [ref=f47e299]:
+                      - generic [ref=f47e300]:
+                        - link "2710f99" [ref=f47e301] [cursor=pointer]:
+                          - /url: /openai/math/commit/2710f995ca1a469f236fda466400926d4a80cf4a
+                        - button "Copy full SHA for 2710f99" [ref=f47e305] [cursor=pointer]
+                      - link "Browse repository at this point" [ref=f47e309] [cursor=pointer]:
+                        - /url: /openai/math/tree/2710f995ca1a469f236fda466400926d4a80cf4a
+            - listitem [ref=f47e312]:
+              - generic [ref=f47e317]:
+                - heading "Commits on Oct 8, 2026" [level=3] [ref=f47e318]
+                - list "Commits on Oct 8, 2026" [ref=f47e321]:
+                  - listitem "More information available below." [ref=f47e322]:
+                    - generic [ref=f47e323]:
+                      - heading [level=4] [ref=f47e324]:
+                        - 'link "Merge pull request #1 from openai/codex/update-10-7" [ref=f47e325] [cursor=pointer]':
+                          - /url: /openai/math/commit/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb
+                      - button "Show description for fd4aeeb" [ref=f47e326] [cursor=pointer]
+                    - generic [ref=f47e333]:
+                      - generic [ref=f47e334]:
+                        - link [ref=f47e335] [cursor=pointer]:
+                          - /url: /jrl-openai
+                          - img "jrl-openai" [ref=f47e336]
+                        - link "commits by jrl-openai" [ref=f47e337] [cursor=pointer]:
+                          - /url: /openai/math/commits?author=jrl-openai
+                          - text: jrl-openai
+                      - generic [ref=f47e338]: authored
+                    - generic [ref=f47e344]:
+                      - generic [ref=f47e345]:
+                        - link "fd4aeeb" [ref=f47e346] [cursor=pointer]:
+                          - /url: /openai/math/commit/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb
+                        - button "Copy full SHA for fd4aeeb" [ref=f47e350] [cursor=pointer]
+                      - link "Browse repository at this point" [ref=f47e354] [cursor=pointer]:
+                        - /url: /openai/math/tree/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb
+                  - listitem "More information available below." [ref=f47e357]:
+                    - heading [level=4] [ref=f47e359]:
+                      - link "Update manuscripts and Lean formalizations" [ref=f47e360] [cursor=pointer]:
+                        - /url: /openai/math/commit/301488868beec11bfd897168433b0a64f5258559
+                    - generic [ref=f47e365]:
+                      - generic [ref=f47e366]:
+                        - link [ref=f47e367] [cursor=pointer]:
+                          - /url: /dr-openai
+                          - img "dr-openai" [ref=f47e368]
+                        - link "commits by dr-openai" [ref=f47e369] [cursor=pointer]:
+                          - /url: /openai/math/commits?author=dr-openai
+                          - text: dr-openai
+                      - generic [ref=f47e370]: committed
+                    - generic [ref=f47e376]:
+                      - generic [ref=f47e377]:
+                        - link "3014888" [ref=f47e378] [cursor=pointer]:
+                          - /url: /openai/math/commit/301488868beec11bfd897168433b0a64f5258559
+                        - button "Copy full SHA for 3014888" [ref=f47e382] [cursor=pointer]
+                      - link "Browse repository at this point" [ref=f47e386] [cursor=pointer]:
+                        - /url: /openai/math/tree/301488868beec11bfd897168433b0a64f5258559
+            - listitem [ref=f47e389]:
+              - generic [ref=f47e394]:
+                - heading "Commits on Oct 6, 2026" [level=3] [ref=f47e395]
+                - list "Commits on Oct 6, 2026" [ref=f47e398]:
+                  - listitem "More information available below." [ref=f47e399]:
+                    - heading [level=4] [ref=f47e401]:
+                      - link "Initial commit" [ref=f47e402] [cursor=pointer]:
+                        - /url: /openai/math/commit/adc7f1241b42e322a6451854ab7e4b4c146bf78a
+                    - generic [ref=f47e407]:
+                      - generic [ref=f47e408]:
+                        - img "author" [ref=f47e409]
+                        - generic "Anonymous" [ref=f47e410]
+                      - generic [ref=f47e411]: committed
+                    - generic [ref=f47e417]:
+                      - generic [ref=f47e418]:
+                        - link "adc7f12" [ref=f47e419] [cursor=pointer]:
+                          - /url: /openai/math/commit/adc7f1241b42e322a6451854ab7e4b4c146bf78a
+                        - button "Copy full SHA for adc7f12" [ref=f47e423] [cursor=pointer]
+                      - link "Browse repository at this point" [ref=f47e427] [cursor=pointer]:
+                        - /url: /openai/math/tree/adc7f1241b42e322a6451854ab7e4b4c146bf78a
+  - contentinfo [ref=f47e430]:
+    - heading "Footer" [level=2] [ref=f47e431]
+    - generic [ref=f47e432]:
+      - generic [ref=f47e433]:
+        - link "GitHub Homepage" [ref=f47e434] [cursor=pointer]:
+          - /url: https://github.com
+        - generic [ref=f47e437]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=f47e438]:
+        - heading "Footer navigation" [level=3] [ref=f47e439]
+        - list "Footer navigation" [ref=f47e440]:
+          - listitem [ref=f47e441]:
+            - link "Terms" [ref=f47e442] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=f47e443]:
+            - link "Privacy" [ref=f47e444] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=f47e445]:
+            - link "Security" [ref=f47e446] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=f47e447]:
+            - link "Status" [ref=f47e448] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=f47e449]:
+            - link "Community" [ref=f47e450] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=f47e451]:
+            - link "Docs" [ref=f47e452] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=f47e453]:
+            - link "Contact" [ref=f47e454] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=f47e455]:
+            - button "Manage cookies" [ref=f47e457] [cursor=pointer]
+          - listitem [ref=f47e458]:
+            - button "Do not share my personal information" [ref=f47e460] [cursor=pointer]

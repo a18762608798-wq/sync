@@ -1,0 +1,1916 @@
+- generic [active] [ref=f17e1]:
+  - link "Jump to content" [ref=f17e2] [cursor=pointer]:
+    - /url: "#bodyContent"
+  - banner [ref=f17e4]:
+    - generic [ref=f17e5]:
+      - navigation "Site" [ref=f17e6]:
+        - generic "Main menu" [ref=f17e7]:
+          - button "Main menu" [ref=f17e8] [cursor=pointer]
+          - generic [ref=f17e11]: Main menu
+      - link [ref=f17e12] [cursor=pointer]:
+        - /url: /wiki/Main_Page
+        - generic [ref=f17e13]:
+          - img "Wikipedia" [ref=f17e14]
+          - img "The Free Encyclopedia" [ref=f17e15]
+    - generic [ref=f17e16]:
+      - search [ref=f17e17]:
+        - generic [ref=f17e20]:
+          - searchbox "Search Wikipedia" [ref=f17e23]
+          - button "Search" [ref=f17e25]
+      - navigation "Personal tools" [ref=f17e26]:
+        - list [ref=f17e30]:
+          - listitem [ref=f17e31]:
+            - link "Donate" [ref=f17e32] [cursor=pointer]:
+              - /url: https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en
+          - listitem [ref=f17e33]:
+            - link "Create account" [ref=f17e34] [cursor=pointer]:
+              - /url: /w/index.php?title=Special:CreateAccount&returnto=Exponential+time+hypothesis
+          - listitem [ref=f17e35]:
+            - link "Log in" [ref=f17e36] [cursor=pointer]:
+              - /url: /w/index.php?title=Special:UserLogin&returnto=Exponential+time+hypothesis
+  - generic [ref=f17e38]:
+    - navigation "Contents" [ref=f17e42]:
+      - generic [ref=f17e44]:
+        - generic [ref=f17e45]:
+          - heading "Contents" [level=2] [ref=f17e46]
+          - button "Hide Contents" [ref=f17e47] [cursor=pointer]: hide
+        - list [ref=f17e48]:
+          - listitem [ref=f17e49]:
+            - link "(Top)" [ref=f17e50] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=f17e52]:
+            - link "Definition" [ref=f17e53] [cursor=pointer]:
+              - /url: "#Definition"
+            - list
+          - listitem [ref=f17e55]:
+            - link "Implications" [ref=f17e56] [cursor=pointer]:
+              - /url: "#Implications"
+            - button "Toggle Implications subsection" [expanded] [ref=f17e58]
+            - list [ref=f17e61]:
+              - listitem [ref=f17e62]:
+                - link "Satisfiability" [ref=f17e63] [cursor=pointer]:
+                  - /url: "#Satisfiability"
+                - list
+              - listitem [ref=f17e65]:
+                - link "Other search problems" [ref=f17e66] [cursor=pointer]:
+                  - /url: "#Other_search_problems"
+                - list
+              - listitem [ref=f17e68]:
+                - link "Communication complexity" [ref=f17e69] [cursor=pointer]:
+                  - /url: "#Communication_complexity"
+                - list
+              - listitem [ref=f17e71]:
+                - link "Structural complexity" [ref=f17e72] [cursor=pointer]:
+                  - /url: "#Structural_complexity"
+                - list
+          - listitem [ref=f17e74]:
+            - link "See also" [ref=f17e75] [cursor=pointer]:
+              - /url: "#See_also"
+            - list
+          - listitem [ref=f17e77]:
+            - link "Notes" [ref=f17e78] [cursor=pointer]:
+              - /url: "#Notes"
+            - list
+          - listitem [ref=f17e80]:
+            - link "Further reading" [ref=f17e81] [cursor=pointer]:
+              - /url: "#Further_reading"
+            - list
+    - main [ref=f17e84]:
+      - generic [ref=f17e85]:
+        - heading "Exponential time hypothesis" [level=1] [ref=f17e86]
+        - generic [ref=f17e88]:
+          - button "5 languages" [ref=f17e89] [cursor=pointer]
+          - generic [ref=f17e92]: 5 languages
+      - generic [ref=f17e94]:
+        - navigation "Namespaces" [ref=f17e96]:
+          - list [ref=f17e99]:
+            - listitem [ref=f17e100]:
+              - link "Article" [ref=f17e101] [cursor=pointer]:
+                - /url: /wiki/Exponential_time_hypothesis
+            - listitem [ref=f17e103]:
+              - link "Talk" [ref=f17e104] [cursor=pointer]:
+                - /url: /wiki/Talk:Exponential_time_hypothesis
+        - generic [ref=f17e106]:
+          - navigation "Views" [ref=f17e107]:
+            - list [ref=f17e110]:
+              - listitem [ref=f17e111]:
+                - link "Read" [ref=f17e112] [cursor=pointer]:
+                  - /url: /wiki/Exponential_time_hypothesis
+              - listitem [ref=f17e114]:
+                - link "Edit" [ref=f17e115] [cursor=pointer]:
+                  - /url: /w/index.php?title=Exponential_time_hypothesis&action=edit
+              - listitem [ref=f17e117]:
+                - link "View history" [ref=f17e118] [cursor=pointer]:
+                  - /url: /w/index.php?title=Exponential_time_hypothesis&action=history
+          - navigation "Page tools" [ref=f17e120]:
+            - generic [ref=f17e121]:
+              - button "Tools" [ref=f17e122] [cursor=pointer]
+              - generic [ref=f17e125]: Tools
+      - navigation "Appearance" [ref=f17e128]:
+        - generic [ref=f17e130]:
+          - generic [ref=f17e131]:
+            - generic [ref=f17e132]: Appearance
+            - button "Hide Appearance" [ref=f17e133] [cursor=pointer]: hide
+          - generic [ref=f17e134]:
+            - generic [ref=f17e135]: Text
+            - list [ref=f17e137]:
+              - listitem [ref=f17e138]:
+                - generic [ref=f17e140]:
+                  - generic [ref=f17e141]:
+                    - radio "Small" [ref=f17e142]
+                    - generic [ref=f17e144]: Small
+                  - generic [ref=f17e146]:
+                    - radio "Standard" [checked] [ref=f17e147]
+                    - generic [ref=f17e149]: Standard
+                  - generic [ref=f17e151]:
+                    - radio "Large" [ref=f17e152]
+                    - generic [ref=f17e154]: Large
+          - generic [ref=f17e156]:
+            - generic [ref=f17e157]: Width
+            - list [ref=f17e159]:
+              - listitem [ref=f17e160]:
+                - generic [ref=f17e162]:
+                  - generic [ref=f17e163]:
+                    - radio "Standard" [checked] [ref=f17e164]
+                    - generic [ref=f17e166]: Standard
+                  - generic [ref=f17e168]:
+                    - radio "Wide" [ref=f17e169]
+                    - generic [ref=f17e171]: Wide
+          - generic [ref=f17e173]:
+            - generic [ref=f17e174]: Color
+            - list [ref=f17e176]:
+              - listitem [ref=f17e177]:
+                - generic [ref=f17e179]:
+                  - generic [ref=f17e180]:
+                    - radio "Automatic" [ref=f17e181]
+                    - generic [ref=f17e183]: Automatic
+                  - generic [ref=f17e185]:
+                    - radio "Light" [checked] [ref=f17e186]
+                    - generic [ref=f17e188]: Light
+                  - generic [ref=f17e190]:
+                    - radio "Dark" [ref=f17e191]
+                    - generic [ref=f17e193]: Dark
+      - generic "Exponential time hypothesis" [ref=f17e195]:
+        - generic [ref=f17e196]: From Wikipedia, the free encyclopedia
+        - generic [ref=f17e199]:
+          - paragraph [ref=f17e201]:
+            - text: In
+            - link "computational complexity theory" [ref=f17e202] [cursor=pointer]:
+              - /url: https://en.wikipedia.org/wiki/Computational_complexity_theory
+            - text: ", the exponential time hypothesis or ETH is an unproven"
+            - link "computational hardness assumption" [ref=f17e203] [cursor=pointer]:
+              - /url: https://en.wikipedia.org/wiki/Computational_hardness_assumption
+            - text: that was formulated by
+            - link "Impagliazzo & Paturi (1999)" [ref=f17e204] [cursor=pointer]:
+              - /url: "#CITEREFImpagliazzoPaturi1999"
+            - text: . It states that
+            - link "satisfiability of 3-CNF Boolean formulas" [ref=f17e205] [cursor=pointer]:
+              - /url: https://en.wikipedia.org/wiki/3-SAT
+            - text: (3-SAT) cannot be solved in
+            - link "subexponential time" [ref=f17e206] [cursor=pointer]:
+              - /url: https://en.wikipedia.org/wiki/Subexponential_time
+            - text: ","
+            - math [ref=f17e209]:
+              - generic [ref=f17e213]:
+                - generic [ref=f17e214]: "2"
+                - generic [ref=f17e215]:
+                  - generic [ref=f17e216]: o
+                  - generic [ref=f17e217]: (
+                  - generic [ref=f17e218]: "n"
+                  - generic [ref=f17e219]: )
+            - text: . More precisely, the usual form of the hypothesis asserts the existence of a number
+            - math [ref=f17e223]:
+              - generic [ref=f17e226]:
+                - generic [ref=f17e227]:
+                  - generic [ref=f17e228]: s
+                  - generic [ref=f17e229]: "3"
+                - generic [ref=f17e231]: ">"
+                - generic [ref=f17e232]: "0"
+            - text: such that all algorithms that correctly solve 3-SAT require time at least
+            - math [ref=f17e236]:
+              - generic [ref=f17e239]:
+                - generic [ref=f17e240]:
+                  - generic [ref=f17e241]: "2"
+                  - generic [ref=f17e242]:
+                    - generic [ref=f17e243]:
+                      - generic [ref=f17e244]: s
+                      - generic [ref=f17e245]: "3"
+                    - generic [ref=f17e247]: "n"
+                - generic [ref=f17e248]: .
+            - text: The exponential time hypothesis, if true, would imply that
+            - link "P ≠ NP" [ref=f17e250] [cursor=pointer]:
+              - /url: https://en.wikipedia.org/wiki/P_versus_NP_problem
+            - text: ", but it is a stronger statement. Beyond NP-complete problems, it implies that many known algorithms (including those with lower than exponential time) have optimal or near-optimal time"
+            - generic [ref=f17e251]:
+              - text: complexity.
+              - superscript [ref=f17e252]:
+                - link "[1]" [ref=f17e253] [cursor=pointer]:
+                  - /url: "#cite_note-lms-1"
+          - region [ref=f17e254]:
+            - generic [ref=f17e255]:
+              - heading "Definition" [level=2] [ref=f17e256]
+              - link "edit" [ref=f17e258] [cursor=pointer]:
+                - /url: /w/index.php?title=Exponential_time_hypothesis&action=edit&section=1
+            - paragraph [ref=f17e259]:
+              - text: The
+              - generic [ref=f17e260]:
+                - math [ref=f17e263]:
+                  - generic [ref=f17e264]: k
+                - text: "-SAT"
+              - text: problem is a version of the
+              - link "Boolean satisfiability problem" [ref=f17e269] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/Boolean_satisfiability_problem
+              - text: in which the input to the problem is a
+              - link "Boolean expression" [ref=f17e270] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/Boolean_expression
+              - text: in
+              - link "conjunctive normal form" [ref=f17e271] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/Conjunctive_normal_form
+              - text: (that is, an and of ors of variables and their negations) with at most
+              - math [ref=f17e274]:
+                - generic [ref=f17e275]: k
+              - text: variables per clause. The goal is to determine whether this expression can be made to be true by some assignment of Boolean values to its variables.
+              - link "2-SAT" [ref=f17e280] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/2-satisfiability
+              - text: has a
+              - link "linear time" [ref=f17e281] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/Linear_time
+              - text: algorithm, but all known algorithms for larger
+              - math [ref=f17e284]:
+                - generic [ref=f17e285]: k
+              - text: take
+              - link "exponential time" [ref=f17e290] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/Exponential_time
+              - text: ", with the base of the exponential function depending on"
+              - math [ref=f17e293]:
+                - generic [ref=f17e294]: k
+              - text: . For instance, the
+              - link "WalkSAT" [ref=f17e299] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/WalkSAT
+              - text: probabilistic algorithm can solve
+              - generic [ref=f17e300]:
+                - math [ref=f17e303]:
+                  - generic [ref=f17e304]: k
+                - text: "-SAT"
+              - text: in average time
+              - math [ref=f17e311]:
+                - generic [ref=f17e314]:
+                  - generic [ref=f17e315]:
+                    - generic [ref=f17e316]:
+                      - generic [ref=f17e317]: (
+                      - generic [ref=f17e318]:
+                        - generic [ref=f17e319]: "2"
+                        - generic [ref=f17e320]: −
+                        - generic [ref=f17e322]:
+                          - generic [ref=f17e323]: "2"
+                          - generic [ref=f17e324]: k
+                      - generic [ref=f17e325]: )
+                    - generic [ref=f17e326]: "n"
+                  - generic [ref=f17e328]:
+                    - generic [ref=f17e329]: "n"
+                    - generic [ref=f17e330]:
+                      - generic [ref=f17e331]: O
+                      - generic [ref=f17e332]: (
+                      - generic [ref=f17e333]: "1"
+                      - generic [ref=f17e334]: )
+                  - generic [ref=f17e335]: ","
+              - text: where
+              - math [ref=f17e339]:
+                - generic [ref=f17e340]: "n"
+              - text: is the number of variables in the given
+              - generic [ref=f17e345]:
+                - math [ref=f17e348]:
+                  - generic [ref=f17e349]: k
+                - text: "-SAT"
+              - generic [ref=f17e354]:
+                - text: instance.
+                - superscript [ref=f17e355]:
+                  - link "[2]" [ref=f17e356] [cursor=pointer]:
+                    - /url: "#cite_note-s99-2"
+              - text: For each
+              - generic [ref=f17e357]:
+                - text: integer
+                - math [ref=f17e360]:
+                  - generic [ref=f17e363]:
+                    - generic [ref=f17e364]: k
+                    - generic [ref=f17e365]: ≥
+                    - generic [ref=f17e366]: "3"
+                - text: ","
+              - text: define
+              - math [ref=f17e370]:
+                - generic [ref=f17e374]:
+                  - generic [ref=f17e375]: s
+                  - generic [ref=f17e376]: k
+              - text: to be the smallest number such that
+              - generic [ref=f17e379]:
+                - math [ref=f17e382]:
+                  - generic [ref=f17e383]: k
+                - text: "-SAT"
+              - text: can be solved in
+              - generic [ref=f17e388]:
+                - text: time
+                - math [ref=f17e391]:
+                  - generic [ref=f17e395]:
+                    - generic [ref=f17e396]: "2"
+                    - generic [ref=f17e397]:
+                      - generic [ref=f17e398]:
+                        - generic [ref=f17e399]: s
+                        - generic [ref=f17e400]: k
+                      - generic [ref=f17e402]: "n"
+                      - generic [ref=f17e403]: +
+                      - generic [ref=f17e404]: o
+                      - generic [ref=f17e405]: (
+                      - generic [ref=f17e406]: "n"
+                      - generic [ref=f17e407]: )
+                - text: .
+              - text: This minimum might not exist, if a sequence of better and better algorithms have correspondingly smaller exponential growth in their time bounds; in that case, define
+              - math [ref=f17e411]:
+                - generic [ref=f17e415]:
+                  - generic [ref=f17e416]: s
+                  - generic [ref=f17e417]: k
+              - text: to be the
+              - link "infimum" [ref=f17e420] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/Infimum
+              - text: of the real numbers
+              - math [ref=f17e423]:
+                - generic [ref=f17e424]: δ
+              - text: for which
+              - generic [ref=f17e429]:
+                - math [ref=f17e432]:
+                  - generic [ref=f17e433]: k
+                - text: "-SAT"
+              - text: can be solved in
+              - generic [ref=f17e438]:
+                - text: time
+                - math [ref=f17e441]:
+                  - generic [ref=f17e444]:
+                    - generic [ref=f17e445]: O
+                    - generic [ref=f17e446]: (
+                    - generic [ref=f17e447]:
+                      - generic [ref=f17e448]: "2"
+                      - generic [ref=f17e449]:
+                        - generic [ref=f17e450]: δ
+                        - generic [ref=f17e451]: "n"
+                    - generic [ref=f17e452]: )
+                - text: .
+              - text: Because problems with larger
+              - math [ref=f17e456]:
+                - generic [ref=f17e457]: k
+              - text: cannot be easier, these numbers are ordered as
+              - generic [ref=f17e462]:
+                - math [ref=f17e465]:
+                  - generic [ref=f17e468]:
+                    - generic [ref=f17e469]:
+                      - generic [ref=f17e470]: s
+                      - generic [ref=f17e471]: "3"
+                    - generic [ref=f17e473]: ≤
+                    - generic [ref=f17e474]:
+                      - generic [ref=f17e475]: s
+                      - generic [ref=f17e476]: "4"
+                    - generic [ref=f17e478]: ≤
+                    - generic [ref=f17e479]: ⋯
+                - text: ","
+              - text: and because of WalkSAT they are at most
+              - math [ref=f17e483]:
+                - generic [ref=f17e486]:
+                  - generic [ref=f17e487]:
+                    - generic [ref=f17e488]: s
+                    - generic [ref=f17e489]: k
+                  - generic [ref=f17e491]: ≤
+                  - generic [ref=f17e492]:
+                    - generic [ref=f17e493]: log
+                    - generic [ref=f17e494]: "2"
+                  - generic: ⁡
+                  - generic [ref=f17e496]:
+                    - generic [ref=f17e497]: (
+                    - generic [ref=f17e498]:
+                      - generic [ref=f17e499]: "2"
+                      - generic [ref=f17e500]: −
+                      - generic [ref=f17e502]:
+                        - generic [ref=f17e503]: "2"
+                        - generic [ref=f17e504]: k
+                    - generic [ref=f17e505]: )
+                  - generic [ref=f17e506]: <
+                  - generic [ref=f17e507]: "1."
+              - text: The exponential time hypothesis is the
+              - link "conjecture" [ref=f17e509] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/Conjecture
+              - text: that they are all nonzero, or equivalently, that the smallest of them,
+              - generic [ref=f17e510]:
+                - math [ref=f17e513]:
+                  - generic [ref=f17e517]:
+                    - generic [ref=f17e518]: s
+                    - generic [ref=f17e519]: "3"
+                - text: ","
+              - text: is
+              - generic [ref=f17e522]:
+                - text: nonzero.
+                - superscript [ref=f17e523]:
+                  - link "[3]" [ref=f17e524] [cursor=pointer]:
+                    - /url: "#cite_note-ip99-3"
+            - paragraph [ref=f17e525]:
+              - text: Some sources define the exponential time hypothesis to be the slightly weaker statement that 3-SAT cannot be solved in
+              - generic [ref=f17e526]:
+                - text: time
+                - math [ref=f17e529]:
+                  - generic [ref=f17e533]:
+                    - generic [ref=f17e534]: "2"
+                    - generic [ref=f17e535]:
+                      - generic [ref=f17e536]: o
+                      - generic [ref=f17e537]: (
+                      - generic [ref=f17e538]: "n"
+                      - generic [ref=f17e539]: )
+                - text: .
+              - text: If there existed an algorithm to solve 3-SAT in
+              - generic [ref=f17e541]:
+                - text: time
+                - math [ref=f17e544]:
+                  - generic [ref=f17e548]:
+                    - generic [ref=f17e549]: "2"
+                    - generic [ref=f17e550]:
+                      - generic [ref=f17e551]: o
+                      - generic [ref=f17e552]: (
+                      - generic [ref=f17e553]: "n"
+                      - generic [ref=f17e554]: )
+                - text: ","
+              - text: then
+              - math [ref=f17e558]:
+                - generic [ref=f17e562]:
+                  - generic [ref=f17e563]: s
+                  - generic [ref=f17e564]: "3"
+              - text: would equal zero. However, it is consistent with current knowledge that there could be a sequence of 3-SAT algorithms, each with running time
+              - math [ref=f17e569]:
+                - generic [ref=f17e572]:
+                  - generic [ref=f17e573]: O
+                  - generic [ref=f17e574]: (
+                  - generic [ref=f17e575]:
+                    - generic [ref=f17e576]: "2"
+                    - generic [ref=f17e577]:
+                      - generic [ref=f17e578]:
+                        - generic [ref=f17e579]: δ
+                        - generic [ref=f17e580]: i
+                      - generic [ref=f17e582]: "n"
+                  - generic [ref=f17e583]: )
+              - text: for a sequence of numbers
+              - math [ref=f17e587]:
+                - generic [ref=f17e591]:
+                  - generic [ref=f17e592]: δ
+                  - generic [ref=f17e593]: i
+              - text: tending towards zero, but where the descriptions of these algorithms are so quickly growing that a single algorithm could not automatically select and run the most appropriate one. If this were to be the case, then
+              - math [ref=f17e598]:
+                - generic [ref=f17e602]:
+                  - generic [ref=f17e603]: s
+                  - generic [ref=f17e604]: "3"
+              - text: would equal zero even though there would be no single algorithm running in
+              - generic [ref=f17e607]:
+                - text: time
+                - math [ref=f17e610]:
+                  - generic [ref=f17e614]:
+                    - generic [ref=f17e615]: "2"
+                    - generic [ref=f17e616]:
+                      - generic [ref=f17e617]: o
+                      - generic [ref=f17e618]: (
+                      - generic [ref=f17e619]: "n"
+                      - generic [ref=f17e620]: )
+                - text: .
+                - superscript [ref=f17e622]:
+                  - link "[4]" [ref=f17e623] [cursor=pointer]:
+                    - /url: "#cite_note-fg-4"
+              - text: A related variant of the exponential time hypothesis is the non-uniform exponential time hypothesis, which posits that there is no family of algorithms (one for each length of the input, in the spirit of
+              - link "advice" [ref=f17e624] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/Advice_(complexity)
+              - text: ) that can solve 3-SAT in
+              - generic [ref=f17e625]:
+                - text: time
+                - math [ref=f17e628]:
+                  - generic [ref=f17e632]:
+                    - generic [ref=f17e633]: "2"
+                    - generic [ref=f17e634]:
+                      - generic [ref=f17e635]: o
+                      - generic [ref=f17e636]: (
+                      - generic [ref=f17e637]: "n"
+                      - generic [ref=f17e638]: )
+                - text: .
+                - superscript [ref=f17e640]:
+                  - link "[5]" [ref=f17e641] [cursor=pointer]:
+                    - /url: "#cite_note-cef-5"
+            - paragraph [ref=f17e642]:
+              - text: Because the numbers
+              - math [ref=f17e645]:
+                - generic [ref=f17e648]:
+                  - generic [ref=f17e649]:
+                    - generic [ref=f17e650]: s
+                    - generic [ref=f17e651]: "3"
+                  - generic [ref=f17e653]: ","
+                  - generic [ref=f17e654]:
+                    - generic [ref=f17e655]: s
+                    - generic [ref=f17e656]: "4"
+                  - generic [ref=f17e658]: ","
+                  - generic [ref=f17e659]: …
+              - text: form a
+              - link "monotonic sequence" [ref=f17e661] [cursor=pointer]:
+                - /url: https://en.wikipedia.org/wiki/Monotonicity
+              - text: that is bounded above by one, they must converge to a limit
+              - math [ref=f17e664]:
+                - generic [ref=f17e667]:
+                  - generic [ref=f17e668]:
+                    - generic [ref=f17e669]: s
+                    - generic [ref=f17e670]: ∞
+                  - generic [ref=f17e672]: =
+                  - generic [ref=f17e673]:
+                    - generic [ref=f17e674]: lim
+                    - generic [ref=f17e675]:
+                      - generic [ref=f17e676]: k
+                      - generic [ref=f17e677]: →
+                      - generic [ref=f17e678]: ∞
+                  - generic [ref=f17e679]:
+                    - generic [ref=f17e680]: s
+                    - generic [ref=f17e681]: k
+                  - generic [ref=f17e683]: .
+              - text: The strong exponential time hypothesis (SETH) is the conjecture
+              - generic [ref=f17e685]:
+                - text: that
+                - math [ref=f17e688]:
+                  - generic [ref=f17e691]:
+                    - generic [ref=f17e692]:
+                      - generic [ref=f17e693]: s
+                      - generic [ref=f17e694]: ∞
+                    - generic [ref=f17e696]: =
+                    - generic [ref=f17e697]: "1"
+                - text: .
+                - superscript [ref=f17e699]:
+                  - link "[6]" [ref=f17e700] [cursor=pointer]:
+                    - /url: "#cite_note-cip-6"
+          - region [ref=f17e701]:
+            - generic [ref=f17e702]:
+              - heading "Implications" [level=2] [ref=f17e703]
+              - link "edit" [ref=f17e705] [cursor=pointer]:
+                - /url: /w/index.php?title=Exponential_time_hypothesis&action=edit&section=2
+            - region [ref=f17e706]:
+              - generic [ref=f17e707]:
+                - heading "Satisfiability" [level=3] [ref=f17e708]
+                - link "edit" [ref=f17e710] [cursor=pointer]:
+                  - /url: /w/index.php?title=Exponential_time_hypothesis&action=edit&section=3
+              - paragraph [ref=f17e711]:
+                - text: It is not possible for
+                - math [ref=f17e714]:
+                  - generic [ref=f17e718]:
+                    - generic [ref=f17e719]: s
+                    - generic [ref=f17e720]: k
+                - text: to equal
+                - math [ref=f17e725]:
+                  - generic [ref=f17e729]:
+                    - generic [ref=f17e730]: s
+                    - generic [ref=f17e731]: ∞
+                - text: for any
+                - generic [ref=f17e734]:
+                  - text: finite
+                  - math [ref=f17e737]:
+                    - generic [ref=f17e738]: k
+                  - text: ":"
+                - text: as
+                - link "Impagliazzo, Paturi & Zane (2001)" [ref=f17e743] [cursor=pointer]:
+                  - /url: "#CITEREFImpagliazzoPaturiZane2001"
+                - text: showed, there exists a constant
+                - math [ref=f17e746]:
+                  - generic [ref=f17e747]: α
+                - text: such
+                - generic [ref=f17e752]:
+                  - text: that
+                  - math [ref=f17e755]:
+                    - generic [ref=f17e758]:
+                      - generic [ref=f17e759]:
+                        - generic [ref=f17e760]: s
+                        - generic [ref=f17e761]: k
+                      - generic [ref=f17e763]: ≤
+                      - generic [ref=f17e764]:
+                        - generic [ref=f17e765]: s
+                        - generic [ref=f17e766]: ∞
+                      - generic [ref=f17e768]: (
+                      - generic [ref=f17e769]: "1"
+                      - generic [ref=f17e770]: −
+                      - generic [ref=f17e771]: α
+                      - generic [ref=f17e772]: /
+                      - generic [ref=f17e774]: k
+                      - generic [ref=f17e775]: )
+                  - text: .
+                - text: Therefore, if the exponential time hypothesis is true, there must be infinitely many values of
+                - math [ref=f17e779]:
+                  - generic [ref=f17e780]: k
+                - text: for which
+                - math [ref=f17e787]:
+                  - generic [ref=f17e791]:
+                    - generic [ref=f17e792]: s
+                    - generic [ref=f17e793]: k
+                - text: differs
+                - generic [ref=f17e796]:
+                  - text: from
+                  - math [ref=f17e799]:
+                    - generic [ref=f17e803]:
+                      - generic [ref=f17e804]: s
+                      - generic [ref=f17e805]:
+                        - generic [ref=f17e806]: k
+                        - generic [ref=f17e807]: +
+                        - generic [ref=f17e808]: "1"
+                  - text: .
+                  - superscript [ref=f17e810]:
+                    - link "[7]" [ref=f17e811] [cursor=pointer]:
+                      - /url: "#cite_note-ipz01-7"
+              - paragraph [ref=f17e812]:
+                - text: An important tool in this area is the sparsification lemma of
+                - link "Impagliazzo, Paturi & Zane (2001)" [ref=f17e813] [cursor=pointer]:
+                  - /url: "#CITEREFImpagliazzoPaturiZane2001"
+                - text: ", which shows that, for"
+                - generic [ref=f17e814]:
+                  - text: every
+                  - math [ref=f17e817]:
+                    - generic [ref=f17e820]:
+                      - generic [ref=f17e821]: ε
+                      - generic [ref=f17e822]: ">"
+                      - generic [ref=f17e823]: "0"
+                  - text: ","
+                - text: any
+                - generic [ref=f17e825]:
+                  - math [ref=f17e828]:
+                    - generic [ref=f17e829]: k
+                  - text: "-CNF"
+                - text: formula can be replaced by
+                - math [ref=f17e836]:
+                  - generic [ref=f17e839]:
+                    - generic [ref=f17e840]: O
+                    - generic [ref=f17e841]: (
+                    - generic [ref=f17e842]:
+                      - generic [ref=f17e843]: "2"
+                      - generic [ref=f17e844]:
+                        - generic [ref=f17e845]: ε
+                        - generic [ref=f17e846]: "n"
+                    - generic [ref=f17e847]: )
+                - text: simpler
+                - generic [ref=f17e849]:
+                  - math [ref=f17e852]:
+                    - generic [ref=f17e853]: k
+                  - text: "-CNF"
+                - text: formulas in which each variable appears only a constant number of times, and therefore in which the number of clauses is linear. The sparsification lemma is proven by repeatedly finding large sets of clauses that have a nonempty common intersection in a given formula, and replacing the formula by two simpler formulas, one of which has each of these clauses replaced by their common intersection and the other of which has the intersection removed from each clause. By applying the sparsification lemma and then using new variables to split the clauses, one may then obtain a set of
+                - math [ref=f17e860]:
+                  - generic [ref=f17e863]:
+                    - generic [ref=f17e864]: O
+                    - generic [ref=f17e865]: (
+                    - generic [ref=f17e866]:
+                      - generic [ref=f17e867]: "2"
+                      - generic [ref=f17e868]:
+                        - generic [ref=f17e869]: ε
+                        - generic [ref=f17e870]: "n"
+                    - generic [ref=f17e871]: )
+                - text: 3-CNF formulas, each with a linear number of variables, such that the original
+                - generic [ref=f17e873]:
+                  - math [ref=f17e876]:
+                    - generic [ref=f17e877]: k
+                  - text: "-CNF"
+                - text: formula is satisfiable if and only if at least one of these 3-CNF formulas is satisfiable. Therefore, if 3-SAT could be solved in subexponential time, one could use this reduction to solve
+                - generic [ref=f17e882]:
+                  - math [ref=f17e885]:
+                    - generic [ref=f17e886]: k
+                  - text: "-SAT"
+                - text: in subexponential time as well. Equivalently,
+                - generic [ref=f17e891]:
+                  - text: if
+                  - math [ref=f17e894]:
+                    - generic [ref=f17e897]:
+                      - generic [ref=f17e898]:
+                        - generic [ref=f17e899]: s
+                        - generic [ref=f17e900]: k
+                      - generic [ref=f17e902]: ">"
+                      - generic [ref=f17e903]: "0"
+                - text: for
+                - generic [ref=f17e905]:
+                  - text: any
+                  - math [ref=f17e908]:
+                    - generic [ref=f17e911]:
+                      - generic [ref=f17e912]: k
+                      - generic [ref=f17e913]: ">"
+                      - generic [ref=f17e914]: "0"
+                  - text: ","
+                - text: then
+                - math [ref=f17e918]:
+                  - generic [ref=f17e921]:
+                    - generic [ref=f17e922]:
+                      - generic [ref=f17e923]: s
+                      - generic [ref=f17e924]: "3"
+                    - generic [ref=f17e926]: ">"
+                    - generic [ref=f17e927]: "0"
+                - text: as well, and the exponential time hypothesis would be
+                - generic [ref=f17e929]:
+                  - text: true.
+                  - superscript [ref=f17e930]:
+                    - link "[8]" [ref=f17e931] [cursor=pointer]:
+                      - /url: "#cite_note-w03-8"
+                  - superscript [ref=f17e932]:
+                    - link "[7]" [ref=f17e933] [cursor=pointer]:
+                      - /url: "#cite_note-ipz01-7"
+              - paragraph [ref=f17e934]:
+                - text: The limiting value
+                - math [ref=f17e937]:
+                  - generic [ref=f17e941]:
+                    - generic [ref=f17e942]: s
+                    - generic [ref=f17e943]: ∞
+                - text: of the sequence of numbers
+                - math [ref=f17e948]:
+                  - generic [ref=f17e952]:
+                    - generic [ref=f17e953]: s
+                    - generic [ref=f17e954]: k
+                - text: is at most equal
+                - generic [ref=f17e957]:
+                  - text: to
+                  - math [ref=f17e960]:
+                    - generic [ref=f17e964]:
+                      - generic [ref=f17e965]: s
+                      - generic [ref=f17e966]: CNF
+                  - text: ","
+                - text: where
+                - math [ref=f17e971]:
+                  - generic [ref=f17e975]:
+                    - generic [ref=f17e976]: s
+                    - generic [ref=f17e977]: CNF
+                - text: is the infimum of the numbers
+                - math [ref=f17e982]:
+                  - generic [ref=f17e983]: δ
+                - text: such that satisfiability of conjunctive normal form formulas without clause length limits can be solved in
+                - generic [ref=f17e988]:
+                  - text: time
+                  - math [ref=f17e991]:
+                    - generic [ref=f17e994]:
+                      - generic [ref=f17e995]: O
+                      - generic [ref=f17e996]: (
+                      - generic [ref=f17e997]:
+                        - generic [ref=f17e998]: "2"
+                        - generic [ref=f17e999]:
+                          - generic [ref=f17e1000]: δ
+                          - generic [ref=f17e1001]: "n"
+                      - generic [ref=f17e1002]: )
+                  - text: .
+                - text: Therefore, if the strong exponential time hypothesis is true, then there would be no algorithm for general CNF satisfiability that is significantly faster than a
+                - link "brute-force search" [ref=f17e1004] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Brute-force_search
+                - text: over all possible
+                - link "truth assignments" [ref=f17e1005] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Truth_assignment
+                - text: . However, if the strong exponential time hypothesis fails, it would still be possible for
+                - math [ref=f17e1008]:
+                  - generic [ref=f17e1012]:
+                    - generic [ref=f17e1013]: s
+                    - generic [ref=f17e1014]: CNF
+                - text: to equal
+                - generic [ref=f17e1017]:
+                  - text: one.
+                  - superscript [ref=f17e1018]:
+                    - link "[9]" [ref=f17e1019] [cursor=pointer]:
+                      - /url: "#cite_note-pw10-9"
+            - region [ref=f17e1020]:
+              - generic [ref=f17e1021]:
+                - heading "Other search problems" [level=3] [ref=f17e1022]
+                - link "edit" [ref=f17e1024] [cursor=pointer]:
+                  - /url: /w/index.php?title=Exponential_time_hypothesis&action=edit&section=4
+              - paragraph [ref=f17e1025]:
+                - text: The exponential time hypothesis implies that many other problems in the complexity class
+                - link "SNP" [ref=f17e1026] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/SNP_(complexity)
+                - text: do not have algorithms whose running time is faster than
+                - math [ref=f17e1029]:
+                  - generic [ref=f17e1033]:
+                    - generic [ref=f17e1034]: c
+                    - generic [ref=f17e1035]: "n"
+                - text: for some
+                - generic [ref=f17e1038]:
+                  - text: constant
+                  - math [ref=f17e1041]:
+                    - generic [ref=f17e1042]: c
+                  - text: .
+                - text: These problems include
+                - link "graph k-colorability" [ref=f17e1047] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Graph_coloring
+                - text: ", finding"
+                - link "Hamiltonian cycles" [ref=f17e1048] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Hamiltonian_cycle
+                - text: ","
+                - link "maximum cliques" [ref=f17e1049] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Maximum_clique
+                - text: ","
+                - link "maximum independent sets" [ref=f17e1050] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Maximum_independent_set
+                - text: ", and"
+                - link "vertex cover" [ref=f17e1051] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Vertex_cover
+                - text: "on"
+                - generic [ref=f17e1052]:
+                  - math [ref=f17e1055]:
+                    - generic [ref=f17e1056]: "n"
+                  - text: "-vertex"
+                - text: graphs. Conversely, if any of these problems has a subexponential algorithm, then the exponential time hypothesis could be shown to be
+                - generic [ref=f17e1061]:
+                  - text: false.
+                  - superscript [ref=f17e1062]:
+                    - link "[8]" [ref=f17e1063] [cursor=pointer]:
+                      - /url: "#cite_note-w03-8"
+                  - superscript [ref=f17e1064]:
+                    - link "[7]" [ref=f17e1065] [cursor=pointer]:
+                      - /url: "#cite_note-ipz01-7"
+              - paragraph [ref=f17e1066]:
+                - text: If cliques or independent sets of logarithmic size could be found in polynomial time, the exponential time hypothesis would be false. Therefore, even though finding cliques or independent sets of such small size is unlikely to be NP-complete, the exponential time hypothesis implies that these problems are
+                - generic [ref=f17e1067]:
+                  - text: non-polynomial.
+                  - superscript [ref=f17e1068]:
+                    - link "[8]" [ref=f17e1069] [cursor=pointer]:
+                      - /url: "#cite_note-w03-8"
+                  - superscript [ref=f17e1070]:
+                    - link "[10]" [ref=f17e1071] [cursor=pointer]:
+                      - /url: "#cite_note-fk-10"
+                - text: More generally, the exponential time hypothesis implies that it is not possible to find cliques or independent sets of size
+                - math [ref=f17e1074]:
+                  - generic [ref=f17e1075]: k
+                - text: in
+                - generic [ref=f17e1080]:
+                  - text: time
+                  - math [ref=f17e1083]:
+                    - generic [ref=f17e1087]:
+                      - generic [ref=f17e1088]: "n"
+                      - generic [ref=f17e1089]:
+                        - generic [ref=f17e1090]: o
+                        - generic [ref=f17e1091]: (
+                        - generic [ref=f17e1092]: k
+                        - generic [ref=f17e1093]: )
+                  - text: .
+                  - superscript [ref=f17e1095]:
+                    - link "[11]" [ref=f17e1096] [cursor=pointer]:
+                      - /url: "#cite_note-chkx-11"
+                - text: The exponential time hypothesis also implies that it is not possible to solve the
+                - link "k-SUM" [ref=f17e1097] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/3SUM
+                - text: problem (given
+                - math [ref=f17e1100]:
+                  - generic [ref=f17e1101]: "n"
+                - text: real numbers, find
+                - math [ref=f17e1108]:
+                  - generic [ref=f17e1109]: k
+                - text: of them that add to zero) in
+                - generic [ref=f17e1114]:
+                  - text: time
+                  - math [ref=f17e1117]:
+                    - generic [ref=f17e1121]:
+                      - generic [ref=f17e1122]: "n"
+                      - generic [ref=f17e1123]:
+                        - generic [ref=f17e1124]: o
+                        - generic [ref=f17e1125]: (
+                        - generic [ref=f17e1126]: k
+                        - generic [ref=f17e1127]: )
+                  - text: .
+                - text: The strong exponential time hypothesis implies that it is not possible to find
+                - generic [ref=f17e1129]:
+                  - math [ref=f17e1132]:
+                    - generic [ref=f17e1133]: k
+                  - text: "-vertex"
+                - text: dominating sets more quickly than in
+                - generic [ref=f17e1138]:
+                  - text: time
+                  - math [ref=f17e1141]:
+                    - generic [ref=f17e1145]:
+                      - generic [ref=f17e1146]: "n"
+                      - generic [ref=f17e1147]:
+                        - generic [ref=f17e1148]: k
+                        - generic [ref=f17e1149]: −
+                        - generic [ref=f17e1150]: o
+                        - generic [ref=f17e1151]: (
+                        - generic [ref=f17e1152]: "1"
+                        - generic [ref=f17e1153]: )
+                  - text: .
+                  - superscript [ref=f17e1155]:
+                    - link "[9]" [ref=f17e1156] [cursor=pointer]:
+                      - /url: "#cite_note-pw10-9"
+              - paragraph [ref=f17e1157]:
+                - text: The exponential time hypothesis implies also that the weighted
+                - link "feedback arc set" [ref=f17e1158] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Feedback_arc_set
+                - text: problem on
+                - link "tournaments" [ref=f17e1159] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Tournament_(graph_theory)
+                - text: does not have a parametrized algorithm with running
+                - generic [ref=f17e1160]:
+                  - text: time
+                  - math [ref=f17e1163]:
+                    - generic [ref=f17e1166]:
+                      - generic [ref=f17e1167]: O
+                      - generic [ref=f17e1168]: (
+                      - generic [ref=f17e1169]:
+                        - generic [ref=f17e1170]: "2"
+                        - generic [ref=f17e1171]:
+                          - generic [ref=f17e1172]: o
+                          - generic [ref=f17e1173]: (
+                          - generic [ref=f17e1174]: OPT
+                          - generic [ref=f17e1177]: )
+                      - generic [ref=f17e1178]:
+                        - generic [ref=f17e1179]: "n"
+                        - generic [ref=f17e1180]:
+                          - generic [ref=f17e1181]: O
+                          - generic [ref=f17e1182]: (
+                          - generic [ref=f17e1183]: "1"
+                          - generic [ref=f17e1184]: )
+                      - generic [ref=f17e1185]: )
+                  - text: .
+                - text: It does however have a parameterized algorithm with running
+                - generic [ref=f17e1187]:
+                  - text: time
+                  - math [ref=f17e1190]:
+                    - generic [ref=f17e1193]:
+                      - generic [ref=f17e1194]: O
+                      - generic [ref=f17e1195]: (
+                      - generic [ref=f17e1196]:
+                        - generic [ref=f17e1197]: "2"
+                        - generic [ref=f17e1198]:
+                          - generic [ref=f17e1199]: O
+                          - generic [ref=f17e1200]: (
+                          - generic [ref=f17e1201]: OPT
+                          - generic [ref=f17e1204]: )
+                      - generic [ref=f17e1205]:
+                        - generic [ref=f17e1206]: "n"
+                        - generic [ref=f17e1207]:
+                          - generic [ref=f17e1208]: O
+                          - generic [ref=f17e1209]: (
+                          - generic [ref=f17e1210]: "1"
+                          - generic [ref=f17e1211]: )
+                      - generic [ref=f17e1212]: )
+                  - text: .
+                  - superscript [ref=f17e1214]:
+                    - link "[12]" [ref=f17e1215] [cursor=pointer]:
+                      - /url: "#cite_note-ks-12"
+              - paragraph [ref=f17e1216]:
+                - text: The strong exponential time hypothesis leads to tight bounds on the
+                - link "parameterized complexity" [ref=f17e1217] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Parameterized_complexity
+                - text: of several graph problems on graphs of bounded
+                - link "treewidth" [ref=f17e1218] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Treewidth
+                - text: . In particular, if the strong exponential time hypothesis is true, then the optimal time bound for finding independent sets on graphs of
+                - generic [ref=f17e1219]:
+                  - text: treewidth
+                  - math [ref=f17e1222]:
+                    - generic [ref=f17e1223]: w
+                - generic [ref=f17e1228]:
+                  - text: is
+                  - math [ref=f17e1231]:
+                    - generic [ref=f17e1234]:
+                      - generic [ref=f17e1235]: (
+                      - generic [ref=f17e1238]: "2"
+                      - generic [ref=f17e1239]: −
+                      - generic [ref=f17e1240]: o
+                      - generic [ref=f17e1241]: (
+                      - generic [ref=f17e1242]: "1"
+                      - generic [ref=f17e1243]: )
+                      - generic [ref=f17e1244]:
+                        - generic [ref=f17e1245]: )
+                        - generic [ref=f17e1248]: w
+                      - generic [ref=f17e1250]:
+                        - generic [ref=f17e1251]: "n"
+                        - generic [ref=f17e1252]:
+                          - generic [ref=f17e1253]: O
+                          - generic [ref=f17e1254]: (
+                          - generic [ref=f17e1255]: "1"
+                          - generic [ref=f17e1256]: )
+                  - text: ","
+                - text: the optimal time for the
+                - link "dominating set" [ref=f17e1258] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Dominating_set
+                - text: problem
+                - generic [ref=f17e1259]:
+                  - text: is
+                  - math [ref=f17e1262]:
+                    - generic [ref=f17e1265]:
+                      - generic [ref=f17e1266]: (
+                      - generic [ref=f17e1269]: "3"
+                      - generic [ref=f17e1270]: −
+                      - generic [ref=f17e1271]: o
+                      - generic [ref=f17e1272]: (
+                      - generic [ref=f17e1273]: "1"
+                      - generic [ref=f17e1274]: )
+                      - generic [ref=f17e1275]:
+                        - generic [ref=f17e1276]: )
+                        - generic [ref=f17e1279]: w
+                      - generic [ref=f17e1281]:
+                        - generic [ref=f17e1282]: "n"
+                        - generic [ref=f17e1283]:
+                          - generic [ref=f17e1284]: O
+                          - generic [ref=f17e1285]: (
+                          - generic [ref=f17e1286]: "1"
+                          - generic [ref=f17e1287]: )
+                  - text: ","
+                - text: the optimum time for
+                - link "maximum cut" [ref=f17e1289] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Maximum_cut
+                - generic [ref=f17e1290]:
+                  - text: is
+                  - math [ref=f17e1293]:
+                    - generic [ref=f17e1296]:
+                      - generic [ref=f17e1297]: (
+                      - generic [ref=f17e1300]: "2"
+                      - generic [ref=f17e1301]: −
+                      - generic [ref=f17e1302]: o
+                      - generic [ref=f17e1303]: (
+                      - generic [ref=f17e1304]: "1"
+                      - generic [ref=f17e1305]: )
+                      - generic [ref=f17e1306]:
+                        - generic [ref=f17e1307]: )
+                        - generic [ref=f17e1310]: w
+                      - generic [ref=f17e1312]:
+                        - generic [ref=f17e1313]: "n"
+                        - generic [ref=f17e1314]:
+                          - generic [ref=f17e1315]: O
+                          - generic [ref=f17e1316]: (
+                          - generic [ref=f17e1317]: "1"
+                          - generic [ref=f17e1318]: )
+                  - text: ","
+                - text: and the optimum time for
+                - generic [ref=f17e1320]:
+                  - math [ref=f17e1323]:
+                    - generic [ref=f17e1324]: k
+                  - text: "-coloring"
+                - generic [ref=f17e1329]:
+                  - text: is
+                  - math [ref=f17e1332]:
+                    - generic [ref=f17e1335]:
+                      - generic [ref=f17e1336]: (
+                      - generic [ref=f17e1339]: k
+                      - generic [ref=f17e1340]: −
+                      - generic [ref=f17e1341]: o
+                      - generic [ref=f17e1342]: (
+                      - generic [ref=f17e1343]: "1"
+                      - generic [ref=f17e1344]: )
+                      - generic [ref=f17e1345]:
+                        - generic [ref=f17e1346]: )
+                        - generic [ref=f17e1349]: w
+                      - generic [ref=f17e1351]:
+                        - generic [ref=f17e1352]: "n"
+                        - generic [ref=f17e1353]:
+                          - generic [ref=f17e1354]: O
+                          - generic [ref=f17e1355]: (
+                          - generic [ref=f17e1356]: "1"
+                          - generic [ref=f17e1357]: )
+                  - text: .
+                  - superscript [ref=f17e1359]:
+                    - link "[13]" [ref=f17e1360] [cursor=pointer]:
+                      - /url: "#cite_note-cfk-13"
+                - text: Equivalently, any improvement on these running times would falsify the strong exponential time
+                - generic [ref=f17e1361]:
+                  - text: hypothesis.
+                  - superscript [ref=f17e1362]:
+                    - link "[1]" [ref=f17e1363] [cursor=pointer]:
+                      - /url: "#cite_note-lms-1"
+                - text: The exponential time hypothesis also implies that any fixed-parameter tractable algorithm for
+                - link "edge clique cover" [ref=f17e1364] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Intersection_number_(graph_theory)
+                - text: must have
+                - link "double exponential" [ref=f17e1365] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Double_exponential_function
+                - text: dependence on the
+                - generic [ref=f17e1366]:
+                  - text: parameter.
+                  - superscript [ref=f17e1367]:
+                    - link "[14]" [ref=f17e1368] [cursor=pointer]:
+                      - /url: "#cite_note-cpp-14"
+            - region [ref=f17e1369]:
+              - generic [ref=f17e1370]:
+                - heading "Communication complexity" [level=3] [ref=f17e1371]
+                - link "edit" [ref=f17e1373] [cursor=pointer]:
+                  - /url: /w/index.php?title=Exponential_time_hypothesis&action=edit&section=5
+              - paragraph [ref=f17e1374]:
+                - text: In the three-party set
+                - link "disjointness" [ref=f17e1375] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Disjointness
+                - text: problem in
+                - link "communication complexity" [ref=f17e1376] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Communication_complexity
+                - text: ", three subsets of the integers in some"
+                - generic [ref=f17e1377]:
+                  - text: range
+                  - math [ref=f17e1380]:
+                    - generic [ref=f17e1383]:
+                      - generic [ref=f17e1384]: "["
+                      - generic [ref=f17e1385]: "1"
+                      - generic [ref=f17e1386]: ","
+                      - generic [ref=f17e1387]: m
+                      - generic [ref=f17e1388]: "]"
+                - text: are specified, and three communicating parties each know two of the three subsets. The goal is for the parties to transmit as few bits to each other on a shared communications channel in order for one of the parties to be able to determine whether the intersection of the three sets is empty or nonempty. A trivial
+                - generic [ref=f17e1390]:
+                  - math [ref=f17e1393]:
+                    - generic [ref=f17e1394]: m
+                  - text: "-bit"
+                - text: communications protocol would be for one of the three parties to transmit a
+                - link "bitvector" [ref=f17e1399] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Bitvector
+                - text: describing the intersection of the two sets known to that party, after which either of the two remaining parties can determine the emptiness of the intersection. However, if there exists a protocol that solves the problem with
+                - generic [ref=f17e1400]:
+                  - math [ref=f17e1403]:
+                    - generic [ref=f17e1406]:
+                      - generic [ref=f17e1407]: o
+                      - generic [ref=f17e1408]: (
+                      - generic [ref=f17e1409]: m
+                      - generic [ref=f17e1410]: )
+                  - text: communication
+                - text: and
+                - generic [ref=f17e1412]:
+                  - math [ref=f17e1415]:
+                    - generic [ref=f17e1419]:
+                      - generic [ref=f17e1420]: "2"
+                      - generic [ref=f17e1421]:
+                        - generic [ref=f17e1422]: o
+                        - generic [ref=f17e1423]: (
+                        - generic [ref=f17e1424]: m
+                        - generic [ref=f17e1425]: )
+                  - text: computation,
+                - text: it could be transformed into an algorithm for solving
+                - generic [ref=f17e1427]:
+                  - math [ref=f17e1430]:
+                    - generic [ref=f17e1431]: k
+                  - text: "-SAT"
+                - text: in
+                - generic [ref=f17e1436]:
+                  - text: time
+                  - math [ref=f17e1439]:
+                    - generic [ref=f17e1442]:
+                      - generic [ref=f17e1443]: O
+                      - generic [ref=f17e1444]: (
+                      - generic [ref=f17e1445]:
+                        - generic [ref=f17e1446]: "1.74"
+                        - generic [ref=f17e1447]: "n"
+                      - generic [ref=f17e1449]: )
+                - text: for any fixed
+                - generic [ref=f17e1451]:
+                  - text: constant
+                  - math [ref=f17e1454]:
+                    - generic [ref=f17e1455]: k
+                  - text: ","
+                - text: violating the strong exponential time hypothesis. Therefore, the strong exponential time hypothesis implies either that the trivial protocol for three-party set disjointness is optimal, or that any better protocol requires an exponential amount of
+                - generic [ref=f17e1460]:
+                  - text: computation.
+                  - superscript [ref=f17e1461]:
+                    - link "[9]" [ref=f17e1462] [cursor=pointer]:
+                      - /url: "#cite_note-pw10-9"
+            - region [ref=f17e1463]:
+              - generic [ref=f17e1464]:
+                - heading "Structural complexity" [level=3] [ref=f17e1465]
+                - link "edit" [ref=f17e1467] [cursor=pointer]:
+                  - /url: /w/index.php?title=Exponential_time_hypothesis&action=edit&section=6
+              - paragraph [ref=f17e1468]:
+                - text: If the exponential time hypothesis is true, then 3-SAT would not have a polynomial time algorithm, and therefore it would follow that
+                - link "P ≠ NP" [ref=f17e1469] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/P_versus_NP_problem
+                - text: . More strongly, in this case, 3-SAT could not even have a
+                - link "quasi-polynomial time" [ref=f17e1470] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Quasi-polynomial_time
+                - text: algorithm, so NP could not be a subset of QP. However, if the exponential time hypothesis fails, it would have no implication for the P versus NP problem. A
+                - link "padding argument" [ref=f17e1471] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Padding_argument
+                - text: proves the existence of NP-complete problems for which the best known running times have the form
+                - math [ref=f17e1474]:
+                  - generic [ref=f17e1477]:
+                    - generic [ref=f17e1478]: O
+                    - generic [ref=f17e1479]: (
+                    - generic [ref=f17e1480]:
+                      - generic [ref=f17e1481]: "2"
+                      - generic [ref=f17e1483]:
+                        - generic [ref=f17e1484]: "n"
+                        - generic [ref=f17e1485]: c
+                    - generic [ref=f17e1487]: )
+                - generic [ref=f17e1489]:
+                  - text: for
+                  - math [ref=f17e1492]:
+                    - generic [ref=f17e1495]:
+                      - generic [ref=f17e1496]: c
+                      - generic [ref=f17e1497]: <
+                      - generic [ref=f17e1498]: "1"
+                  - text: ","
+                - text: and if the best possible running time for 3-SAT were of this form, then P would be unequal to NP (because 3-SAT is NP-complete and this time bound is not polynomial) but the exponential time hypothesis would be false.
+              - paragraph [ref=f17e1500]:
+                - text: In parameterized complexity theory, because the exponential time hypothesis implies that there does not exist a fixed-parameter-tractable algorithm for maximum clique, it also implies that
+                - generic [ref=f17e1501]:
+                  - link "W[1] ≠ FPT" [ref=f17e1502] [cursor=pointer]:
+                    - /url: https://en.wikipedia.org/wiki/Parameterized_complexity
+                  - text: .
+                  - superscript [ref=f17e1503]:
+                    - link "[11]" [ref=f17e1504] [cursor=pointer]:
+                      - /url: "#cite_note-chkx-11"
+                - text: It is an important
+                - link "open problem" [ref=f17e1505] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Open_problem
+                - text: "in this area whether this implication can be reversed: does W[1] ≠ FPT imply the exponential time hypothesis? There is a hierarchy of parameterized complexity classes called the M-hierarchy that interleaves the W-hierarchy in the sense that, for"
+                - generic [ref=f17e1506]:
+                  - text: all
+                  - math [ref=f17e1509]:
+                    - generic [ref=f17e1510]: i
+                  - text: ","
+                - generic [ref=f17e1515]:
+                  - math [ref=f17e1518]:
+                    - generic [ref=f17e1521]:
+                      - generic [ref=f17e1522]: M
+                      - generic [ref=f17e1525]: "["
+                      - generic [ref=f17e1526]: i
+                      - generic [ref=f17e1527]: "]"
+                      - generic [ref=f17e1528]: ⊆
+                      - generic [ref=f17e1529]: W
+                      - generic [ref=f17e1532]: "["
+                      - generic [ref=f17e1533]: i
+                      - generic [ref=f17e1534]: "]"
+                      - generic [ref=f17e1535]: ⊆
+                      - generic [ref=f17e1536]: M
+                      - generic [ref=f17e1539]: "["
+                      - generic [ref=f17e1540]: i
+                      - generic [ref=f17e1541]: +
+                      - generic [ref=f17e1542]: "1"
+                      - generic [ref=f17e1543]: "]"
+                  - text: ;
+                - text: for instance, the problem of finding a
+                - link "vertex cover" [ref=f17e1545] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Vertex_cover
+                - text: of size
+                - math [ref=f17e1548]:
+                  - generic [ref=f17e1551]:
+                    - generic [ref=f17e1552]: k
+                    - generic [ref=f17e1553]: log
+                    - generic: ⁡
+                    - generic [ref=f17e1554]: "n"
+                - text: in an
+                - generic [ref=f17e1556]:
+                  - math [ref=f17e1559]:
+                    - generic [ref=f17e1560]: "n"
+                  - text: "-vertex"
+                - text: graph with
+                - generic [ref=f17e1565]:
+                  - text: parameter
+                  - math [ref=f17e1568]:
+                    - generic [ref=f17e1569]: k
+                - text: is complete for M[1]. The exponential time hypothesis is equivalent to the statement that M[1] ≠ FPT, and the question of whether
+                - math [ref=f17e1576]:
+                  - generic [ref=f17e1579]:
+                    - generic [ref=f17e1580]: M
+                    - generic [ref=f17e1583]: "["
+                    - generic [ref=f17e1584]: i
+                    - generic [ref=f17e1585]: "]"
+                    - generic [ref=f17e1586]: ⊆
+                    - generic [ref=f17e1587]: W
+                    - generic [ref=f17e1590]: "["
+                    - generic [ref=f17e1591]: i
+                    - generic [ref=f17e1592]: "]"
+                - text: for
+                - math [ref=f17e1596]:
+                  - generic [ref=f17e1599]:
+                    - generic [ref=f17e1600]: i
+                    - generic [ref=f17e1601]: ">"
+                    - generic [ref=f17e1602]: "1"
+                - text: is also
+                - generic [ref=f17e1604]:
+                  - text: open.
+                  - superscript [ref=f17e1605]:
+                    - link "[4]" [ref=f17e1606] [cursor=pointer]:
+                      - /url: "#cite_note-fg-4"
+              - paragraph [ref=f17e1607]:
+                - text: It is also possible to prove implications in the other direction, from the failure of a variation of the strong exponential time hypothesis to separations of complexity classes. As
+                - link "Williams (2010)" [ref=f17e1608] [cursor=pointer]:
+                  - /url: "#CITEREFWilliams2010"
+                - text: shows, if there exists an algorithm
+                - math [ref=f17e1611]:
+                  - generic [ref=f17e1612]: A
+                - text: that solves
+                - link "Boolean circuit" [ref=f17e1617] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Boolean_circuit
+                - text: satisfiability in time
+                - math [ref=f17e1620]:
+                  - generic [ref=f17e1623]:
+                    - generic [ref=f17e1624]:
+                      - generic [ref=f17e1625]: "2"
+                      - generic [ref=f17e1626]: "n"
+                    - generic [ref=f17e1628]: /
+                    - generic [ref=f17e1630]: f
+                    - generic [ref=f17e1631]: (
+                    - generic [ref=f17e1632]: "n"
+                    - generic [ref=f17e1633]: )
+                - text: for some superpolynomially growing
+                - generic [ref=f17e1635]:
+                  - text: function
+                  - math [ref=f17e1638]:
+                    - generic [ref=f17e1639]: f
+                  - text: ","
+                - text: then
+                - link "NEXPTIME" [ref=f17e1644] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/NEXPTIME
+                - text: is not a subset of
+                - link "P/poly" [ref=f17e1645] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/P/poly
+                - text: . Williams shows that, if algorithm
+                - math [ref=f17e1648]:
+                  - generic [ref=f17e1649]: A
+                - text: exists, and a family of circuits simulating NEXPTIME in P/poly also existed, then algorithm
+                - math [ref=f17e1656]:
+                  - generic [ref=f17e1657]: A
+                - text: could be composed with the circuits to simulate NEXPTIME problems nondeterministically in a smaller amount of time, violating the
+                - link "time hierarchy theorem" [ref=f17e1662] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Time_hierarchy_theorem
+                - text: . Therefore, the existence of algorithm
+                - math [ref=f17e1665]:
+                  - generic [ref=f17e1666]: A
+                - text: proves the nonexistence of the family of circuits and the separation of these two complexity
+                - generic [ref=f17e1671]:
+                  - text: classes.
+                  - superscript [ref=f17e1672]:
+                    - link "[15]" [ref=f17e1673] [cursor=pointer]:
+                      - /url: "#cite_note-w10-15"
+          - region [ref=f17e1674]:
+            - generic [ref=f17e1675]:
+              - heading "See also" [level=2] [ref=f17e1676]
+              - link "edit" [ref=f17e1678] [cursor=pointer]:
+                - /url: /w/index.php?title=Exponential_time_hypothesis&action=edit&section=7
+            - list [ref=f17e1679]:
+              - listitem [ref=f17e1680]:
+                - link "Savitch's theorem" [ref=f17e1681] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Savitch's_theorem
+                - text: ", showing that a similar exponential gap cannot hold for"
+                - link "space complexity" [ref=f17e1682] [cursor=pointer]:
+                  - /url: https://en.wikipedia.org/wiki/Space_complexity
+          - region [ref=f17e1683]:
+            - generic [ref=f17e1684]:
+              - heading "Notes" [level=2] [ref=f17e1685]
+              - link "edit" [ref=f17e1687] [cursor=pointer]:
+                - /url: /w/index.php?title=Exponential_time_hypothesis&action=edit&section=8
+            - list [ref=f17e1689]:
+              - listitem [ref=f17e1690]:
+                - generic [ref=f17e1691]:
+                  - text: ^
+                  - link "Jump up to:" [ref=f17e1692] [cursor=pointer]:
+                    - /url: "#cite_ref-lms_1-0"
+                  - link [ref=f17e1694] [cursor=pointer]:
+                    - /url: "#cite_ref-lms_1-1"
+                - generic [ref=f17e1695]:
+                  - generic [ref=f17e1696]:
+                    - text: Lokshtanov, Daniel; Marx, Dániel; Saurabh, Saket (2011), "Known algorithms on graphs of bounded treewidth are probably optimal", Proc. 22nd ACM/SIAM Symposium on Discrete Algorithms (SODA 2011), pp. 777–789,
+                    - link "arXiv" [ref=f17e1697] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ArXiv_(identifier)
+                    - text: ":"
+                    - generic "Freely accessible" [ref=f17e1698]:
+                      - link "1007.5450" [ref=f17e1699] [cursor=pointer]:
+                        - /url: https://arxiv.org/abs/1007.5450
+                    - text: ","
+                    - link "doi" [ref=f17e1700] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - link "10.1137/1.9781611973082.61" [ref=f17e1701] [cursor=pointer]:
+                      - /url: https://doi.org/10.1137%2F1.9781611973082.61
+                    - text: ","
+                    - link "ISBN" [ref=f17e1702] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                    - link "978-0-89871-993-2" [ref=f17e1703] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Special:BookSources/978-0-89871-993-2
+                    - text: ","
+                    - link "S2CID" [ref=f17e1704] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/S2CID_(identifier)
+                    - link "1810488" [ref=f17e1705] [cursor=pointer]:
+                      - /url: https://api.semanticscholar.org/CorpusID:1810488
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=Known+algorithms+on+graphs+of+bounded+treewidth+are+probably+optimal&rft.btitle=Proc.+22nd+ACM%2FSIAM+Symposium+on+Discrete+Algorithms+%28SODA+2011%29&rft.pages=777-789&rft.date=2011&rft_id=info%3Aarxiv%2F1007.5450&rft_id=https%3A%2F%2Fapi.semanticscholar.org%2FCorpusID%3A1810488%23id-name%3DS2CID&rft_id=info%3Adoi%2F10.1137%2F1.9781611973082.61&rft.isbn=978-0-89871-993-2&rft.aulast=Lokshtanov&rft.aufirst=Daniel&rft.au=Marx%2C+D%C3%A1niel&rft.au=Saurabh%2C+Saket&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1706]:
+                - link "Jump up" [ref=f17e1708] [cursor=pointer]:
+                  - /url: "#cite_ref-s99_2-0"
+                  - text: ^
+                - generic [ref=f17e1709]:
+                  - generic [ref=f17e1710]:
+                    - text: Schöning, Uwe (1999), "A probabilistic algorithm for
+                    - math [ref=f17e1713]:
+                      - generic [ref=f17e1714]: k
+                    - text: "-SAT and constraint satisfaction problems\", 40th Annual Symposium on Foundations of Computer Science, FOCS '99, 17-18 October, 1999, New York, NY, USA, IEEE Computer Society, pp. 410–414,"
+                    - link "doi" [ref=f17e1719] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - link "10.1109/SFFCS.1999.814612" [ref=f17e1720] [cursor=pointer]:
+                      - /url: https://doi.org/10.1109%2FSFFCS.1999.814612
+                    - text: ","
+                    - link "ISBN" [ref=f17e1721] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                    - link "0-7695-0409-4" [ref=f17e1722] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Special:BookSources/0-7695-0409-4
+                    - text: ","
+                    - link "S2CID" [ref=f17e1723] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/S2CID_(identifier)
+                    - link "1230959" [ref=f17e1724] [cursor=pointer]:
+                      - /url: https://api.semanticscholar.org/CorpusID:1230959
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=A+probabilistic+algorithm+for+MATH+RENDER+ERROR-SAT+and+constraint+satisfaction+problems&rft.btitle=40th+Annual+Symposium+on+Foundations+of+Computer+Science%2C+FOCS+%2799%2C+17-18+October%2C+1999%2C+New+York%2C+NY%2C+USA&rft.pages=410-414&rft.pub=IEEE+Computer+Society&rft.date=1999&rft_id=https%3A%2F%2Fapi.semanticscholar.org%2FCorpusID%3A1230959%23id-name%3DS2CID&rft_id=info%3Adoi%2F10.1109%2FSFFCS.1999.814612&rft.isbn=0-7695-0409-4&rft.aulast=Sch%C3%B6ning&rft.aufirst=Uwe&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1725]:
+                - link "Jump up" [ref=f17e1727] [cursor=pointer]:
+                  - /url: "#cite_ref-ip99_3-0"
+                  - text: ^
+                - generic [ref=f17e1728]:
+                  - generic [ref=f17e1729]:
+                    - link "Impagliazzo, Russell" [ref=f17e1730] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Russell_Impagliazzo
+                    - text: ; Paturi, Ramamohan (1999), "The Complexity of k-SAT", Proc. 14th IEEE Conf. on Computational Complexity, pp. 237–240,
+                    - link "doi" [ref=f17e1731] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - link "10.1109/CCC.1999.766282" [ref=f17e1732] [cursor=pointer]:
+                      - /url: https://doi.org/10.1109%2FCCC.1999.766282
+                    - text: ","
+                    - link "ISBN" [ref=f17e1733] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                    - link "978-0-7695-0075-1" [ref=f17e1734] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Special:BookSources/978-0-7695-0075-1
+                    - text: ","
+                    - link "S2CID" [ref=f17e1735] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/S2CID_(identifier)
+                    - link "442454" [ref=f17e1736] [cursor=pointer]:
+                      - /url: https://api.semanticscholar.org/CorpusID:442454
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=The+Complexity+of+k-SAT&rft.btitle=Proc.+14th+IEEE+Conf.+on+Computational+Complexity&rft.pages=237-240&rft.date=1999&rft_id=https%3A%2F%2Fapi.semanticscholar.org%2FCorpusID%3A442454%23id-name%3DS2CID&rft_id=info%3Adoi%2F10.1109%2FCCC.1999.766282&rft.isbn=978-0-7695-0075-1&rft.aulast=Impagliazzo&rft.aufirst=Russell&rft.au=Paturi%2C+Ramamohan&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1737]:
+                - generic [ref=f17e1738]:
+                  - text: ^
+                  - link "Jump up to:" [ref=f17e1739] [cursor=pointer]:
+                    - /url: "#cite_ref-fg_4-0"
+                  - link [ref=f17e1741] [cursor=pointer]:
+                    - /url: "#cite_ref-fg_4-1"
+                - generic [ref=f17e1742]:
+                  - generic [ref=f17e1743]:
+                    - text: Flum, Jörg;
+                    - link "Grohe, Martin" [ref=f17e1744] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Martin_Grohe
+                    - text: (2006), "16. Subexponential Fixed-Parameter Tractability", Parameterized Complexity Theory, EATCS Texts in Theoretical Computer Science, Springer-Verlag, pp. 417–451,
+                    - link "ISBN" [ref=f17e1745] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                    - link "978-3-540-29952-3" [ref=f17e1746] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Special:BookSources/978-3-540-29952-3
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=16.+Subexponential+Fixed-Parameter+Tractability&rft.btitle=Parameterized+Complexity+Theory&rft.series=EATCS+Texts+in+Theoretical+Computer+Science&rft.pages=417-451&rft.pub=Springer-Verlag&rft.date=2006&rft.isbn=978-3-540-29952-3&rft.aulast=Flum&rft.aufirst=J%C3%B6rg&rft.au=Grohe%2C+Martin&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1747]:
+                - link "Jump up" [ref=f17e1749] [cursor=pointer]:
+                  - /url: "#cite_ref-cef_5-0"
+                  - text: ^
+                - generic [ref=f17e1750]:
+                  - generic [ref=f17e1751]:
+                    - text: Chen, Yijia; Eickmeyer, Kord; Flum, Jörg (2012), "The exponential time hypothesis and the parameterized clique problem", in Thilikos, Dimitrios M.; Woeginger, Gerhard J. (eds.), Parameterized and Exact Computation – 7th International Symposium, IPEC 2012, Ljubljana, Slovenia, September 12–14, 2012, Proceedings, Lecture Notes in Computer Science, vol. 7535, Springer, pp. 13–24,
+                    - link "doi" [ref=f17e1752] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - link "10.1007/978-3-642-33293-7_4" [ref=f17e1753] [cursor=pointer]:
+                      - /url: https://doi.org/10.1007%2F978-3-642-33293-7_4
+                    - text: ","
+                    - link "ISBN" [ref=f17e1754] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                    - link "978-3-642-33292-0" [ref=f17e1755] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Special:BookSources/978-3-642-33292-0
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=The+exponential+time+hypothesis+and+the+parameterized+clique+problem&rft.btitle=Parameterized+and+Exact+Computation+%E2%80%93+7th+International+Symposium%2C+IPEC+2012%2C+Ljubljana%2C+Slovenia%2C+September+12%E2%80%9314%2C+2012%2C+Proceedings&rft.series=Lecture+Notes+in+Computer+Science&rft.pages=13-24&rft.pub=Springer&rft.date=2012&rft_id=info%3Adoi%2F10.1007%2F978-3-642-33293-7_4&rft.isbn=978-3-642-33292-0&rft.aulast=Chen&rft.aufirst=Yijia&rft.au=Eickmeyer%2C+Kord&rft.au=Flum%2C+J%C3%B6rg&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1756]:
+                - link "Jump up" [ref=f17e1758] [cursor=pointer]:
+                  - /url: "#cite_ref-cip_6-0"
+                  - text: ^
+                - generic [ref=f17e1759]:
+                  - generic [ref=f17e1760]:
+                    - text: Calabro, Chris;
+                    - link "Impagliazzo, Russel" [ref=f17e1761] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Russell_Impagliazzo
+                    - text: ; Paturi, Ramamohan (2009), "The Complexity of Satisfiability of Small Depth Circuits", Parameterized and Exact Computation, 4th International Workshop, IWPEC 2009, Copenhagen, Denmark, September 10-11, 2009, Revised Selected Papers, Lecture Notes in Computer Science, vol. 5917, pp. 75–85,
+                    - link "doi" [ref=f17e1762] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - link "10.1007/978-3-642-11269-0_6" [ref=f17e1763] [cursor=pointer]:
+                      - /url: https://doi.org/10.1007%2F978-3-642-11269-0_6
+                    - text: ","
+                    - link "ISBN" [ref=f17e1764] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                    - link "978-3-642-11268-3" [ref=f17e1765] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Special:BookSources/978-3-642-11268-3
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=The+Complexity+of+Satisfiability+of+Small+Depth+Circuits&rft.btitle=Parameterized+and+Exact+Computation%2C+4th+International+Workshop%2C+IWPEC+2009%2C+Copenhagen%2C+Denmark%2C+September+10-11%2C+2009%2C+Revised+Selected+Papers&rft.series=Lecture+Notes+in+Computer+Science&rft.pages=75-85&rft.date=2009&rft_id=info%3Adoi%2F10.1007%2F978-3-642-11269-0_6&rft.isbn=978-3-642-11268-3&rft.aulast=Calabro&rft.aufirst=Chris&rft.au=Impagliazzo%2C+Russel&rft.au=Paturi%2C+Ramamohan&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1766]:
+                - generic [ref=f17e1767]:
+                  - text: ^
+                  - link "Jump up to:" [ref=f17e1768] [cursor=pointer]:
+                    - /url: "#cite_ref-ipz01_7-0"
+                  - link [ref=f17e1770] [cursor=pointer]:
+                    - /url: "#cite_ref-ipz01_7-1"
+                  - link [ref=f17e1771] [cursor=pointer]:
+                    - /url: "#cite_ref-ipz01_7-2"
+                - generic [ref=f17e1772]:
+                  - generic [ref=f17e1773]:
+                    - link "Impagliazzo, Russell" [ref=f17e1774] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Russell_Impagliazzo
+                    - text: "; Paturi, Ramamohan; Zane, Francis (2001), \"Which problems have strongly exponential complexity?\", Journal of Computer and System Sciences, 63 (4): 512–530,"
+                    - link "doi" [ref=f17e1775] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - link "10.1006/jcss.2001.1774" [ref=f17e1776] [cursor=pointer]:
+                      - /url: https://doi.org/10.1006%2Fjcss.2001.1774
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=article&rft.jtitle=Journal+of+Computer+and+System+Sciences&rft.atitle=Which+problems+have+strongly+exponential+complexity%3F&rft.volume=63&rft.issue=4&rft.pages=512-530&rft.date=2001&rft_id=info%3Adoi%2F10.1006%2Fjcss.2001.1774&rft.aulast=Impagliazzo&rft.aufirst=Russell&rft.au=Paturi%2C+Ramamohan&rft.au=Zane%2C+Francis&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1777]:
+                - generic [ref=f17e1778]:
+                  - text: ^
+                  - link "Jump up to:" [ref=f17e1779] [cursor=pointer]:
+                    - /url: "#cite_ref-w03_8-0"
+                  - link [ref=f17e1781] [cursor=pointer]:
+                    - /url: "#cite_ref-w03_8-1"
+                  - link [ref=f17e1782] [cursor=pointer]:
+                    - /url: "#cite_ref-w03_8-2"
+                - generic [ref=f17e1783]:
+                  - generic [ref=f17e1784]:
+                    - link "Woeginger, Gerhard" [ref=f17e1785] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Gerhard_J._Woeginger
+                    - text: "(2003), \"Exact algorithms for NP-hard problems: A survey\","
+                    - link "Combinatorial Optimization — Eureka, You Shrink!" [ref=f17e1786] [cursor=pointer]:
+                      - /url: https://web.archive.org/web/20200930104811/http://www.win.tue.nl/~gwoegi/papers/exact.pdf
+                    - text: (PDF), Lecture Notes in Computer Science, vol. 2570, Springer-Verlag, pp. 185–207,
+                    - link "doi" [ref=f17e1787] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - link "10.1007/3-540-36478-1_17" [ref=f17e1788] [cursor=pointer]:
+                      - /url: https://doi.org/10.1007%2F3-540-36478-1_17
+                    - text: ","
+                    - link "ISBN" [ref=f17e1789] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                    - link "978-3-540-00580-3" [ref=f17e1790] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Special:BookSources/978-3-540-00580-3
+                    - text: ","
+                    - link "S2CID" [ref=f17e1791] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/S2CID_(identifier)
+                    - link "289357" [ref=f17e1792] [cursor=pointer]:
+                      - /url: https://api.semanticscholar.org/CorpusID:289357
+                    - text: ", archived from"
+                    - link "the original" [ref=f17e1793] [cursor=pointer]:
+                      - /url: http://www.win.tue.nl/~gwoegi/papers/exact.pdf
+                    - text: (PDF) on 2020-09-30
+                    - generic [ref=f17e1794]: ", retrieved 2011-03-31"
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=Exact+algorithms+for+NP-hard+problems%3A+A+survey&rft.btitle=Combinatorial+Optimization+%E2%80%94+Eureka%2C+You+Shrink%21&rft.series=Lecture+Notes+in+Computer+Science&rft.pages=185-207&rft.pub=Springer-Verlag&rft.date=2003&rft_id=https%3A%2F%2Fapi.semanticscholar.org%2FCorpusID%3A289357%23id-name%3DS2CID&rft_id=info%3Adoi%2F10.1007%2F3-540-36478-1_17&rft.isbn=978-3-540-00580-3&rft.aulast=Woeginger&rft.aufirst=Gerhard&rft_id=http%3A%2F%2Fwww.win.tue.nl%2F~gwoegi%2Fpapers%2Fexact.pdf&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1795]:
+                - generic [ref=f17e1796]:
+                  - text: ^
+                  - link "Jump up to:" [ref=f17e1797] [cursor=pointer]:
+                    - /url: "#cite_ref-pw10_9-0"
+                  - link [ref=f17e1799] [cursor=pointer]:
+                    - /url: "#cite_ref-pw10_9-1"
+                  - link [ref=f17e1800] [cursor=pointer]:
+                    - /url: "#cite_ref-pw10_9-2"
+                - generic [ref=f17e1801]:
+                  - generic [ref=f17e1802]:
+                    - link "Pătraşcu, Mihai" [ref=f17e1803] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Mihai_Pătrașcu_(computer_scientist)
+                    - text: ;
+                    - link "Williams, Ryan" [ref=f17e1804] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Ryan_Williams_(computer_scientist)
+                    - text: (2010), "On the possibility of faster SAT algorithms",
+                    - link "Proc. 21st ACM/SIAM Symposium on Discrete Algorithms (SODA 2010)" [ref=f17e1805] [cursor=pointer]:
+                      - /url: http://people.csail.mit.edu/mip/papers/sat-lbs/paper.pdf
+                    - text: (PDF), pp. 1065–1075
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=On+the+possibility+of+faster+SAT+algorithms&rft.btitle=Proc.+21st+ACM%2FSIAM+Symposium+on+Discrete+Algorithms+%28SODA+2010%29&rft.pages=1065-1075&rft.date=2010&rft.aulast=P%C4%83tra%C5%9Fcu&rft.aufirst=Mihai&rft.au=Williams%2C+Ryan&rft_id=http%3A%2F%2Fpeople.csail.mit.edu%2Fmip%2Fpapers%2Fsat-lbs%2Fpaper.pdf&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1806]:
+                - link "Jump up" [ref=f17e1808] [cursor=pointer]:
+                  - /url: "#cite_ref-fk_10-0"
+                  - text: ^
+                - generic [ref=f17e1809]:
+                  - generic [ref=f17e1810]:
+                    - link "Feige, Uriel" [ref=f17e1811] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Uriel_Feige
+                    - text: "; Kilian, Joe (1997), \"On limited versus polynomial nondeterminism\", Chicago Journal of Theoretical Computer Science, 1: 1–20,"
+                    - link "doi" [ref=f17e1812] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - generic "Freely accessible" [ref=f17e1813]:
+                      - link "10.4086/cjtcs.1997.001" [ref=f17e1814] [cursor=pointer]:
+                        - /url: https://doi.org/10.4086%2Fcjtcs.1997.001
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=article&rft.jtitle=Chicago+Journal+of+Theoretical+Computer+Science&rft.atitle=On+limited+versus+polynomial+nondeterminism&rft.volume=1&rft.pages=1-20&rft.date=1997&rft_id=info%3Adoi%2F10.4086%2Fcjtcs.1997.001&rft.aulast=Feige&rft.aufirst=Uriel&rft.au=Kilian%2C+Joe&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1815]:
+                - generic [ref=f17e1816]:
+                  - text: ^
+                  - link "Jump up to:" [ref=f17e1817] [cursor=pointer]:
+                    - /url: "#cite_ref-chkx_11-0"
+                  - link [ref=f17e1819] [cursor=pointer]:
+                    - /url: "#cite_ref-chkx_11-1"
+                - generic [ref=f17e1820]:
+                  - generic [ref=f17e1821]:
+                    - text: "Chen, Jianer; Huang, Xiuzhen; Kanj, Iyad A.; Xia, Ge (2006), \"Strong computational lower bounds via parameterized complexity\", Journal of Computer and System Sciences, 72 (8): 1346–1367,"
+                    - link "doi" [ref=f17e1822] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - generic "Freely accessible" [ref=f17e1823]:
+                      - link "10.1016/j.jcss.2006.04.007" [ref=f17e1824] [cursor=pointer]:
+                        - /url: https://doi.org/10.1016%2Fj.jcss.2006.04.007
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=article&rft.jtitle=Journal+of+Computer+and+System+Sciences&rft.atitle=Strong+computational+lower+bounds+via+parameterized+complexity&rft.volume=72&rft.issue=8&rft.pages=1346-1367&rft.date=2006&rft_id=info%3Adoi%2F10.1016%2Fj.jcss.2006.04.007&rft.aulast=Chen&rft.aufirst=Jianer&rft.au=Huang%2C+Xiuzhen&rft.au=Kanj%2C+Iyad+A.&rft.au=Xia%2C+Ge&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1825]:
+                - link "Jump up" [ref=f17e1827] [cursor=pointer]:
+                  - /url: "#cite_ref-ks_12-0"
+                  - text: ^
+                - generic [ref=f17e1828]:
+                  - generic [ref=f17e1829]:
+                    - link "Karpinski, Marek" [ref=f17e1830] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Marek_Karpinski
+                    - text: ; Schudy, Warren (2010), "Faster Algorithms for Feedback Arc Set Tournament, Kemeny Rank Aggregation and Betweenness Tournament", Proc. ISAAC 2010, Part I, Lecture Notes in Computer Science, vol. 6506, pp. 3–14,
+                    - link "arXiv" [ref=f17e1831] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ArXiv_(identifier)
+                    - text: ":"
+                    - generic "Freely accessible" [ref=f17e1832]:
+                      - link "1006.4396" [ref=f17e1833] [cursor=pointer]:
+                        - /url: https://arxiv.org/abs/1006.4396
+                    - text: ","
+                    - link "doi" [ref=f17e1834] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - link "10.1007/978-3-642-17517-6_3" [ref=f17e1835] [cursor=pointer]:
+                      - /url: https://doi.org/10.1007%2F978-3-642-17517-6_3
+                    - text: ","
+                    - link "ISBN" [ref=f17e1836] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                    - link "978-3-642-17516-9" [ref=f17e1837] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Special:BookSources/978-3-642-17516-9
+                    - text: ","
+                    - link "S2CID" [ref=f17e1838] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/S2CID_(identifier)
+                    - link "16512997" [ref=f17e1839] [cursor=pointer]:
+                      - /url: https://api.semanticscholar.org/CorpusID:16512997
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=Faster+Algorithms+for+Feedback+Arc+Set+Tournament%2C+Kemeny+Rank+Aggregation+and+Betweenness+Tournament&rft.btitle=Proc.+ISAAC+2010%2C+Part+I&rft.series=Lecture+Notes+in+Computer+Science&rft.pages=3-14&rft.date=2010&rft_id=info%3Aarxiv%2F1006.4396&rft_id=https%3A%2F%2Fapi.semanticscholar.org%2FCorpusID%3A16512997%23id-name%3DS2CID&rft_id=info%3Adoi%2F10.1007%2F978-3-642-17517-6_3&rft.isbn=978-3-642-17516-9&rft.aulast=Karpinski&rft.aufirst=Marek&rft.au=Schudy%2C+Warren&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1840]:
+                - link "Jump up" [ref=f17e1842] [cursor=pointer]:
+                  - /url: "#cite_ref-cfk_13-0"
+                  - text: ^
+                - generic [ref=f17e1843]:
+                  - generic [ref=f17e1844]:
+                    - text: Cygan, Marek; Fomin, Fedor V.; Kowalik, Lukasz; Lokshtanov, Daniel; Marx, Daniel; Pilipczuk, Marcin; Pilipczuk, Michal; Saurabh, Saket (2015), Parameterized Algorithms, Springer, p. 555,
+                    - link "ISBN" [ref=f17e1845] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                    - link "978-3-319-21274-6" [ref=f17e1846] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Special:BookSources/978-3-319-21274-6
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=book&rft.btitle=Parameterized+Algorithms&rft.pages=555&rft.pub=Springer&rft.date=2015&rft.isbn=978-3-319-21274-6&rft.aulast=Cygan&rft.aufirst=Marek&rft.au=Fomin%2C+Fedor+V.&rft.au=Kowalik%2C+Lukasz&rft.au=Lokshtanov%2C+Daniel&rft.au=Marx%2C+Daniel&rft.au=Pilipczuk%2C+Marcin&rft.au=Pilipczuk%2C+Michal&rft.au=Saurabh%2C+Saket&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1847]:
+                - link "Jump up" [ref=f17e1849] [cursor=pointer]:
+                  - /url: "#cite_ref-cpp_14-0"
+                  - text: ^
+                - generic [ref=f17e1850]:
+                  - generic [ref=f17e1851]:
+                    - text: Cygan, Marek; Pilipczuk, Marcin; Pilipczuk, Michał (2016), "Known algorithms for edge clique cover are probably optimal",
+                    - link "SIAM Journal on Computing" [ref=f17e1853] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/SIAM_Journal_on_Computing
+                    - text: ", 45 (1): 67–83,"
+                    - link "arXiv" [ref=f17e1854] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ArXiv_(identifier)
+                    - text: ":"
+                    - generic "Freely accessible" [ref=f17e1855]:
+                      - link "1203.1754" [ref=f17e1856] [cursor=pointer]:
+                        - /url: https://arxiv.org/abs/1203.1754
+                    - text: ","
+                    - link "doi" [ref=f17e1857] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - link "10.1137/130947076" [ref=f17e1858] [cursor=pointer]:
+                      - /url: https://doi.org/10.1137%2F130947076
+                    - text: ","
+                    - link "MR" [ref=f17e1859] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/MR_(identifier)
+                    - link "3448348" [ref=f17e1860] [cursor=pointer]:
+                      - /url: https://mathscinet.ams.org/mathscinet-getitem?mr=3448348
+                    - text: ","
+                    - link "S2CID" [ref=f17e1861] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/S2CID_(identifier)
+                    - link "11264145" [ref=f17e1862] [cursor=pointer]:
+                      - /url: https://api.semanticscholar.org/CorpusID:11264145
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=article&rft.jtitle=SIAM+Journal+on+Computing&rft.atitle=Known+algorithms+for+edge+clique+cover+are+probably+optimal&rft.volume=45&rft.issue=1&rft.pages=67-83&rft.date=2016&rft_id=info%3Aarxiv%2F1203.1754&rft_id=https%3A%2F%2Fmathscinet.ams.org%2Fmathscinet-getitem%3Fmr%3D3448348%23id-name%3DMR&rft_id=https%3A%2F%2Fapi.semanticscholar.org%2FCorpusID%3A11264145%23id-name%3DS2CID&rft_id=info%3Adoi%2F10.1137%2F130947076&rft.aulast=Cygan&rft.aufirst=Marek&rft.au=Pilipczuk%2C+Marcin&rft.au=Pilipczuk%2C+Micha%C5%82&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+              - listitem [ref=f17e1863]:
+                - link "Jump up" [ref=f17e1865] [cursor=pointer]:
+                  - /url: "#cite_ref-w10_15-0"
+                  - text: ^
+                - generic [ref=f17e1866]:
+                  - generic [ref=f17e1867]:
+                    - link "Williams, Ryan" [ref=f17e1868] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Ryan_Williams_(computer_scientist)
+                    - text: "(2010), \"Improving exhaustive search implies superpolynomial lower bounds\", Proc. 42nd ACM Symposium on Theory of Computing (STOC 2010), New York, NY, USA: ACM, pp. 231–240,"
+                    - link "doi" [ref=f17e1869] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                    - text: ":"
+                    - link "10.1145/1806689.1806723" [ref=f17e1870] [cursor=pointer]:
+                      - /url: https://doi.org/10.1145%2F1806689.1806723
+                    - text: ","
+                    - link "ISBN" [ref=f17e1871] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                    - link "978-1-4503-0050-6" [ref=f17e1872] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Special:BookSources/978-1-4503-0050-6
+                    - text: ","
+                    - link "S2CID" [ref=f17e1873] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/S2CID_(identifier)
+                    - link "651703" [ref=f17e1874] [cursor=pointer]:
+                      - /url: https://api.semanticscholar.org/CorpusID:651703
+                  - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=Improving+exhaustive+search+implies+superpolynomial+lower+bounds&rft.btitle=Proc.+42nd+ACM+Symposium+on+Theory+of+Computing+%28STOC+2010%29&rft.place=New+York%2C+NY%2C+USA&rft.pages=231-240&rft.pub=ACM&rft.date=2010&rft_id=https%3A%2F%2Fapi.semanticscholar.org%2FCorpusID%3A651703%23id-name%3DS2CID&rft_id=info%3Adoi%2F10.1145%2F1806689.1806723&rft.isbn=978-1-4503-0050-6&rft.aulast=Williams&rft.aufirst=Ryan&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+          - region [ref=f17e1875]:
+            - generic [ref=f17e1876]:
+              - heading "Further reading" [level=2] [ref=f17e1877]
+              - link "edit" [ref=f17e1879] [cursor=pointer]:
+                - /url: /w/index.php?title=Exponential_time_hypothesis&action=edit&section=9
+            - list [ref=f17e1881]:
+              - listitem [ref=f17e1882]:
+                - generic [ref=f17e1883]:
+                  - text: Dantsin, Evgeny; Wolpert, Alexander (2010), "On moderately exponential time for SAT", Theory and Applications of Satisfiability Testing–SAT 2010, Lecture Notes in Computer Science, vol. 6175, Springer-Verlag, pp. 313–325,
+                  - link "doi" [ref=f17e1884] [cursor=pointer]:
+                    - /url: https://en.wikipedia.org/wiki/Doi_(identifier)
+                  - text: ":"
+                  - link "10.1007/978-3-642-14186-7_27" [ref=f17e1885] [cursor=pointer]:
+                    - /url: https://doi.org/10.1007%2F978-3-642-14186-7_27
+                  - text: ","
+                  - link "ISBN" [ref=f17e1886] [cursor=pointer]:
+                    - /url: https://en.wikipedia.org/wiki/ISBN_(identifier)
+                  - link "978-3-642-14185-0" [ref=f17e1887] [cursor=pointer]:
+                    - /url: https://en.wikipedia.org/wiki/Special:BookSources/978-3-642-14185-0
+                - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=bookitem&rft.atitle=On+moderately+exponential+time+for+SAT&rft.btitle=Theory+and+Applications+of+Satisfiability+Testing%E2%80%93SAT+2010&rft.series=Lecture+Notes+in+Computer+Science&rft.pages=313-325&rft.pub=Springer-Verlag&rft.date=2010&rft_id=info%3Adoi%2F10.1007%2F978-3-642-14186-7_27&rft.isbn=978-3-642-14185-0&rft.aulast=Dantsin&rft.aufirst=Evgeny&rft.au=Wolpert%2C+Alexander&rfr_id=info%3Asid%2Fen.wikipedia.org%3AExponential+time+hypothesis"
+            - navigation [ref=f17e1888]:
+              - table [ref=f17e1889]:
+                - rowgroup [ref=f17e1890]:
+                  - row [ref=f17e1891]:
+                    - columnheader [ref=f17e1892]:
+                      - button "[hide]" [expanded] [ref=f17e1893] [cursor=pointer]
+                      - list [ref=f17e1895]:
+                        - listitem [ref=f17e1896]:
+                          - link "v" [ref=f17e1897] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Template:Computational_hardness_assumptions
+                          - text: ·
+                        - listitem [ref=f17e1898]:
+                          - link "t" [ref=f17e1899] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Template_talk:Computational_hardness_assumptions
+                          - text: ·
+                        - listitem [ref=f17e1900]:
+                          - link "e" [ref=f17e1901] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Special:EditPage/Template:Computational_hardness_assumptions
+                      - link "Computational hardness assumptions" [ref=f17e1903] [cursor=pointer]:
+                        - /url: https://en.wikipedia.org/wiki/Computational_hardness_assumption
+                  - row [ref=f17e1904]:
+                    - rowheader "Number theoretic" [ref=f17e1905]
+                    - cell [ref=f17e1906]:
+                      - list [ref=f17e1908]:
+                        - listitem [ref=f17e1909]:
+                          - link "Integer factorization" [ref=f17e1910] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Integer_factorization
+                          - text: ·
+                        - listitem [ref=f17e1911]:
+                          - link "Phi-hiding" [ref=f17e1912] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Phi-hiding_assumption
+                          - text: ·
+                        - listitem [ref=f17e1913]:
+                          - link "RSA problem" [ref=f17e1914] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/RSA_problem
+                          - text: ·
+                        - listitem [ref=f17e1915]:
+                          - link "Strong RSA" [ref=f17e1916] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Strong_RSA_assumption
+                          - text: ·
+                        - listitem [ref=f17e1917]:
+                          - link "Quadratic residuosity" [ref=f17e1918] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Quadratic_residuosity_problem
+                          - text: ·
+                        - listitem [ref=f17e1919]:
+                          - link "Decisional composite residuosity" [ref=f17e1920] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Decisional_composite_residuosity_assumption
+                          - text: ·
+                        - listitem [ref=f17e1921]:
+                          - link "Higher residuosity" [ref=f17e1922] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Higher_residuosity_problem
+                  - row [ref=f17e1923]:
+                    - rowheader "Group theoretic" [ref=f17e1924]
+                    - cell [ref=f17e1925]:
+                      - list [ref=f17e1927]:
+                        - listitem [ref=f17e1928]:
+                          - link "Discrete logarithm" [ref=f17e1929] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Discrete_logarithm#Cryptography
+                          - text: ·
+                        - listitem [ref=f17e1930]:
+                          - link "Diffie-Hellman" [ref=f17e1931] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Diffie–Hellman_problem
+                          - text: ·
+                        - listitem [ref=f17e1932]:
+                          - link "Decisional Diffie–Hellman" [ref=f17e1933] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Decisional_Diffie–Hellman_assumption
+                          - text: ·
+                        - listitem [ref=f17e1934]:
+                          - link "Computational Diffie–Hellman" [ref=f17e1935] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Computational_Diffie–Hellman_assumption
+                  - row [ref=f17e1936]:
+                    - rowheader "Pairings" [ref=f17e1937]
+                    - cell [ref=f17e1938]:
+                      - list [ref=f17e1940]:
+                        - listitem [ref=f17e1941]:
+                          - link "External Diffie–Hellman" [ref=f17e1942] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/XDH_assumption
+                          - text: ·
+                        - listitem [ref=f17e1943]:
+                          - link "Sub-group hiding" [ref=f17e1944] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Sub-group_hiding
+                          - text: ·
+                        - listitem [ref=f17e1945]:
+                          - link "Decision linear" [ref=f17e1946] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Decision_Linear_assumption
+                  - row [ref=f17e1947]:
+                    - rowheader "Lattices" [ref=f17e1948]
+                    - cell [ref=f17e1949]:
+                      - list [ref=f17e1951]:
+                        - listitem [ref=f17e1952]:
+                          - link "Shortest vector problem" [ref=f17e1953] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Lattice_problem#Shortest_vector_problem_(SVP)
+                          - text: (
+                          - link "gap" [ref=f17e1954] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Lattice_problem#GapSVP
+                          - text: ) ·
+                        - listitem [ref=f17e1955]:
+                          - link "Closest vector problem" [ref=f17e1956] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Lattice_problem#Closest_vector_problem_(CVP)
+                          - text: (
+                          - link "gap" [ref=f17e1957] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Lattice_problem#GapCVP
+                          - text: ) ·
+                        - listitem [ref=f17e1958]:
+                          - link "Learning with errors" [ref=f17e1959] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Learning_with_errors
+                          - text: ·
+                        - listitem [ref=f17e1960]:
+                          - link "Ring learning with errors" [ref=f17e1961] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Ring_learning_with_errors
+                          - text: ·
+                        - listitem [ref=f17e1962]:
+                          - link "Short integer solution" [ref=f17e1963] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Short_integer_solution_problem
+                  - row [ref=f17e1964]:
+                    - rowheader "Non-cryptographic" [ref=f17e1965]
+                    - cell [ref=f17e1966]:
+                      - list [ref=f17e1968]:
+                        - listitem [ref=f17e1969]:
+                          - link "Exponential time hypothesis" [ref=f17e1970] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Exponential_time_hypothesis
+                          - text: ·
+                        - listitem [ref=f17e1971]:
+                          - link "Unique games conjecture" [ref=f17e1972] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Unique_games_conjecture
+                          - text: ·
+                        - listitem [ref=f17e1973]:
+                          - link "Planted clique conjecture" [ref=f17e1974] [cursor=pointer]:
+                            - /url: https://en.wikipedia.org/wiki/Planted_clique
+        - generic [ref=f17e1976]:
+          - link "Category" [ref=f17e1977] [cursor=pointer]:
+            - /url: /wiki/Help:Category
+          - text: ":"
+          - list [ref=f17e1978]:
+            - listitem [ref=f17e1979]:
+              - link "Computational hardness assumptions" [ref=f17e1980] [cursor=pointer]:
+                - /url: /wiki/Category:Computational_hardness_assumptions
+    - contentinfo [ref=f17e1982]:
+      - list [ref=f17e1983]:
+        - listitem [ref=f17e1984]: This page was last edited on 26 October 2026, at 23:30 (UTC).
+        - listitem [ref=f17e1985]:
+          - text: Page was rendered with
+          - link "Parsoid" [ref=f17e1986] [cursor=pointer]:
+            - /url: https://www.mediawiki.org/wiki/Special:MyLanguage/Parsoid
+          - text: .
+        - listitem [ref=f17e1987]:
+          - text: Text is available under the
+          - link "Creative Commons Attribution-ShareAlike 4.0 License" [ref=f17e1988] [cursor=pointer]:
+            - /url: /wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License
+          - text: ; additional terms may apply. By using this site, you agree to the
+          - link "Terms of Use" [ref=f17e1989] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use
+          - text: and
+          - link "Privacy Policy" [ref=f17e1990] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy
+          - text: . Wikipedia® is a registered trademark of the
+          - link "Wikimedia Foundation, Inc." [ref=f17e1991] [cursor=pointer]:
+            - /url: https://wikimediafoundation.org/
+          - text: ", a non-profit organization."
+      - list:
+        - listitem [ref=f17e1992]:
+          - link "Privacy policy" [ref=f17e1993] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy
+        - listitem [ref=f17e1994]:
+          - link "About Wikipedia" [ref=f17e1995] [cursor=pointer]:
+            - /url: /wiki/Wikipedia:About
+        - listitem [ref=f17e1996]:
+          - link "Disclaimers" [ref=f17e1997] [cursor=pointer]:
+            - /url: /wiki/Wikipedia:General_disclaimer
+        - listitem [ref=f17e1998]:
+          - link "Contact Wikipedia" [ref=f17e1999] [cursor=pointer]:
+            - /url: //en.wikipedia.org/wiki/Wikipedia:Contact_us
+        - listitem [ref=f17e2000]:
+          - link "Legal & safety contacts" [ref=f17e2001] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Legal:Wikimedia_Foundation_Legal_and_Safety_Contact_Information
+        - listitem [ref=f17e2002]:
+          - link "Code of Conduct" [ref=f17e2003] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Universal_Code_of_Conduct
+        - listitem [ref=f17e2004]:
+          - link "Developers" [ref=f17e2005] [cursor=pointer]:
+            - /url: https://developer.wikimedia.org
+        - listitem [ref=f17e2006]:
+          - link "Statistics" [ref=f17e2007] [cursor=pointer]:
+            - /url: https://stats.wikimedia.org/#/en.wikipedia.org
+        - listitem [ref=f17e2008]:
+          - link "Cookie statement" [ref=f17e2009] [cursor=pointer]:
+            - /url: https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Cookie_statement
+        - listitem [ref=f17e2010]:
+          - link "Mobile view" [ref=f17e2011] [cursor=pointer]:
+            - /url: //en.wikipedia.org/w/index.php?title=Exponential_time_hypothesis&mobileaction=toggle_view_mobile
+      - list [ref=f17e2012]:
+        - listitem [ref=f17e2013]:
+          - link [ref=f17e2014] [cursor=pointer]:
+            - /url: https://www.wikimedia.org/
+            - img "Wikimedia Foundation" [ref=f17e2016]
+        - listitem [ref=f17e2017]:
+          - link [ref=f17e2018] [cursor=pointer]:
+            - /url: https://www.mediawiki.org/
+            - img "Powered by MediaWiki" [ref=f17e2020]
+  - generic [ref=f17e2021]:
+    - list

@@ -1,0 +1,2 @@
+[    2739ms] [WARNING] This page is using the deprecated ResourceLoader module "mediawiki.Uri".
+[1.43] Please use browser native URL. See https://www.mediawiki.org/wiki/Migrating_mw.Uri_to_URL @ https://en.wikipedia.org/w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:11

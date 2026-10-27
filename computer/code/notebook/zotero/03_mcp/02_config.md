@@ -106,7 +106,7 @@ zotero-mcp setup --semantic-config-only
 # 建立全文索引(下载model环境变量问题不要开代理), 从 Zotero 读取文献和 PDF 文字，建立一份供语义搜索使用的本地 ChromaDB 索引。
 zotero-mcp update-db --fulltext
 #zotero-mcp update-db --fulltext --force-rebuild # If you change the model.
-#zotero-mcp update-db --fulltext --no-openai-batch # openai 更新
+#zotero-mcp update-db --fulltext --no-batch # openai 更新
 
 # 检查 OpenCode 连接
 opencode mcp list
@@ -167,11 +167,11 @@ chmod 600 ~/.config/zotero-mcp/config.json
 zotero-mcp update-db \
   --fulltext \
   --force-rebuild \
-  --no-openai-batch
+  --no-batch
 ```
 
 后续手动更新:
 
 ```bash
-zotero-mcp update-db --fulltext --no-openai-batch
+zotero-mcp update-db --fulltext --no-batch 
 ```

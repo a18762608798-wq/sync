@@ -1,0 +1,205 @@
+- generic [ref=f46e2]:
+  - generic [ref=f46e3]:
+    - link "Skip to content" [ref=f46e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=f46e9]:
+      - heading "Navigation Menu" [level=2] [ref=f46e10]
+      - generic [ref=f46e11]:
+        - link "Homepage" [ref=f46e13] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f46e16]:
+          - navigation "Global" [ref=f46e17]:
+            - list [ref=f46e18]:
+              - listitem [ref=f46e19]:
+                - button "Platform" [ref=f46e21] [cursor=pointer]
+              - listitem [ref=f46e24]:
+                - button "Solutions" [ref=f46e26] [cursor=pointer]
+              - listitem [ref=f46e29]:
+                - button "Resources" [ref=f46e31] [cursor=pointer]
+              - listitem [ref=f46e34]:
+                - button "Open Source" [ref=f46e36] [cursor=pointer]
+              - listitem [ref=f46e39]:
+                - button "Enterprise" [ref=f46e41] [cursor=pointer]
+              - listitem [ref=f46e44]:
+                - link "Pricing" [ref=f46e45] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+          - generic [ref=f46e46]:
+            - button "Search or jump to, type / to search" [ref=f46e48] [cursor=pointer]
+            - generic [ref=f46e54]:
+              - link "Sign in" [ref=f46e56] [cursor=pointer]:
+                - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fopenai%2Fmath%2Ftree%2Fmain%2Fpreprints%2FThe-Quasi-Riemann-Hypothesis-September-30-2026
+              - link "Sign up" [ref=f46e59] [cursor=pointer]:
+                - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Ffiles%2Fdisambiguate&source=header-repo&source_repo=openai%2Fmath
+              - button "Appearance settings" [ref=f46e62] [cursor=pointer]
+  - main [ref=f46e69]:
+    - generic "Global navigation menu" [ref=f46e72]:
+      - navigation "Breadcrumbs" [ref=f46e75]:
+        - list [ref=f46e76]:
+          - listitem [ref=f46e77]:
+            - link "openai" [ref=f46e78] [cursor=pointer]:
+              - /url: /openai
+          - listitem [ref=f46e80]:
+            - link "math" [ref=f46e81] [cursor=pointer]:
+              - /url: /openai/math
+      - heading "Repository navigation" [level=2] [ref=f46e84]
+      - navigation "Repository" [ref=f46e85]:
+        - list [ref=f46e86]:
+          - listitem [ref=f46e87]:
+            - link "Code" [ref=f46e88] [cursor=pointer]:
+              - /url: /openai/math
+          - listitem [ref=f46e93]:
+            - link "Pull requests" [ref=f46e94] [cursor=pointer]:
+              - /url: /openai/math/pulls
+          - listitem [ref=f46e100]:
+            - link "Actions" [ref=f46e101] [cursor=pointer]:
+              - /url: /openai/math/actions
+          - listitem [ref=f46e106]:
+            - link "Security and quality" [ref=f46e107] [cursor=pointer]:
+              - /url: /openai/math/security
+          - listitem [ref=f46e112]:
+            - link "Insights" [ref=f46e113] [cursor=pointer]:
+              - /url: /openai/math/pulse
+    - generic [ref=f46e128]:
+      - generic [ref=f46e132]:
+        - generic [ref=f46e133]:
+          - heading "Expand file tree" [level=2] [ref=f46e135]:
+            - button "Expand file tree" [ref=f46e136] [cursor=pointer]
+          - button "main branch" [ref=f46e141] [cursor=pointer]:
+            - generic [ref=f46e142]: main
+          - generic [ref=f46e147]:
+            - navigation [ref=f46e148]:
+              - heading "Breadcrumbs" [level=2] [ref=f46e149]
+              - list [ref=f46e150]:
+                - listitem [ref=f46e151]:
+                  - link "math" [ref=f46e152] [cursor=pointer]:
+                    - /url: /openai/math/tree/main
+                - listitem [ref=f46e153]:
+                  - text: /
+                  - link "preprints" [ref=f46e154] [cursor=pointer]:
+                    - /url: /openai/math/tree/main/preprints
+            - generic [ref=f46e155]:
+              - text: /
+              - heading "The-Quasi-Riemann-Hypothesis-September-30-2026" [level=1] [ref=f46e156]
+              - text: /
+            - button "Copy path" [ref=f46e157] [cursor=pointer]
+        - generic [ref=f46e163]:
+          - heading "Directory actions" [level=2] [ref=f46e164]
+          - combobox "Go to file" [ref=f46e171]
+          - heading "More options" [level=2] [ref=f46e172]
+          - button "More options" [ref=f46e173] [cursor=pointer]
+      - generic [ref=f46e176]:
+        - generic [ref=f46e178]:
+          - heading "Latest commit" [level=2] [ref=f46e179]
+          - generic [ref=f46e182]:
+            - heading "History" [level=2] [ref=f46e183]
+            - link "History" [ref=f46e184] [cursor=pointer]:
+              - /url: /openai/math/commits/main/preprints/The-Quasi-Riemann-Hypothesis-September-30-2026
+        - generic [ref=f46e187]:
+          - generic [ref=f46e188]:
+            - heading "Folders and files" [level=2] [ref=f46e189]
+            - table "Folders and files" [ref=f46e191]:
+              - rowgroup [ref=f46e192]:
+                - row [ref=f46e193]:
+                  - columnheader "Name" [ref=f46e194]
+                  - columnheader "Last commit message" [ref=f46e195]
+                  - columnheader "Last commit date" [ref=f46e197]
+              - rowgroup [ref=f46e199]:
+                - row [ref=f46e200]:
+                  - cell [ref=f46e201]:
+                    - heading "parent directory" [level=3] [ref=f46e202]
+                    - link "Parent directory" [ref=f46e203] [cursor=pointer]:
+                      - /url: /openai/math/tree/main/preprints
+                      - generic [ref=f46e204]: ..
+                - row "build, (Directory)" [ref=f46e207]:
+                  - cell [ref=f46e208]:
+                    - link "build, (Directory)" [ref=f46e215] [cursor=pointer]:
+                      - /url: /openai/math/tree/main/preprints/The-Quasi-Riemann-Hypothesis-September-30-2026/build
+                      - text: build
+                  - cell [ref=f46e216]
+                  - cell [ref=f46e218]
+                - row "README.md, (File)" [ref=f46e221]:
+                  - cell [ref=f46e222]:
+                    - link "README.md, (File)" [ref=f46e229] [cursor=pointer]:
+                      - /url: /openai/math/blob/main/preprints/The-Quasi-Riemann-Hypothesis-September-30-2026/README.md
+                      - text: README.md
+                  - cell [ref=f46e230]
+                  - cell [ref=f46e232]
+                - row "paper.pdf, (File)" [ref=f46e235]:
+                  - cell [ref=f46e236]:
+                    - link "paper.pdf, (File)" [ref=f46e243] [cursor=pointer]:
+                      - /url: /openai/math/blob/main/preprints/The-Quasi-Riemann-Hypothesis-September-30-2026/paper.pdf
+                      - text: paper.pdf
+                  - cell [ref=f46e244]
+                  - cell [ref=f46e246]
+          - generic [ref=f46e250]:
+            - generic [ref=f46e251]:
+              - heading [level=2] [ref=f46e252]:
+                - link "README.md" [ref=f46e253] [cursor=pointer]:
+                  - /url: "#readme"
+              - button "Outline" [ref=f46e254] [cursor=pointer]
+            - article [ref=f46e258]:
+              - generic [ref=f46e259]:
+                - heading [level=1] [ref=f46e260]:
+                  - 'link "The Quasi-Riemann Hypothesis: A Zero-Free Half-Plane Re(s)>7/8" [ref=f46e261] [cursor=pointer]':
+                    - /url: /openai/math/blob/main/preprints/The-Quasi-Riemann-Hypothesis-September-30-2026/paper.pdf
+                - 'link "Permalink: The Quasi-Riemann Hypothesis: A Zero-Free Half-Plane Re(s)>7/8" [ref=f46e262] [cursor=pointer]':
+                  - /url: "#the-quasi-riemann-hypothesis-a-zero-free-half-plane-res78"
+              - paragraph [ref=f46e265]:
+                - strong [ref=f46e266]: "Author:"
+                - text: OpenAI
+              - paragraph [ref=f46e267]:
+                - strong [ref=f46e268]: "Date:"
+                - text: 30 September 2026
+              - generic [ref=f46e269]:
+                - heading "Citation" [level=2] [ref=f46e270]
+                - 'link "Permalink: Citation" [ref=f46e271] [cursor=pointer]':
+                  - /url: "#citation"
+              - generic [ref=f46e274]:
+                - generic [ref=f46e275]:
+                  - text: "@misc{OAI:The-Quasi-Riemann-Hypothesis-September-30-2026, author ="
+                  - generic [ref=f46e276]: "{{OpenAI}}"
+                  - text: ", title ="
+                  - generic [ref=f46e277]: "{{The Quasi-Riemann Hypothesis:"
+                  - generic [ref=f46e278]: "A Zero-Free Half-Plane $\\mathrm{Re}(s)>7/8$}}"
+                  - text: ", howpublished ="
+                  - generic [ref=f46e279]: "{OpenAI Math Release preprint"
+                  - generic [ref=f46e280]: "\\href{https://github.com/openai/math/blob/main/preprints/The-Quasi-Riemann-Hypothesis-September-30-2026/paper.pdf}{OAI:The-Quasi-Riemann-Hypothesis-September-30-2026}}"
+                  - text: ", year ="
+                  - generic [ref=f46e281]: "{2026}"
+                  - text: "}"
+                - button "Copy code to clipboard" [ref=f46e283] [cursor=pointer]
+  - contentinfo [ref=f46e288]:
+    - heading "Footer" [level=2] [ref=f46e289]
+    - generic [ref=f46e290]:
+      - generic [ref=f46e291]:
+        - link "GitHub Homepage" [ref=f46e292] [cursor=pointer]:
+          - /url: https://github.com
+        - generic [ref=f46e295]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=f46e296]:
+        - heading "Footer navigation" [level=3] [ref=f46e297]
+        - list "Footer navigation" [ref=f46e298]:
+          - listitem [ref=f46e299]:
+            - link "Terms" [ref=f46e300] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=f46e301]:
+            - link "Privacy" [ref=f46e302] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=f46e303]:
+            - link "Security" [ref=f46e304] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=f46e305]:
+            - link "Status" [ref=f46e306] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=f46e307]:
+            - link "Community" [ref=f46e308] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=f46e309]:
+            - link "Docs" [ref=f46e310] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=f46e311]:
+            - link "Contact" [ref=f46e312] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=f46e313]:
+            - button "Manage cookies" [ref=f46e315] [cursor=pointer]
+          - listitem [ref=f46e316]:
+            - button "Do not share my personal information" [ref=f46e318] [cursor=pointer]
