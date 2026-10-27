@@ -1,0 +1,28 @@
+# Julia
+Manifest.toml
+*.cov
+*.mem
+*.h5
+*.jld2
+*_stats/
+stats$/
+
+# CondaPkg
+.CondaPkg/
+
+# Data
+data/
+
+# Python helpers (test data generators)
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Local test data (generated, not tracked)
+test/data/

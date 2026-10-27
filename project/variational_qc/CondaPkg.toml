@@ -1,0 +1,5 @@
+[deps]
+python = ""
+numpy = ""
+matplotlib = ""
+pymupdf = ""

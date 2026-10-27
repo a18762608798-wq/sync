@@ -1,0 +1,268 @@
+["test/data/aer_independent_pidx_-1/aer_independent_pidx_-1_setting0_settings243_shots1024.npz"]
+bytes = 284088
+sha256 = "4831e17e23ef35294a6b2eeff332146e4c2105058ff39e56c818d4232bcc84d1"
+
+["test/data/aer_independent_pidx_-1/aer_independent_pidx_-1_setting1_settings729_shots1024.npz"]
+bytes = 842248
+sha256 = "5334913c3030e2a57ccbc8a867262c4f76eef38ebfbc72b8ba206b93948cd71a"
+
+["test/data/aer_independent_pidx_0/aer_independent_pidx_0_setting0_settings243_shots1024.npz"]
+bytes = 284536
+sha256 = "2c5f10b661964b1412aea6f4bc5dc27bb3ac23b1df72af40bd9d97405d834f3b"
+
+["test/data/aer_independent_pidx_0/aer_independent_pidx_0_setting1_settings729_shots1024.npz"]
+bytes = 843528
+sha256 = "967efcb6b7ce01c17e6bf1546e2acf70e0c006f0d6face3cbbb1f57e0020c087"
+
+["test/data/aer_independent_pidx_1/aer_independent_pidx_1_setting0_settings243_shots1024.npz"]
+bytes = 282408
+sha256 = "fb601fca987ee0abef509df5dfd8d0f3645ca8abb512108dc31472289a399f0f"
+
+["test/data/aer_independent_pidx_1/aer_independent_pidx_1_setting1_settings729_shots1024.npz"]
+bytes = 838776
+sha256 = "96985bad5b2e14af060aee3139bf8e39613e3913cfc92d45c82064f0a0046f32"
+
+["test/data/aer_pair_mit_pidx_-1/aer_pair_mit_pidx_-1_exp1_setting0_settings243_shots1024.npz"]
+bytes = 344052
+sha256 = "ef564ae7ff476c2e00db403c40f191cf3104cd106016488d2e81c9a9b0acfc93"
+
+["test/data/aer_pair_mit_pidx_-1/aer_pair_mit_pidx_-1_exp2_setting0_settings243_shots1024.npz"]
+bytes = 283912
+sha256 = "aa3084de875efe137e410c0df114b9d9c6284441d02d7d18679694f1773870b7"
+
+["test/data/aer_pair_mit_pidx_1/aer_pair_mit_pidx_1_exp1_setting0_settings243_shots1024.npz"]
+bytes = 342212
+sha256 = "2c8a9444750e8262f1fe4a2058f75abcd5d4cbba7f9cf9d250c8d4dd6f813d71"
+
+["test/data/aer_pair_mit_pidx_1/aer_pair_mit_pidx_1_exp2_setting0_settings243_shots1024.npz"]
+bytes = 282376
+sha256 = "da28b8ec456c0353190d4d1c35d960bd39467833a979f6cfc127fb9edb871820"
+
+["test/data/aer_pair_pidx_-1/aer_pair_pidx_-1_exp1_setting0_settings243_shots1024.npz"]
+bytes = 145102
+sha256 = "6eacf2b09c5c33ee86706497f5a77c05c9aece957848c2b6aa99f41846126d09"
+
+["test/data/aer_pair_pidx_-1/aer_pair_pidx_-1_exp1_setting1_settings729_shots1024.npz"]
+bytes = 427758
+sha256 = "08719ed3a260b7a22c94758d36bccbc116f62cd57e468a0e8ba175dfa7728e9c"
+
+["test/data/aer_pair_pidx_-1/aer_pair_pidx_-1_exp2_setting0_settings243_shots1024.npz"]
+bytes = 145086
+sha256 = "00361399c5ca9d99b92992bcbe0b8eeef0b9b987281fc0d32e99d6e34d21c033"
+
+["test/data/aer_pair_pidx_-1/aer_pair_pidx_-1_exp2_setting1_settings729_shots1024.npz"]
+bytes = 427934
+sha256 = "dba8f78e14882fc40ce2c5322688dcdffc910203b96fbfaa9dc95a09a39db271"
+
+["test/data/aer_pair_pidx_0/aer_pair_pidx_0_exp1_setting0_settings243_shots1024.npz"]
+bytes = 145502
+sha256 = "06d408fc7b1091ebdbe5f2b9a33e6cd3aad4dc757d4d4874a55c6c409642e5ba"
+
+["test/data/aer_pair_pidx_0/aer_pair_pidx_0_exp1_setting1_settings729_shots1024.npz"]
+bytes = 429342
+sha256 = "c73577f645632ff68968e7975424c7d1fb429c71a50d2ab3b74449869a3d0f28"
+
+["test/data/aer_pair_pidx_0/aer_pair_pidx_0_exp2_setting0_settings243_shots1024.npz"]
+bytes = 145502
+sha256 = "596d1847b12fb30e6882cb470580fa6e2f3357c7880405f6bbc589a6874aaf36"
+
+["test/data/aer_pair_pidx_0/aer_pair_pidx_0_exp2_setting1_settings729_shots1024.npz"]
+bytes = 429342
+sha256 = "9898c8aa12b9659214a426eac5721c5e7ecc266c0c0d1d50d285abd52e8fd138"
+
+["test/data/aer_pair_pidx_1/aer_pair_pidx_1_exp1_setting0_settings243_shots1024.npz"]
+bytes = 143374
+sha256 = "4d24a73db95fe56f4aeeb71c4cf304e8650bfbfdc344c990abcfac1059ffb04c"
+
+["test/data/aer_pair_pidx_1/aer_pair_pidx_1_exp1_setting1_settings729_shots1024.npz"]
+bytes = 423838
+sha256 = "c64549a9c9c7904dd285bb960188d89e2386a0b3822933f8fa11ee040d95a4fb"
+
+["test/data/aer_pair_pidx_1/aer_pair_pidx_1_exp2_setting0_settings243_shots1024.npz"]
+bytes = 143918
+sha256 = "cdf2b9d44bf9e842d90b82a2ddb3f0496ec99a370b4c75591259a87a7570dece"
+
+["test/data/aer_pair_pidx_1/aer_pair_pidx_1_exp2_setting1_settings729_shots1024.npz"]
+bytes = 423550
+sha256 = "a6d0725fd5ef052824a08fa4d47df0ce23d7a3dcb1677a66240fa0822fea1bd1"
+
+["test/data/aer_shared_pidx_-1/aer_shared_pidx_-1_setting0_settings243_shots1024.npz"]
+bytes = 237288
+sha256 = "f5a8cc8c5d3cca515652654ccc8ae2e51d81c675cac1e77f326e34d1d87ce0c8"
+
+["test/data/aer_shared_pidx_-1/aer_shared_pidx_-1_setting1_settings729_shots1024.npz"]
+bytes = 702648
+sha256 = "cb3e6970ad2c47871e3061735b1074d07c48e08cd9a583f7db804b9ddac6eb70"
+
+["test/data/aer_shared_pidx_0/aer_shared_pidx_0_setting0_settings243_shots1024.npz"]
+bytes = 267848
+sha256 = "6f474978a949cbec30c55a197803510fd672e937741b318f37d1aa93bcbc8d09"
+
+["test/data/aer_shared_pidx_0/aer_shared_pidx_0_setting1_settings729_shots1024.npz"]
+bytes = 794600
+sha256 = "aa84e5c61958410d6b455f32e4d90a351d5c11d819da7dc430cbc827d0e056df"
+
+["test/data/aer_shared_pidx_1/aer_shared_pidx_1_setting0_settings243_shots1024.npz"]
+bytes = 266184
+sha256 = "253a3dda785a2d33f35b6bbed9a7eb4e755384e9799aa67e18ee8345c92eb3df"
+
+["test/data/aer_shared_pidx_1/aer_shared_pidx_1_setting1_settings729_shots1024.npz"]
+bytes = 790776
+sha256 = "7a369871ea179342de91e7f3ec846559ca333b5af8751d0bedf3d8a4bb1a9bb4"
+
+["test/data/quark_dongling_pidx_-1_independent/quark_dongling_pidx_-1_independent_setting0_settings81_shots1024.npz"]
+bytes = 99992
+sha256 = "615188cae753834ab58c1a1c5d0cd405ca6e59808083c3e1442f20b1dc6d860a"
+
+["test/data/quark_dongling_pidx_-1_pair/quark_dongling_pidx_-1_pair_exp1_setting0_settings81_shots1024.npz"]
+bytes = 100008
+sha256 = "84244f7927343383c7f6f8ff8ab3836dcc55929d22a693463783aaf34963fe12"
+
+["test/data/quark_dongling_pidx_-1_pair/quark_dongling_pidx_-1_pair_exp2_setting0_settings81_shots1024.npz"]
+bytes = 99992
+sha256 = "c4aa4dd667a0e644652fdc26a6dd1c392f658e8ee193ec5d68e43b3109176348"
+
+["test/data/quark_dongling_pidx_-1_shared/quark_dongling_pidx_-1_shared_setting0_settings81_shots1024.npz"]
+bytes = 94744
+sha256 = "c0c1b3e46eacb31dd91122db52259dbac6ccb1e86cf3338e1325411fbe49b8b5"
+
+["test/data/quark_dongling_pidx_0_independent/quark_dongling_pidx_0_independent_setting0_settings81_shots1024.npz"]
+bytes = 100024
+sha256 = "a60bc5b12ba0dd6c62dedbccd0464e41542709e8a6c15a96aa8003766f998806"
+
+["test/data/quark_dongling_pidx_0_pair/quark_dongling_pidx_0_pair_exp1_setting0_settings81_shots1024.npz"]
+bytes = 99976
+sha256 = "0ccb45577b0a3b5b046fc3be98860c488cb2f4367212955284ec2e859c84cfb5"
+
+["test/data/quark_dongling_pidx_0_pair/quark_dongling_pidx_0_pair_exp2_setting0_settings81_shots1024.npz"]
+bytes = 100056
+sha256 = "486f5f2d8f903b0f231f7cf32b7a81629fa02f75cb2dd7eb81fe5a6478b02eac"
+
+["test/data/quark_dongling_pidx_0_shared/quark_dongling_pidx_0_shared_setting0_settings81_shots1024.npz"]
+bytes = 94680
+sha256 = "e644ef4af0bf796ecee2479ce133b78ae11e44256a38e4a2326bbd60e1aa0c77"
+
+["test/data/quark_dongling_pidx_1_independent/quark_dongling_pidx_1_independent_setting0_settings81_shots1024.npz"]
+bytes = 100008
+sha256 = "2f5c7e3dc29290541d935d2049c95f2d3cdd8ee7ffa57c7e840e60cfeba9616d"
+
+["test/data/quark_dongling_pidx_1_pair/quark_dongling_pidx_1_pair_exp1_setting0_settings81_shots1024.npz"]
+bytes = 100136
+sha256 = "3ccfc0a2ef0ab36cea7f8850a81a9b6505987b5e9815e82ebf577a2ccad09743"
+
+["test/data/quark_dongling_pidx_1_pair/quark_dongling_pidx_1_pair_exp2_setting0_settings81_shots1024.npz"]
+bytes = 99944
+sha256 = "1a04a0d05ed380fe4cf5d131731642bda958466f8e2fbb4b8ef5e5061fe8e294"
+
+["test/data/quark_dongling_pidx_1_shared/quark_dongling_pidx_1_shared_setting0_settings81_shots1024.npz"]
+bytes = 94760
+sha256 = "3f74cccc64ab36ba5a3bdecc040a754522959094ee5095476a0333c2144c8edb"
+
+["test/data/quark_independent_pidx_1/quark_independent_pidx_1_setting0_settings81_shots1024.npz"]
+bytes = 99368
+sha256 = "1814db2e9a16819bd1855e98b65839cb2fb47874f5da80737f2ed0164bd52afb"
+
+["test/data/quark_pair_pidx_1/quark_pair_pidx_1_exp1_setting0_settings81_shots1024.npz"]
+bytes = 51006
+sha256 = "c8f0884fbd31c5ec61a0a467eea298bd5c1a3eca77426e3dd14809b1b369b203"
+
+["test/data/quark_pair_pidx_1/quark_pair_pidx_1_exp2_setting0_settings81_shots1024.npz"]
+bytes = 51006
+sha256 = "9f58a54aca5696e47a9427a4f5fcab5a6de7df5ba783377c5c87a587a097580a"
+
+["test/data/quark_shared_pidx_1/quark_shared_pidx_1_setting0_settings81_shots1024.npz"]
+bytes = 93960
+sha256 = "27d685b20f60f7d9810636c942e66f9050bbd8db67bda64ce715b730f05d4aa3"
+
+["test/data/aer_independent_pidx_-1/aer_independent_pidx_-1.json"]
+bytes = 436
+sha256 = "70126e8e8e3a93cb887701d10ae97dddcfce3433a561b7e0017acd613d397a56"
+
+["test/data/aer_independent_pidx_0/aer_independent_pidx_0.json"]
+bytes = 434
+sha256 = "4ca76e1b5a61d7be5e1b371ea115cd9715d8bbe088b9a9ede544e69c44d42b48"
+
+["test/data/aer_independent_pidx_1/aer_independent_pidx_1.json"]
+bytes = 434
+sha256 = "89e74d9b5691a3da95b85350f9fc87e821f499c203223b2db7f21f8ddd4686f7"
+
+["test/data/aer_pair_mit_pidx_-1/aer_pair_mit_pidx_-1.json"]
+bytes = 646
+sha256 = "51dc66f6567876691b50ecd91c3b19ce9980181a192acfaca756eb7bbd07cbb6"
+
+["test/data/aer_pair_mit_pidx_1/aer_pair_mit_pidx_1.json"]
+bytes = 643
+sha256 = "df1c221be251bd8ca8c590bb769e6cbacffd48e67081b80cfa275f5a8088de0d"
+
+["test/data/aer_pair_pidx_-1/aer_pair_pidx_-1.json"]
+bytes = 865
+sha256 = "723f2e6a1f4ae4f22e700b49d2c10e268eff02a8ec6ad09e24929364df6462fe"
+
+["test/data/aer_pair_pidx_0/aer_pair_pidx_0.json"]
+bytes = 859
+sha256 = "bc8f9a43ed995d1a316cc0950a09544d7dbb682750545516662456cef169db64"
+
+["test/data/aer_pair_pidx_1/aer_pair_pidx_1.json"]
+bytes = 859
+sha256 = "8ead9942f489bbdba9bb8595595d22c4eadd7f9e8bee018cf5104f67a3a3132d"
+
+["test/data/aer_shared_pidx_-1/aer_shared_pidx_-1.json"]
+bytes = 402
+sha256 = "d072ac625333bc40d8a8b8b99391a76c8674e059640ffb036214082d7fb9b820"
+
+["test/data/aer_shared_pidx_0/aer_shared_pidx_0.json"]
+bytes = 400
+sha256 = "198001a9a181dc4161f25eaab7e756274b8b1d24633f1ac648ad2ccd5946e500"
+
+["test/data/aer_shared_pidx_1/aer_shared_pidx_1.json"]
+bytes = 400
+sha256 = "cdd5b444e4940c340bae3b8badca00bbae1e4d5c83cb3333d6f0c1240286f6e8"
+
+["test/data/quark_dongling_pidx_-1_independent/quark_dongling_pidx_-1_independent.json"]
+bytes = 391
+sha256 = "6e5f05c83b8e66f7b36390ff0f919e8542e4ddd3f8b2013caec0105cce31346f"
+
+["test/data/quark_dongling_pidx_-1_pair/quark_dongling_pidx_-1_pair.json"]
+bytes = 710
+sha256 = "51c4a910a4e2a253cb4584652446324bd49dc23f681e7644a2fa5a48dccba70e"
+
+["test/data/quark_dongling_pidx_-1_shared/quark_dongling_pidx_-1_shared.json"]
+bytes = 362
+sha256 = "1e9f96fc24d55b81edfc895dfd0184e60e8cf8907d99753c5046185cd8acdb5e"
+
+["test/data/quark_dongling_pidx_0_independent/quark_dongling_pidx_0_independent.json"]
+bytes = 390
+sha256 = "1825e8892bfea66f97850564ace45acab0c4f61738563ac11e7a22390ca36621"
+
+["test/data/quark_dongling_pidx_0_pair/quark_dongling_pidx_0_pair.json"]
+bytes = 707
+sha256 = "ada1a1c2835aff4f8e4a3be89e3848623aa905350ad44c103b0cb948beb090cb"
+
+["test/data/quark_dongling_pidx_0_shared/quark_dongling_pidx_0_shared.json"]
+bytes = 361
+sha256 = "dfde384ca58263b312b79d9a3fe1ff61e23e993c7625c667dae6088dc3941830"
+
+["test/data/quark_dongling_pidx_1_independent/quark_dongling_pidx_1_independent.json"]
+bytes = 390
+sha256 = "63f5800e1a606c5827bdde7dc837e7fc05dea8f274dfcd221249d4a79acce417"
+
+["test/data/quark_dongling_pidx_1_pair/quark_dongling_pidx_1_pair.json"]
+bytes = 707
+sha256 = "26ff5cc88c9ed523ed66506749e1ebf7c864d41adb2a62249fa97f95bed17e66"
+
+["test/data/quark_dongling_pidx_1_shared/quark_dongling_pidx_1_shared.json"]
+bytes = 361
+sha256 = "3c9efa6332343127c1e815f482f28db5a6b4e355a9a2dfe2e426a60df398bc9c"
+
+["test/data/quark_independent_pidx_1/quark_independent_pidx_1.json"]
+bytes = 379
+sha256 = "f309bf6c7341c08263003726624d61e169e2e1671a4c0f97a45408fcd4314931"
+
+["test/data/quark_pair_pidx_1/quark_pair_pidx_1.json"]
+bytes = 678
+sha256 = "7476cd592ec03d8435f346ad1fe911e24427bec6ca492bae770aeeb8ae373b1f"
+
+["test/data/quark_shared_pidx_1/quark_shared_pidx_1.json"]
+bytes = 350
+sha256 = "77d4ae99a4fc13fa79acd030841db6278059359c3fc65ba325f6588078f58874"
+

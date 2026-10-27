@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>EXPERIMENT STATUS</title>
+<style>
+body{font-family:sans-serif;max-width:960px;margin:auto;padding:24px;color:#222;line-height:1.55}
+h1{font-size:24px;margin-bottom:4px}
+h2{font-size:19px;margin-top:28px;border-bottom:2px solid #eee;padding-bottom:6px}
+.sub{color:#666;font-size:13px;margin-bottom:14px}
+.legend span{display:inline-block;border-radius:4px;padding:2px 10px;font-size:12px;margin-right:6px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.card{border:1px solid #ddd;border-radius:8px;padding:12px;border-left:6px solid #666;background:#fff}
+.card.done{border-left-color:#2e7d32}
+.card.prog{border-left-color:#9c7d00}
+.card.block{border-left-color:#9c0006}
+.card.todo{border-left-color:#666}
+.badge{display:inline-block;border-radius:4px;padding:2px 8px;font-size:12px}
+.done-b{background:#c6efce;color:#2e7d32} .prog-b{background:#ffeb9c;color:#9c7d00}
+.block-b{background:#ffc7ce;color:#9c0006} .todo-b{background:#e2e2e2;color:#666}
+.card .t{font-weight:bold;margin:6px 0 4px}
+.card .d{font-size:14px}
+.bar{background:#eee;border-radius:6px;height:22px;overflow:hidden;margin-top:8px}
+.bar>div{height:100%;font-size:12px;line-height:22px;text-align:center}
+.chips a{display:inline-block;border:1px solid #ccc;border-radius:16px;padding:4px 12px;margin:4px;text-decoration:none;color:#222;font-size:13px}
+svg{max-width:100%;height:auto}
+.cap{font-size:12px;color:#666;margin-top:6px}
+</style>
+</head>
+<body>
+<h1>实验状态 EXPERIMENT STATUS</h1>
+<div class="sub">更新：2026-10-05。实验划分与 Sxx/Dxx 归属以 <a href="docs/expriment-map.md">docs/expriment-map.md</a> 为准，进度以 tasks 勾选 + 产物为准。</div>
+<div class="legend"><span class="done-b">已完成</span><span class="prog-b">进行中</span><span class="block-b">阻塞</span><span class="todo-b">未开始</span></div>
+
+<h2>依赖图</h2>
+<svg viewBox="0 0 940 200" xmlns="http://www.w3.org/2000/svg">
+<line x1="150" y1="70" x2="330" y2="45" stroke="#999"/><line x1="150" y1="70" x2="330" y2="110" stroke="#999"/><line x1="560" y1="60" x2="700" y2="60" stroke="#999"/><line x1="560" y1="110" x2="700" y2="110" stroke="#999"/>
+<rect x="30" y="40" width="120" height="60" rx="8" fill="#c6efce" stroke="#2e7d32"/><text x="90" y="65" text-anchor="middle" font-size="12">shared-01</text><text x="90" y="82" text-anchor="middle" font-size="11">S01 S02</text>
+<rect x="330" y="20" width="110" height="50" rx="8" fill="#c6efce" stroke="#2e7d32"/><text x="385" y="42" text-anchor="middle" font-size="12">exp01</text><text x="385" y="59" text-anchor="middle" font-size="11">D01 D05</text>
+<rect x="330" y="90" width="110" height="50" rx="8" fill="#c6efce" stroke="#2e7d32"/><text x="385" y="112" text-anchor="middle" font-size="12">exp02</text><text x="385" y="129" text-anchor="middle" font-size="11">D03 D04</text>
+<rect x="330" y="155" width="110" height="36" rx="8" fill="#c6efce" stroke="#2e7d32"/><text x="385" y="178" text-anchor="middle" font-size="12">exp03 D02</text>
+<rect x="560" y="35" width="110" height="50" rx="8" fill="#c6efce" stroke="#2e7d32"/><text x="615" y="57" text-anchor="middle" font-size="12">exp04</text><text x="615" y="74" text-anchor="middle" font-size="11">D06 S06</text>
+<rect x="560" y="100" width="110" height="50" rx="8" fill="#ffeb9c" stroke="#9c7d00"/><text x="615" y="122" text-anchor="middle" font-size="12">exp05</text><text x="615" y="139" text-anchor="middle" font-size="11">D07 S04</text>
+<rect x="700" y="60" width="200" height="60" rx="8" fill="#ffeb9c" stroke="#9c7d00"/><text x="800" y="85" text-anchor="middle" font-size="12">exp06 ← S03 S04 S06</text><text x="800" y="102" text-anchor="middle" font-size="11">D08（与 exp04 共建）</text>
+</svg>
+<div class="cap">箭头为数据流向。exp03 自含。exp05 待重测，exp06 待真机提交。</div>
+
+<h2>各实验</h2>
+<div class="cards">
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">shared-01 精确基态公共数据</div><div class="d">产出 S01 S02，供 exp01 exp02 消费</div><div class="bar"><div style="width:100%;background:#c6efce;color:#2e7d32">任务 7 / 7</div></div><div class="chips"><a href="specs/shared-01/spec.md">→ spec</a></div></div>
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">exp01 有限尺寸相图</div><div class="d">产出 D01 D05</div><div class="bar"><div style="width:100%;background:#c6efce;color:#2e7d32">任务 7 / 7</div></div><div class="chips"><a href="specs/exp01/spec.md">→ spec</a><a href="figs/exp01/exp01_D01.png">→ D01 图</a><a href="figs/exp01/exp01_D05.png">→ D05 图</a></div></div>
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">exp02 拓扑物理量</div><div class="d">产出 D03 D04，依赖 S01 S02</div><div class="bar"><div style="width:100%;background:#c6efce;color:#2e7d32">任务 8 / 8</div></div><div class="chips"><a href="specs/exp02/spec.md">→ spec</a><a href="figs/exp02/exp02_D03.png">→ D03 图</a><a href="figs/exp02/exp02_D04a.png">→ D04 图(a)</a><a href="figs/exp02/exp02_D04b.png">→ 图(b)</a><a href="figs/exp02/exp02_D04c.png">→ 图(c)</a><a href="figs/exp02/exp02_D04d.png">→ 图(d)</a></div></div>
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">exp03 附录能隙</div><div class="d">产出 D02a D02b D02c，自含</div><div class="bar"><div style="width:100%;background:#c6efce;color:#2e7d32">任务 10 / 10</div></div><div class="chips"><a href="specs/exp03/spec.md">→ spec</a><a href="figs/exp03/exp03_D02a.png">→ 图(a)</a><a href="figs/exp03/exp03_D02b.png">→ 图(b)</a><a href="figs/exp03/exp03_D02c.png">→ 图(c)</a></div></div>
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">exp04 模拟机 VQE</div><div class="d">产出 D06a–c S06 S03</div><div class="bar"><div style="width:100%;background:#c6efce;color:#2e7d32">任务 10 / 10</div></div><div class="chips"><a href="specs/exp04/spec.md">→ spec</a><a href="figs/exp04/exp04_D06a.png">→ D06a</a><a href="figs/exp04/exp04_D06b.png">→ D06b</a><a href="figs/exp04/exp04_D06c.png">→ D06c</a></div></div>
+<div class="card prog"><span class="badge prog-b">进行中</span><div class="t">exp05 真机优质比特</div><div class="d">产出 D07a–c S04；旧快照过期，待校准恢复后重测（T008）</div><div class="bar"><div style="width:88%;background:#ffeb9c;color:#9c7d00">任务 7 / 8</div></div><div class="chips"><a href="specs/exp05/spec.md">→ spec</a></div></div>
+<div class="card prog"><span class="badge prog-b">进行中</span><div class="t">exp06 真机测量与比较</div><div class="d">依赖 S03 S04 S06；产出 D08；转译门条目就绪，待真机提交</div><div class="bar"><div style="width:44%">任务 4 / 9</div></div><div class="chips"><a href="specs/exp06/spec.md">→ spec</a></div></div>
+</div>
+
+<h2>中间数据</h2>
+<div class="cards">
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">S01 网格基态 / S02 代表点基态</div><div class="d">生产实验：shared-01</div><div class="chips"><a href="specs/shared-01/spec.md">→ spec</a></div></div>
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">S03 模拟机最优参数</div><div class="d">生产实验：exp04，供真机照抄</div><div class="chips"><a href="specs/exp04/spec.md">→ spec</a></div></div>
+<div class="card prog"><span class="badge prog-b">进行中</span><div class="t">S04 真机目标比特</div><div class="d">生产实验：exp05，快照过期待刷新</div><div class="chips"><a href="specs/exp05/spec.md">→ spec</a></div></div>
+<div class="card prog"><span class="badge prog-b">进行中</span><div class="t">S05 读出分配矩阵</div><div class="d">生产实验：exp06，自含，待真机提交</div><div class="chips"><a href="specs/exp06/spec.md">→ spec</a></div></div>
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">S06 模拟机全结果</div><div class="d">生产实验：exp04，D08 模拟机图层底数</div><div class="chips"><a href="specs/exp04/spec.md">→ spec</a></div></div>
+</div>
+</body>
+</html>
