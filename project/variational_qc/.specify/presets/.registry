@@ -8,7 +8,7 @@
       "enabled": true,
       "priority": 3,
       "registered_commands": {
-        "pi": [
+        "codex": [
           "speckit.specify",
           "speckit.clarify",
           "speckit.plan",
@@ -18,7 +18,17 @@
           "speckit.converge"
         ]
       },
-      "registered_skills": {},
+      "registered_skills": {
+        "codex": [
+          "speckit-specify",
+          "speckit-clarify",
+          "speckit-plan",
+          "speckit-tasks",
+          "speckit-analyze",
+          "speckit-implement",
+          "speckit-converge"
+        ]
+      },
       "installed_at": "2026-10-07T07:50:40.996307+00:00"
     }
   }

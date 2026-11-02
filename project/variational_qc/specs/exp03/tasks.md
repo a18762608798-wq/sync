@@ -146,5 +146,4 @@
 - [x] T021 [VAL-001..VAL-005] 按 plan 修订记录，在用户批准覆盖后备份旧 D02
   数据、manifest 与图片，从现有 chunk 重组装三个拟合系数并重出合图。
   完成条件：495 个原始能隙值和 100 个 chunk 校验值不变；拟合内核、spec、
-  验证脚本及 $10^{-12}$ 容限不变；`VERIFY-EXP03-OK`；重算 smoke 120 项断言
-  通过，结果和备份路径记录于 `docs/status/local-validation.md`。
+  验证脚本及 $10^{-12}$ 容限不变；`VERIFY-EXP03-OK`；重算 smoke 120 项断言通过。

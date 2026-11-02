@@ -8,7 +8,6 @@
 - [实验映射](planning/experiment-map.md)：Dxx / Sxx 的生产归属、实验划分与依赖。
 - [论文看板](status/paper.html) / [实验看板](status/experiments.html)：派生的进度展示，不是实验定义或完成状态的权威来源。
 - [实验规格](../specs/)：每个 feature 的 spec / plan / tasks；具体实验定义以 spec 为准，进度结合 tasks 与实际产物判断。
-- [本地环境与非真机验证](status/local-validation.md)：本次环境安装、Pi 迁移与测试结果，包含 exp03 拟合重组装记录。
 
 ## 固定目录
 
@@ -23,8 +22,7 @@
 | `specs/<feature>/` | 实验规格、实现计划和任务清单 |
 | `figs/<feature>/` | 绘图产物：矢量 PDF 与 PNG 预览 |
 | `data/<feature>/` | 实验数据，沿用现有忽略规则 |
-| `.pi/prompts/` | Spec Kit 的 Pi prompt templates，提供 `/speckit.*` 命令 |
-| `.pi/skills/` | Pi 项目技能及其脚本、引用和模板 |
+| `.agents/skills/` | Codex Spec Kit skills（`speckit-*`） |
 
 不要在项目根目录重新生成字体、规划文档或状态页，不要复制一份规划文档到别处维护。新增目录或调整路径时，先更新本文档，再同步引用、模板与 skills。
 
@@ -37,10 +35,10 @@
 - Times New Roman 不是开源字体；其[原授权说明](../assets/fonts/times-new-roman/README.md)与 Noto 的 SIL OFL 分开。纳入 Git 不代表获得额外的再分发权利；开发源同时保存字体依赖：`scientific-computing/assets/fonts/times-new-roman/` 保存四种 TTF 与原授权说明，`scientific-paper/assets/fonts/noto-serif-cjk/` 保存两种 OTF 与 LICENSE；各 preset 的 `scripts/install-fonts.sh` 将依赖复制到项目对应目录，已有同名文件内容不一致时停止，不静默覆盖。
 - PDF 图嵌入字体；仅编译论文、不重新绘图时，不需要另外安装绘图字体。
 
-## Pi 集成与本地验证
+## Codex 集成与本地验证
 
-Spec Kit 默认集成为 `pi`；初始化参数记录于 `.specify/init-options.json`，当前集成记录于 `.specify/integration.json`。
-项目 skills 从原宿主目录迁移到 `.pi/skills/`，命令由 Spec Kit 生成至 `.pi/prompts/`；当前 Pi 会话需执行 `/reload` 才会发现新资源。
+Spec Kit 默认集成为 `codex`；初始化参数记录于 `.specify/init-options.json`，当前集成记录于 `.specify/integration.json`。
+Spec Kit skills 由 `specify` 生成至 `.agents/skills/`。
 
 Julia 与 Python 安装、测试命令见 [项目 README](../README.md)。非真机新计算和绘图测试产物放入 `data/validation/`，不覆盖正式数据或 `figs/`；真机提交脚本不属于本地环境验证范围。
 
