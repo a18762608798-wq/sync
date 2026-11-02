@@ -1,4 +1,4 @@
-"""exp06 本地单元测试（T006）：纯逻辑 + Aer 仿真，零真机调用。
+"""exp06 本地单元测试（T024 v3）：纯逻辑 + Aer 仿真，零真机调用。
 
 qmeas env python -m pytest test/test_exp06_local.py
 """
@@ -134,29 +134,32 @@ def test_orbit_param_layout():
 
 
 def test_golden_cross_vs_s06():
-    """Aer 黄金交叉：抽样组 Qiskit 电路 vs S06 S(π)/string（容限 1e-8）。"""
+    """Aer 黄金交叉：抽样组 Qiskit 电路 vs S06 S(π)/string（容限 1e-8）。
+
+    v3 联测沿用构造器：抽样 (a*, p=1, δ∈{−2,0.85})；不通过不得进 T020。
+    """
     s03 = np.load(PROJ / "data/exp04/exp04_S03.npz")
     s06 = np.load(PROJ / "data/exp04/exp04_S06.npz")
     meta, th = s03["meta"], s03["theta"]
     deltas = s03["deltas"]
     n_checked = 0
     for di, delta in enumerate(deltas, start=1):
-        tag = "d0" if di == 1 else "d085"
-        for si in (1, 49, 97):
-            for p in (1, 2, 3):
-                r = (di - 1) * 99 * 3 + (si - 1) * 3 + (p - 1)
-                assert (meta[r] == [di, si, p, meta[r][3]]).all()
-                a = int(meta[r][3])
-                npl = L // 2 if abs(float(delta)) < 1e-15 else L
-                psi = aer_statevector(build_estimator_circuit(
-                    th[r][:npl * p], a, p, float(delta)))
-                probs = probs_of(psi)
-                assert s_pi_of(probs) == pytest.approx(
-                    s06[f"{tag}_spi"][si - 1, p - 1], abs=1e-8)
-                assert string_of(probs) == pytest.approx(
-                    s06[f"{tag}_ostr"][si - 1, p - 1], abs=1e-8)
-                n_checked += 1
-    assert n_checked == 18
+        tag = "dm2" if di == 1 else "d085"
+        for si in (1, 50, 99):
+            p = 1
+            r = (di - 1) * 99 * 3 + (si - 1) * 3 + (p - 1)
+            assert (meta[r] == [di, si, p, meta[r][3]]).all()
+            a = int(meta[r][3])
+            npl = L // 2 if abs(float(delta)) < 1e-15 else L
+            psi = aer_statevector(build_estimator_circuit(
+                th[r][:npl * p], a, p, float(delta)))
+            probs = probs_of(psi)
+            assert s_pi_of(probs) == pytest.approx(
+                s06[f"{tag}_spi"][si - 1, p - 1], abs=1e-8)
+            assert string_of(probs) == pytest.approx(
+                s06[f"{tag}_ostr"][si - 1, p - 1], abs=1e-8)
+            n_checked += 1
+    assert n_checked == 6
 
 
 def test_mitigation_identity_and_recovery():
@@ -181,10 +184,14 @@ def test_mitigation_identity_and_recovery():
     assert np.allclose(rec / rec.sum(), ideal, atol=2e-2)
 
 
-def test_minmax_normalize():
-    from exp06_assemble import minmax_norm  # noqa: E402
-    x = np.array([0.5, 0.7, 0.6])
-    assert np.allclose(minmax_norm(x), [0.0, 1.0, 0.5])
+def test_window_endpoints():
+    from exp06_assemble import window_endpoints  # noqa: E402
+    s = np.array([2.0, 4.0, 7.0, 7.4, 1.5])
+    o = np.array([0.0, -0.2, -0.9, -0.95, -0.05])
+    ep = window_endpoints(s, o)
+    assert ep["S_max"] == pytest.approx(7.4)
+    assert ep["O_max"] == pytest.approx(0.95)
+    assert ep["method"] == "top1-max-pooled-window"
 
 
 def test_obs_basis_agrees_with_loop():
@@ -201,38 +208,56 @@ def test_obs_basis_agrees_with_loop():
     assert b == pytest.approx(float(p @ o_ostr))
 
 
-def test_pooled_shot_se_closed_forms():
-    from exp06_assemble import obs_basis_arrays, pooled_shot_se  # noqa: E402
-    o_spi, _ = obs_basis_arrays()
-    # δ 分布 → 均值为该点值，SE=0（sum_p 为 5 批累加）。
+def test_combine_Q_and_d_raw():
+    from exp06_assemble import combine_Q, d_raw_r  # noqa: E402
+    # S_max=8、O_max=1 时真机归一化退化为固定 hat，应与模拟完全一致。
+    s = np.array([2.0, 4.0, 6.0])
+    o = np.array([-0.1, -0.5, -0.9])
+    qh, qs = combine_Q(s, o, 8.0, 1.0, s / 8.0, -o)
+    assert np.allclose(qh, qs)
+    d, r = d_raw_r(qh, qs)
+    assert d == pytest.approx(0.0) and r == pytest.approx(1.0)
+
+
+def test_unit_q_se_qb_closed_forms():
+    from exp06_assemble import q_hat_basis, unit_q_se_qb  # noqa: E402
+    qb = q_hat_basis(8.0, 1.0)
     d = np.zeros(256)
-    d[17] = 5.0
-    mu, se = pooled_shot_se(d, 5, o_spi, 2048)
-    assert mu == pytest.approx(o_spi[17])
-    assert se == pytest.approx(0.0)
-    # 均匀分布 → 闭式均值/方差，N=5×2048。
-    u = np.full(256, 5 / 256)
-    mu, se = pooled_shot_se(u, 5, o_spi, 2048)
-    assert mu == pytest.approx(float(np.mean(o_spi)))
-    var = float(np.mean(o_spi * o_spi)) - float(np.mean(o_spi)) ** 2
-    assert se == pytest.approx((var / (5 * 2048)) ** 0.5)
+    d[17] = 1.0
+    assert unit_q_se_qb(d, qb, 1024) == pytest.approx(0.0)
+    u = np.full(256, 1 / 256)
+    mu = float(u @ qb)
+    var = float(u @ (qb * qb)) - mu * mu
+    import math as _math
+    assert unit_q_se_qb(u, qb, 1024) == pytest.approx(
+        _math.sqrt(var / 1024))
 
 
-def test_pick_pstar_same_p():
-    from exp06_assemble import pick_pstar  # noqa: E402
-    s_idx = np.tile(np.arange(1, 34), 3)
-    p_arr = np.repeat([1, 2, 3], 33)
-    m = np.ones(99, dtype=bool)
-    # 三线各异时选中与同层最贴合的 p（旧 p=3 对标规则会选 p=2，此处须选 p=1）。
-    ref = np.repeat([0.0, 0.5, 1.0], 33)
-    hw = np.repeat([0.01, 0.80, 0.0], 33)
-    assert pick_pstar(hw, ref, s_idx, p_arr, m) == 1
-    # 并列取小 p；乱序输入按 s_idx 对齐结果不变。
-    hw_tie = np.repeat([0.0, 0.5, 1.0], 33)
-    assert pick_pstar(hw_tie, ref, s_idx, p_arr, m) == 1
-    perm = np.random.default_rng(0).permutation(99)
-    assert pick_pstar(hw[perm], ref[perm], s_idx[perm], p_arr[perm],
-                      m[perm]) == 1
+def test_best_even_window_rules():
+    from exp06_assemble import search_best_even_window  # noqa: E402
+    rng = np.random.default_rng(0)
+    # 模拟 hat：S 平坦、O 单调；真机 = 0.5 倍压缩 + 噪声。
+    s_sim = np.full(15, 0.25)
+    o_sim = 0.1 + 0.9 * np.linspace(0.0, 1.0, 15)
+    S = np.tile(0.5 * np.full(15, 2.0), (34, 1))
+    O = np.tile(-0.5 * o_sim, (34, 1))
+    O[:11] = rng.normal(0.0, 0.2, size=(11, 15))
+    O[23:] = rng.normal(0.0, 0.2, size=(11, 15))
+    S[11:23] = 0.5 * 2.0
+    O[11:23] = -0.5 * o_sim
+    w = search_best_even_window(S, O, s_sim, o_sim)
+    assert w["length"] % 2 == 0 and w["length"] >= 10
+    assert w["pass"] is None and w["r"] > 0.9
+    assert 11 <= w["start"] and w["start"] + w["length"] <= 23
+    # 各窗口独立端点：最优窗端点等于该窗 pooled 均值最大值。
+    assert w["S_max"] == pytest.approx(
+        float(S[w["start"]:w["start"] + w["length"]].mean(axis=0).max()))
+    assert w["O_max"] == pytest.approx(
+        float((-O[w["start"]:w["start"] + w["length"]].mean(axis=0)).max()))
+    # 单位不足抛断言。
+    with pytest.raises(AssertionError):
+        search_best_even_window(np.tile(s_sim, (5, 1)),
+                                np.tile(o_sim, (5, 1)), s_sim, o_sim)
 
 
 def test_manifest_schema():
@@ -241,7 +266,7 @@ def test_manifest_schema():
         build_manifest,
     )
     m = build_manifest(**{k: None for k in MANIFEST_KEYS - {"schema"}})
-    assert m["schema"] == "exp06/v1"
+    assert m["schema"] == "exp06/v3"
     assert MANIFEST_KEYS <= set(m)
     with pytest.raises(ValueError):
-        build_manifest(schema="exp06/v1")
+        build_manifest(schema="exp06/v3")

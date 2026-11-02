@@ -5,19 +5,21 @@
 ## 对称性能隙
 
 $$
-Δ_{\rm sec}(L, s) = E_1^{(P=-2)}(L, s) - E_0^{(P=-2)}(L, s)
+\Delta_{\rm sec}(L, s) = E_1^{(P=-2)}(L, s) - E_0^{(P=-2)}(L, s)
 $$
 
 ## finite-size scaling 能隙规律
 
-**临界点处**有限尺寸能隙大致满足(Ref to finite-size scaling ansatz, FSS)
+有限尺寸能隙满足
 
 $$
-\Delta(L, s)_{\rm sec} \approx \frac{A}{L}.
+\Delta_{\rm sec}(L, s) = a(s) + \frac{b(s)}{L} + \frac{c(s)}{L^2} + O(L^{-3}),
 $$
 
-也就是理论上对于 δ vs 1/L, 线性拟合阶距为0.
+其中 $a(s)$ 为热力学极限 $L\to\infty$ 的能隙，$b(s)$ 为临界点处的 $1/L$ 标度系数。能隙闭合的条件是 $a(s)=0$；临界点即 $a(s_c)=0$ 且 $\Delta_{\rm sec}$ 以 $1/L$ 衰减的点。
 
-## 能隙关闭临界点寻找
+易面（XY）相内部 $a=0$，有隙相内部 $a>0$；易面侧的转变属 BKT 型，能隙在边界外以指数方式打开。
 
-在能隙附近, 有 $\Delta_{\rm sec} L \approx A$, 对于不同L, 做 A vs s, 观察随着 $L \rightarrow \infty$, 交点稳定在 s = ?
+## 相边界
+
+相边界 $s_c$ 由 $a(s_c)=0$ 确定。模型在 $s\leftrightarrow 1-s$（奇偶键交换 + 反射）下不变，故 $s_c=0.5$。

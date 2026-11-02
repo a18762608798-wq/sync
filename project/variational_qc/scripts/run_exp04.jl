@@ -1,14 +1,13 @@
 # Formal production run for exp04 (T005).
 # Thin orchestration only: module APIs -> per-δ chunked persist -> assembly.
 # Experiment conditions come from specs/exp04/spec.md; nothing is redefined here.
-# Production order δ = 0 -> 0.85 (plan §3).
+# Production order δ = -2 -> 0.85 (plan §3).
 
 push!(LOAD_PATH, joinpath(@__DIR__, "..", "src"))
 using LinearAlgebra
 BLAS.set_num_threads(1)  # point-level threading only (constitution V)
 using Shared01  # load order: Exp04 reuses Shared01.Hamiltonian read-only
 using Shared01: build_hamiltonian
-using Exp01  # load order: Exp02 reuses Exp01 read-only
 using Exp02
 using Exp02: zz_correlators, structure_factor
 using Exp02: string_order
@@ -16,10 +15,11 @@ using Exp04
 using Exp04: LEG_LABELS, psi_init
 using Exp04: build_meta, nparams, apply_circuit!
 using Exp04: run_point, expect_ztot, overlap_xbar, overlap_reflect
-using Exp04: save_line, completed_lines, assemble_S06_S03,
+using Exp04: save_line, completed_lines, assemble_S06_S03, build_D09,
               DELTAS, S_GRID, THETA_MAX, LINE_ID
 
 const OUT_DIR = joinpath(@__DIR__, "..", "data", "exp04")
+const S01_PATH = joinpath(@__DIR__, "..", "data", "shared01", "shared01_S01.npz")
 
 """Evaluate winner-state observables + symmetry diagnostics for one (δ,s,p)."""
 function eval_best(delta::Real, a_star::String, theta_star::Vector{Float64}, p::Integer)
@@ -108,6 +108,7 @@ function main()
     println("wrote: $s06")
     println("wrote: $s03")
     println("wrote: $manifest")
+    println("wrote: ", build_D09(OUT_DIR, S01_PATH, s06))
 end
 
 main()

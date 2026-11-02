@@ -22,36 +22,37 @@ q = vec(d03["q_grid"])
 curves = d03["curves"]
 check(length(q) == 99 && size(curves) == (3, 99), "D03 shapes (99 q, 3 curves)")
 check(abs(q[50] - pi) < 1e-12, "q grid contains pi at k=50")
-check(all(curves .>= -1e-12), "S(q) >= -1e-12 (nonnegative)")
+check(all(curves .>= -1e-12), "Ŝ(q) >= -1e-12 (normalised, nonnegative)")
 check(all(isfinite, curves), "D03 no missing/NaN")
 
-for key in ("s_pi", "o_str", "q_val", "z_tilde")
+for key in ("s_hat_pi", "o_hat_str", "q_val", "z_tilde")
     v = d04[key]
-    check(size(v) == (99, 99) && all(isfinite, v), "D04 panel $key 99x99 finite")
+    check(size(v) == (99, 121) && all(isfinite, v), "D04 panel $key 99x121 finite")
 end
 
-# D03<->D04 pi consistency at rep points. NOTE: D03 q[50] (=50*2π/100 in fp)
-# need not be bit-identical to π, so this is a tight tolerance, not bit equality.
-rep_ij = Dict("trivial" => (1, 1), "topological" => (99, 1), "afm" => (50, 99))
+# Representative grid indices come from the S01 manifest (spec PRE-003).
+_, s01_manifest = load_shared01(joinpath(@__DIR__, "..", "data", "shared01"))
+reps = s01_manifest["representative_points_S02"]
+rep_ij = Dict(label => (Int(reps[label]["grid_index"][1]),
+                        Int(reps[label]["grid_index"][2]))
+              for label in ("trivial", "topological", "afm"))
 for (r, label) in enumerate(["trivial", "topological", "afm"])
     i, j = rep_ij[label]
-    err = abs(curves[r, 50] - d04["s_pi"][i, j])
+    err = abs(curves[r, 50] - d04["s_hat_pi"][i, j])
     check(err < 1e-9, "D03/D04 pi agreement $label err=$err")
 end
 
 # Q identity recomputed from stored panels (same ops -> bit-exact).
-qres = maximum(abs.(d04["q_val"] .- (4 / 3 .+ 2 .* d04["o_str"] .- d04["s_pi"] / 6)))
+qres = maximum(abs.(d04["q_val"] .- (4 / 3 .- 2 .* d04["o_hat_str"] .- (4 / 3) .* d04["s_hat_pi"])))
 check(qres == 0.0, "Q identity bit-exact (res=$qres)")
 
-# D04(d) vs D01: same kernel, same input -> bit-exact.
-d01 = NPZ.npzread(joinpath(@__DIR__, "..", "data", "exp01", "exp01_D01.npz"))
-check(d04["z_tilde"] == d01["z_tilde"], "D04(d) == D01 bit-exact")
+# ~Z_R must stay a normalized marker; D01 retired, cross-grid comparison dropped.
+check(maximum(abs.(d04["z_tilde"])) <= 1 + 1e-9, "D04(d) |~Z_R| <= 1")
 
 # Degeneracy flags 1:1 with S01.
-_, s01_manifest = load_shared01(joinpath(@__DIR__, "..", "data", "shared01"))
 s01_deg = Set([(Int(p["grid_index"][1]), Int(p["grid_index"][2]))
                for p in s01_manifest["degenerate_points"]])
-d04_deg = Set([(i, j) for j in 1:99 for i in 1:99 if d04["degenerate"][i, j]])
+d04_deg = Set([(i, j) for j in 1:121 for i in 1:99 if d04["degenerate"][i, j]])
 check(s01_deg == d04_deg, "degeneracy flags 1:1 ($(length(d04_deg)) points)")
 
 if isempty(failures)

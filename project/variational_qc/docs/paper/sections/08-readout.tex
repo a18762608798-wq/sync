@@ -1,4 +1,4 @@
-\subsection{Readout error mitigation}
+\section{Readout error mitigation}
 \label{sec:readout}
 
 Readout errors map the ideal distribution to the measured one,
@@ -16,32 +16,6 @@ Mitigation inverts the map,
 \begin{equation}
 \vec{P}_{\rm mit}=M^{-1}\vec{P}_{\rm meas},
 \end{equation}
-where $\vec{P}_{\rm mit}$ is then projected onto the simplex by
-truncating negatives to zero and renormalizing. In other words, the
-raw counts are unfolded with the calibrated confusion matrix before any
-observable is evaluated, following the tensor-product readout mitigation of
-Bravyi~\textit{et al.}~\cite{bravyi2021mitigating}.
-Assuming uncorrelated per-qubit errors, each qubit is corrected
-independently at a calibration cost of $2$ circuits per qubit, linear in
-system size; on hardware we recalibrate per batch against drift, with the
-platform's built-in readout correction switched off.
-The uncorrelated assumption keeps the overhead linear but cannot capture
-crosstalk; correlated readout errors, if present, survive mitigation.
-This tensor-product inversion sits within a broader mitigation
-landscape. Probabilistic error cancellation expands noisy gates in a
-quasiprobability basis and resamples
-accordingly~\cite{temme2017error}, now extended to dynamic circuits with
-mid-circuit measurement~\cite{gupta2024probabilistic} and unified with
-noise scaling~\cite{mari2021extending}; zero-noise extrapolation instead
-fits $E(\lambda)$ at boosted noise strengths and continues to
-$E(0)$---first demonstrated on superconducting
-hardware in Ref.~\cite{kandala2019error}---with optimized Richardson
-protocols~\cite{krebsbach2022optimization}, inverted-circuit noise
-estimation~\cite{koenig2024inverted}, and active error suppression by
-artificial noise boosting inside variational
-loops~\cite{li2017efficient}---though time-correlated noise is
-systematically harder to extrapolate
-away~\cite{schultz2022analyzing}. Matrix-free iterative unfolding scales
-the same assignment-matrix idea to dozens of qubits without ever forming
-$M$~\cite{nation2021scalable}; our per-qubit inversion is its minimal,
-drift-robust endpoint.
+Negative components are then clipped to zero and the distribution is renormalized before observables are evaluated.
+
+For multiple qubits, we use a tensor-product model of single-qubit assignment matrices~\cite{bravyi2021mitigating}. Each matrix is calibrated using $|0\rangle$ and $|1\rangle$ preparation settings; the number of calibration parameters grows linearly with the number of qubits. Hardware measurements use batch-wise recalibration to track readout drift, with the platform's built-in readout correction disabled. This model describes independent single-qubit readout errors; correlated errors require assignment models that include correlations. Matrix-free iterative methods extend assignment-matrix mitigation to larger systems~\cite{nation2021scalable}.

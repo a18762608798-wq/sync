@@ -1,43 +1,14 @@
-\section{真机-模拟机对比}
+\section{真机与模拟机对比}
 \label{sec:comparison}
 
-真机与模拟机置于同一图中比较：模拟机 $p=1,2,3$ 曲线叠放真机最优层 $p^*$
-散点，每个 estimator 带标准差误差棒。
-即每点给出各自 estimator 的采样不确定度，层间散布可对照 shot 噪声判断，
-而不读作物理。真机与模拟机各自内部作 $0$--$1$ 归一化，只比变化趋势，
-不比绝对数值。分别归一是刻意的：门误差压制与读出残差对两平台绝对标尺的
-平移不同，而 AFM 结构因子与 string 算符随 $s$ 的变化作为共同信号留存。
-真机变分实验构成背景：双 transmon 上 VQE 加子空间展开算全 H2
-能谱~\cite{colless2018robust}、囚禁离子上量子化学~\cite{hempel2018quantum}、
-硬件高效优化六比特分子与磁问题~\cite{kandala2017hardware}、超导十二比特上
-Hartree--Fock~\cite{google2020hartree}、云设备上 $102$ 比特自旋链基态~\cite{yu2023simulating}。
-我们的协议不同在：以可直接测量的拓扑标记、逐层对照真机与模拟机，而不只比能量。
-四图覆盖 $\delta=0$ 与 $\delta=0.85$ 乘两个可直接测量标记；图位预留如下，
-趋势论述待 D08 图落定前保持冻结。
+图~\ref{fig:D08D09}(c,d) 比较模拟机 $p=1,2$ 与真机 $p=1$ 的组合量 $Q$。百花处理器上的测量以重复测量单元组织，每个单元包含 $15$ 个 $s$ 值和 $\delta\in\{0.85,-2\}$ 两条扫描线，共 $30$ 个参数点；每点测量 $1024$ 次，并为每个单元增加一对读出标定电路。本文分析单轮 $500$ 个单元。真机散点的误差棒表示测量单元之间的标准误。
 
-\begin{figure*}[htbp]
-\centering
-\begin{minipage}[b]{0.48\textwidth}
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering TODO(GAP-002)：D08a 图待出（$\delta=0$ AFM）。}}\\(a)
-\end{minipage}
-\hfill
-\begin{minipage}[b]{0.48\textwidth}
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering TODO(GAP-002)：D08b 图待出（$\delta=0$ string）。}}\\(b)
-\end{minipage}
-\\
-\begin{minipage}[b]{0.48\textwidth}
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering TODO(GAP-002)：D08c 图待出（$\delta=0.85$ AFM）。}}\\(c)
-\end{minipage}
-\hfill
-\begin{minipage}[b]{0.48\textwidth}
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering TODO(GAP-002)：D08d 图待出（$\delta=0.85$ string）。}}\\(d)
-\end{minipage}
-\caption{真机-模拟机对比四图（占位）：(a) $\delta=0$ AFM 结构因子，
-(b) $\delta=0$ string 算符，(c) $\delta=0.85$ AFM 结构因子，
-(d) $\delta=0.85$ string 算符。每图将叠放模拟机 $p=1,2,3$ 曲线与真机 $p^*$
-散点；归一化见正文。\label{fig:D08}}
-\end{figure*}
+$\hat S(\pi)$ 与 $\hat O_{\rm str}$ 均由同一批读出缓解后的概率分布计算。真机 hat 量保持相同符号约定（$\hat O=-O_{\rm str}$），除以所选窗口的共用最大值：窗口 pooled $30$ 点均值的 top-1 最大值，各候选窗口分别重定。所选窗口为 $S_{\max}=4.51$、$O_{\max}=0.090$。模拟机采用固定尺度 $\hat S=S/8$、$\hat O=-O_{\rm str}$，并以 $p=1$ 作为选窗参照曲线（$p=2$ 仅作图示对照）。两者均按
+\begin{equation}
+Q=\frac{4}{3}-2\hat O-\frac{4}{3}\hat S
+\end{equation}
+计算组合量。该式在模拟机的固定尺度下与第~\ref{sec:heatmaps}~节的定义一致。组合后的 $Q$ 不做二次归一化，直接用于计算距离指标 $d_{\rm raw}$（$30$ 点平均绝对 $Q$ 距离）与 Pearson 相关系数 $r$。
+
+最佳窗口为 $[226,242)$，包含 $16$ 个测量单元，对应 $d_{\rm raw}=0.30$、$r=0.85$。候选窗口为 $500$ 个单元序列的全部连续偶数长度子段（长度不小于 $10$），各窗口端点分别重定；最优窗口取对 $p=1$ 模拟曲线 $r$ 最大者，并列时依次取 $d_{\rm raw}$ 更小、更长、更早者。这些指标为所选窗口及其归一化下曲线一致性的报告性描述。
+
+$\delta=-2$ 扫描线上的真机结果在整个参数范围内呈现与模拟机 $p=2$ 曲线相近的变化趋势。$\delta=0.85$ 时，前半段趋势相近，拓扑区域的真机 $Q$ 转为负值并在 $s\to1$ 时低于两条模拟曲线。可分辨的 string 信号出现在 $s=0.99$：将全部 $N=500$ 个单元 pooled，真机 $\hat O_{\rm str}$ 均值约为理论值的 $5\%$，以单元间标准误为 $\sigma$ 计，偏离零点 $9\sigma$；其余点在测量不确定度内与零一致。

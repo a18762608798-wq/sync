@@ -8,35 +8,54 @@
 \Delta_{\rm sec}(L,s)=E_1^{(P=-2)}(L,s)-E_0^{(P=-2)}(L,s),
 \end{equation}
 其中 $E_0^{(P=-2)}$（$E_1^{(P=-2)}$）为该扇区基态（第一激发态）能量。
-$\delta=0$ 时 $L=8,12,16$ 的扇区能隙见图~\ref{fig:D02a}。
-临界点附近有限尺寸标度给出 $\Delta_{\rm sec}L\approx A$；
-画 $A$ 随 $s$ 变化（图~\ref{fig:D02b}），$L$ 增大时交点稳定在 $s=0.5$。
-具体说，相邻尺寸间交点的漂移随 $L$ 增大而缩小，与热力学极限下收敛到
-$s=0.5$ 一致。$s=0.5$ 处能隙随 $1/L$ 的变化（$L=8,12,16,20,24$）
-见图~\ref{fig:D02c}；过 $L=20,24$ 的线性拟合（系数标于图，
-拟合截距小，$b=0.05$）与能隙缩小趋势一致。因此有限尺寸效应只对相边界
-有一点影响，不影响相大体结构。
-全文基态均由精确对角化（Lanczos）得到，交点分析遵循量子自旋系统
-有限尺寸常规做法，见 Ref.~\cite{sandvik2010computational} 讲义。
+$\delta=-2$ 时 $L=8,12,16,20,24$ 的扇区能隙见图~\ref{fig:D02a}(a)。
+图~(b)放大 $s\in[0.53,0.65]$（图~\ref{fig:D02b}）并标出每条曲线的极小：
+$L$ 增大时极小向 $s=0.5$ 移动且极小值持续降低与热力学极限下收敛到
+$s=0.5$ 一致。$s=0.5$ 处能隙随 $1/L$ 的变化
+见图~\ref{fig:D02c}(c)；五个尺寸上 $1/L$ 的最小二乘二次拟合截距 $a=-0.017$（以交换耦合为单位）远小于能隙尺度，与能隙缩小趋势一致。这些结果刻画了 $\delta=-2$ 线上 $s=0.5$ 附近的有限尺寸能隙变化。
+全文基态均由精确对角化（Lanczos）得到极小分析遵循量子自旋系统
+有限尺寸常规做法见 Ref.~\cite{sandvik2010computational} 讲义。
 
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
 \centering
-\includegraphics[width=\columnwidth]{exp03_D02a.pdf}
-\caption{$\delta=0$ 时 $L=8,12,16$ 的对称性能隙 $\Delta_{\rm sec}$。
-\label{fig:D02a}}
-\end{figure}
+\includegraphics[width=\textwidth]{{../../figs/exp03/exp03_D02}}
+\caption{$\delta=-2$ 的有限尺寸能隙分析：(a) $L=8,12,16,20,24$ 的对称性能隙
+$\Delta_{\rm sec}$；(b) $s\in[0.53,0.65]$ 放大图标出各曲线极小随 $L$
+增大向 $s=0.5$ 移动；(c) $s=0.5$ 处能隙随 $1/L$ 变化含五个尺寸的
+$1/L$ 最小二乘二次拟合方点标出拟合截距 $a=-0.017$。
+\label{fig:D02a}\label{fig:D02b}\label{fig:D02c}}
+\end{figure*}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\columnwidth]{exp03_D02b.pdf}
-\caption{$A=\Delta_{\rm sec}L$ 随 $s$ 变化；$L\to\infty$ 时交点稳定在
-$s=0.5$。\label{fig:D02b}}
-\end{figure}
+\section{真机优质比特筛选方法}
+\label{sec:premium}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\columnwidth]{exp03_D02c.pdf}
-\caption{$s=0.5$ 处能隙随 $1/L$ 变化，过 $L=20,24$ 线性拟合
-（拟合截距小，$b=0.05$）。
-\label{fig:D02c}}
-\end{figure}
+为上真机，我们用两类量筛选候选链（环）：稳定子均值探双比特门质量，
+读出保真度探测量质量。理想输出是簇态
+$|C\rangle=\prod_{\langle ij\rangle}CZ_{ij}|+\rangle^{\otimes n}$，
+其中 $\langle ij\rangle$ 取遍候选子图的边；其稳定子 $S_i$
+（开端点二体 $X_0Z_1$、$Z_{n-2}X_{n-1}$，其余三体 $Z_{i-1}X_iZ_{i+1}$）
+无误差时期望为 $+1$，因此 $\langle S_i\rangle$ 偏离 $1$ 表征态制备与测量的综合误差。
+每条候选跑 $4$ 个基准电路：两个稳定子电路分测偶、奇指标稳定子
+（稳定子彼此对易，奇偶两组分别使用不同的局域测量基），另两个不含 $CZ$ 门的读出电路以
+$P(00\cdots0)$ 与 $P(11\cdots11)$ 的平均给出读出保真度
+$F_{\rm ro}$。按下式打分排序
+\begin{equation}
+{\rm score}=0.8\,\bar{S}+0.2\,F_{\rm ro},
+\end{equation}
+其中 $\bar{S}=n^{-1}\sum_i\langle S_i\rangle$ 为稳定子均值，
+双比特门质量权重高于读出。
+簇态~\cite{raussendorf2001oneway}是其稳定子所测的理想输出。
+$8$ 链与 $10$ 环基准电路不同（环包含闭合 $CZ$、稳定子全为三体），
+因此候选排名分别在各自几何内计算。该基准通过给定连通结构上的簇态制备与局域测量评估候选子图。具体排名与选中的比特见下一节。
+
+\section{优质比特排名}
+\label{sec:rankings}
+
+百花芯片上的筛选给出三组排名。$8$ 链几何下，前十由 77 至 70 号比特组成的
+8 比特链居首，评分 $0.7801$（$0.02$ 容差范围内另有 1 条候选与其并列）；
+$10$ 环几何下，前十由 69 至 73 号与 82 至 86 号比特构成的 10 比特环居首，
+评分 $0.5246$（容差范围内另有 2 条候选并列）；居首环内的十条 $8$ 比特子链
+中，69 至 73 号与 82 至 84 号比特构成的子链居首，评分 $0.7108$，其评分沿用
+链基准电路的测量结果。后续真机实验采用各项排名居首的比特。
+
+

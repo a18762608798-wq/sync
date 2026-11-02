@@ -1,12 +1,14 @@
-"""D06a-c per-phase schematics (exp04 T009): zero data input, pure drawing.
+"""D06 combined 1x3 per-phase schematics (exp04 T009/T020): zero data input, pure drawing.
 
 Circuit-leaning hybrid (not a literal qiskit circuit):
 - 8 horizontal qubit wires (site 1 top = logical 0), time flows left to right;
 - left column: init-state two-qubit links (gray bars; GHZ links follow
   qmeas.models.xxz pidx=0 middle-out CNOT fan-out, X/H omitted);
 - then two layer blocks U^(1) and U^(k) joined by vertical dots;
-- each block: F then S sublayer gate boxes (one rounded box per bond,
-  orbit colors; same color = shared (theta, phi)).
+- U^(1): F then S sublayer gate boxes (one rounded box per bond,
+  orbit colors; same color + number = shared (theta, phi)).
+- U^(k): empty frame with a big U^(k) label (same layout as U^(1),
+  per-layer independent parameters; mapping in paper caption).
 Faithful to docs/theory/psi0.md + docs/theory/ansatz.md for L = 8 only:
 - D06a trivial: odd-bond singlet pairs; F = even (U_o U_e).
 - D06b topo: |s>_{1,8} link + even-bond singlet pairs; F = odd (U_e U_o).
@@ -14,8 +16,9 @@ Faithful to docs/theory/psi0.md + docs/theory/ansatz.md for L = 8 only:
 Orbit colors/groups (same color = shared parameters):
 group 1 = odd-outer pair bonds (1,2)&(7,8), group 2 = odd-inner pair
 (3,4)&(5,6), group 3 = even-outer pair (2,3)&(6,7), group 4 = even-central
-bond (4,5) self-mirror. Box text only carries indexed thetas, no orbit
-letters: theta^{(l)}_{g1} / theta^{(l)}_{g2} with g = group, l = layer.
+bond (4,5) self-mirror. Box text carries only the group index: same
+color + number = one shared (theta, phi) pair, whose (theta_g, phi_g)
+mapping is defined once in the paper caption, not per box.
 No gate types beyond ansatz.md are drawn.
 
 Project Python: .CondaPkg/.pixi/envs/default/bin/python.
@@ -42,33 +45,32 @@ def y_of(site):
     return N - site
 
 
-GAP_L, GAP_R = 4.75, 6.25  # 与两侧 layer_frame 内边对齐
+GAP_L, GAP_R = 5.65, 7.15  # 与两侧 layer_frame 内边对齐
 
 
-def draw_wires(ax, x0=0.0, x1=10.4):
+def draw_wires(ax, x0=0.0):
     xs = np.arange(N)
     for i in range(N):
         y = y_of(i + 1)
-        ax.plot([x0, GAP_L], [y] * 2, color="black", linewidth=0.8,
-                zorder=1)
-        ax.plot([GAP_R, x1], [y] * 2, color="black", linewidth=0.8,
+        ax.plot([x0, GAP_L], [y] * 2, color="black", linewidth=1.8,
                 zorder=1)
         # 间隙内每线一根横虚线（省略的中间层），代替竖省略号。
-        ax.plot([GAP_L, GAP_R], [y] * 2, color="black", linewidth=0.8,
+        # U^(k) 框内不画线；框右留一小段引出线。
+        ax.plot([GAP_L, GAP_R], [y] * 2, color="black", linewidth=1.8,
                 linestyle=(0, (2, 2)), zorder=1)
+        xr = X_SK + 0.75
+        ax.plot([xr + 0.08, xr + 0.6], [y] * 2, color="black", linewidth=1.8,
+                zorder=1)
         ax.scatter([x0], [y], s=36, color="white",
-                   edgecolors="black", linewidths=0.8, zorder=3)
+                   edgecolors="black", linewidths=1.2, zorder=3)
         ax.text(x0 - 0.25, y, rf"${i + 1}$", ha="right",
-                va="center", fontsize=7)
-    ax.arrow(5.5, -1.3, 0.8, 0, head_width=0.18, head_length=0.18,
-             fc="black", ec="black")
-    ax.text(5.9, -1.0, "time steps", ha="center", va="bottom", fontsize=7)
+                va="center", fontsize=10)
 
 
-def link_bar(ax, a, b, x):
+def link_bar(ax, a, b, x, width=4.5, color=GRAY):
     """Gray vertical bar linking two wires = one two-qubit init link."""
     ya, yb = y_of(a), y_of(b)
-    ax.plot([x, x], [yb, ya], color=GRAY, linewidth=3.0, solid_capstyle="round")
+    ax.plot([x, x], [yb, ya], color=color, linewidth=width, solid_capstyle="round")
 
 
 def gate_box(ax, a, b, x, color, group, layer):
@@ -76,18 +78,42 @@ def gate_box(ax, a, b, x, color, group, layer):
     ya, yb = y_of(a), y_of(b)
     box = FancyBboxPatch((x - 0.5, yb - 0.32), 1.0, ya - yb + 0.64,
                          boxstyle="round,pad=0.02", facecolor="white",
-                         edgecolor=color, linewidth=1.6)
+                         edgecolor=color, linewidth=2.4)
     ax.add_patch(box)
-    ax.text(x, (ya + yb) / 2, f"$\\theta^{{({layer})}}_{{{group}}}$" + "\n"
-            f"$\\varphi^{{({layer})}}_{{{group}}}$", ha="center",
-            va="center", fontsize=8, color=color, linespacing=1.8)
+    ax.text(x, (ya + yb) / 2, f"${group}$", ha="center",
+            va="center", fontsize=12, color=color)
 
 
 def layer_frame(ax, x0, x1):
     frame = FancyBboxPatch((x0, -0.45), x1 - x0, 8.0,
                            boxstyle="round,pad=0.05", facecolor="none",
-                           edgecolor="black", linewidth=1.0,
-                           linestyle=(0, (4, 3)))
+                           edgecolor="black", linewidth=1.8,
+                           linestyle="-")
+    ax.add_patch(frame)
+
+
+def layer_frame_abbrev(ax, x0, x1):
+    """Empty repeated-layer frame with a big U^(k) label.
+
+    Later layers share U^(1)'s layout with independent (theta, phi);
+    the frame stays empty, details in the paper caption.
+    """
+    layer_frame(ax, x0, x1)
+    ax.text((x0 + x1) / 2, 3.55, r"$U^{(k)}$", ha="center",
+            va="center", fontsize=22,
+            bbox=dict(facecolor="white", edgecolor="none", pad=0.4))
+
+
+def init_frame(ax):
+    """Black box around the initial-state block (bonds + qubit dots).
+
+    Same vertical extent and line style as the layer frames so the three
+    boxes read as one family and their gaps stay even.
+    """
+    frame = FancyBboxPatch((X_INIT - 0.87, -0.45), INIT_W, 8.0,
+                           boxstyle="round,pad=0.05", facecolor="none",
+                           edgecolor="black", linewidth=1.8,
+                           linestyle="-", zorder=1.5)
     ax.add_patch(frame)
 
 
@@ -97,8 +123,8 @@ def draw_sublayer(ax, bonds, x, layer):
 
 
 def finish(ax):
-    ax.set_xlim(-0.9, 11.6)
-    ax.set_ylim(-1.9, 9.0)
+    ax.set_xlim(-1.05, 10.75)
+    ax.set_ylim(-0.75, 8.9)
     ax.set_aspect("equal")
     ax.axis("off")
 
@@ -108,103 +134,84 @@ ODD_BONDS = [((1, 2), 1), ((7, 8), 1),
              ((3, 4), 2), ((5, 6), 2)]
 EVEN_BONDS = [((2, 3), 3), ((6, 7), 3),
               ((4, 5), 4)]
-GROUP_COLORS: dict = {}
+# Init-link colors by initial state (phase identity is NOT reused here):
+# trivial red / topo blue / Neel black.
+INIT_RED = "#D62728"
+INIT_BLUE = "#0072B2"
+INIT_BLACK = "#000000"
+# Orbit group colors avoid red/blue/black: green / purple / orange / brown.
+GROUP_COLORS: dict = {1: "#009E73", 2: "#CC79A7",
+                      3: "#E69F00", 4: "#8C564B"}
 
 # Column x positions: init | U^(1): F, S | dots | U^(k): F, S.
-X_INIT, X_F1, X_S1, X_FK, X_SK = 0.55, 2.2, 4.0, 7.0, 8.8
+# Gaps are kept equal: init box -> U^(1) frame -> U^(k) frame (0.75 each).
+X_INIT, X_F1, X_S1, X_FK, X_SK = 0.75, 3.03, 4.83, 7.08, 8.88
+INIT_W = 1.65         # init box width (left edge X_INIT-0.87, right -0.87+1.65)
+
+
+def draw_panel(ax, phase):
+    """Draw one phase schematic (init links + U^(1) + empty U^(k) frame)."""
+    draw_wires(ax)
+    init_frame(ax)
+    if phase == "triv":
+        # D06a trivial: odd-bond singlet pairs; F = even.
+        for a, b in [(1, 2), (3, 4), (5, 6), (7, 8)]:
+            link_bar(ax, a, b, X_INIT, color=INIT_RED)
+        ax.text(X_INIT, 8.0, r"$|\psi_{\rm triv}\rangle$", ha="center",
+                va="bottom", fontsize=11)
+        draw_sublayer(ax, EVEN_BONDS, X_F1, "1")
+        draw_sublayer(ax, ODD_BONDS, X_S1, "1")
+    elif phase == "topo":
+        # D06b topo: (1,8) link + even-bond pairs; F = odd.
+        for a, b in [(2, 3), (4, 5), (6, 7)]:
+            link_bar(ax, a, b, X_INIT, color=INIT_BLUE)
+        link_bar(ax, 1, 8, X_INIT + 0.55, color=INIT_BLUE)
+        ax.text(X_INIT + 0.25, 8.0, r"$|\psi_{\rm topo}\rangle$", ha="center",
+                va="bottom", fontsize=11)
+        draw_sublayer(ax, ODD_BONDS, X_F1, "1")
+        draw_sublayer(ax, EVEN_BONDS, X_S1, "1")
+    else:
+        # D06c AFM: adjacent-link GHZ chain (qmeas xxz pidx=0 links);
+        # F = even.
+        for step, pairs in enumerate([[(4, 5), (5, 6)],
+                                      [(3, 4), (6, 7)],
+                                      [(2, 3), (7, 8)],
+                                      [(1, 2)]]):
+            x0 = 0.40 + 0.28 * step
+            xs = [x0 - 0.11, x0 + 0.11] if len(pairs) == 2 else [x0]
+            for (a, b), x in zip(pairs, xs):
+                link_bar(ax, a, b, x, width=3.0, color=INIT_BLACK)
+        ax.text(X_INIT, 8.0, r"$|\psi_{\rm N\acute{e}el}\rangle$", ha="center",
+                va="bottom", fontsize=11)
+        draw_sublayer(ax, EVEN_BONDS, X_F1, "1")
+        draw_sublayer(ax, ODD_BONDS, X_S1, "1")
+    layer_frame(ax, X_F1 - 0.75, X_S1 + 0.75)
+    ax.text((X_F1 + X_S1) / 2, 8.0, r"$U^{(1)}$", ha="center",
+            va="bottom", fontsize=10)
+    layer_frame_abbrev(ax, X_FK - 0.75, X_SK + 0.75)
+    finish(ax)
 
 
 def main():
-    from figure_style import apply_figure_style, finalize_figure
+    from figure_style import apply_figure_style, finalize_figure, font_pt_for, uniform_text, PRINT_TEXT_PT
 
     palette = apply_figure_style()
-    global GROUP_COLORS
-    GROUP_COLORS = {1: palette[0], 2: palette[1],
-                    3: palette[2], 4: palette[3]}
 
     os.makedirs(FIGDIR, exist_ok=True)
 
-    # --- D06a trivial: odd-bond singlet pairs; F = even. ---
-    fig, ax = plt.subplots(figsize=(10.5, 5.0))
-    draw_wires(ax)
-    for a, b in [(1, 2), (3, 4), (5, 6), (7, 8)]:
-        link_bar(ax, a, b, X_INIT)
-    ax.text(X_INIT, 8.0, r"$|\psi_{\rm triv}\rangle$", ha="center",
-            va="bottom", fontsize=8)
-    draw_sublayer(ax, EVEN_BONDS, X_F1, "1")
-    draw_sublayer(ax, ODD_BONDS, X_S1, "1")
-    layer_frame(ax, X_F1 - 0.75, X_S1 + 0.75)
-    ax.text((X_F1 + X_S1) / 2, 8.0, r"$U^{(1)}$", ha="center",
-            va="bottom", fontsize=7)
-    draw_sublayer(ax, EVEN_BONDS, X_FK, "k")
-    draw_sublayer(ax, ODD_BONDS, X_SK, "k")
-    layer_frame(ax, X_FK - 0.75, X_SK + 0.75)
-    ax.text((X_FK + X_SK) / 2, 8.0, r"$U^{(k)}$", ha="center",
-            va="bottom", fontsize=7)
-    finish(ax)
-    fig.tight_layout()
-    finalize_figure(fig, os.path.join(FIGDIR, "exp04_D06a.pdf"))
-    finalize_figure(fig, os.path.join(FIGDIR, "exp04_D06a.png"))
+    # Combined 1x3 (paper FIG.3): equal-size panels, (a)(b)(c) below labels.
+    fig, axs = plt.subplots(1, 3, figsize=(13.2, 4.4))
+    for ax, phase in zip(axs, ("triv", "topo", "neel")):
+        draw_panel(ax, phase)
+    for ax, letter in zip(axs, ("(a)", "(b)", "(c)")):
+        ax.text(0.5, -0.045, letter, transform=ax.transAxes,
+                fontsize=14, va="top", ha="center", clip_on=False)
+    fig.tight_layout(w_pad=3.0)
+    uniform_text(fig, font_pt_for(fig, PRINT_TEXT_PT))
+    finalize_figure(fig, os.path.join(FIGDIR, "exp04_D06.pdf"))
+    finalize_figure(fig, os.path.join(FIGDIR, "exp04_D06.png"))
     plt.close(fig)
-    print("wrote: figs/exp04/exp04_D06a.pdf + .png")
-
-    # --- D06b topo: (1,8) link + even-bond pairs; F = odd. ---
-    fig, ax = plt.subplots(figsize=(10.5, 5.0))
-    draw_wires(ax)
-    for a, b in [(2, 3), (4, 5), (6, 7)]:
-        link_bar(ax, a, b, X_INIT)
-    link_bar(ax, 1, 8, X_INIT + 0.35)
-    ax.text(X_INIT, 8.0, r"$|\psi_{\rm topo}\rangle$", ha="center",
-            va="bottom", fontsize=8)
-    draw_sublayer(ax, ODD_BONDS, X_F1, "1")
-    draw_sublayer(ax, EVEN_BONDS, X_S1, "1")
-    layer_frame(ax, X_F1 - 0.75, X_S1 + 0.75)
-    ax.text((X_F1 + X_S1) / 2, 8.0, r"$U^{(1)}$", ha="center",
-            va="bottom", fontsize=7)
-    draw_sublayer(ax, ODD_BONDS, X_FK, "k")
-    draw_sublayer(ax, EVEN_BONDS, X_SK, "k")
-    layer_frame(ax, X_FK - 0.75, X_SK + 0.75)
-    ax.text((X_FK + X_SK) / 2, 8.0, r"$U^{(k)}$", ha="center",
-            va="bottom", fontsize=7)
-    finish(ax)
-    fig.tight_layout()
-    finalize_figure(fig, os.path.join(FIGDIR, "exp04_D06b.pdf"))
-    finalize_figure(fig, os.path.join(FIGDIR, "exp04_D06b.png"))
-    plt.close(fig)
-    print("wrote: figs/exp04/exp04_D06b.pdf + .png")
-
-    # --- D06c AFM: adjacent-link GHZ chain (qmeas xxz pidx=0 links);
-    # F = even. ---
-    fig, ax = plt.subplots(figsize=(10.5, 5.0))
-    draw_wires(ax)
-    # GHZ cascade moments (qmeas xxz pidx=0 middle-out fan-out):
-    # middle pair first, outward pairs in later moments, staggered in x.
-    for step, pairs in enumerate([[(4, 5), (5, 6)],
-                                  [(3, 4), (6, 7)],
-                                  [(2, 3), (7, 8)],
-                                  [(1, 2)]]):
-        x0 = 0.30 + 0.32 * step
-        xs = [x0 - 0.09, x0 + 0.09] if len(pairs) == 2 else [x0]
-        for (a, b), x in zip(pairs, xs):
-            link_bar(ax, a, b, x)
-    ax.text(X_INIT, 8.0, r"$|\psi_{\rm AFM}\rangle$", ha="center",
-            va="bottom", fontsize=8)
-    draw_sublayer(ax, EVEN_BONDS, X_F1, "1")
-    draw_sublayer(ax, ODD_BONDS, X_S1, "1")
-    layer_frame(ax, X_F1 - 0.75, X_S1 + 0.75)
-    ax.text((X_F1 + X_S1) / 2, 8.0, r"$U^{(1)}$", ha="center",
-            va="bottom", fontsize=7)
-    draw_sublayer(ax, EVEN_BONDS, X_FK, "k")
-    draw_sublayer(ax, ODD_BONDS, X_SK, "k")
-    layer_frame(ax, X_FK - 0.75, X_SK + 0.75)
-    ax.text((X_FK + X_SK) / 2, 8.0, r"$U^{(k)}$", ha="center",
-            va="bottom", fontsize=7)
-    finish(ax)
-    fig.tight_layout()
-    finalize_figure(fig, os.path.join(FIGDIR, "exp04_D06c.pdf"))
-    finalize_figure(fig, os.path.join(FIGDIR, "exp04_D06c.png"))
-    plt.close(fig)
-    print("wrote: figs/exp04/exp04_D06c.pdf + .png")
+    print("wrote: figs/exp04/exp04_D06.pdf + .png")
 
 
 if __name__ == "__main__":

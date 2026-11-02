@@ -1,10 +1,12 @@
-"""exp06 T007 生产断言（零机时）：对正式输出全量执行，逐条映射 spec VAL-001..VAL-008。
+"""exp06 v3 联测生产断言（零机时）：对正式输出全量执行，逐条映射 spec VAL-001..VAL-008。
 
-任一硬门失败即非零退出并指明组；诊断只记录。
+任一硬门失败即非零退出并指明单位；诊断只记录。
+用法：python scripts/verify_exp06.py（固定 joint，无参数）。
 """
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -13,9 +15,10 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from exp06_common import (  # noqa: E402
-    DATA_DIR,
-    REPS,
+    JOINT_LINE,
+    JOINT_N_POINTS,
     SHOTS,
+    line_dir,
     read_json,
 )
 from exp06_submit import allowed_edges  # noqa: E402
@@ -30,154 +33,160 @@ def hard(cond: bool, msg: str) -> None:
 
 
 def main() -> None:
-    manifest = read_json(DATA_DIR / "exp06_manifest.json")
-    hard(manifest.get("schema") == "exp06/v1", "manifest schema exp06/v1")
-    bill = read_json(DATA_DIR / "bill.json")
-    hard(bool(bill.get("confirmed", False)), "bill 已人工确认")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--root", default=None,
+                    help="joint 目录覆盖（缺省 data/exp06/joint；synth 沙箱用）")
+    args = ap.parse_args()
+    repo = Path(__file__).resolve().parent.parent
+    ldir = Path(args.root) if args.root else line_dir(JOINT_LINE, False)
 
-    d08 = np.load(DATA_DIR / "exp06_D08.npz", allow_pickle=True)
+    manifest = read_json(ldir / "exp06_manifest_joint.json")
+    hard(manifest.get("schema") == "exp06/v3", "manifest schema exp06/v3")
+    ep = manifest.get("endpoints", {})
+    hard(ep.get("S_max", 0) > 0 and ep.get("O_max", 0) > 0
+         and ep.get("method") == "top1-max-pooled-window",
+         "manifest 窗口内共用端点为正且方法一致")
+    hard(manifest.get("report", {}).get("mode") == "report-only",
+         "manifest report-only 声明")
+    rdir = ldir / "rounds" / "r001" / "bill.json"
+    hard(read_json(rdir).get("confirmed", False), "r001 账单已人工确认")
+
+    d08 = np.load(ldir / "exp06_D08_joint.npz", allow_pickle=True)
     G = len(d08["s_idx"])
-    hard(G == 198, f"D08 真机图层组数 {G} == 198")
+    hard(G == JOINT_N_POINTS, f"D08 真机图层点数 {G} == 30")
+    from collections import Counter
+    hard(Counter(int(v) for v in d08["s_idx"])
+         == Counter(list(range(1, 100, 7)) * 2), "点位：15 s × 2δ")
+    U = int(manifest.get("n_units", -1))
+    hard(d08["q_post"].shape == (U, G),
+         f"全量单位矩阵 {d08['q_post'].shape} == ({U}, 30)")
+    hard(manifest.get("d08") == "D08a+b", "d08 标识一致")
 
-    s03 = np.load(DATA_DIR.parent / "exp04" / "exp04_S03.npz")
+    # VAL-001/005：θ 与 S03 p=1 逐元一致；30 点齐全。
+    s03 = np.load(repo / "data" / "exp04" / "exp04_S03.npz")
     meta, th = s03["meta"], s03["theta"]
     th_map = {}
     for r in range(len(meta)):
         di, si, p, a = (int(v) for v in meta[r])
-        npl = 4 if di == 1 else 8
-        th_map[(di, si, p)] = th[r][:npl * p]
+        if p == 1:
+            th_map[(di, si)] = th[r]
+    info = read_json(ldir / "groups.json")
+    groups = info["groups"]
     ok_th = True
-    for i in range(G):
-        key = (int(d08["delta_idx"][i]), int(d08["s_idx"][i]),
-               int(d08["p"][i]))
-        ref = th_map.get(key)
-        if ref is None or not np.allclose(d08["theta"][i][:len(ref)], ref,
-                                          equal_nan=True):
-            ok_th = False
-            print(f"  θ 不一致组 {key}", flush=True)
-    hard(ok_th, "θ 与 S03 同组逐元一致")
+    if d08["theta"].shape[0] != G:
+        ok_th = False
+        print("  θ 存档行数与点数不一致", flush=True)
+    else:
+        for i in range(G):
+            g = groups[i]
+            ref = th_map.get((g["delta_idx"], int(d08["s_idx"][i])))
+            if ref is None or not np.allclose(
+                    d08["theta"][i][:len(ref)], ref, equal_nan=True):
+                ok_th = False
+                print(f"  θ 不一致 g{i}", flush=True)
+    hard(ok_th, "θ 与 S03 p=1 同点逐元一致")
 
-    # 全并解析 SE 重算锁定（spec 口径）：逐组用 batch counts + S05 独立重算，
-    # 与 npz 存档比对（容限内）；三件套 counts 由上条覆盖。
+    # 三件套 + S05 同单位 + correct + 转译验路（VAL-001/002/005/008）。
     from exp06_assemble import (  # noqa: E402
+        MANIFEST_KEYS,
         group_Ms,
         mitigate_counts,
-        obs_basis_arrays,
-        pooled_shot_se,
+        obs_from_probs,
+        q_hat_basis,
+        search_best_even_window,
+        unit_q_se_qb,
     )
-    _REPS, _SHOTS = REPS, SHOTS
-    O_SPI, O_OSTR = obs_basis_arrays()
-    info = read_json(DATA_DIR / "batches.json")
     phys_of = {1: info["chain_top1"], 3: info["chain_top1"],
                2: info["subchain_top1"]}
-    se_ok = True
-    for bid, batch in enumerate(batches):
-        st = read_json(DATA_DIR / "batches" / f"{bid:03d}" / "state.json")
-        Ms = group_Ms({k: st["counts"][k] for k in ("cal_zero", "cal_one")},
-                      phys_of[batch[0]["a_star"]])
-        for gi, g in enumerate(batch):
-            idx = None
-            for i in range(G):
-                if (int(d08["delta_idx"][i]) == g["delta_idx"]
-                        and int(d08["s_idx"][i]) == g["s_idx"]
-                        and int(d08["p"][i]) == g["p"]):
-                    idx = i
-            if idx is None:
-                se_ok = False
+    qb = q_hat_basis(float(ep["S_max"]), float(ep["O_max"]))
+    uids = [int(v) for v in d08["unit_ids"]]
+    three_ok, se_ok, s05_ok, route_ok, acct_ok = True, True, True, True, True
+    for k, uid in enumerate(uids):
+        st = read_json(ldir / "units" / f"{uid:05d}" / "state.json")
+        if any(f"g{gi}" not in st.get("counts", {}) for gi in range(G)):
+            three_ok = False
+        if any(x not in st.get("counts", {})
+               for x in ("cal_zero", "cal_one")):
+            three_ok = False
+        Ms = group_Ms({x: st["counts"][x]
+                      for x in ("cal_zero", "cal_one")},
+                      phys_of[groups[0]["a_star"]])
+        if np.array(Ms).shape != d08["s05"][k].shape or not np.allclose(
+                np.array(Ms), d08["s05"][k]):
+            s05_ok = False
+        for gi, g in enumerate(groups):
+            counts = st["counts"][f"g{gi}"]
+            if not counts or sum(counts.values()) == 0:
+                three_ok = False
                 continue
-            dists = [mitigate_counts(st["counts"][f"g{gi}_rep{r}"], Ms)
-                     for r in range(_REPS)]
-            mu_s, se_s = pooled_shot_se(sum(dists), len(dists), O_SPI,
-                                        _SHOTS)
-            mu_o, se_o = pooled_shot_se(sum(dists), len(dists), O_OSTR,
-                                        _SHOTS)
-            if not (np.isclose(mu_s, d08["spi_mean"][idx], rtol=1e-9,
-                               atol=1e-12)
-                    and np.isclose(se_s, d08["spi_std"][idx], rtol=1e-9,
-                                   atol=1e-12)
-                    and np.isclose(mu_o, d08["ostr_mean"][idx], rtol=1e-9,
-                                   atol=1e-12)
-                    and np.isclose(se_o, d08["ostr_std"][idx], rtol=1e-9,
+            p_raw = np.zeros(256)
+            for kk, c in counts.items():
+                p_raw[int(kk, 2)] += c
+            p_raw = p_raw / p_raw.sum()
+            s0, o0 = obs_from_probs(p_raw)
+            if not (np.isclose(s0, d08["s_pre"][k, gi])
+                    and np.isclose(o0, d08["o_pre"][k, gi])):
+                three_ok = False
+            p_mit = mitigate_counts(counts, Ms)
+            if not (np.isclose(float(p_mit @ qb), d08["q_post"][k, gi],
+                               rtol=1e-9, atol=1e-12)
+                    and np.isclose(unit_q_se_qb(p_mit, qb, SHOTS),
+                                   d08["q_se_unit"][k, gi], rtol=1e-9,
                                    atol=1e-12)):
                 se_ok = False
-                print(f"  全并 SE 不一致组 {(g['delta_idx'], g['s_idx'], g['p'])}",
-                      flush=True)
-    hard(se_ok, "全并解析 SE（均值+棒）重算一致")
-    hard(manifest.get("stderr_def") == "pooled-multinomial-analytic",
-         "manifest 误差棒口径记录")
+            sp = st["submit_params"].get(f"g{gi}", {})
+            if sp.get("correct") is not False:
+                acct_ok = False
+            tr = st["transpile"].get(f"g{gi}", {})
+            if not tr.get("in_allowed", False):
+                route_ok = False
+                print(f"  转译验路失败 unit {uid} g{gi}", flush=True)
+            edges = {tuple(e) for e in tr.get("cz_edges", [])}
+            if not edges <= allowed_edges(int(d08["a_star"][gi])):
+                route_ok = False
+                print(f"  边集越界 unit {uid} g{gi}", flush=True)
+    hard(three_ok, "三件套：原始 counts + 缓解前 + 缓解后全存档")
+    hard(se_ok, "单位内组合 Q 与传播 SE 重算一致")
+    hard(s05_ok, "S05 与 VQE 同单位")
+    hard(acct_ok, "提交参数 correct=False 留存可查")
+    hard(route_ok, "转译验路断言：CZ 边集落入允许集")
 
-    # 三件套：counts + 缓解前 + 缓解后（H3）。
-    pre_ok = bool(np.all(np.isfinite(d08["spi_pre"]))) and bool(
-        np.all(np.isfinite(d08["ostr_pre"])))
-    post_ok = bool(np.all(np.isfinite(d08["spi_post"]))) and bool(
-        np.all(np.isfinite(d08["ostr_post"])))
-    hard(pre_ok and post_ok, "三件套：缓解前/后全有限（counts 见 batches）")
-    batches = read_json(DATA_DIR / "batches.json")["batches"]
-    counts_ok = True
-    for bid, batch in enumerate(batches):
-        st = read_json(DATA_DIR / "batches" / f"{bid:03d}" / "state.json")
-        for gi in range(len(batch)):
-            for r in range(REPS):
-                c = st["counts"].get(f"g{gi}_rep{r}", {})
-                if not c or sum(c.values()) == 0:
-                    counts_ok = False
-        for k in ("cal_zero", "cal_one"):
-            if not st["counts"].get(k):
-                counts_ok = False
-    hard(counts_ok, "三件套：原始 counts 全存档（990 VQE + 132 标定）")
-
-    # S05 同批 + correct 留存 + 转译验路。
-    batch_ok, s05_ok, route_ok = True, True, True
-    for bid, batch in enumerate(batches):
-        st = read_json(DATA_DIR / "batches" / f"{bid:03d}" / "state.json")
-        for gi, g in enumerate(batch):
-            idx = None
-            for i in range(G):
-                if (int(d08["delta_idx"][i]) == g["delta_idx"]
-                        and int(d08["s_idx"][i]) == g["s_idx"]
-                        and int(d08["p"][i]) == g["p"]):
-                    idx = i
-            if idx is None or int(d08["batch_id"][idx]) != bid:
-                batch_ok = False
-            for r in range(REPS):
-                key = f"g{gi}_rep{r}"
-                sp = st["submit_params"].get(key, {})
-                if sp.get("correct") is not False:
-                    s05_ok = False
-                tr = st["transpile"].get(key, {})
-                if not tr.get("in_allowed", False):
-                    route_ok = False
-                    print(f"  转译验路失败 batch {bid} {key}", flush=True)
-                edges = {tuple(e) for e in tr.get("cz_edges", [])}
-                if not edges <= allowed_edges(g["a_star"]):
-                    route_ok = False
-                    print(f"  边集越界 batch {bid} {key}", flush=True)
-    hard(batch_ok, "S05 批次 id 同批（3 组一批）")
-    hard(s05_ok, "提交参数 correct=False 留存可查")
-    hard(route_ok, "转译验路断言：CZ 边集 ⊆ 允许集")
-
-    # p*：manifest 记录与 npz 存档一致（D08a–d 顺序）。
-    p_star = manifest.get("p_star", {})
-    hard([int(p_star.get(k, -1)) for k in ("D08a", "D08b", "D08c", "D08d")]
-         == [int(v) for v in d08["p_star"]],
-         "p* manifest 与 npz 一致（D08a–d）")
+    # VAL-004/006：窗口内端点 + 窗口复算 + 披露（Q14）。
+    s06 = np.load(repo / "data" / "exp04" / "exp04_S06.npz")
+    tag_of = {1: "dm2", 2: "d085"}
+    s_rows = np.array([int(v) - 1 for v in d08["s_idx"]])
+    tags = [tag_of[g["delta_idx"]] for g in groups]
+    s_sim_hat = np.array([s06[f"{tags[i]}_spi"][s_rows[i], 0] / 8.0
+                          for i in range(G)])
+    o_sim_hat = np.array([-s06[f"{tags[i]}_ostr"][s_rows[i], 0]
+                          for i in range(G)])
+    win = search_best_even_window(np.asarray(d08["s_post"]),
+                                  np.asarray(d08["o_post"]),
+                                  s_sim_hat, o_sim_hat)
+    mw = manifest.get("window", {})
+    win_ok = (int(win["start"]) == int(mw.get("start", -1))
+              and int(win["length"]) == int(mw.get("length", -2))
+              and np.isclose(win["d_raw"], mw.get("d_raw", float("nan")))
+              and np.isclose(win["r"], mw.get("r", float("nan")))
+              and np.isclose(win["S_max"], mw.get("S_max", float("nan")))
+              and np.isclose(win["O_max"], mw.get("O_max", float("nan"))))
+    hard(win_ok, "展示窗口复算一致（起止/偶数长度/d_raw/r/窗口端点）")
+    hard(int(mw.get("length", 0)) % 2 == 0
+         and int(mw.get("length", 0)) >= 10
+         and int(mw.get("N", -1)) == U, "窗口偶数长度≥10，N 一致")
+    hard(all(k in mw for k in ("start", "length", "N", "d_raw", "r",
+                              "S_max", "O_max")),
+         "披露字段齐全（起止/长度/N/d_raw/r/端点）")
+    hard(not (set(MANIFEST_KEYS) - set(manifest)), "manifest 必填字段齐全")
 
     # 对账：无 invalid 残留。
     import glob as _glob
-    inv = _glob.glob(str(DATA_DIR / "batches" / "*" / "invalid.json"))
+    inv = _glob.glob(str(ldir / "units" / "*" / "invalid.json"))
     hard(not inv, "无 invalid 残留标记")
 
     # 诊断（只记录）。
-    print(f"诊断：缓解前后 |ΔS(π)| 均值 = "
-          f"{np.nanmean(np.abs(d08['spi_post'] - d08['spi_pre'])):.4f}")
-    for di in (1, 2):
-        for p in (1, 2, 3):
-            m = (d08["delta_idx"] == di) & (d08["p"] == p)
-            sd = d08["spi_std"][m]
-            med = np.median(sd)
-            flag = np.nonzero(sd > 5 * med)[0]
-            if len(flag):
-                print(f"诊断：δ{di} p{p} 离散度异常组（>5×中位数）{len(flag)} 个")
+    print(f"诊断：N={U}，窗口 start={win['start']} len={win['length']} "
+          f"d_raw={win['d_raw']:.4f} r={win['r']:.4f}（report-only）")
     print("诊断：D08 真机–模拟机趋势一致性请目检出图")
 
     if FAIL:

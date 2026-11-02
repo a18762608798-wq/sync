@@ -1,7 +1,7 @@
 # Paper Polish Loop（PRA 文笔 + 内容丰富化）
 
-- Venue：PRA（regular article）。Voice 以项目局部 `.opencode/skills/paper-latex-formatting/references/pra-writing-style.md` 为准，骨架以 `paper-writing-section` 为准。
-- 指针：按 `docs/paper-map.md` 当前活动主线逐 feature 执行完整 spec-kit 流程（specify→clarify→plan→tasks→analyze→implement→converge），对象是文笔与内容丰富化，不新增 `CLM/CIT`，不编造数据。
+- Venue：PRA（regular article）。Voice 以项目局部 `.pi/skills/paper-latex-formatting/references/pra-writing-style.md` 为准，骨架以 `paper-writing-section` 为准。
+- 指针：（paper 层已与 spec kit 脱钩，2026-10-28 起不再按 paper-map/逐 feature spec 流程执行；本文件保留为历史记录。）
 - 当前活动主线为 `paper-01` Methods → `paper-02` Results and Discussion → `paper-03` Closing；`paper-04` Appendix 仅在正文收敛后按需创建。
 - 打分：完成当前活动主线后用 `paper-self-review` 三 persona 打分并换算百分制；<80 进入下一轮；≥80 收敛。
 - 非致命问题不中断 loop，记入下表，最后统一汇报。

@@ -45,11 +45,24 @@ $$
 * string：$x_{i}$ 为该 shot 下 $O_{\rm str}$ 算符的整体取值；
 * AFM：$x_{i}=L^{-1}\sum_{i,j}(-1)^{i-j}z_{i}z_{j}$，$z_{i}=\pm1$ 为该 shot 下各格点 $Z$ 测量值。
 
+### 归一化可测观测量
+
+$$
+\hat S(\pi)=\frac{S(\pi)}{L},
+\qquad
+\hat O_{\rm str}=-O_{\rm str}.
+$$
+
+* $S(\pi)$ 的量级随链长 $L$ 线性增长，除以 $L$ 后与 $L$ 无关，可直接跨尺寸比较。
+* $O_{\rm str}$ 在拓扑相关联态中取负值；取负号后与 $\hat S(\pi)$ 同向，数值增大对应拓扑序增强。
+
 ### 线性组合 $Q$
 
 $$
-Q=\frac{4}{3}+2O_{\rm str}-\frac{1}{6}S(\pi)
+Q=\frac{4}{3}-2\hat O_{\rm str}-\frac{4}{3}\hat S(\pi)
 $$
+
+$Q$ 是 $\tilde Z_{\mathcal R}$ 的线性代理。
 
 ## 重采样物理量: 归一化 ZR
 

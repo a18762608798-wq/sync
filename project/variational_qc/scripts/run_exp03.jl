@@ -1,51 +1,68 @@
-# Formal production run for exp03 (T005/T012/T014).
+# Formal production run for exp03 (T005/T012/T014/T016).
 # Thin orchestration only: module APIs -> chunked persist -> assembly.
 # Experiment conditions come from specs/exp03/spec.md; nothing is redefined here.
-# Production order L = 8 -> 12 -> 16 -> 20 -> 24 (plan §3): cheap sizes validate the chain first.
+#
+# Parallelism: process-level (one Julia worker per core slot, BLAS single-threaded).
+# ARPACK keeps Fortran SAVE state and is not thread-safe, so a single process can
+# only diagonalize serially; independent processes each own a private ARPACK state.
+# Tasks are (L, s-block) pairs, so resume is just "skip existing chunk files".
+#
+# Env knobs: EXP03_WORKERS (default 6), EXP03_LS (comma list, e.g. "8" for a smoke run).
 
 push!(LOAD_PATH, joinpath(@__DIR__, "..", "src"))
 using LinearAlgebra
-BLAS.set_num_threads(1)  # point-level threading only (constitution V)
-using Shared01  # load order: Exp03 reuses Shared01.Hamiltonian read-only
+BLAS.set_num_threads(1)  # each worker is single-threaded (constitution V)
+using Shared01  # load order: Exp03 reuses Shared01 read-only
 using Exp03
-using Exp03: GapResult, solve_gap, union_points
-using Exp03: save_chunk, completed_chunks, assemble_D02, chunk_id, LS, BLOCK
+using Exp03: solve_gap, s_grid_points, save_chunk, assemble_D02, chunk_exists, LS, BLOCK
+using Distributed
 
-const OUT_DIR = joinpath(@__DIR__, "..", "data", "exp03")
+const SRCDIR = normpath(joinpath(@__DIR__, "..", "src"))
+const OUT_DIR = normpath(joinpath(@__DIR__, "..", "data", "exp03"))
+const NWORKERS = parse(Int, get(ENV, "EXP03_WORKERS", "6"))
+const ONLY_LS = let raw = get(ENV, "EXP03_LS", "")
+    isempty(raw) ? collect(LS) : parse.(Int, split(raw, ","))
+end
+
+if NWORKERS > 1 && nworkers() == 1
+    addprocs(NWORKERS; exeflags=`--project=$(Base.active_project()) --startup-file=no -t 1`)
+end
+
+@everywhere push!(LOAD_PATH, $(SRCDIR))
+@everywhere begin
+    using LinearAlgebra
+    BLAS.set_num_threads(1)
+    using Exp03
+
+    function run_task(L::Int, ib::Int)
+        pts = Exp03.s_grid_points()
+        lo = (ib - 1) * Exp03.BLOCK + 1
+        hi = min(ib * Exp03.BLOCK, length(pts))
+        s = pts[lo:hi]
+        res = [Exp03.solve_gap(L, x) for x in s]
+        Exp03.save_chunk($(OUT_DIR), L, ib, s, res; record_progress=false)
+        GC.gc()  # release the (large) factorization workspace between tasks
+        return (L, ib, length(res))
+    end
+end
 
 function main()
-    println("threads: ", Threads.nthreads())
-    flush(stdout)
-    pts = union_points()
-    println("union points per L: ", length(pts))
-    flush(stdout)
+    pts = s_grid_points()
     nblocks = cld(length(pts), BLOCK)
-    for L in LS
-        done = completed_chunks(OUT_DIR)
-        todo = [ib for ib in 1:nblocks if chunk_id(L, ib) ∉ done]
-        println("L=$L blocks to compute: $(length(todo))/$nblocks")
-        flush(stdout)
-        t0 = time()
-        for ib in todo
-            lo = (ib - 1) * BLOCK + 1
-            hi = min(ib * BLOCK, length(pts))
-            idx = collect(lo:hi)
-            res = Vector{GapResult}(undef, length(idx))
-            Threads.@threads for t in eachindex(idx)
-                g = idx[t]
-                res[t] = solve_gap(L, pts[g].s)
-            end
-            save_chunk(OUT_DIR, L, ib, [pts[g].key for g in idx],
-                       [pts[g].s for g in idx], res)
-            println("L=$L block $ib/$nblocks done")
-            flush(stdout)
-        end
-        println("L=$L done in $(round(time() - t0, digits=1))s")
-        flush(stdout)
+    todo = [(L, ib) for L in ONLY_LS for ib in 1:nblocks if !chunk_exists(OUT_DIR, L, ib)]
+    println("workers: ", nworkers(), " | threads/worker: ", Threads.nthreads())
+    println("points per L: ", length(pts), " | blocks per L: ", nblocks)
+    println("chunks to compute: ", length(todo), " / ", length(ONLY_LS) * nblocks)
+    flush(stdout)
+    t0 = time()
+    done = pmap(t -> run_task(t[1], t[2]), todo)
+    println("computed ", length(done), " chunks in ", round(time() - t0, digits = 1), " s")
+    flush(stdout)
+    if ONLY_LS == collect(LS)
+        npz, manifest = assemble_D02(OUT_DIR)
+        println("assembled: ", npz)
+        println("manifest:  ", manifest)
     end
-    npz_path, manifest_path = assemble_D02(OUT_DIR)
-    println("wrote: $npz_path")
-    println("wrote: $manifest_path")
 end
 
 main()

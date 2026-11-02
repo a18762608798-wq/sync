@@ -8,7 +8,7 @@ const MANIFEST_NAME = "shared01_manifest.json"
 
 function _grid_index(s::Real, delta::Real)
     i = round(Int, 100 * s)
-    j = round(Int, 50 * delta)
+    j = round(Int, 20 * (delta + 3)) + 1
     ok = 1 <= i <= length(S_GRID) && 1 <= j <= length(DELTA_GRID) &&
          S_GRID[i] == Float64(s) && DELTA_GRID[j] == Float64(delta)
     ok || throw(ArgumentError("($(s), $(delta)) is not an S01 grid point"))
@@ -18,7 +18,7 @@ end
 """
     save_shared01(dir, sol) -> (npz_path, manifest_path)
 
-Persist the full 99×99 solution grid. Writes atomically (tmp + rename).
+Persist the full 99×121 solution grid. Writes atomically (tmp + rename).
 """
 function save_shared01(dir::AbstractString, sol::Matrix{PointSolution})
     mkpath(dir)
@@ -54,7 +54,7 @@ function save_shared01(dir::AbstractString, sol::Matrix{PointSolution})
         "schema" => SCHEMA,
         "L" => L_SYS,
         "s_grid" => "i/100 for i = 1..99",
-        "delta_grid" => "j/50 for j = 1..99",
+        "delta_grid" => "(5k-300)/100 for k = 0..120, i.e. [-3,3] step 0.05",
         "sector" => "full Hilbert space, direct diagonalization of H (no H' penalty)",
         "basis_convention" => "site m (1-indexed) <-> bit (m-1) of basis index, LSB = site 1; |0> is Z=+1",
         "H_def_id" => H_DEF_ID,

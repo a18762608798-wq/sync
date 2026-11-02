@@ -137,7 +137,7 @@ def main() -> None:
     ap.add_argument("--supp", action="store_true", help="只补跑 D07c 缺失子链")
     ap.add_argument("--reuse-shenglian-from", default=None,
                     help="拷贝上轮 Shenglian 链 checkpoints，免重提交 "
-                         "(如 data/exp05_run1_20261003)")
+                         "(如 data/exp05)")
     args = ap.parse_args()
 
     bill = read_json(DATA_DIR / "bill.json")

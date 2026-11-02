@@ -4,7 +4,7 @@
 # (+ read-only Exp02 kernels).
 
 const SCHEMA = "exp04/v1"
-const DELTAS = (0.0, 0.85)
+const DELTAS = (-2.0, 0.85)
 const S_GRID = [i / 100 for i in 1:99]  # spec PRE-001: same convention as S01
 const THETA_MAX = 24                     # max Nθ (δ≠0, p=3); shorter padded with NaN
 const CHUNKS_DIRNAME = "chunks"
@@ -13,7 +13,9 @@ const S06_NPZ_NAME = "exp04_S06.npz"
 const S03_NPZ_NAME = "exp04_S03.npz"
 const MANIFEST_NAME = "exp04_manifest.json"
 
-LINE_ID(delta::Real) = delta == 0.0 ? "d000" : "d085"
+const LINE_TAGS = ((-2.0, "dm2"), (0.85, "d085"))
+LINE_ID(delta::Real) = delta == -2.0 ? "dm2" : delta == 0.85 ? "d085" :
+    throw(ArgumentError("unexpected delta line: $delta"))
 _chunks(dir) = joinpath(dir, CHUNKS_DIRNAME)
 _linepath(dir, delta) = joinpath(_chunks(dir), "line_$(LINE_ID(delta)).npz")
 
@@ -74,7 +76,7 @@ function assemble_S06_S03(dir::AbstractString)
     s06_path = joinpath(dir, S06_NPZ_NAME)
     tmp = s06_path * ".tmp"
     flat = Dict{String,Any}("s_grid" => S_GRID, "deltas" => collect(DELTAS))
-    for (delta, tag) in [(0.0, "d0"), (0.85, "d085")]
+    for (delta, tag) in LINE_TAGS
         for k in ("theta_star", "E_star", "a_star", "spi", "ostr", "e0",
                   "leg_E", "theta_leg", "conv", "stagn", "dtail", "einit", "sym")
             flat["$(tag)_$(k)"] = lines[delta][k]

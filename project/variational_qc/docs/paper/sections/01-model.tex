@@ -25,15 +25,18 @@ Unless stated otherwise we take $L=8$.
 $H$ commutes with the total magnetization
 $Z_{\rm tot}=\sum_m Z_m$, the global spin flip $\prod_m X_m$, and the
 full-chain reflection $R$ ($m\leftrightarrow L+1-m$), so evolution under
-$H$ never leaves the initial symmetry sector. For $\delta\ne0$ the symmetry is $U(1)$ ($Z_{\rm tot}$
+$H$ never leaves the initial symmetry sector. For $\delta\ne0$ the continuous spin-rotation symmetry is $U(1)$ ($Z_{\rm tot}$
 conserved); at $\delta=0$ it enlarges to $SU(2)$.
+The three combine into $P=Z_{\rm tot}^2-\prod_mX_m-R$, conserved under
+evolution; the three reference initial states all live in the $P=-2$
+sector.
 
 The topological phase here belongs to the one-dimensional
 symmetry-protected family whose study began with Haldane's conjecture
 of a finite gap for integer-spin antiferromagnetic
-chains~\cite{haldane1983nonlinear,dennijs1989preroughening} and the
+chains~\cite{haldane1983nonlinear} and the
 exact valence-bond-solid ground state found at a special point of the
-spin-$1$ chain~\cite{affleck1987rigorous,dennijs1989preroughening}.
+spin-$1$ chain~\cite{affleck1987rigorous}.
 That phenomenology is now classified: gapped symmetric phases in one
 dimension are labeled by the second cohomology group, i.e.\ projective
 representations of the symmetry~\cite{chen2011classification}, equivalently
@@ -41,9 +44,9 @@ in matrix-product-state
 form~\cite{schuch2011classifying}, with the degeneracy of the
 entanglement spectrum as the operational
 fingerprint~\cite{pollmann2010entanglement,li2008entanglement}.
-Our dimerized XXZ chain realizes three competing orders---trivial,
-topological, and antiferromagnetic---within a single tunable model,
-which is why a marker that resolves all three at once is needed.
+Our dimerized XXZ chain realizes three competing orders, trivial,
+topological, and antiferromagnetic, within a single tunable model,
+which we characterize using the reflection marker, antiferromagnetic correlations, and string correlations.
 
 To distinguish the phases we use the normalized topological reflection
 marker, following the partial-reflection many-body invariant of
@@ -57,10 +60,10 @@ quantities $\rho_{I_{1,2}}$ on the left/right halves of $I$,
 \frac{Z_{\mathcal R}}
 {\sqrt{[{\rm Tr}(\rho_{I_1}^2)+{\rm Tr}(\rho_{I_2}^2)]/2}},
 \end{equation}
-where the denominator is the mean purity of the two halves.
-In other words, $\tilde{Z}_{\mathcal R}$ is the reflection expectation
-normalized by the local mixedness, so that it approaches $+1$ ($-1$) in
+where the denominator is the square root of the mean purity of the two halves, so
+$\tilde{Z}_{\mathcal R}$ is the reflection expectation
+normalized by the local mixedness, approaching $+1$ ($-1$) in
 the trivial (topological) phase and $0$ in the magnetically ordered
-phase, independent of the overall entanglement level.
+phase.
 The finite-size phase diagram mapped with this marker is reported in
 Sec.~\ref{sec:phasediagram}.

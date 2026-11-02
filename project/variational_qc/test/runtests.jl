@@ -1,10 +1,10 @@
-# Unit tests for shared-01 and exp01 (T006 each).
+# Unit tests for shared-01 and exp02 (T006 each).
 # Full-grid assertions run against production outputs via
-# scripts/verify_production.jl (shared-01) and scripts/verify_exp01.jl (exp01).
+# scripts/verify_production.jl (shared-01) and scripts/verify_exp02.jl (exp02).
 
 push!(LOAD_PATH, joinpath(@__DIR__, "..", "src"))
 using Shared01
-using Exp01
+using Shared01: EXPECTED_BASIS_CONVENTION, assert_s01_gate
 using Exp03
 using LinearAlgebra, Test, NPZ, JSON3
 
@@ -23,10 +23,13 @@ end
 end
 
 @testset "grid definition (shared-01 PRE-002)" begin
-    @test length(S_GRID) == 99 && length(DELTA_GRID) == 99
+    @test length(S_GRID) == 99 && length(DELTA_GRID) == 121
     @test S_GRID[1] == 0.01 && S_GRID[end] == 0.99
-    @test DELTA_GRID[1] == 0.02 && DELTA_GRID[end] == 1.98
-    @test S_GRID[50] == 0.50  # AFM rep column is the middle column
+    @test DELTA_GRID[1] == -3.0 && DELTA_GRID[end] == 3.0
+    @test -2.0 in DELTA_GRID
+    @test 0.0 in DELTA_GRID
+    @test 0.85 in DELTA_GRID
+    @test S_GRID[50] == 0.50
 end
 
 @testset "solve_point correctness" begin
@@ -45,7 +48,7 @@ end
     for label in REP_LABELS
         s, d = REP_POINTS[label]
         i = round(Int, 100 * s)
-        j = round(Int, 50 * d)
+        j = round(Int, 20 * (d + 3)) + 1
         @test S_GRID[i] == s && DELTA_GRID[j] == d
     end
 end
@@ -64,11 +67,11 @@ end
     # NOTE: point_at enforces exact grid membership on the real 99x99 arrays;
     # here only the off-grid error path is unit-testable without full output.
     @test_throws ArgumentError point_at(arrays, 0.005, 0.02)
-    @test_throws ArgumentError point_at(arrays, 0.5, 2.0)  # boundary excluded
+    @test_throws ArgumentError point_at(arrays, 0.5, 3.05)  # outside [-3,3]
 end
 
-@testset "exp01 partial trace" begin
-    using Exp01
+@testset "exp02 partial trace kernel" begin
+    using Exp02: reduced_density_matrix
     # Product |0>^8 -> rho on any subsystem is the pure |0..0> projector.
     psi0 = zeros(ComplexF64, 256)
     psi0[1] = 1.0
@@ -88,27 +91,26 @@ end
     @test_throws ArgumentError reduced_density_matrix(psi0[1:100], [1, 2])
 end
 
-@testset "exp01 mirror involution" begin
-    using Exp01
+@testset "exp02 mirror involution" begin
+    using Exp02: mirror_operator
     R = mirror_operator()
     @test R * R == I(16)
     @test R == adjoint(R)
 end
 
-@testset "exp01 z_tilde sanity (S02)" begin
-    using Exp01
+@testset "exp02 z_tilde sanity (S02)" begin
+    using Exp02: z_tilde
     arrays, _ = load_shared01(joinpath(@__DIR__, "..", "data", "shared01"))
-    for (s, d) in [(0.01, 0.02), (0.99, 0.02), (0.50, 1.98)]
-        i, j = round(Int, 100 * s), round(Int, 50 * d)
+    for label in REP_LABELS
+        s, d = REP_POINTS[label]
+        i, j = round(Int, 100 * s), round(Int, 20 * (d + 3)) + 1
         r = z_tilde(Vector{ComplexF64}(arrays["psi"][i, j, :]))
         @test isfinite(r.z_tilde) && r.denom > 1e-12
         @test abs(r.rho_trace - 1.0) < 1e-10 && r.rho_min_eig > -1e-10
     end
 end
 
-@testset "exp01 S01 input gate" begin
-    using Exp01
-    using Exp01: EXPECTED_BASIS_CONVENTION
+@testset "shared-01 S01 input gate" begin
     good = Dict("schema" => "shared01/v1",
                 "basis_convention" => EXPECTED_BASIS_CONVENTION,
                 "degenerate_points" => [])
@@ -156,17 +158,18 @@ end
     using Exp02
     using Shared01
     arrays, _ = load_shared01(joinpath(@__DIR__, "..", "data", "shared01"))
-    for (s, d) in [(0.01, 0.02), (0.5, 1.0), (0.99, 0.02)]
-        i, j = round(Int, 100 * s), round(Int, 50 * d)
+    for (s, d) in [(0.01, -2.0), (0.5, 0.0), (0.99, 0.85)]
+        i, j = round(Int, 100 * s), round(Int, 20 * (d + 3)) + 1
         p = panel_point(Vector{ComplexF64}(arrays["psi"][i, j, :]))
-        @test p.q_val ≈ 4 / 3 + 2 * p.o_str - p.s_pi / 6
-        @test isfinite(p.s_pi) && isfinite(p.z_tilde)
+        @test p.q_val ≈ 4 / 3 - 2 * p.o_hat_str - (4 / 3) * p.s_hat_pi
+        @test isfinite(p.s_hat_pi) && isfinite(p.z_tilde)
+        @test 0 <= p.s_hat_pi <= 1
+        @test 0 <= p.o_hat_str <= 1
     end
 end
 
 @testset "exp03 sector basis constructive" begin
     using Exp03
-    using Exp03: union_points, key_wide, key_narrow
     for L in (8, 12, 16)
         b = sector_basis(L)
         @test length(b.members) > 0
@@ -290,53 +293,35 @@ end
     end
 end
 
-@testset "exp03 crossfit synthetic" begin
+@testset "exp03 quadratic fit synthetic" begin
     using Exp03
-    s = collect(0.45:0.0015:0.6)[1:99]
-    A1 = 2.0 .* s .- 0.9
-    A2 = -1.0 .* s .+ 0.6
-    cs = crossings(s, A1, A2)
-    @test length(cs) == 1
-    @test cs[1][1] ≈ 0.5 atol = 1e-12
-    @test cs[1][2] ≈ 0.1 atol = 1e-12
-    @test isempty(crossings(s, A1, copy(A1)))
-    # Collinear three points: exact recovery.
-    fit = linear_fit([1 / 8, 1 / 12, 1 / 16], [3 / 8 + 0.5, 3 / 12 + 0.5, 3 / 16 + 0.5])
-    @test fit.a ≈ 3.0 && fit.b ≈ 0.5
-    @test_throws ArgumentError crossings(s, A1, A1[1:50])
-    @test_throws ArgumentError linear_fit([1.0], [2.0])
+    xs = [1 / 8, 1 / 12, 1 / 16, 1 / 20, 1 / 24]
+    a0, b0, c0 = 0.5, 3.0, -2.0
+    ys = a0 .+ b0 .* xs .+ c0 .* xs .^ 2
+    fit = quadratic_fit(xs, ys)
+    @test fit.a ≈ a0 atol = 1e-12
+    @test fit.b ≈ b0 atol = 1e-12
+    @test fit.c ≈ c0 atol = 1e-12
+    @test_throws ArgumentError quadratic_fit([1.0, 2.0], [1.0, 2.0])
+    @test_throws ArgumentError quadratic_fit([1.0, 1.0, 2.0], [1.0, 2.0, 3.0])
 end
 
-@testset "exp03 union grid (spec PRE-002)" begin
-    using Exp03: union_points, key_wide, key_narrow, S_WIDE, S_NARROW
-    pts = union_points()
-    @test length(pts) == 198  # 99 + 99, no overlaps (Q9 narrow grid)
-    keyset = Set(p.key for p in pts)
-    @test Set([key_wide(i) for i in 1:99]) ∪ Set([key_narrow(k) for k in 1:99]) == keyset
-    @test isempty(Set([key_wide(i) for i in 1:99]) ∩ Set([key_narrow(k) for k in 1:99]))
-    @test [key_narrow(k) for k in (1, 50, 99)] == [5003, 5150, 5297]
-    @test S_NARROW[1] ≈ 0.5003 && S_NARROW[99] ≈ 0.5297
-    bykey = Dict(p.key => p.s for p in pts)
-    @test bykey[5000] == 0.5  # (iii) reuses (i) i = 50
-    @test bykey[key_wide(1)] == S_WIDE[1] == 0.01
+@testset "exp03 grid (spec PRE-002)" begin
+    using Exp03: s_grid_points, DELTA_FIXED
+    grid = s_grid_points()
+    @test length(grid) == 99
+    @test grid[1] == 0.01 && grid[99] == 0.99
+    @test grid[50] == 0.5
+    @test DELTA_FIXED == -2.0
 end
 
 @testset "exp03 L=16 sparse vs dense spot check" begin
     using Exp03
-    using Exp03
     r = solve_gap(16, 0.5)
-    Hd = Hermitian(Matrix(sector_hamiltonian(16, 0.5, 0.0)))
+    Hd = Hermitian(Matrix(sector_hamiltonian(16, 0.5, -2.0)))
     F = eigen!(Hd)
     @test abs(real(F.values[1]) - r.E0) < 1e-8
     @test abs(real(F.values[2]) - r.E1) < 1e-8
-end
-
-@testset "exp03 two-point fit exactness" begin
-    using Exp03
-    # Two points determine the line (spec PRE-004 fit subset: L=20,24).
-    fit = linear_fit([1 / 20, 1 / 24], [0.92, 0.774])
-    @test fit.a * (1 / 20) + fit.b ≈ 0.92
-    @test fit.a * (1 / 24) + fit.b ≈ 0.774
 end
 
 @testset "exp04 init states" begin

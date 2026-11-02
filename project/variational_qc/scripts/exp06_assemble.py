@@ -1,9 +1,14 @@
-"""exp06 T004 组装（零机时）：batches → S05 缓解 → 观测量 → D08 + manifest。
+"""exp06 v3 联测组装（零机时）：joint units → S05 缓解 → hat 组装 →
+共用端点冻结 → Q 组合 → 最优偶数窗口搜索 + 报告 → D08 + manifest。
 
-mitigate_counts / minmax_norm / obs_from_probs / obs_basis_arrays /
-pooled_shot_se / pick_pstar / build_manifest 可被
+mitigate_counts / obs_from_probs / obs_basis_arrays /
+window_endpoints / combine_Q / d_raw_r /
+search_best_even_window / build_manifest 可被
 test_exp06_local.py 直接 import（零真机调用）。
 qiskit counts 键约定：左起最高位 = qubit L-1（大端字符串），整数值按小端解。
+hat 定义（L=8）：Ŝ=S(π)（raw，真机侧除以冻结 S_max），Ô=−O_str
+（真机侧除以冻结 O_max）；模拟机固定尺度 Ŝ_sim=S_sim/8、Ô_sim=−O_sim。
+Q=4/3−2Ô−(4/3)Ŝ 两边同公式组合，组合后不做二次归一化。
 """
 
 from __future__ import annotations
@@ -18,10 +23,18 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from exp06_common import DATA_DIR, read_json, write_json  # noqa: E402
+from exp06_common import (  # noqa: E402
+    EVEN_LEN_MIN,
+    JOINT_LINE,
+    JOINT_N_POINTS,
+    SHOTS,
+    line_dir,
+    read_json,
+    write_json,
+)
 
 L = 8
-SCHEMA = "exp06/v1"
+SCHEMA = "exp06/v3"
 
 
 def mitigate_counts(counts: dict[str, int], Ms: list, n: int = L) -> np.ndarray:
@@ -39,14 +52,8 @@ def mitigate_counts(counts: dict[str, int], Ms: list, n: int = L) -> np.ndarray:
     return p / s if s > 0 else p
 
 
-def obs_from_probs(probs: np.ndarray) -> tuple[float, float]:
-    """S(π) 交错和 + string 对角加权（定义同 Exp02，只读复刻）。"""
-    o_spi, o_ostr = obs_basis_arrays()
-    return float(np.asarray(probs) @ o_spi), float(np.asarray(probs) @ o_ostr)
-
-
 def obs_basis_arrays() -> tuple[np.ndarray, np.ndarray]:
-    """每基矢观测量值 o_spi[b]、o_ostr[b]（L=8，256 态；与上式同定义）。"""
+    """每基矢观测量值 o_spi[b]、o_ostr[b]（L=8，256 态；定义同 Exp02）。"""
     o_spi = np.zeros(1 << L)
     o_ostr = np.zeros(1 << L)
     for b in range(1 << L):
@@ -64,46 +71,118 @@ def obs_basis_arrays() -> tuple[np.ndarray, np.ndarray]:
     return o_spi, o_ostr
 
 
-def minmax_norm(x: np.ndarray) -> np.ndarray:
-    lo, hi = float(np.min(x)), float(np.max(x))
-    if hi == lo:
-        return np.zeros_like(x, dtype=float)
-    return (np.asarray(x, dtype=float) - lo) / (hi - lo)
+def q_basis_array() -> np.ndarray:
+    """每基矢 Q 值（线性：q = E[q_b]，SE 有闭式）。"""
+    o_spi, o_ostr = obs_basis_arrays()
+    return 4.0 / 3.0 + 2.0 * o_ostr - o_spi / 6.0
 
 
-def pooled_shot_se(sum_p: np.ndarray, n: int, obs: np.ndarray,
-                   shots: int) -> tuple[float, float]:
-    """全并 multinomial 解析 SE：w̄ = 缓解后分布按批平均（sum_p 已累加），
-    mu = Σw̄o，SE² = (Σw̄o² − mu²)/N，N = n×shots。n 为有效批数。
+def obs_from_probs(probs: np.ndarray) -> tuple[float, float]:
+    """S(π) 交错和 + string 对角加权（定义同 Exp02，只读复刻）。"""
+    o_spi, o_ostr = obs_basis_arrays()
+    return float(np.asarray(probs) @ o_spi), float(np.asarray(probs) @ o_ostr)
+
+
+def q_of(spi: float, ostr: float) -> float:
+    """由 S(π)（raw）、O_str（raw）组 Q（L=8）。"""
+    return 4.0 / 3.0 + 2.0 * ostr - spi / 6.0
+
+
+def unit_q_se(probs: np.ndarray, shots: int) -> float:
+    """单位内 multinomial 传播 SE：Q 线性，SE²=(E[q²]-E[q]²)/shots。"""
+    qb = q_basis_array()
+    mu = float(np.asarray(probs) @ qb)
+    var = max(float(np.asarray(probs) @ (qb * qb)) - mu * mu, 0.0)
+    return math.sqrt(var / shots)
+
+
+def window_endpoints(s_mean: np.ndarray, o_mean: np.ndarray) -> dict:
+    """窗口内共用端点：本窗口 pooled 30 点均值的 top-1 最大值（Q14）。
+
+    S 用 raw 均值；O 先取 hat（Ô=−O）再取最大值。端点随窗口记录，
+    各窗口独立；归一化后本窗口内恒 ≤1。
     """
-    w = sum_p / n
-    mu = float(w @ obs)
-    var = max(float(w @ (obs * obs)) - mu * mu, 0.0)
-    return mu, math.sqrt(var / (n * shots))
+    S_max = float(np.max(np.asarray(s_mean, dtype=float)))
+    O_max = float(np.max(-np.asarray(o_mean, dtype=float)))
+    if not O_max > 0:
+        O_max = 1e-12
+    return {"S_max": S_max, "O_max": O_max,
+            "method": "top1-max-pooled-window"}
 
 
-def pick_pstar(hw_n: np.ndarray, ref_n: np.ndarray, s_idx: np.ndarray,
-               p_arr: np.ndarray, panel: np.ndarray) -> int:
-    """p*（spec POST-002）：归一化后真机 p 层 vs 归一化模拟机同层 p 曲线，
-    33 点平均 |A_p−B_p| 最小；按 s_idx 对齐；并列取小 p。
-    输入须为同面板归一化数组（含 NaN padding 区，掩码内须有限）。
+def q_hat_basis(S_max: float, O_max: float) -> np.ndarray:
+    """真机侧组合 Q 的每基矢系数（含冻结端点）：线性，可直接算 SE。"""
+    o_spi, o_ostr = obs_basis_arrays()
+    return 4.0 / 3.0 - 2.0 * (-o_ostr) / O_max - (4.0 / 3.0) * o_spi / S_max
+
+
+def combine_Q(s_hw: np.ndarray, o_hw: np.ndarray, S_max: float,
+              O_max: float, s_sim_hat: np.ndarray,
+              o_sim_hat: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """两边同公式组 Q：真机除以冻结端点，模拟固定 hat，不二次归一化。"""
+    q_hw = 4.0 / 3.0 - 2.0 * (-np.asarray(o_hw) / O_max) \
+        - (4.0 / 3.0) * (np.asarray(s_hw) / S_max)
+    q_sim = 4.0 / 3.0 - 2.0 * np.asarray(o_sim_hat) \
+        - (4.0 / 3.0) * np.asarray(s_sim_hat)
+    return q_hw, q_sim
+
+
+def d_raw_r(q_hw: np.ndarray, q_sim: np.ndarray) -> tuple[float, float]:
+    """raw 平均绝对距离 + Pearson r（组合后不做任何归一化）。"""
+    q_hw = np.asarray(q_hw, dtype=float)
+    q_sim = np.asarray(q_sim, dtype=float)
+    return float(np.mean(np.abs(q_hw - q_sim))), \
+        float(np.corrcoef(q_hw, q_sim)[0, 1])
+
+
+def search_best_even_window(S_units: np.ndarray, O_units: np.ndarray,
+                            s_sim_hat: np.ndarray, o_sim_hat: np.ndarray,
+                            min_len: int = EVEN_LEN_MIN) -> dict:
+    """最优偶数长度窗口：r 最大；并列取 d_raw 最小，再并列取更长，再取更早。
+
+    每个候选窗口用自己 pooled 30 点均值的 top-1 最大值做端点（Q14），
+    端点随窗口记录，各窗口独立。report-only：无阈值门，pass 恒为 None。
     """
-    best, best_v = 1, float("inf")
-    for p in (1, 2, 3):
-        mp = panel & (p_arr == p)
-        o = np.argsort(s_idx[mp])
-        a = hw_n[mp][o]
-        b = ref_n[mp][o]
-        v = float(np.mean(np.abs(a - b)))
-        if v < best_v:
-            best, best_v = p, v
+    S_units = np.asarray(S_units, dtype=float)
+    O_units = np.asarray(O_units, dtype=float)
+    U, npt = S_units.shape
+    assert O_units.shape == (U, npt)
+    assert s_sim_hat.shape == (npt,) and o_sim_hat.shape == (npt,)
+    assert U >= min_len
+    q_sim = 4.0 / 3.0 - 2.0 * o_sim_hat - (4.0 / 3.0) * s_sim_hat
+    csum_s = np.vstack([np.zeros((1, npt)), np.cumsum(S_units, axis=0)])
+    csum_o = np.vstack([np.zeros((1, npt)), np.cumsum(O_units, axis=0)])
+    best = {"start": 0, "length": min_len, "N": U,
+            "d_raw": float("inf"), "r": float("-inf"),
+            "S_max": float("nan"), "O_max": float("nan")}
+    max_len = U if U % 2 == 0 else U - 1
+    first = min_len if min_len % 2 == 0 else min_len + 1
+    for len_ in range(first, max_len + 1, 2):
+        sm = (csum_s[len_:] - csum_s[:U - len_ + 1]) / len_
+        om = (csum_o[len_:] - csum_o[:U - len_ + 1]) / len_
+        for i in range(sm.shape[0]):
+            ep = window_endpoints(sm[i], om[i])
+            qh, _ = combine_Q(sm[i], om[i], ep["S_max"], ep["O_max"],
+                              s_sim_hat, o_sim_hat)
+            d, r = d_raw_r(qh, q_sim)
+            if (r > best["r"] + 1e-12
+                    or (abs(r - best["r"]) <= 1e-12
+                        and (d < best["d_raw"] - 1e-12
+                             or (abs(d - best["d_raw"]) <= 1e-12
+                                 and (len_ > best["length"]
+                                      or (len_ == best["length"]
+                                          and i < best["start"])))))):
+                best = {"start": int(i), "length": int(len_), "N": U,
+                        "d_raw": d, "r": r,
+                        "S_max": ep["S_max"], "O_max": ep["O_max"]}
+    best["pass"] = None
     return best
 
 
-MANIFEST_KEYS = {"schema", "s03_ref", "s04_ref", "s06_ref", "points",
-                 "shots", "reps", "batch_size", "basis_gates",
-                 "optimization_level", "correct", "p_star", "stderr_def",
-                 "norm_intervals", "toolchain", "python"}
+MANIFEST_KEYS = {"schema", "line", "d08", "s03_ref", "s04_ref", "s06_ref",
+                 "points", "shots", "p_level", "chip", "n_units",
+                 "endpoints", "window", "report", "stderr_def",
+                 "toolchain", "python"}
 
 
 def build_manifest(**kw) -> dict:
@@ -157,146 +236,170 @@ def group_Ms(cal_counts: dict, phys: list[int]) -> list:
     return Ms
 
 
-def main() -> None:
-    import sys as _sys
-    _sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from exp06_common import REPS as _REPS, SHOTS as _SHOTS  # noqa: E402
-
-    info = read_json(DATA_DIR / "batches.json")
-    batches = info["batches"]
-    s03 = np.load(DATA_DIR.parent / "exp04" / "exp04_S03.npz")
-    meta, th = s03["meta"], s03["theta"]
-    theta_map: dict = {}
-    for r in range(len(meta)):
-        di, si, p, a = (int(v) for v in meta[r])
-        npl = 4 if di == 1 else 8
-        theta_map[(di, si, p)] = (th[r][:npl * p], a)
-    phys_of = {1: info["chain_top1"], 3: info["chain_top1"],
-               2: info["subchain_top1"]}
-
-    G = 198
-    assert sum(len(b) for b in batches) == G
-    order = [g for b in batches for g in b]
-    O_SPI, O_OSTR = obs_basis_arrays()
-    spi_post = np.full((G, _REPS), np.nan)
-    ostr_post = np.full((G, _REPS), np.nan)
-    spi_pre = np.full((G, _REPS), np.nan)
-    ostr_pre = np.full((G, _REPS), np.nan)
-    sum_p = np.zeros((G, 1 << L))
-    rep_counts = []
-    Ms_all = []
-    batch_id = np.zeros(G, dtype=np.int64)
-    for bid, batch in enumerate(batches):
-        st = read_json(DATA_DIR / "batches" / f"{bid:03d}" / "state.json")
-        first_a = batch[0]["a_star"]
-        Ms = group_Ms({k: st["counts"][k] for k in ("cal_zero", "cal_one")},
-                      phys_of[first_a])
-        Ms_all.append(Ms)
-        for gi, g in enumerate(batch):
-            idx = order.index(g)
-            batch_id[idx] = bid
-            for r in range(_REPS):
-                key = f"g{gi}_rep{r}"
-                counts = st["counts"][key]
-                rep_counts.append(counts)
-                pre = obs_from_probs(_probs_of_counts(counts))
-                p_mit = mitigate_counts(counts, Ms)
-                post = (float(p_mit @ O_SPI), float(p_mit @ O_OSTR))
-                sum_p[idx] += p_mit
-                spi_pre[idx, r], ostr_pre[idx, r] = pre
-                spi_post[idx, r], ostr_post[idx, r] = post
-
-    arr = lambda k: np.array([g[k] for g in order])
-    di_arr = arr("delta_idx")
-    si_arr = arr("s_idx")
-    p_arr = arr("p")
-    a_arr = arr("a_star")
-    th_full = np.full((G, 24), np.nan)
-    for idx, g in enumerate(order):
-        th, _ = theta_map[(g["delta_idx"], g["s_idx"], g["p"])]
-        th_full[idx, :len(th)] = th
-    # 全并解析误差棒：5 批缓解后分布平均 + multinomial SE（N=批数×shots）。
-    mu_spi = np.full(G, np.nan)
-    se_spi = np.full(G, np.nan)
-    mu_ostr = np.full(G, np.nan)
-    se_ostr = np.full(G, np.nan)
-    for idx in range(G):
-        n = int(np.sum(np.isfinite(spi_post[idx])))
-        if n > 0:
-            mu_spi[idx], se_spi[idx] = pooled_shot_se(
-                sum_p[idx], n, O_SPI, _SHOTS)
-            mu_ostr[idx], se_ostr[idx] = pooled_shot_se(
-                sum_p[idx], n, O_OSTR, _SHOTS)
-    # D08 叠放：S06 对应组引用 + 每面板 p* + 各自 min-max 归一化（33 点/面板）。
-    s06 = np.load(DATA_DIR.parent / "exp04" / "exp04_S06.npz")
-    ref_spi, ref_ostr = [], []
-    for g in order:
-        tag = "d0" if g["delta_idx"] == 1 else "d085"
-        ref_spi.append(s06[f"{tag}_spi"][g["s_idx"] - 1, g["p"] - 1])
-        ref_ostr.append(s06[f"{tag}_ostr"][g["s_idx"] - 1, g["p"] - 1])
-    ref_spi = np.array(ref_spi)
-    ref_ostr = np.array(ref_ostr)
-    hw_spi = np.nanmean(spi_post, axis=1)
-    hw_ostr = np.nanmean(ostr_post, axis=1)
-    intervals = {}
-    norm = {}
-    p_star = {}
-    for (di, name, hw, rf, d08) in ((1, "spi", hw_spi, ref_spi, "D08a"),
-                                    (1, "ostr", hw_ostr, ref_ostr, "D08b"),
-                                    (2, "spi", hw_spi, ref_spi, "D08c"),
-                                    (2, "ostr", hw_ostr, ref_ostr, "D08d")):
-        m = di_arr == di
-        lo_h, hi_h = float(np.min(hw[m])), float(np.max(hw[m]))
-        lo_r, hi_r = float(np.min(rf[m])), float(np.max(rf[m]))
-        intervals[f"d{di}_{name}"] = {"hw": [lo_h, hi_h],
-                                      "ref": [lo_r, hi_r]}
-        full_h = np.full(G, np.nan)
-        full_r = np.full(G, np.nan)
-        full_h[m] = minmax_norm(hw[m])
-        full_r[m] = minmax_norm(rf[m])
-        norm[f"d{di}_{name}_hw"] = full_h
-        norm[f"d{di}_{name}_ref"] = full_r
-        p_star[d08] = pick_pstar(norm[f"d{di}_{name}_hw"],
-                                 norm[f"d{di}_{name}_ref"],
-                                 si_arr, p_arr, m)
-    np.savez(DATA_DIR / "exp06_D08.npz",
-             delta_idx=di_arr, s_idx=si_arr, p=p_arr, a_star=a_arr,
-             s_grid=np.array([g["s"] for g in order]),
-             deltas=np.array([g["delta"] for g in order]),
-             theta=th_full, batch_id=batch_id,
-             spi_mean=mu_spi, spi_std=se_spi,
-             ostr_mean=mu_ostr, ostr_std=se_ostr,
-             spi_pre=spi_pre, ostr_pre=ostr_pre,
-             spi_post=spi_post, ostr_post=ostr_post,
-             s05=np.array(Ms_all),
-             ref_spi=ref_spi, ref_ostr=ref_ostr,
-             hw_spi=hw_spi, hw_ostr=hw_ostr,
-             p_star=np.array([p_star[k] for k in ("D08a", "D08b",
-                                                 "D08c", "D08d")],
-                             dtype=np.int64),
-             **norm)
-
-    manifest = build_manifest(
-        s03_ref="data/exp04/exp04_S03.npz",
-        s04_ref="data/exp05/exp05_S04.npz",
-        s06_ref="data/exp04/exp04_S06.npz",
-        points={"n_groups": G, "n_batches": len(batches),
-                "sparse": "s_idx=1,4,…,97", "p_levels": [1, 2, 3]},
-        shots=_SHOTS, reps=_REPS, batch_size=3,
-        basis_gates=["rz", "rx", "ry", "cz"], optimization_level=3,
-        correct=False, p_star=p_star, norm_intervals=intervals,
-        stderr_def="pooled-multinomial-analytic",
-        toolchain=pkg_versions(), python=sys.executable)
-    write_json(DATA_DIR / "exp06_manifest.json", manifest)
-    print(f"D08 真机图层 {G} 组，p*={p_star}，归一化 4 面板，manifest 落盘")
-
-
 def _probs_of_counts(counts: dict) -> np.ndarray:
-    p = np.zeros(256)
+    p = np.zeros(1 << L)
     for key, c in counts.items():
         p[int(key, 2)] += c
     s = p.sum()
     return p / s if s > 0 else p
+
+
+def unit_q_se_qb(probs: np.ndarray, qb: np.ndarray,
+                   shots: int) -> float:
+    """单位内 multinomial 传播 SE：Q 在基矢上线性，SE²=(E[q²]-E[q]²)/shots。
+
+    qb 为含冻结端点的组合系数（q_hat_basis），shots=1024。
+    """
+    probs = np.asarray(probs, dtype=float)
+    mu = float(probs @ qb)
+    var = max(float(probs @ (qb * qb)) - mu * mu, 0.0)
+    return math.sqrt(var / shots)
+
+
+def main() -> None:
+    import argparse as _ap
+    ap = _ap.ArgumentParser()
+    ap.add_argument("--root", default=None,
+                    help="joint 目录覆盖（缺省 data/exp06/joint；synth 沙箱用）")
+    a = ap.parse_args()
+    from pathlib import Path as _P
+    ldir = _P(a.root) if a.root else line_dir(JOINT_LINE, False)
+    repo = _P(__file__).resolve().parent.parent
+    info = read_json(ldir / "groups.json")
+    groups = info["groups"]
+    G = len(groups)
+    assert G == JOINT_N_POINTS, G
+    phys_of = {1: info["chain_top1"], 3: info["chain_top1"],
+               2: info["subchain_top1"]}
+
+    unit_dirs = sorted((ldir / "units").glob("[0-9]" * 5)) \
+        if (ldir / "units").is_dir() else []
+    O_SPI, O_OSTR = obs_basis_arrays()
+    s_post, o_post, s_pre, o_pre, s05_all, pmit_all = [], [], [], [], [], []
+    uids = []
+    theta_rows = []
+    s03 = np.load(repo / "data" / "exp04" / "exp04_S03.npz")
+    meta, th = s03["meta"], s03["theta"]
+    th_map = {}
+    for r in range(len(meta)):
+        di, si, p, aa = (int(v) for v in meta[r])
+        th_map[(di, si, p)] = (th[r], aa)
+    for udir in unit_dirs:
+        st_path = udir / "state.json"
+        if not st_path.is_file():
+            continue
+        st = read_json(st_path)
+        if any(f"g{gi}" not in st.get("counts", {}) for gi in range(G)):
+            continue
+        if any(k not in st.get("counts", {})
+               for k in ("cal_zero", "cal_one")):
+            continue
+        uid = int(udir.name)
+        Ms = group_Ms({k: st["counts"][k]
+                       for k in ("cal_zero", "cal_one")},
+                      phys_of[groups[0]["a_star"]])
+        s05_all.append(Ms)
+        rs_post, ro_post, rs_pre, ro_pre, rp = [], [], [], [], []
+        for gi in range(G):
+            counts = st["counts"][f"g{gi}"]
+            p_raw = _probs_of_counts(counts)
+            spi0, ostr0 = obs_from_probs(p_raw)
+            p_mit = mitigate_counts(counts, Ms)
+            rs_pre.append(spi0)
+            ro_pre.append(ostr0)
+            rs_post.append(float(p_mit @ O_SPI))
+            ro_post.append(float(p_mit @ O_OSTR))
+            rp.append(p_mit)
+        s_post.append(rs_post)
+        o_post.append(ro_post)
+        s_pre.append(rs_pre)
+        o_pre.append(ro_pre)
+        pmit_all.append(rp)
+        uids.append(uid)
+        if not theta_rows:
+            for g in groups:
+                trow, _ = th_map[(g["delta_idx"], g["s_idx"], g["p"])]
+                theta_rows.append(trow)
+    U = len(uids)
+    assert U > 0, "无完整单位"
+    s_post = np.array(s_post).reshape(-1, G)
+    o_post = np.array(o_post).reshape(-1, G)
+    s_pre = np.array(s_pre).reshape(-1, G)
+    o_pre = np.array(o_pre).reshape(-1, G)
+    theta_arr = np.array(theta_rows).reshape(-1, th.shape[1]) \
+        if theta_rows else np.zeros((0, th.shape[1]))
+    s05_arr = np.array(s05_all).reshape(-1, L, 2, 2) \
+        if s05_all else np.zeros((0, L, 2, 2))
+
+    # 模拟机固定 hat 尺度（S06 列 0=p=1、列 1=p=2；p=1 兼作选窗参照层）。
+    s06 = np.load(repo / "data" / "exp04" / "exp04_S06.npz")
+    tag_of = {1: "dm2", 2: "d085"}
+    s_rows = np.array([g["s_idx"] - 1 for g in groups])
+    tags = [tag_of[g["delta_idx"]] for g in groups]
+    s_sim_hat = np.array([s06[f"{tags[i]}_spi"][s_rows[i], 1] / 8.0
+                          for i in range(G)])
+    o_sim_hat = np.array([-s06[f"{tags[i]}_ostr"][s_rows[i], 1]
+                          for i in range(G)])
+    s_sim_hat_p1 = np.array([s06[f"{tags[i]}_spi"][s_rows[i], 0] / 8.0
+                             for i in range(G)])
+    o_sim_hat_p1 = np.array([-s06[f"{tags[i]}_ostr"][s_rows[i], 0]
+                             for i in range(G)])
+    q_sim_p2 = 4.0 / 3.0 - 2.0 * o_sim_hat - (4.0 / 3.0) * s_sim_hat
+    q_sim_p1 = 4.0 / 3.0 - 2.0 * o_sim_hat_p1 - (4.0 / 3.0) * s_sim_hat_p1
+
+    # 最优偶数窗口搜索：每个候选窗口用自己 pooled 30 点均值的
+    # top-1 最大值做端点（Q14），端点随窗口记录。
+    # 参照层 p=1（2026-11-01）：与真机 p=1 同层比较；p=2 只作图内对照。
+    win = search_best_even_window(s_post, o_post,
+                                  s_sim_hat_p1, o_sim_hat_p1)
+    ws, wl = int(win["start"]), int(win["length"])
+    S_max, O_max = win["S_max"], win["O_max"]
+    print(f"最优窗口端点：S_max={S_max:.4f} O_max={O_max:.4f}"
+          "（top1-max-pooled-window）")
+
+    # 真机侧：用最优窗口端点组 Q（含端点的基矢线性，直接算 SE）。
+    qb = q_hat_basis(S_max, O_max)
+    q_post = np.array([[float(p @ qb) for p in rp] for rp in pmit_all])
+    q_se = np.array([[unit_q_se_qb(p, qb, SHOTS) for p in rp]
+                     for rp in pmit_all])
+    wmean = q_post[ws:ws + wl].mean(axis=0)
+    wse = q_post[ws:ws + wl].std(axis=0, ddof=1) / math.sqrt(wl) \
+        if wl > 1 else np.full(G, np.nan)
+
+    np.savez(ldir / "exp06_D08_joint.npz",
+             s_idx=np.array([g["s_idx"] for g in groups]),
+             s_grid=np.array([g["s"] for g in groups]),
+             deltas=np.array([g["delta"] for g in groups]),
+             a_star=np.array([g["a_star"] for g in groups]),
+             theta=theta_arr,
+             unit_ids=np.array(uids, dtype=np.int64),
+             s_post=s_post, o_post=o_post, s_pre=s_pre, o_pre=o_pre,
+             q_post=q_post, q_se_unit=q_se,
+             s05=s05_arr,
+             s_sim_hat=s_sim_hat, o_sim_hat=o_sim_hat,
+             s_sim_hat_p1=s_sim_hat_p1, o_sim_hat_p1=o_sim_hat_p1,
+             q_sim_p1=q_sim_p1, q_sim_p2=q_sim_p2,
+             win_mean=wmean, win_se=wse)
+    manifest = build_manifest(
+        line=JOINT_LINE, d08="D08a+b",
+        s03_ref="data/exp04/exp04_S03.npz",
+        s04_ref="data/exp05/exp05_S04.npz",
+        s06_ref="data/exp04/exp04_S06.npz",
+        points={"n_points": G, "sparse": "s_idx=1,8,…,99 x {0.85,-2}",
+                "order": "每 s 先 δ=0.85 后 δ=-2"},
+        shots=SHOTS, p_level=2, chip=info.get("chip", "Baihua"),
+        n_units=U,
+        endpoints={"S_max": S_max, "O_max": O_max,
+                   "method": "top1-max-pooled-window"},
+        window={"start": ws, "length": wl, "N": U,
+                "d_raw": win["d_raw"], "r": win["r"],
+                "S_max": S_max, "O_max": O_max},
+        report={"mode": "report-only", "no_threshold": True},
+        stderr_def="unit-multinomial-propagated + window-inter-unit-SE",
+        toolchain=pkg_versions(), python=sys.executable)
+    write_json(ldir / "exp06_manifest_joint.json", manifest)
+    print(f"joint：{U} 完整单位，窗口 start={ws} len={wl} "
+          f"d_raw={win['d_raw']:.4f} r={win['r']:.4f}（report-only）")
 
 
 if __name__ == "__main__":

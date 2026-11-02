@@ -1,5 +1,5 @@
 # Parent module for the exp02 task-local implementation.
-# Load order: Shared01, Exp01 (read-only kernel reuse), then Exp02.
+# Depends only on Shared01 (S01/S02); the ~Z_R kernel is now local (D01 retired).
 
 module Exp02
 
@@ -8,6 +8,8 @@ using NPZ, JSON3
 
 export zz_correlators, structure_factor,
        string_order,
+       reduced_density_matrix, mirror_operator, z_tilde, ZTildeResult,
+       I_SITES, I1_SITES, I2_SITES,
        panel_point, PanelPoint,
        save_row, completed_rows, save_d03, assemble_D04,
        CHUNKS_DIRNAME, ROW_PREFIX, PROGRESS_NAME,
@@ -15,6 +17,7 @@ export zz_correlators, structure_factor,
 
 include("Exp02/Correlators.jl")
 include("Exp02/StringOrder.jl")
+include("Exp02/ZTilde.jl")
 include("Exp02/Panels.jl")
 include("Exp02/Store.jl")
 

@@ -16,7 +16,7 @@ $$
 |\psi_{\rm topo}\rangle=|s\rangle_{1,L}\bigotimes_{j=1}^{L/2-1}|s\rangle_{2j,2j+1}
 $$
 
-## 反铁磁 $\delta$ 大：GHZ
+## Néel 态（反铁磁 $\delta$ 大）：GHZ
 
 $$
 |\psi_{\rm AFM}\rangle=(|0101\cdots\rangle+|1010\cdots\rangle)/\sqrt{2}

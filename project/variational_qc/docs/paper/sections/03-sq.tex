@@ -10,20 +10,20 @@ S(q)=\frac{1}{L}\sum_{i,j}e^{iq(i-j)}\langle Z_iZ_j\rangle,
 \end{equation}
 where $\langle Z_iZ_j\rangle$ is the ground-state correlator and $L=8$
 throughout this section.
-That is, $S(q)$ is the Fourier weight of N\'eel-type correlations, so
-long-range antiferromagnetic order appears as a Bragg-like peak at
-$q=\pi$. The $S(q)$ curves at one representative point in each
+The structure factor is the Fourier transform of spin correlations; $S(\pi)$ quantifies staggered correlations in the finite chain. The $S(q)$ curves at one representative point in each
 of the three phases (labels trivial / topo / AFM, coordinates in the
-dataset) on the shared $q$ grid ($99$ points including $q=\pi$) are shown in
+dataset) on the shared $q$ grid (including $q=\pi$) are shown in
 Fig.~\ref{fig:D03}.
 The $q=\pi$ component is used as the AFM diagnostic throughout the
-hardware-facing protocol. Its empirical phase discrimination is reported
-with the results rather than assumed as part of the measurement method.
+hardware-facing protocol. It is evaluated from $Z_iZ_j$ correlations obtained by computational-basis measurements. Hardware $p=1$ measurements at the three points (Fig.~\ref{fig:D03}(b)) track the simulated curves in Fig.~\ref{fig:D03}(a), with the AFM $\pi$ peak clearly resolved despite noise suppression.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\columnwidth]{exp02_D03.pdf}
+\includegraphics[width=\columnwidth]{{../../figs/exp02/exp02_D03}}
 \caption{Structure factor $S(q)$ at three phase-representative points (one
-per phase) on the shared $q$ grid; only the AFM point peaks at $q=\pi$.
+per phase) on the shared $q$ grid: (a) simulator, (b) hardware $p=1$
+measurements at the same points ($1024$ shots with readout mitigation),
+tracking the simulated curves; the values at $q=\pi$ compare staggered
+correlations at the representative points.
 \label{fig:D03}}
 \end{figure}

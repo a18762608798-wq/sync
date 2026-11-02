@@ -31,7 +31,7 @@ exp05 侧只写薄编排（预览 / 预筛 / 提交 / 组装 / 验证 / 出图�
 **Storage**: 两层落盘——原始层复用 `qmeas.benchmark.io`
 （`data/exp05/checkpoints_{chain,ring}/` 逐候选 JSON，中断续跑只补缺失）；
 产品层本实验组装（`data/exp05/exp05_{D07a,D07b,D07c,S04}.npz` +
-`exp05_manifest.json`，与 exp01–04 产品惯例一致，供 exp06 取用）
+`exp05_manifest.json`，与 exp02–04 产品惯例一致，供 exp06 取用）
 
 **Testing**: `pytest`（纯本地逻辑：去重 / 打分公式 / D07c join 匹配 / 并列判定 /
 manifest schema；零真机调用）
@@ -104,7 +104,7 @@ test/
 **Structure Decision**: 单项目薄编排结构。Julia 侧（`src/`）零新增——本实验无数值
 内核；Python 侧 6 个脚本各司一职，不抽公共库（`qmeas.benchmark` 即公共层，
 不再包一层 wrapper 模块，避免抽象提前）。产品层 npz 落 `data/exp05/`，
-与 exp01–04（`data/expXX/`）同惯例。
+与 exp02–04（`data/expXX/`）同惯例。
 
 ## 1. 实现思路
 

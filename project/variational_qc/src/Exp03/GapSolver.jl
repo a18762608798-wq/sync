@@ -1,30 +1,16 @@
 # Per-point symmetric-gap solver for exp03 (spec INV-001, INV-003).
-# Δ_sec(L,s) = E1^{(P=-2)} - E0^{(P=-2)} at delta = 0 (Heisenberg point).
+# Δ_sec(L,s) = E1^{(P=-2)} - E0^{(P=-2)} at delta = -2 (spec PRE-001).
 # Dense exact diagonalization of the small sector matrix: no iterative solver,
 # no convergence parameters. Pure kernel, no I/O.
 
-const DELTA_FIXED = 0.0  # spec PRE-001: all three D02 parts at δ = 0
+const DELTA_FIXED = -2.0
 
-# spec PRE-002 grids (same convention as S01: 101-partition minus boundaries).
-const S_WIDE = [i / 100 for i in 1:99]                    # (i) s ∈ [0,1]
-const S_NARROW = [0.5 + 0.03k / 100 for k in 1:99]       # (ii) s ∈ [0.5,0.53]
+# spec PRE-002: single grid s = i/100, i = 1..99.
+const S_GRID = [i / 100 for i in 1:99]
+const N_POINTS = length(S_GRID)
 
-# Exact integer keys (denominator 10000): overlap <=> equal keys, no float compare.
-# Narrow keys 5003..5297 step 3 share no key with wide keys (100i); union has no overlaps.
-key_wide(i::Integer) = 100 * i            # i/100 = key/10000
-key_narrow(k::Integer) = 5000 + 3 * k     # 0.5+0.03k/100 = key/10000
-
-"""Union of (i)+(ii) s-grids as (key, s) sorted by key.
-
-Shared points take the canonical single-division value key/10000.0, which is
-bit-identical to i/100 for the overlapping (i) points (both correctly rounded).
-With the Q9 narrow grid (s = 0.5+0.03k/100) there are no overlaps: 198 points/L.
-(iii) s = 0.5 is key 5000, i.e. the (i) i = 50 point: reused, never recomputed.
-"""
-function union_points()
-    ks = union(Set(key_wide(i) for i in 1:99), Set(key_narrow(k) for k in 1:99))
-    return [(key=k, s=k / 10000.0) for k in sort(collect(ks))]
-end
+"""Execution grid (99 points) for the production run."""
+s_grid_points() = S_GRID
 
 struct GapResult
     E0::Float64
@@ -44,26 +30,39 @@ const ARPACK_NCV = 64        # Krylov subspace size (capped by n)
 # serial section costs ~30s total for the whole production.
 const _ARPACK_LOCK = ReentrantLock()
 
+_eigs_two(H; ncv::Integer, tol::Real) = lock(_ARPACK_LOCK) do
+    eigs(H; nev=2, ncv=min(size(H, 1), ncv), which=:SR, tol=tol, maxiter=ARPACK_MAXITER)
+end
+
 """Lowest two P=-2 sector eigenpairs and their gap at (L, s).
 
 Sparse ARPACK path (plan §6): nev=2 smallest-real on the sparse Hermitian
 sector matrix. Each returned pair must satisfy ‖Hv−λv‖ < RESID_TOL with
 nconv ≥ 2, else the point is an invalid run (fail fast, never silent).
+
+ARPACK uses a random start vector, so the residual of an otherwise converged
+pair fluctuates; a single unlucky start can land a few 1e-11 above the hard
+threshold. Retry ladder: same tolerance with a larger Krylov subspace, then
+machine precision. The contract threshold RESID_TOL is never relaxed.
 """
 function solve_gap(L::Integer, s::Real, delta::Real=DELTA_FIXED)
     H = sector_hamiltonian(L, s, delta)
-    ncv = min(size(H, 1), ARPACK_NCV)
-    r = lock(_ARPACK_LOCK) do
-        eigs(H; nev=2, ncv=ncv, which=:SR, tol=ARPACK_TOL, maxiter=ARPACK_MAXITER)
+    best_res = Inf
+    for (ncv, tol) in ((ARPACK_NCV, ARPACK_TOL),
+                       (2 * ARPACK_NCV, ARPACK_TOL),
+                       (4 * ARPACK_NCV, 0.0))
+        d, v, nconv = _eigs_two(H; ncv=ncv, tol=tol)
+        nconv ≥ 2 || continue
+        order = sortperm(real.(d[1:2]))
+        E = [real(d[order[1]]), real(d[order[2]])]
+        ok = true
+        for i in 1:2
+            res = norm(H * v[:, order[i]] - E[i] * v[:, order[i]])
+            best_res = min(best_res, res)
+            ok &= res < RESID_TOL
+        end
+        ok && return GapResult(E[1], E[2], E[2] - E[1])
     end
-    d, v, nconv = r[1], r[2], r[3]
-    nconv ≥ 2 || throw(ErrorException("ARPACK unconverged (nconv=$nconv) at L=$L s=$s"))
-    order = sortperm(real.(d[1:2]))
-    E = [real(d[order[1]]), real(d[order[2]])]
-    for i in 1:2
-        res = norm(H * v[:, order[i]] - E[i] * v[:, order[i]])
-        res < RESID_TOL || throw(ErrorException("eigenpair residual $res ≥ $RESID_TOL at L=$L s=$s"))
-    end
-    return GapResult(E[1], E[2], E[2] - E[1])
+    throw(ErrorException("eigenpair residual $best_res ≥ $RESID_TOL at L=$L s=$s after retries"))
 end
 

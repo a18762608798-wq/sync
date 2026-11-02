@@ -32,7 +32,7 @@ D07c（冠军环内十条 `8`-子链评分排名）与 S04（真机目标比特�
   指标模 `10`）；读出保真度 `F_ro = [P(全0) + P(全1)] / 2`
   （`allzero` / `allone` 电路不含 `CZ`，`POST-002`）。
 - 打分 `score = 0.8·S̄ + 0.2·F_ro`（双比特门优先，读出只占辅助位；
-  见 `docs/paper-outline.md` 与 `docs/theory/premium_qubits.md`）。
+  见 `docs/planning/paper-outline.md` 与 `docs/theory/premium_qubits.md`）。
   环分系统性低于链分，只各自内部排序，不混排比较（`POST-003`）。
 - 枚举范围（`PRE-001`）：`8` 链按静态边保真度排序采样截断、每芯片至多
   `3000` 条（去重后计数；采样排序与卫生过滤细则由 plan 定）；
@@ -60,9 +60,9 @@ D07c（冠军环内十条 `8`-子链评分排名）与 S04（真机目标比特�
 
 ### 4. Theory & References
 
-- `docs/expriment-map.md`（exp05 定义：产出 D07a、D07b、D07c 及 S04 供 exp06 消费）
+- `docs/planning/experiment-map.md`（exp05 定义：产出 D07a、D07b、D07c 及 S04 供 exp06 消费）
 - `docs/theory/premium_qubits.md`（筛选方法、基准电路、打分公式）
-- `docs/paper-outline.md`（D07a–D07c 出场顺序与打分公式）
+- `docs/planning/paper-outline.md`（D07a–D07c 出场顺序与打分公式）
 - `docs/theory/readout_mitigation.md`（读出缓解归 exp06，本实验只测裸 `F_ro`）
 
 复杂推导和背景保留在 `docs/theory/`，不复制到 spec。
@@ -97,9 +97,9 @@ D07c（冠军环内十条 `8`-子链评分排名）与 S04（真机目标比特�
 
 #### Out of Scope
 
-- `BND-005` S01 / S02 基态与 D01–D05（shared-01、exp01、exp02）、
+- `BND-005` S01 / S02 基态与 D03–D04（shared-01、exp02）、
   能隙标度（exp03）、模拟机 VQE 与 S03（exp04）。
-- `BND-006` 真机测量与 D08（exp06，含读出分配矩阵 S05 与读出误差缓解；
+- `BND-006` 真机测量与 D08a/b（exp06，含读出分配矩阵 S05 与读出误差缓解；
   本实验只测裸 `F_ro`）。
 
 #### Dependencies

@@ -18,9 +18,9 @@ end
 arrays, manifest = load_shared01(DATA)
 E0, E1, psi = arrays["E0"], arrays["E1"], arrays["psi"]
 
-check(size(E0) == (99, 99), "E0 shape 99x99")
-check(size(E1) == (99, 99), "E1 shape 99x99")
-check(size(psi) == (99, 99, 256), "psi shape 99x99x256")
+check(size(E0) == (99, 121), "E0 shape 99x121")
+check(size(E1) == (99, 121), "E1 shape 99x121")
+check(size(psi) == (99, 121, 256), "psi shape 99x121x256")
 check(vec(arrays["s_grid"]) == S_GRID, "s_grid matches spec")
 check(vec(arrays["delta_grid"]) == DELTA_GRID, "delta_grid matches spec")
 check(all(E1 .>= E0), "E1 >= E0 everywhere")
@@ -31,18 +31,18 @@ reps = manifest["representative_points_S02"]
 for label in REP_LABELS
     s, d = REP_POINTS[label]
     i = round(Int, 100 * s)
-    j = round(Int, 50 * d)
+    j = round(Int, 20 * (d + 3)) + 1
     check(reps[label]["E0"] == E0[i, j], "S02 $label manifest/npz E0 agreement")
 end
 
 # Degeneracy table completeness: recomputed set == manifest set
-recomputed = Set([(i, j) for j in 1:99 for i in 1:99 if (E1[i, j] - E0[i, j]) < DEGENERACY_TOL])
+recomputed = Set([(i, j) for j in 1:121 for i in 1:99 if (E1[i, j] - E0[i, j]) < DEGENERACY_TOL])
 listed = Set([(Int(p["grid_index"][1]), Int(p["grid_index"][2])) for p in manifest["degenerate_points"]])
 check(recomputed == listed, "degeneracy table complete ($(length(listed)) points)")
 
 # Full residual check (rebuild H per point, threaded, deterministic order)
-res = zeros(99, 99)
-Threads.@threads for j in 1:99
+res = zeros(99, 121)
+Threads.@threads for j in 1:121
     for i in 1:99
         H = build_hamiltonian(8, S_GRID[i], DELTA_GRID[j])
         v = Vector{ComplexF64}(psi[i, j, :])

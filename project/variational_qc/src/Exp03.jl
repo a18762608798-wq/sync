@@ -12,17 +12,16 @@ using Shared01: odd_bonds, even_bonds, H_DEF_ID  # read-only; load Shared01 firs
 export SectorBasisData, sector_basis, sector_hamiltonian,
        flip_all, reflect_bits, canonical_key,
        EXPECTED_BASIS_CONVENTION, H_DEF_ID, MAX_L,
-       GapResult, solve_gap, union_points, key_wide, key_narrow, S_WIDE, S_NARROW,
+       GapResult, solve_gap, DELTA_FIXED, s_grid_points,
        ARPACK_TOL, RESID_TOL, ARPACK_MAXITER, ARPACK_NCV,
-       crossings, linear_fit,
-       save_chunk, completed_chunks, assemble_D02, chunk_id,
-       save_extra, EXTRA_ID, EXTRA_LS,
+       quadratic_fit,
+       save_chunk, completed_chunks, assemble_D02, chunk_id, chunk_exists,
        SCHEMA, LS, BLOCK, D02_NPZ_NAME, MANIFEST_NAME,
        GAP_MIN_TOL, FIT_TOL
 
 include("Exp03/SectorBasis.jl")
 include("Exp03/GapSolver.jl")
-include("Exp03/CrossFit.jl")
+include("Exp03/Fit.jl")
 include("Exp03/Store.jl")
 
 end # module

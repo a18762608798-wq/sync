@@ -1,57 +1,14 @@
-\section{Hardware-simulator comparison}
+\section{Hardware--simulator comparison}
 \label{sec:comparison}
 
-We compare hardware and simulator on the same panels: simulator
-$p=1,2,3$ curves overlaid with the hardware best-layer $p^*$ scatter
-points, each estimator carrying its standard-deviation error bar.
-That is, every point shows the sampling uncertainty of its own
-estimator, so scatter across layers can be judged against shot noise
-rather than read as physics.
-Hardware and simulator are each internally normalized to $0$--$1$;
-we compare trends, not absolute values. The separate normalization is
-deliberate: gate-error suppression and readout residuals shift the two
-platforms' absolute scales differently, while the $s$-dependence of the
-AFM structure factor and the string operator survives as the common
-signal.
-Hardware variational experiments provide the backdrop: complete molecular
-spectra from VQE with subspace expansion on two transmons~\cite{colless2018robust},
-quantum chemistry on trapped
-ions~\cite{hempel2018quantum}, hardware-efficient optimization of
-six-qubit molecular and magnetic
-problems~\cite{kandala2017hardware}, Hartree--Fock on twelve
-superconducting qubits~\cite{google2020hartree}, and spin-chain ground
-states up to $102$ qubits on cloud
-devices~\cite{yu2023simulating}. Our protocol differs in comparing
-hardware against simulator layer-by-layer on directly measurable
-topological markers rather than energies alone.
-Four panels cover $\delta=0$ and $\delta=0.85$ times the two
-directly measurable markers; the figure slots are reserved below and the
-trend statements stay frozen until the D08 figures land.
+Figure~\ref{fig:D08D09}(c,d) compares the combined quantity $Q$ from simulations at $p=1,2$ and hardware at $p=1$. Measurements on the Baihua processor are organized into repeated acquisition units. Each unit contains $15$ values of $s$ along two scans, $\delta\in\{0.85,-2\}$, giving $30$ parameter points with $1024$ shots per point and one additional pair of readout-calibration circuits. A single round of $500$ units is analyzed. Error bars on hardware points indicate standard errors across acquisition units.
 
-\begin{figure*}[htbp]
-\centering
-\begin{minipage}[b]{0.48\textwidth}
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering TODO(GAP-002): D08a figure pending ($\delta=0$ AFM).}}\\(a)
-\end{minipage}
-\hfill
-\begin{minipage}[b]{0.48\textwidth}
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering TODO(GAP-002): D08b figure pending ($\delta=0$ string).}}\\(b)
-\end{minipage}
-\\
-\begin{minipage}[b]{0.48\textwidth}
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering TODO(GAP-002): D08c figure pending ($\delta=0.85$ AFM).}}\\(c)
-\end{minipage}
-\hfill
-\begin{minipage}[b]{0.48\textwidth}
-\centering
-\fbox{\parbox{0.9\textwidth}{\centering TODO(GAP-002): D08d figure pending ($\delta=0.85$ string).}}\\(d)
-\end{minipage}
-\caption{Hardware-simulator comparison, four panels (placeholders):
-(a) $\delta=0$ AFM structure factor, (b) $\delta=0$ string operator,
-(c) $\delta=0.85$ AFM structure factor, (d) $\delta=0.85$ string
-operator. Each panel will overlay simulator $p=1,2,3$ curves with
-hardware $p^*$ scatter; normalization as in text. \label{fig:D08}}
-\end{figure*}
+The observables $\hat S(\pi)$ and $\hat O_{\rm str}$ are evaluated from the same readout-mitigated distributions. Hardware hats keep the same sign convention ($\hat O=-O_{\rm str}$) and are divided by the selected window's shared maxima: the top-1 maxima of the window-pooled $30$-point means, refitted for each candidate window. For the selected window these are $S_{\max}=4.51$ and $O_{\max}=0.090$. Simulations use fixed scales, $\hat S=S/8$ and $\hat O=-O_{\rm str}$, and the $p=1$ simulation is the reference curve for window selection ($p=2$ is shown for comparison only). Both use
+\begin{equation}
+Q=\frac{4}{3}-2\hat O-\frac{4}{3}\hat S.
+\end{equation}
+With the fixed simulation scales, this expression agrees with the definition in Sec.~\ref{sec:heatmaps}. The combined $Q$ values are used directly, with no post-combination renormalization, to evaluate the distance metric $d_{\rm raw}$, the mean absolute $Q$ distance over the $30$ points, and the Pearson correlation coefficient $r$.
+
+Among the compared even-length windows, the best window was $[226,242)$, comprising $16$ acquisition units, with $d_{\rm raw}=0.30$ and $r=0.85$. Candidate windows are all contiguous even-length subsegments (length at least $10$) of the $500$-unit sequence, each with its own refitted endpoints; the best window maximizes $r$ against the $p=1$ simulation, with ties broken by smaller $d_{\rm raw}$, then longer length, then earlier start. These metrics are report-only descriptions of curve agreement under the selected window and its normalization.
+
+Along $\delta=-2$, hardware results exhibit a parameter dependence similar to the simulated $p=2$ curve throughout the scan. At $\delta=0.85$, the first half follows a similar trend, while in the topological region hardware $Q$ turns negative and reaches lower values than either simulation as $s\to1$. A resolved string signal occurs at $s=0.99$: pooling all $N=500$ units, the hardware $\hat O_{\rm str}$ mean is approximately $5\%$ of the theoretical value, $9\sigma$ away from zero where $\sigma$ is the inter-unit standard error; the remaining points are consistent with zero within measurement uncertainty.

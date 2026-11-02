@@ -9,42 +9,71 @@ We take the gap in the $P=-2$ symmetry sector,
 \end{equation}
 where $E_0^{(P=-2)}$ ($E_1^{(P=-2)}$) is the ground-state (first-excited-state)
 energy in that sector.
-The sector gap at $\delta=0$ for $L=8,12,16$ is shown in
-Fig.~\ref{fig:D02a}. Near criticality finite-size scaling gives
-$\Delta_{\rm sec}L\approx A$; plotting $A$ versus $s$
-(Fig.~\ref{fig:D02b}) the crossings for increasing $L$ stabilize at
-$s=0.5$. Specifically, the drift of the crossing between successive sizes
-shrinks as $L$ grows, consistent with convergence to $s=0.5$ in the
+The sector gap at $\delta=-2$ for $L=8,12,16,20,24$ is shown in
+Fig.~\ref{fig:D02a}(a). Panel~(b) zooms to $s\in[0.53,0.65]$
+(Fig.~\ref{fig:D02b}), marking the minimum of each curve: as $L$
+grows the minima move toward $s=0.5$ and their values keep
+decreasing, consistent with convergence to $s=0.5$ in the
 thermodynamic limit. The gap at $s=0.5$ versus $1/L$
-($L=8,12,16,20,24\ $) is shown in Fig.~\ref{fig:D02c}; the linear fit through $L=20,24$ (coefficients
-marked in the figure) has a small fitted intercept $b=0.05$, consistent with
-the gap-closing trend. Finite-size effects therefore shift only the
-phase boundaries slightly and leave the bulk phase structure
-unaffected.
+is shown in Fig.~\ref{fig:D02c}(c); the least-squares quadratic fit in $1/L$ over the five sizes has intercept $a=-0.017$ in units of the exchange coupling, small against the gap scale and consistent with
+the gap-closing trend. These results characterize the finite-size gap evolution near $s=0.5$ at $\delta=-2$.
 Ground states throughout are obtained by exact diagonalization
-(Lanczos), and the crossing analysis follows standard finite-size
+(Lanczos), and the minima analysis follows standard finite-size
 practice for quantum spin systems, for which we follow the lecture
 notes of Ref.~\cite{sandvik2010computational}.
 
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
 \centering
-\includegraphics[width=\columnwidth]{exp03_D02a.pdf}
-\caption{Symmetry-sector gap $\Delta_{\rm sec}$ at $\delta=0$ for
-$L=8,12,16$. \label{fig:D02a}}
-\end{figure}
+\includegraphics[width=\textwidth]{{../../figs/exp03/exp03_D02}}
+\caption{Finite-size gap analysis at $\delta=-2$: (a) symmetry-sector gap
+$\Delta_{\rm sec}$ for $L=8,12,16,20,24$; (b) zoom to
+$s\in[0.53,0.65]$ with curve minima marked, moving toward $s=0.5$ as
+$L$ grows; (c) gap at $s=0.5$ versus $1/L$ for five
+sizes with the least-squares quadratic fit in $1/L$; the square
+marks the fitted intercept $a=-0.017$.
+\label{fig:D02a}\label{fig:D02b}\label{fig:D02c}}
+\end{figure*}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\columnwidth]{exp03_D02b.pdf}
-\caption{$A=\Delta_{\rm sec}L$ versus $s$; crossings stabilize at
-$s=0.5$ as $L\to\infty$. \label{fig:D02b}}
-\end{figure}
+\section{Premium-qubit screening}
+\label{sec:premium}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\columnwidth]{exp03_D02c.pdf}
-\caption{Gap at $s=0.5$ versus $1/L$ with linear fit through
-$L=20,24$ (small fitted intercept $b=0.05$). \label{fig:D02c}}
-\end{figure}
+To run on hardware we screen candidate chains (rings) with two
+quantities: the stabilizer mean, probing two-qubit gate quality, and
+the readout fidelity, probing measurement quality.
+The ideal output is the cluster state
+$|C\rangle=\prod_{\langle ij\rangle}CZ_{ij}|+\rangle^{\otimes n}$,
+where $\langle ij\rangle$ runs over the edges of the candidate subgraph;
+its stabilizers $S_i$ (two-body $X_0Z_1$, $Z_{n-2}X_{n-1}$ at open ends,
+three-body $Z_{i-1}X_iZ_{i+1}$ otherwise) have expectation $+1$ in the
+absence of errors, so deviations of $\langle S_i\rangle$ from $1$ characterize combined state-preparation and measurement errors.
+Each candidate is characterized by $4$ benchmark circuits: two
+stabilizer circuits measuring the even- and odd-index stabilizers
+separately (the stabilizers commute, while the two groups use different local measurement bases),
+and two readout circuits without $CZ$ gates yielding the readout
+fidelity $F_{\rm ro}$ from the mean of $P(00\cdots0)$ and
+$P(11\cdots11)$. The score
+\begin{equation}
+{\rm score}=0.8\,\bar{S}+0.2\,F_{\rm ro},
+\end{equation}
+where $\bar{S}=n^{-1}\sum_i\langle S_i\rangle$ is the stabilizer mean,
+ranks the candidates, weighting two-qubit gate quality over readout.
+Cluster states~\cite{raussendorf2001oneway}
+are the ideal outputs whose stabilizers we measure.
+The $8$-chain and $10$-ring benchmarks differ (the ring includes a
+closing $CZ$ and has three-body stabilizers throughout), so candidate rankings are computed separately within each geometry. The benchmark evaluates candidate subgraphs through cluster-state preparation and local measurements on the specified connectivity. The resulting rankings and selected qubits are reported below.
 
-% CIT-003 (optional): finite-size scaling direction (bind)
+\section{Premium-qubit rankings}
+\label{sec:rankings}
+
+The screening on the Baihua processor yields three rankings. In the
+$8$-chain geometry the top ten candidates are headed by the
+$8$-qubit chain on qubits 77 through 70 with score $0.7801$ (one further
+candidate tied within $0.02$). In the $10$-ring geometry the top ten are
+headed by the $10$-qubit ring on qubits 69--73 and 82--86 with score
+$0.5246$ (two further candidates tied within tolerance). Among the ten
+$8$-subchains of the top-ranked ring, the subchain on qubits
+69--73 and 82--84 is first, with score $0.7108$ taken from the
+chain-benchmark measurements. Subsequent hardware experiments use the
+leading candidate of each ranking.
+
+

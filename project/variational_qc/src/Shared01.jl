@@ -9,10 +9,12 @@ using NPZ, JSON3, Dates
 export build_hamiltonian, odd_bonds, even_bonds, H_DEF_ID,
        L_SYS, S_GRID, DELTA_GRID, REP_POINTS, REP_LABELS,
        solve_point, solve_grid, DEGENERACY_TOL,
+       EXPECTED_BASIS_CONVENTION, assert_s01_gate,
        save_shared01, load_shared01, point_at, NPZ_NAME, MANIFEST_NAME, SCHEMA
 
 include("Shared01/Hamiltonian.jl")
 include("Shared01/GroundStates.jl")
+include("Shared01/S01Gate.jl")
 include("Shared01/Store.jl")
 
 end # module

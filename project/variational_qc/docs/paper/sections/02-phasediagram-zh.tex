@@ -1,16 +1,13 @@
 \section{有限尺寸相图}
 \label{sec:phasediagram}
 
-$99\times99$ 网格 $s=i/100$、$\delta=j/50$（$i,j=1,\dots,99$）上的归一化标记
-见图~\ref{fig:D01}。每格点由存储的基态独立计算，不插值、不平滑；
-简并点保留求解器最低本征矢，数据集中携带简并标记。
-该图用于定义参数区域、代表点选择和后续变分起点/终点协议。
-这里将归一化标记作为相标签约定；边界的有限尺寸漂移在附录中单独分析。
+图~\ref{fig:D04}(d) 给出 $(s,\delta)$ 参数平面上 $L=8$ 的归一化部分反射标记。每个网格点由对应基态独立计算；简并点采用求解器返回的最低能本征矢，并在数据集中记录简并标记。该图用于划分有限尺寸参数区域、选取代表点及设置变分制备的参考参数。附录分析 $\delta=-2$ 线上能隙的尺寸依赖；同图 (a)--(c) 的关联量见第~\ref{sec:heatmaps}~节。
+
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\columnwidth]{exp01_D01.pdf}
-\caption{$L=8$ 时 $99\times99$ 网格上的归一化标记
-$\tilde{Z}_{\mathcal R}(s,\delta)$，逐点计算不插值。
-\label{fig:D01}}
+\includegraphics[width=\columnwidth]{{../../figs/exp02/exp02_D04}}
+\caption{$(s,\delta)$ 参数平面上的拓扑热力图：(a) $S(\pi)$，
+(b) string 算符，(c) $Q$，(d) $\tilde{Z}_{\mathcal R}$。
+\label{fig:D04}}
 \end{figure}

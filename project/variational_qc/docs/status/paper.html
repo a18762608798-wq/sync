@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>PAPER STATUS</title>
+<style>
+body{font-family:sans-serif;max-width:960px;margin:auto;padding:24px;color:#222;line-height:1.55}
+h1{font-size:24px;margin-bottom:4px}
+h2{font-size:19px;margin-top:28px;border-bottom:2px solid #eee;padding-bottom:6px}
+.sub{color:#666;font-size:13px;margin-bottom:14px}
+.legend span{display:inline-block;border-radius:4px;padding:2px 10px;font-size:12px;margin-right:6px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.card{border:1px solid #ddd;border-radius:8px;padding:12px;border-left:6px solid #666;background:#fff}
+.card.done{border-left-color:#2e7d32}
+.card.prog{border-left-color:#9c7d00}
+.card.block{border-left-color:#9c0006}
+.card.todo{border-left-color:#666}
+.badge{display:inline-block;border-radius:4px;padding:2px 8px;font-size:12px}
+.done-b{background:#c6efce;color:#2e7d32} .prog-b{background:#ffeb9c;color:#9c7d00}
+.block-b{background:#ffc7ce;color:#9c0006} .todo-b{background:#e2e2e2;color:#666}
+.card .t{font-weight:bold;margin:6px 0 4px}
+.card .d{font-size:14px}
+.chips a{display:inline-block;border:1px solid #ccc;border-radius:16px;padding:4px 12px;margin:4px;text-decoration:none;color:#222;font-size:13px}
+svg{max-width:100%;height:auto}
+.cap{font-size:12px;color:#666;margin-top:6px}
+</style>
+</head>
+<body>
+<h1>论文状态 PAPER STATUS</h1>
+<nav class="chips"><a href="../README.md">文档导航</a><a href="experiments.html">实验看板</a></nav>
+<div class="sub">更新：2026-10-30。图/数据编号以 <a href="../planning/paper-outline.md">docs/planning/paper-outline.md</a> 为准，生产归属以 experiment-map 为准，状态以 tasks 勾选 + 产物为准。</div>
+<div class="legend"><span class="done-b">已完成</span><span class="prog-b">进行中</span><span class="block-b">阻塞</span><span class="todo-b">未开始</span></div>
+
+<h2>主线</h2>
+<svg viewBox="0 0 940 120" xmlns="http://www.w3.org/2000/svg">
+<line x1="168" y1="60" x2="200" y2="60" stroke="#999"/><line x1="368" y1="60" x2="400" y2="60" stroke="#999"/><line x1="568" y1="60" x2="600" y2="60" stroke="#999"/><line x1="748" y1="60" x2="780" y2="60" stroke="#999"/>
+<rect x="20" y="30" width="148" height="60" rx="8" fill="#c6efce" stroke="#2e7d32"/><text x="94" y="55" text-anchor="middle" font-size="12">模型加能隙</text><text x="94" y="73" text-anchor="middle" font-size="11">D02a-c</text>
+<rect x="200" y="30" width="168" height="60" rx="8" fill="#c6efce" stroke="#2e7d32"/><text x="284" y="55" text-anchor="middle" font-size="12">拓扑物理量</text><text x="284" y="73" text-anchor="middle" font-size="11">D03 D04a-d</text>
+<rect x="400" y="30" width="168" height="60" rx="8" fill="#c6efce" stroke="#2e7d32"/><text x="484" y="55" text-anchor="middle" font-size="12">变分电路</text><text x="484" y="73" text-anchor="middle" font-size="11">D06a-c D09a-b</text>
+<rect x="600" y="30" width="148" height="60" rx="8" fill="#c6efce" stroke="#2e7d32"/><text x="674" y="55" text-anchor="middle" font-size="12">真机中间层</text><text x="674" y="73" text-anchor="middle" font-size="11">S07a-c S05</text>
+<rect x="780" y="30" width="140" height="60" rx="8" fill="#ffeb9c" stroke="#9c7d00"/><text x="850" y="55" text-anchor="middle" font-size="12">结果对比</text><text x="850" y="73" text-anchor="middle" font-size="11">D08a-b</text>
+</svg>
+<div class="cap">D08 正式轮串行重提中，其余成图。</div>
+
+<h2>模型引入和基本性质</h2>
+<div class="cards">
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">D02 能隙三联图 a-c</div><div class="d">生产实验：exp03</div><div class="chips"><a href="../../specs/exp03/spec.md">→ spec</a><a href="../../figs/exp03/exp03_D02.png">→ 图1x3</a></div></div>
+</div>
+
+<h2>拓扑物理量</h2>
+<div class="cards">
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">D03 三相代表点 S曲线加真机层</div><div class="d">生产实验：exp02加exp06</div><div class="chips"><a href="../../specs/exp02/spec.md">→ spec</a><a href="../../specs/exp06/spec.md">→ spec真机层</a><a href="../../figs/exp02/exp02_D03.png">→ 图1x2</a></div></div>
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">D04 热力图 a-d</div><div class="d">生产实验：exp02</div><div class="chips"><a href="../../specs/exp02/spec.md">→ spec</a><a href="../../figs/exp02/exp02_D04.png">→ 图2x2</a></div></div>
+</div>
+
+<h2>变分电路介绍</h2>
+<div class="cards">
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">D06 三分相拟设示意图</div><div class="d">生产实验：exp04</div><div class="chips"><a href="../../specs/exp04/spec.md">→ spec</a><a href="../../figs/exp04/exp04_D06.png">→ 图1x3</a></div></div>
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">D09ab 代价函数加获胜初态分段</div><div class="d">生产实验：exp04加shared-01</div><div class="chips"><a href="../../specs/exp04/spec.md">→ spec</a><a href="../../figs/exp04/exp04_D09.png">→ 图1x2</a></div></div>
+</div>
+
+<h2>真机优质比特与读出</h2>
+<div class="cards">
+<div class="card done"><span class="badge done-b">已完成</span><div class="t">S07abc 优质比特评分排名附录文字</div><div class="d">生产实验：exp05</div><div class="chips"><a href="../../specs/exp05/spec.md">→ spec</a><a href="../../figs/exp05/exp05_D07.png">→ 排名图留存</a></div></div>
+</div>
+
+<h2>实验结果展示</h2>
+<div class="cards">
+<div class="card prog"><span class="badge prog-b">进行中</span><div class="t">D08ab 真机模拟机对比</div><div class="d">生产实验：exp04加exp06正式轮串行重提中</div><div class="chips"><a href="../../specs/exp06/spec.md">→ spec</a></div></div>
+</div>
+</body>
+</html>

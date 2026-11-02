@@ -4,21 +4,19 @@
   "topological",
   "afm"
  ],
- "linestyles": [
-  "-",
-  "--",
-  ":"
- ],
+ "linestyle": "-",
+ "colors": {
+  "trivial": "#009E73",
+  "topological": "#D55E00",
+  "afm": "#000000"
+ },
  "figures": [
   "figs/exp02/exp02_D03.png",
-  "figs/exp02/exp02_D04a.png",
-  "figs/exp02/exp02_D04b.png",
-  "figs/exp02/exp02_D04c.png",
-  "figs/exp02/exp02_D04d.png"
+  "figs/exp02/exp02_D04.png"
  ],
  "python": {
-  "executable": "/home/mintusr/sync/theory/physics/quant_comp/04_project/variational_qc/.CondaPkg/.pixi/envs/default/bin/python",
-  "version": "3.12.14",
+  "executable": "C:\\Users\\13715\\Desktop\\variational_qc\\.CondaPkg\\.pixi\\envs\\default\\python.exe",
+  "version": "3.14.8",
   "numpy": "2.5.3",
   "matplotlib": "3.11.2"
  }

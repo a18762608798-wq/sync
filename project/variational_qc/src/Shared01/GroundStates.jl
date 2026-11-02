@@ -3,15 +3,17 @@
 
 const L_SYS = 8
 
-# s = i/100, δ = j/50, i,j = 1..99 (101-point uniform partition minus boundaries).
+# s = i/100, i = 1..99; δ = (5k-300)/100, k = 0..120, i.e. [-3,3] step 0.05.
+# Integer/100 arithmetic keeps the scan values -2, 0, 0.85 exactly representable.
 const S_GRID = collect(1:99) ./ 100.0
-const DELTA_GRID = collect(1:99) ./ 50.0
+const DELTA_GRID = [(5k - 300) / 100.0 for k in 0:120]
 
 # Representative points (subset of the S01 grid): label => (s, δ).
+# Chosen from the computed map per spec PRE-003 (ZR extremes on δ=-2, S(π) max on δ=0.85).
 const REP_POINTS = Dict(
-    "trivial" => (0.01, 0.02),
-    "topological" => (0.99, 0.02),
-    "afm" => (0.50, 1.98),
+    "trivial" => (0.01, -2.0),
+    "topological" => (0.99, -2.0),
+    "afm" => (0.59, 0.85),
 )
 const REP_LABELS = ("trivial", "topological", "afm")
 

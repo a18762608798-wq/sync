@@ -114,9 +114,7 @@ opencode mcp list
 
 ### 模型升级
 
-#### api 测试
-
-用api, ollama毫无作用; 使用qwen模型, 写入环境变量(存成openai的):
+#### api 配置
 
 ```bash
 curl --fail-with-body \
@@ -128,8 +126,6 @@ curl --fail-with-body \
     "input": "这是一个语义向量测试"
   }'
 ```
-
-#### zotero mcp 配置
 
 一路默认设置:
 
@@ -174,4 +170,58 @@ zotero-mcp update-db \
 
 ```bash
 zotero-mcp update-db --fulltext --no-batch 
+```
+
+#### ollama 配置
+
+可以选择 `ollama pull qwen3-embedding:8b`
+
+一路默认设置(注意修改一下模型名字):
+
+```bash
+zotero-mcp setup --semantic-config-only
+```
+
+默认选项有疑惑就直接改配置。
+
+```bash
+nvim ~/.config/zotero-mcp/config.json
+```
+
+调整
+
+```json
+   {
+     "semantic_search": {
+       "embedding_model": "ollama",
+       "embedding_config": {
+         "model_name": "qwen3-embedding:8b",
+         "base_url": "http://127.0.0.1:11434",
+         "request_batch_size": 16,
+         "timeout": 300
+       },
+       "persist_directory": "/home/dell/.config/zotero-mcp/chroma_db_qwen3_8b"
+     }
+   }
+```
+
+保护配置文件
+
+```bash
+chmod 600 ~/.config/zotero-mcp/config.json
+```
+
+然后强制rebuild
+
+```bash
+ZOTERO_LOCAL=true zotero-mcp update-db \
+  --fulltext \
+  --force-rebuild \
+  --no-batch
+```
+
+后续手动更新:
+
+```bash
+ZOTERO_LOCAL=true zotero-mcp update-db --fulltext --no-batch 
 ```

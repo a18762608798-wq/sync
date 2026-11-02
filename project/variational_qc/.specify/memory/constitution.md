@@ -1,10 +1,11 @@
 <!-- Sync Impact Report
-- Version change: 1.0.0 → 1.0.1 (PATCH: refinements to existing principles only)
+- Version change: 1.0.1 → 1.0.2 (PATCH: 固定项目目录与引用路径，不改变实验语义)
 - Modified principles:
-  - IV (实验必须可重复和可追溯): +1 bullet (长时计算必须增量落盘、可中断恢复)
-  - V (科学正确性优先于性能): first bullet extended (并行化不得引入嵌套 oversubscription)
+  - II: 目录约定统一引用 docs/README.md
+  - Governance: 实验映射迁移至 docs/planning/experiment-map.md
 - Added sections: none
 - Removed sections: none
+- Migration: 字体迁入 assets/fonts/noto-serif-cjk/，规划迁入 docs/planning/，看板迁入 docs/status/；同步现有引用与源模板
 - Follow-up TODOs: none
 -->
 
@@ -28,6 +29,12 @@ Spec 是持续维护的活文档，而不是一次性交付物。
 - `tasks.md`：具体实现工作
 
 理论不应重复写入 spec，实现细节也不应无必要进入 spec。
+
+项目目录约定由 `docs/README.md` 维护：规划放 `docs/planning/`，
+派生看板放 `docs/status/`，中文论文字体及许可证放
+`assets/fonts/noto-serif-cjk/`，Times New Roman 绘图字体与原授权说明放
+`assets/fonts/times-new-roman/` 并由 helper 按文件加载。新增文件和生成产物
+必须遵守这些路径，不得在根目录另建副本。
 
 ## III. Feature 边界必须清晰
 
@@ -73,11 +80,11 @@ MINOR 为新增原则或实质性扩展；PATCH 为澄清、措辞与非语义�
 合规要求：每次 `specify / plan / tasks / implement` 前检查是否符合
 I–VI 原则；复杂度须有明确理由；违反宪法须在 plan 或任务中显式说明。
 
-实验展开规则：以 `docs/expriment-map.md`（以仓库实际文件名为准）
+实验展开规则：以 `docs/planning/experiment-map.md`
 为实验划分依据；每个 `shared-xx` / `expXX` 为一个独立 feature；
 一次展开一个实验，每个实验走一轮完整 specify 流程
 （specify → clarify → plan → tasks → analyze → implement → converge）；
 不得将多个实验合并为一个 spec，不得在 spec 之外另行定义
 Dxx / Sxx 产出归属与实验依赖关系。
 
-**Version**: 1.0.1 | **Ratified**: 2026-10-02 | **Last Amended**: 2026-10-02
+**Version**: 1.0.2 | **Ratified**: 2026-10-02 | **Last Amended**: 2026-11-01

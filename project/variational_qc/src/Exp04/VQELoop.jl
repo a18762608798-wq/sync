@@ -318,6 +318,29 @@ function run_leg(H::Matrix{ComplexF64}, psi_init::Vector{ComplexF64},
     return steps
 end
 
+"""One leg at fixed depth `p` with the full global sampling budget (diagnostic).
+
+Same random-sample protocol as the `p=1` stage of `run_leg` (N_GLOBAL uniform
+points + zero, top-K L-BFGS), but applied at an arbitrary depth. Used only for
+the fair p=2 vs warm-start comparison; the production path stays `run_leg`.
+"""
+function run_leg_global(H::Matrix{ComplexF64}, psi_init::Vector{ComplexF64},
+                        meta::AnsatzMeta, delta::Real, p::Integer,
+                        di::Integer, si::Integer, li::Integer)
+    n = nparams(meta, delta, p)
+    buf = zeros(ComplexF64, length(psi_init))
+    seed = _derive_seed(di, si, p, li)
+    rng = MersenneTwister(seed)
+    cands = [SAMPLE_RANGE .* rand(rng, n) for _ in 1:N_GLOBAL]
+    push!(cands, zeros(n))
+    Es = [energy_of(th, H, psi_init, meta, p, delta, buf) for th in cands]
+    order = sortperm(Es)
+    refined = [_refine(cands[k], H, psi_init, meta, p, delta, seed) for k in order[1:TOP_K]]
+    best = refined[argmin([r.energy for r in refined])]
+    return LegStep(best.theta, best.energy, best.converged, false,
+                   best.iters, best.dtail, seed, N_GLOBAL + 1)
+end
+
 """Full point: three legs + per-p winner. H cached by caller; e0_exact computed here."""
 function run_point(delta::Real, s::Real, H::Matrix{ComplexF64}, e0_exact::Real)
     steps = Dict{String,Vector{LegStep}}()

@@ -71,7 +71,7 @@ def main() -> None:
                     help="强制刷新拓扑快照（默认缓存优先）")
     ap.add_argument("--reuse-shenglian-from", default=None,
                     help="复用上轮 Shenglian 链 survivors 的归档目录 "
-                         "(如 data/exp05_run1_20261003)")
+                         "(如 data/exp05)")
     args = ap.parse_args()
 
     cfg_chain = make_config("chain", CHAIN_LEN)

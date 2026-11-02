@@ -33,8 +33,8 @@ function save_row(dir::AbstractString, j::Int, s_grid::Vector{Float64},
     NPZ.npzwrite(tmp, Dict(
         "s_grid" => s_grid,
         "delta" => delta,
-        "s_pi" => [p.s_pi for p in pts],
-        "o_str" => [p.o_str for p in pts],
+        "s_hat_pi" => [p.s_hat_pi for p in pts],
+        "o_hat_str" => [p.o_hat_str for p in pts],
         "q_val" => [p.q_val for p in pts],
         "z_tilde" => [p.z_tilde for p in pts],
     ))
@@ -65,7 +65,7 @@ function save_d03(dir::AbstractString, q_grid::Vector{Float64},
     return path
 end
 
-"""Assemble all 99 row chunks into the single D04 product + manifest."""
+"""Assemble all row chunks into the single D04 product + manifest."""
 function assemble_D04(dir::AbstractString, s_grid::Vector{Float64}, delta_grid::Vector{Float64},
                       s01_id::AbstractString, degenerate_set::Set{Tuple{Int,Int}},
                       extra::Dict)
@@ -73,7 +73,7 @@ function assemble_D04(dir::AbstractString, s_grid::Vector{Float64}, delta_grid::
     done = _read_progress(dir)
     length(done) == nd || throw(ErrorException("only $(length(done))/$nd rows complete"))
     panels = Dict{String,Matrix{Float64}}()
-    for key in ("s_pi", "o_str", "q_val", "z_tilde")
+    for key in ("s_hat_pi", "o_hat_str", "q_val", "z_tilde")
         mat = zeros(ns, nd)
         for j in 1:nd
             c = NPZ.npzread(_rowpath(dir, j))
@@ -98,7 +98,8 @@ function assemble_D04(dir::AbstractString, s_grid::Vector{Float64}, delta_grid::
     manifest = merge(Dict(
         "schema" => SCHEMA,
         "input_S01" => s01_id,
-        "grid" => "s = i/100, delta = j/50, i,j = 1..99 (same ordering as S01)",
+        "grid" => "s = i/100 (99 points), delta = [-3,3] step 0.05 (121 points), same ordering as S01",
+        "normalisation" => "stored D03/D04a/D04b are Ŝ(q)=S(q)/L, Ŝ(π), Ô_str=-O_str",
         "n_degenerate_inherited" => length(degenerate_set),
         "julia_version" => string(VERSION),
     ), extra)

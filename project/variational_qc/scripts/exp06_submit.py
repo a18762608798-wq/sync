@@ -1,11 +1,13 @@
-"""exp06 T003 真机提交（烧机时）：转译 → 逐批提交 → 对账补跑。
+"""exp06 v3 联测真机提交（烧机时）：转译 → 单轮提交 → 对账补跑。
 
-必须用 qmeas env python 运行，且 bill.json confirmed=true 后才执行。
-逐批任务 = 3 组 × 5 重复 VQE + 2 标定（同批）；correct=False 参数留存。
+必须用 qmeas env python 运行。bill.json confirmed=true 才可提交。
+每单位任务 = 30 点 VQE + 2 标定（同批，同 S05；两线交错共漂移；
+串行交替直发：SUBMIT_CONCURRENCY=1，按 (uid, g序)逐个提交）；
+correct=False 参数留存。
 转译用逻辑 coupling_map（开链 7 边 / 环 8 边含 0–7），qasm qubit i ↔
-target_qubits[i]；物理侧 0–7 跳由平台路由（spec link 语义）。
-转译后 CZ 边集随 batch 落盘，供 verify 验路断言（须 ⊆ 允许集）。
-中断续跑只补缺失：已有 tid 只轮询不重提。
+target_qubits[i]；转译后 CZ 边集随 unit 落盘，供 verify 验路断言。
+中断续跑只补缺失：已有 tid 只轮询不重提，已收回永不重提。
+v2 分线提交已归档，不再使用。
 """
 
 from __future__ import annotations
@@ -27,17 +29,40 @@ from exp06_circuits import (  # noqa: E402
     build_estimator_circuit,
 )
 from exp06_common import (  # noqa: E402
-    DATA_DIR,
-    REPS,
+    JOINT_LINE,
+    P_LEVEL,
     SHOTS,
+    line_dir,
     read_json,
+    unit_state_path,
     write_json,
 )
 
 BASIS_GATES = ["rz", "rx", "ry", "cz"]
 OPT_LEVEL = 3
 MAX_AUDIT_ROUNDS = 2
-N_TASKS_PER_BATCH = 3 * REPS + 2
+NPL = L  # δ≠0：每层 L 参数（p=1 → 8 参数；δ=0 减半已退役）
+_TCACHE: dict = {}  # 同一逻辑电路全单位共用一次转译结果（单位是时间重复，转译一致更干净）
+
+
+def cached_transpile(qc, a_star: int):
+    key = (qasm2.dumps(qc), a_star)
+    t = _TCACHE.get(key)
+    if t is None:
+        t = transpile(qc, basis_gates=BASIS_GATES,
+                      optimization_level=OPT_LEVEL,
+                      coupling_map=logical_edges(a_star))
+        _TCACHE[key] = t
+    return t
+
+# 串行交替提交（spec 同批自然时间相邻）：SUBMIT_CONCURRENCY=1，
+# 提交按 (uid, g序) 逐个直接 await，直发顺序即平台排队顺序；
+# g序 = groups.json 既定交替（每 s 先 δ=0.85 后 δ=−2）+ 2 标定殿后。
+# 注意：await_quark 整个生命周期占一个 poll 槽（排队中也占），并发过低会让
+# 绝大多数任务干等，因此 poll 并发按任务数取大值；真正请求速率由
+# poll_interval（10s/任务）约束。轮询只收数，不影响芯片侧执行序。
+SUBMIT_CONCURRENCY = 1
+POLL_CONCURRENCY = 300
 
 
 def logical_edges(a_star: int) -> list:
@@ -63,144 +88,203 @@ def cz_edges(tqc) -> set:
     return out
 
 
-def build_batch_tasks(batch, theta_map, phys_map) -> dict[str, QuantumCircuit]:
-    """批内全部逻辑电路：{task_key: circuit}（不转译）。"""
+def build_unit_tasks(groups, theta_map, phys_map) -> dict[str, QuantumCircuit]:
+    """一个单位的全部逻辑电路：{task_key: circuit}（不转译）。"""
     circuits: dict[str, QuantumCircuit] = {}
-    for gi, g in enumerate(batch):
+    for gi, g in enumerate(groups):
         key = (g["delta_idx"], g["s_idx"], g["p"])
         th, a = theta_map[key]
-        for r in range(REPS):
-            circuits[f"g{gi}_rep{r}"] = build_estimator_circuit(
-                th, a, g["p"], g["delta"])
+        circuits[f"g{gi}"] = build_estimator_circuit(
+            th, a, g["p"], g["delta"])
     circuits.update(build_calib_circuits())
     return circuits
 
 
-async def run_batch(bid: int, batch: list[dict], theta_map: dict,
-                    phys_map: dict) -> None:
-    from qmeas.random.quark_client import (
-        await_quark,
-        make_quark_task,
-        quark_token,
-        submit_quark,
-    )
-    from qmeas.random.config import QuarkOptions
-
-    bdir = DATA_DIR / "batches" / f"{bid:03d}"
-    bdir.mkdir(parents=True, exist_ok=True)
-    base_opts = QuarkOptions(chip="Baihua", mitigation=False, correct=False,
-                             optimization_level=OPT_LEVEL,
-                             basis_gates=list(BASIS_GATES))
-    assert base_opts.correct is False  # T000：平台矫正确保关闭
-    token = quark_token(base_opts)
-    tmgr = make_quark_task(token, base_opts.submit_retries)
-
-    circuits = build_batch_tasks(batch, theta_map, phys_map)
-    # 每任务物理映射：VQE 按 a*（开链 top1 / 环内最优子链），标定跟首组。
+def unit_task_meta(groups, phys_map) -> tuple[dict, dict]:
     task_phys: dict[str, list[int]] = {}
     task_a: dict[str, int] = {}
-    for gi, g in enumerate(batch):
-        for r in range(REPS):
-            task_phys[f"g{gi}_rep{r}"] = phys_map[g["a_star"]]
-            task_a[f"g{gi}_rep{r}"] = g["a_star"]
-    first_a = batch[0]["a_star"]
+    for gi, g in enumerate(groups):
+        task_phys[f"g{gi}"] = phys_map[g["a_star"]]
+        task_a[f"g{gi}"] = g["a_star"]
+    first_a = groups[0]["a_star"]
     for k in ("cal_zero", "cal_one"):
         task_phys[k] = phys_map[first_a]
         task_a[k] = first_a
+    return task_phys, task_a
 
-    state_path = bdir / "state.json"
-    if state_path.is_file():
-        state = read_json(state_path)
-    else:
-        state = {"tids": {}, "counts": {}, "transpile": {}, "submit_params": {}}
 
-    # 转译（缺失才做）+ 验路断言数据留存。
+def prepare_unit(line: str, uid: int, groups: list[dict], theta_map: dict,
+                 phys_map: dict, pilot: bool = False) -> dict:
+    """构建单位全部电路 + 转译审计记录（同步；缺失才做，可先于提交全量做完）。"""
+    state_path = unit_state_path(line, uid, pilot)
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    circuits = build_unit_tasks(groups, theta_map, phys_map)
+    task_phys, task_a = unit_task_meta(groups, phys_map)
+    state = (read_json(state_path) if state_path.is_file()
+             else {"tids": {}, "tids_history": {}, "counts": {},
+                   "transpile": {}, "submit_params": {}})
+    state.setdefault("tids_history", {})
+    qasm_cache = {}
     for key, qc in circuits.items():
         if key not in state["transpile"]:
-            t = transpile(qc, basis_gates=BASIS_GATES,
-                          optimization_level=OPT_LEVEL,
-                          coupling_map=logical_edges(task_a[key]))
+            t = cached_transpile(qc, task_a[key])
             edges = sorted(cz_edges(t))
             state["transpile"][key] = {
                 "cz_edges": edges, "a_star": task_a[key],
                 "in_allowed": all(tuple(e) in allowed_edges(task_a[key])
                                   for e in edges)}
             state["submit_params"][key] = {
-                "chip": "Baihua", "shots": SHOTS, "correct": False,
+                "shots": SHOTS, "correct": False,
                 "optimization_level": OPT_LEVEL,
                 "basis_gates": BASIS_GATES,
                 "target_qubits": task_phys[key]}
             write_json(state_path, state)
+        qasm_cache[key] = qasm2.dumps(cached_transpile(qc, task_a[key]))
+    return {"uid": uid, "circuits": circuits, "task_phys": task_phys,
+            "task_a": task_a, "qasm": qasm_cache,
+            "state": state, "state_path": state_path}
 
-    sem_sub = asyncio.Semaphore(base_opts.max_submit_concurrency)
-    sem_poll = asyncio.Semaphore(base_opts.max_poll_concurrency)
 
-    async def submit_one(key):
+async def submit_poll_all(jobs: list[dict], base_opts, tmgr, chip: str,
+                          tag: str) -> None:
+    """全量一次提交、统一轮询。中断续跑只补缺失：已有 tid 只轮询不重提。"""
+    from qmeas.random.quark_client import await_quark, submit_quark
+
+    sem_sub = asyncio.Semaphore(SUBMIT_CONCURRENCY)
+    sem_poll = asyncio.Semaphore(POLL_CONCURRENCY)
+    for job in jobs:
+        job.setdefault("lock", asyncio.Lock())
+
+    async def submit_one(job, key):
         async with sem_sub:
-            opts = replace(base_opts, chip="Baihua",
-                           target_qubits=task_phys[key],
+            uid = job["uid"]
+            opts = replace(base_opts, chip=chip,
+                           target_qubits=job["task_phys"][key],
                            coupling_map=None)
-            t = transpile(circuits[key], basis_gates=BASIS_GATES,
-                          optimization_level=OPT_LEVEL,
-                          coupling_map=logical_edges(task_a[key]))
-            qasm = qasm2.dumps(t)
-            tid = await asyncio.to_thread(
-                submit_quark, tmgr, opts, qasm, SHOTS, f"exp06_b{bid:03d}_{key}")
-            return key, int(tid)
+            qasm = job["qasm"][key]
+            try:
+                tid = await asyncio.to_thread(
+                    submit_quark, tmgr, opts, qasm, SHOTS, f"{tag}_u{uid:05d}_{key}")
+            except Exception:
+                return job, key, None
+            async with job["lock"]:
+                if key not in job["state"]["tids"]:
+                    job["state"]["tids"][key] = int(tid)
+                    hist = job["state"].setdefault("tids_history", {})
+                    hist.setdefault(key, [])
+                    if int(tid) not in hist[key]:
+                        hist[key].append(int(tid))
+                    write_json(job["state_path"], job["state"])
+            return job, key, int(tid)
 
-    async def poll_one(key, tid):
+    async def poll_one(job, key, tid):
         async with sem_poll:
-            opts = replace(base_opts, chip="Baihua",
-                           target_qubits=task_phys[key])
-            hist = await await_quark(
-                tmgr, tid, opts, sem_sub, "", SHOTS,
-                f"exp06_b{bid:03d}_{key}", attempt_tag=f"b{bid:03d}")
-            return key, hist
+            uid = job["uid"]
+            opts = replace(base_opts, chip=chip,
+                           target_qubits=job["task_phys"][key])
+
+            async def _on_resubmit(new_tid):
+                async with job["lock"]:
+                    job["state"]["tids"][key] = int(new_tid)
+                    hist = job["state"].setdefault("tids_history", {})
+                    hist.setdefault(key, [])
+                    if int(new_tid) not in hist[key]:
+                        hist[key].append(int(new_tid))
+                    write_json(job["state_path"], job["state"])
+
+            try:
+                hist = await await_quark(
+                    tmgr, tid, opts, sem_sub, job["qasm"][key], SHOTS,
+                    f"{tag}_u{uid:05d}_{key}", attempt_tag=f"u{uid:05d}",
+                    on_resubmit=_on_resubmit)
+            except Exception as e:
+                print(f"轮询异常 {tag}_u{uid:05d}_{key}："
+                      f"{type(e).__name__}，下轮重查", flush=True)
+                return job, key, None
+            async with job["lock"]:
+                job["state"]["counts"][key] = hist
+                write_json(job["state_path"], job["state"])
+            return job, key, hist
 
     for rnd in range(1 + MAX_AUDIT_ROUNDS):
-        missing_submit = [k for k in circuits if k not in state["tids"]]
+        missing_submit = [(job, k) for job in jobs
+                          for k in job["circuits"]
+                          if k not in job["state"]["tids"]]
         if missing_submit:
-            print(f"batch {bid} 第 {rnd} 轮提交 {len(missing_submit)} 任务",
+            print(f"第 {rnd} 轮提交 {len(missing_submit)} 任务（串行交替：按 (uid, g序)逐个直发）",
                   flush=True)
-            for key, tid in await asyncio.gather(
-                    *(submit_one(k) for k in missing_submit)):
-                state["tids"][key] = tid
-                write_json(state_path, state)
-        missing_counts = [k for k in circuits if k not in state["counts"]]
+            for job, key in missing_submit:
+                _, _, tid = await submit_one(job, key)
+                if tid is None:
+                    continue  # 提交异常，下轮补提（tid 未落盘）
+            for job in jobs:
+                write_json(job["state_path"], job["state"])
+        missing_counts = [(job, k) for job in jobs
+                          for k in job["circuits"]
+                          if k not in job["state"]["counts"]
+                          and k in job["state"]["tids"]]
         if not missing_counts:
-            print(f"batch {bid} 对账通过：{len(circuits)} 任务全收回", flush=True)
+            print(f"对账通过：{sum(len(j['circuits']) for j in jobs)} 任务全收回",
+                  flush=True)
             return
-        print(f"batch {bid} 第 {rnd} 轮轮询 {len(missing_counts)} 任务",
+        print(f"第 {rnd} 轮轮询 {len(missing_counts)} 任务（统一等）",
               flush=True)
-        for key, hist in await asyncio.gather(
-                *(poll_one(k, state["tids"][k]) for k in missing_counts)):
-            state["counts"][key] = hist
-            write_json(state_path, state)
-    missing = [k for k in circuits if k not in state["counts"]]
-    write_json(bdir / "invalid.json", {"missing": missing})
-    raise RuntimeError(f"batch {bid} 补跑后仍缺失 {missing} → 判 invalid")
+        for job, key, hist in await asyncio.gather(
+                *(poll_one(j, k, j["state"]["tids"][k])
+                  for j, k in missing_counts)):
+            if hist is None:
+                continue  # 轮询异常，下轮重查（tid 留存）
+            job["state"]["counts"][key] = hist
+        for job in jobs:
+            write_json(job["state_path"], job["state"])
+    bad = [(job["uid"], k) for job in jobs
+           for k in job["circuits"] if k not in job["state"]["counts"]]
+    for job in jobs:
+        missing = [k for k in job["circuits"]
+                   if k not in job["state"]["counts"]]
+        if missing:
+            write_json(job["state_path"].parent / "invalid.json",
+                       {"missing": missing})
+    raise RuntimeError(f"补跑后仍缺失 {len(bad)} 任务（例 {bad[:5]}）→ 判 invalid")
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--batch", type=int, default=None, help="只跑指定批（调试）")
+    ap.add_argument("--round", type=int, default=1)
     args = ap.parse_args()
-    bill = read_json(DATA_DIR / "bill.json")
+    ldir = line_dir(JOINT_LINE, False)
+    bill = read_json(ldir / "rounds" / f"r{args.round:03d}" / "bill.json")
     if not bill.get("confirmed", False):
         raise RuntimeError("bill.json confirmed=false：须人工确认账单后才可提交")
-    info = read_json(DATA_DIR / "batches.json")
-    s03 = np.load(DATA_DIR.parent / "exp04" / "exp04_S03.npz")
+    chip = "Baihua"
+    tag = f"exp06_joint_r{args.round:03d}"
+    info = read_json(ldir / "groups.json")
+    groups = info["groups"]
+    assert len(groups) == 30, len(groups)
+    uids = list(range(int(bill["unit_start"]),
+                      int(bill["unit_start"]) + int(bill["n_units"])))
+    s03 = np.load(line_dir(JOINT_LINE).parent.parent / "exp04"
+                  / "exp04_S03.npz")
     meta, th = s03["meta"], s03["theta"]
     theta_map: dict = {}
     for r in range(len(meta)):
         di, si, p, a = (int(v) for v in meta[r])
-        npl = 4 if di == 1 else 8
-        theta_map[(di, si, p)] = (th[r][:npl * p], a)
+        assert len(th[r]) >= NPL * p
+        theta_map[(di, si, p)] = (th[r][:NPL * p], a)
     phys_map = {1: info["chain_top1"], 3: info["chain_top1"],
                 2: info["subchain_top1"]}
-    bids = [args.batch] if args.batch is not None else range(len(info["batches"]))
-    for bid in bids:
-        asyncio.run(run_batch(bid, info["batches"][bid], theta_map, phys_map))
+
+    from qmeas.random.quark_client import make_quark_task, quark_token
+    from qmeas.random.config import QuarkOptions
+    base_opts = QuarkOptions(chip=chip, mitigation=False, correct=False,
+                             optimization_level=OPT_LEVEL,
+                             basis_gates=list(BASIS_GATES))
+    assert base_opts.correct is False  # 平台矫正确保关闭
+    token = quark_token(base_opts)
+    tmgr = make_quark_task(token, base_opts.submit_retries)
+    jobs = [prepare_unit(JOINT_LINE, uid, groups, theta_map, phys_map,
+                         False) for uid in uids]
+    asyncio.run(submit_poll_all(jobs, base_opts, tmgr, chip, tag))
 
 
 if __name__ == "__main__":

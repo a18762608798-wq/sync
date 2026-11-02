@@ -6,9 +6,7 @@ push!(LOAD_PATH, joinpath(@__DIR__, "..", "src"))
 using LinearAlgebra
 BLAS.set_num_threads(1)  # grid-level threading only (constitution V)
 using Shared01: S_GRID, DELTA_GRID, load_shared01
-using Exp01
-using Exp01: assert_s01_gate
-using Exp01: EXPECTED_BASIS_CONVENTION
+using Shared01: assert_s01_gate, EXPECTED_BASIS_CONVENTION
 using Exp02
 using Exp02: zz_correlators, structure_factor
 using Exp02: panel_point
@@ -19,9 +17,13 @@ const OUT_DIR = joinpath(@__DIR__, "..", "data", "exp02")
 
 const Q_GRID = collect(1:99) .* (2pi / 100)  # spec PRE-002: 101-partition minus boundaries
 const REP_LABELS = ["trivial", "topological", "afm"]
-const REP_COORDS = Dict("trivial" => (0.01, 0.02),
-                        "topological" => (0.99, 0.02),
-                        "afm" => (0.50, 1.98))
+
+"""Representative points come from the S01 manifest (spec PRE-003 selection rule)."""
+function rep_coords(manifest)
+    reps = manifest["representative_points_S02"]
+    return Dict(label => (Float64(reps[label]["s"]), Float64(reps[label]["delta"]))
+                for label in REP_LABELS)
+end
 
 function main()
     println("threads: ", Threads.nthreads())
@@ -33,8 +35,12 @@ function main()
     flush(stdout)
 
     psi_all = arrays["psi"]
-    todo = setdiff(Set(1:99), completed_rows(OUT_DIR))
-    println("rows to compute: $(length(todo))")
+    reps = manifest["representative_points_S02"]
+    rep_ij = Dict(label => (Int(reps[label]["grid_index"][1]),
+                            Int(reps[label]["grid_index"][2])) for label in REP_LABELS)
+    nd = length(DELTA_GRID)
+    todo = setdiff(Set(1:nd), completed_rows(OUT_DIR))
+    println("rows to compute: $(length(todo)) / $nd")
     flush(stdout)
     t0 = time()
     Threads.@threads for j in collect(todo)
@@ -44,20 +50,21 @@ function main()
     println("rows done in $(round(time() - t0, digits=1))s")
     flush(stdout)
 
-    # D03: S(q) curves at the three S02 representative points.
+    # D03: normalised Ŝ(q)=S(q)/L curves at the three S02 representative points.
     curves = zeros(3, 99)
     for (k, label) in enumerate(REP_LABELS)
-        s, d = REP_COORDS[label]
-        i, j = round(Int, 100 * s), round(Int, 50 * d)
+        i, j = rep_ij[label]
         C = zz_correlators(Vector{ComplexF64}(psi_all[i, j, :]))
-        curves[k, :] = [structure_factor(C, q) for q in Q_GRID]
+        curves[k, :] = [structure_factor(C, q) / 8 for q in Q_GRID]
     end
     save_d03(OUT_DIR, collect(Q_GRID), curves, REP_LABELS)
     println("D03 curves done")
     flush(stdout)
 
     extra = Dict("q_grid" => "q = 2πk/100, k = 1..99 (includes q=π at k=50)",
-                 "rep_points" => REP_COORDS)
+                 "rep_points" => Dict(label => (Float64(reps[label]["s"]),
+                                                Float64(reps[label]["delta"]))
+                                      for label in REP_LABELS))
     npz_path, manifest_path = assemble_D04(OUT_DIR, collect(Float64, S_GRID),
         collect(Float64, DELTA_GRID), s01_id, deg, extra)
     println("wrote: $npz_path")

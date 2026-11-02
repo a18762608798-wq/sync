@@ -54,3 +54,66 @@
 - [x] T010 人工保真核对 D06a–c（用户目检：初态/轨道配对/子层顺序/`p` 堆叠
   与 ansatz.md、psi0.md 一致，无虚构门）。
   完成条件：用户确认通过。
+
+## Rework (2026-10-22：δ=−2 生产线 + D08a/b + D09a/b)
+
+- [x] T011 代码适配（不跑生产）：`DELTAS` 改 `(−2.0, 0.85)`，线 ID/键前缀
+  `d0`→`dm2`（`d085` 不变，旧 `d085` chunk 继续有效）；`run_exp04.jl` 生产顺序
+  `δ=−2 → 0.85`；`verify_exp04.jl` 与 `plot_S06.py` 的文件名/断言同步；
+  新增 `scripts/plot_D09.py`（读 S06 `p=2` + S01 两行 `E0`，背景按
+  `argmin_a C_a` 的相着色，trivial 红/AFM 白/topo 蓝，各相区标最优初态）；
+  测试补 D09 相标签与 S01 对齐用例。
+  完成条件：`runtests.jl` 全绿；`plot_D09.py` 能在旧数据上干跑自检。
+- [x] T012 生产：归档旧 `δ=0` 线，跑 `δ=−2` 全网格（99 点 × 3 路 × `p=1,2,3`）
+  → 与既有 `d085` 线组装 S06/S03 → `verify_exp04.jl` 全量通过。
+  完成条件：`VERIFY-EXP04-OK`；manifest `deltas=[-2.0,0.85]`。
+- [x] T013 出图：重出 S06 诊断图（`dm2`/`d085`）与 D09a/b，目检相区背景、
+  最优初态标记与精确 `E0` 曲线。
+  完成条件：`figs/exp04/exp04_D09a.pdf/.png`、`exp04_D09b.pdf/.png` 存在且自检通过。
+- [x] T014 D09 色带改物理相区：新增 `src/Exp04/D09.jl`（读 S01 精确基态，
+  算 `Ŝ(π)`、`Z̃_R`，`AFM ⟺ Ŝ(π)>0.5`，其余按 `Z̃_R` 正负分 trivial/topo，
+  连同 `E0` 写 `exp04_D09.npz`）；`run_exp04.jl` 组装后调用；
+  `plot_D09.py` 改读 D09 npz 并按相区着色、每区标最优初态；
+  `verify_exp04.jl` 增加相位重算与 `E0` 对齐断言。
+  完成条件：`VERIFY-EXP04-OK`；D09a 为 triv→topo 两段、D09b 为
+  triv→AFM→topo 三段，无碎带。
+- [x] T015 D09 切 `p*=1` + S06 诊断图改画 Q：`plot_D09.py` 取 `p=1` 子集
+  （`P_STAR=1`，数据不重算）；`plot_S06.py` 重写为 2 张 Q 诊断图
+  （每线一张，`p=1,2,3` 同图；`Q` 由存档 `S(π)`/string 组合）；
+  `verify_exp04.jl` 同步；删孤儿 `figs/exp04/exp04_S06_d0_*`；
+  重出 S06 诊断图与 D09a/b 并目检。
+  完成条件：`VERIFY-EXP04-OK`；D09a/b 每区最优初态与所在相一致。
+- [x] T016 D09 判相改零点+拐点：`D09.jl` 整线分类（`Ŝ` 最陡升/降定 AFM 带，
+  峰不显著则无；其余按 `Z̃_R` 过零点插值分 trivial/topo），
+  `verify_exp04.jl` 同函数重算锁定；重跑 `run_exp04.jl` 重出 D09 npz，
+  重出 D09a/b 并目检。
+  完成条件：`VERIFY-EXP04-OK`；D09a 为 triv→topo 两段（界≈0.64），
+  D09b 为 triv→AFM→topo 三段；无阈值残留。
+- [x] T018 诊断性全局 p=2/p=3 全网格存档（不进生产口径）：
+  新增 `scripts/run_exp04_global.jl`（每路 `p=1,2,3` 全部全局采样，
+  与 S06 同键名落 `data/exp04_global/` + 独立 manifest），后台跑完 198 点，
+  抽查 `θ*`/能量自洽（与 S06 `p=1` 逐点一致）后归档。
+  完成条件：`data/exp04_global/exp04global_S06.npz` + manifest 存在；
+  生产 `data/exp04/` 未动。
+- [x] T017 S06 诊断图加精确 Q：`D09.jl` 一并存档 `ostr_exact`；
+  `plot_S06.py` 改精确 `Q` 蓝实线 + `p=1,2,3` 统一黑虚线；
+  `verify_exp04.jl` 同步；重出 S06 Q 图并目检。
+  完成条件：`VERIFY-EXP04-OK`；精确 Q 与 `p` 曲线同图、无遮盖。
+- [x] T019 D09 分段改回 `p=1` 获胜初态：`D09.jl` 改读 S06 `a*` 列作分段
+  （去 `classify_line` 零点+拐点路径，`E0`/精确叠加量仍取 S01）；
+  `run_exp04.jl` 组装调用同步；`verify_exp04.jl` 改分段重算锁定；
+  重跑 `run_exp04.jl` 重出 D09 npz，重出 D09a/b 并目检。
+  完成条件：`VERIFY-EXP04-OK`；D09a 为 triv→topo 两段（界 `s=0.59→0.60`），
+  D09b 为 triv→AFM→topo 三段（界 `0.42→0.43`、`0.79→0.80`）。
+
+## Rework（2026-10-29：D06/D09 合图 + 标签下方）
+
+- [x] T020 D06 合图：`plot_D06.py` 改出 `1×3` 单图 `exp04_D06.pdf/png`
+  （三相面板复用同源绘制函数，三子图等大，`(a)(b)(c)` 标签置于各子图下方）；
+  删除 `exp04_D06{a,b,c}.pdf/png`；论文 `06-ansatz(.zh).tex` 改单引合图；
+  D06 人工保真核对按 `VAL-006` 重做。
+  完成条件：合图三面板与旧分图逐面板一致；`VERIFY-EXP04-OK` 不受影响（零数据输入）。
+- [x] T021 D09 合图：`plot_D09.py` 改出 `1×2` 单图 `exp04_D09.pdf/png`
+  （两线面板同源数据，`(a)(b)` 标签置于各子图下方）；
+  删除 `exp04_D09{a,b}.pdf/png`；论文 `06-ansatz(.zh).tex` 改单引合图。
+  完成条件：合图两面板与旧分图逐点一致（背景分区/`E0`/最优点）；`VERIFY-EXP04-OK`。

@@ -9,16 +9,17 @@
 S(q)=\frac{1}{L}\sum_{i,j}e^{iq(i-j)}\langle Z_iZ_j\rangle,
 \end{equation}
 其中 $\langle Z_iZ_j\rangle$ 为基态关联子，本节恒取 $L=8$。
-即 $S(q)$ 是 N\'eel 型关联的傅里叶权重，长程反铁磁序表现为 $q=\pi$ 处的
-Bragg 型尖峰。三相各一个代表点处的 $S(q)$ 曲线（相标签与坐标见数据集），
-共用 $q$ 网格（$99$ 点，含 $q=\pi$），见图~\ref{fig:D03}。
+结构因子是自旋关联的傅里叶变换；$S(\pi)$ 表征有限链中的交错关联强度。三相各一个代表点处的 $S(q)$ 曲线（相标签与坐标见数据集），
+共用 $q$ 网格（含 $q=\pi$），见图~\ref{fig:D03}。
 在面向真机的测量协议中，使用 $q=\pi$ 分量作为 AFM 诊断量；
-其对不同相的实际区分结果放在结果部分报告，而不在方法部分预先断言。
+该量由计算基测量得到的 $Z_iZ_j$ 关联计算。
+三代表点处的真机 $p=1$ 测量值（图~\ref{fig:D03}(b)）紧贴图(a)模拟机曲线，AFM $\pi$ 峰虽被噪声压低但清晰可辨。
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\columnwidth]{exp02_D03.pdf}
+\includegraphics[width=\columnwidth]{{../../figs/exp02/exp02_D03}}
 \caption{共用 $q$ 网格上三相各一个代表点处的结构因子 $S(q)$；
-只有 AFM 点在 $q=\pi$ 处见峰。
+比较各代表点在 $q=\pi$ 处的交错关联。
+(b) 为同点真机 $p=1$ 连续曲线（1024 shots + 读出缓解）紧贴(a)模拟机曲线。
 \label{fig:D03}}
 \end{figure}

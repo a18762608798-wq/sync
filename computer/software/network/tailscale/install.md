@@ -30,7 +30,7 @@ sudo tailscale up
 
 会输出登录链接，在浏览器用 Google / GitHub 登录即可。
 
-3. 开机自启（安装后默认已启用，无需手动操作）：
+3. 开机自启（**安装后默认已启用**，无需手动操作）：
 
 ```bash
 systemctl is-enabled tailscaled

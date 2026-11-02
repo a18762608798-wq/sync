@@ -1,14 +1,12 @@
-"""D02 appendix plots (exp03 T006): three separate figures (a)=D02a / (b)=D02b / (c)=D02c.
+"""D02 appendix plots (exp03 T015/T020): one combined 1x3 figure exp03_D02.pdf.
 
 Reads data/exp03/exp03_D02.npz only; no physics recomputed.
-(a) Delta vs s + per-curve minima (same simple marker),
-(b) A vs s + pairwise crossings (20-24 colored with legend; others marker-only),
-(c) Delta vs 1/L + LS fit.
-Style via the vendored scripts/figure_style.py. Self-checks grids, shapes,
-and marker/table agreement before plotting.
-
-Project Python: .CondaPkg/.pixi/envs/default/bin/python.
+(a) Delta_sec vs s (five L),
+(b) the same curves zoomed to s in [0.45, 0.60], minima marked,
+(c) Delta_sec vs 1/L with the a+b/L+c/L^2 fit and the intercept a marked.
+Style via the vendored scripts/figure_style.py. Self-checks grids and shapes.
 """
+
 import os
 import sys
 
@@ -20,98 +18,100 @@ DATA = os.path.join(HERE, "..", "data", "exp03")
 FIGDIR = os.path.join(HERE, "..", "figs", "exp03")
 
 LS = [8, 12, 16, 20, 24]
-FIT_LS = [8, 12, 16, 20, 24]
 LINESTYLES = ["-", "--", ":", "-.", (0, (3, 1, 1, 1))]
-CROSS_MARKERS = ["o", "s", "^", "D", "v", "p", "*", "X", "d", "h"]
-PAIR_LABELS = ["8-12", "8-16", "8-20", "8-24", "12-16", "12-20", "12-24", "16-20", "16-24", "20-24"]
-HIGHLIGHT = "#CC79A7"  # colored marker for the 12-16 crossing (plan §2)
+WINDOW = (0.53, 0.65)
 
 
 def main():
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from figure_style import apply_figure_style, finalize_figure, DEFAULT_PALETTE
+    from figure_style import (apply_figure_style, finalize_figure,
+                               effective_min_text_pt, font_pt_for, uniform_text,
+                               PRINT_TEXT_PT)
 
     palette = apply_figure_style()
     d = np.load(os.path.join(DATA, "exp03_D02.npz"))
 
     assert list(d["Ls"]) == LS
-    s_wide = d["s_wide"]
-    s_narrow = d["s_narrow"]
-    D_wide = d["D_wide"]
-    A_narr = d["A_narrow"]
-    assert s_wide.shape == (99,) and s_narrow.shape == (99,)
-    assert D_wide.shape == (5, 99) and A_narr.shape == (5, 99)
-    assert abs(s_wide[49] - 0.5) < 1e-12, "wide grid must contain s=0.5 at i=50"
-    assert np.isfinite(D_wide).all() and np.isfinite(A_narr).all()
-    cross_s = d["cross_s"]
-    cross_A = d["cross_A"]
-    assert list(d["cross_pairs"]) == [102, 103, 104, 105, 203, 204, 205, 304, 305, 405]
-    assert cross_s.shape == (10,) and cross_A.shape == (10,)
-    assert s_narrow[0] < cross_s[4] < s_narrow[-1]
-    a, b = float(d["fit_a"]), float(d["fit_b"])
-    assert list(d["fit_Ls"]) == FIT_LS
+    s = d["s_grid"]
+    D = d["Delta"]
+    assert s.shape == (99,) and D.shape == (5, 99)
+    assert abs(s[49] - 0.5) < 1e-12, "grid must contain s=0.5 at i=50"
+    assert np.isfinite(D).all()
+
+    a, b, c = float(d["fit_a"]), float(d["fit_b"]), float(d["fit_c"])
     xs = np.array(d["fit_x"])
     ys = np.array(d["fit_y"])
     assert xs.shape == (5,) and ys.shape == (5,)
     for r in range(5):
-        assert abs(ys[r] - D_wide[r, 49]) < 1e-12, "(iii) must reuse (i) s=0.5 point"
+        assert abs(ys[r] - D[r, 49]) < 1e-12, "D02c must reuse the s=0.5 point"
 
     os.makedirs(FIGDIR, exist_ok=True)
 
-    # (a) symmetric gap vs s, minima marked with the same simple marker.
-    fig, ax = plt.subplots()
+    # 1x3 combined (paper FIG.6): equal-size subplots, (a)(b)(c) below labels.
+    fig123, (ax_a, ax_b, ax_c) = plt.subplots(1, 3, figsize=(10.5, 3.4))
+    # (a) full range: gap vs s for five L.
+    ax = ax_a
     for r, L in enumerate(LS):
-        ax.plot(s_wide, D_wide[r], color=palette[r], linestyle=LINESTYLES[r],
-                linewidth=1.5, label=rf"$L={L}$")
-        m = D_wide[r].argmin()
-        ax.plot(s_wide[m], D_wide[r, m], marker="o", color=palette[r],
-                markeredgecolor="black", markeredgewidth=0.8,
-                markersize=5, linestyle="None", zorder=3)
-    ax.set_xlabel(r"$s$")
-    ax.set_ylabel(r"$\Delta_{\mathrm{sec}}$")
-    ax.legend(frameon=False, fontsize=7)
-    finalize_figure(fig, os.path.join(FIGDIR, "exp03_D02a.pdf"))
-    finalize_figure(fig, os.path.join(FIGDIR, "exp03_D02a.png"))
-    plt.close(fig)
+        ax.plot(s, D[r], color=palette[r], linestyle=LINESTYLES[r],
+                linewidth=1.8, label=rf"$L={L}$")
+    ax.set_xlabel(r"$s$", fontsize=16)
+    ax.set_ylabel(r"$\Delta_{\mathrm{sec}}$", fontsize=16)
+    ax.tick_params(axis="both", labelsize=14)
+    ax.text(0.5, -0.32, "(a)", transform=ax.transAxes,
+            fontsize=17, va="top", ha="center", clip_on=False)
+    ax.legend(frameon=False, fontsize=14, loc="upper right")
 
-    # (b) scaled gap vs s + pairwise crossings.
-    fig, ax = plt.subplots()
+    # (b) zoom on the closing window, minima marked when they fall inside it.
+    ax = ax_b
+    win = (s >= WINDOW[0] - 1e-12) & (s <= WINDOW[1] + 1e-12)
     for r, L in enumerate(LS):
-        ax.plot(s_narrow, A_narr[r], color=palette[r], linestyle=LINESTYLES[r],
-                linewidth=1.5, label=rf"$L={L}$")
-    for p in range(10):
-        last = (p == 9)  # 20-24: colored marker + legend; others marker-only
-        ax.plot(cross_s[p], cross_A[p], marker=CROSS_MARKERS[p],
-                color="black", markerfacecolor=HIGHLIGHT if last else "white",
-                markeredgewidth=0.8, markersize=5, linestyle="None", zorder=3,
-                label=rf"${PAIR_LABELS[p]}$: ${cross_s[p]:.3f}$" if last else None)
-    ax.set_xlim(0.5, 0.53)
-    ax.set_xlabel(r"$s$")
-    ax.set_ylabel(r"$A=\Delta_{\mathrm{sec}} L$")
-    ax.legend(frameon=False, fontsize=7)
-    finalize_figure(fig, os.path.join(FIGDIR, "exp03_D02b.pdf"))
-    finalize_figure(fig, os.path.join(FIGDIR, "exp03_D02b.png"))
-    plt.close(fig)
+        ax.plot(s, D[r], color=palette[r], linestyle=LINESTYLES[r],
+                linewidth=1.8)
+        m = D[r].argmin()
+        if WINDOW[0] <= s[m] <= WINDOW[1]:
+            ax.plot(s[m], D[r, m], marker="o", color=palette[r],
+                    markeredgecolor="black", markeredgewidth=1.2,
+                    markersize=6, linestyle="None", zorder=3)
+    ax.set_xlim(*WINDOW)
+    lo, hi = D[:, win].min(), D[:, win].max()
+    pad = 0.06 * (hi - lo)
+    ax.set_ylim(lo - pad, hi + pad)
+    ax.set_xlabel(r"$s$", fontsize=16)
+    ax.set_ylabel(r"$\Delta_{\mathrm{sec}}$", fontsize=16)
+    ax.tick_params(axis="both", labelsize=14)
+    ax.text(0.5, -0.32, "(b)", transform=ax.transAxes,
+            fontsize=17, va="top", ha="center", clip_on=False)
 
-    # (c) gap vs 1/L (five points) + fit line through L=20,24 only.
-    fig, ax = plt.subplots()
-    xline = np.array([0.0, xs.max() * 1.1])
-    ax.plot(xline, a * xline + b, color="black", linewidth=1.0, linestyle="--")
-    for r, L in enumerate(FIT_LS):
+    # (c) gap vs 1/L at s=0.5 + quadratic fit; intercept a marked.
+    ax = ax_c
+    xline = np.linspace(0.0, xs.max() * 1.08, 200)
+    ax.plot(xline, a + b * xline + c * xline ** 2,
+            color="black", linewidth=1.2, linestyle="--", zorder=2)
+    for r, L in enumerate(LS):
         ax.plot(xs[r], ys[r], marker="o", color=palette[r],
-                markeredgecolor="black", markersize=5, linestyle="None", zorder=3,
-                label=rf"$L={L}$")
-    ax.legend(frameon=False, fontsize=7)
-    ax.text(0.05, 0.95, rf"$a={a:.2f}$" "\n" rf"$b={b:.2f}$",
-            transform=ax.transAxes, ha="left", va="top", fontsize=7)
-    ax.set_xlabel(r"$1/L$")
-    ax.set_ylabel(r"$\Delta_{\mathrm{sec}}$")
-    finalize_figure(fig, os.path.join(FIGDIR, "exp03_D02c.pdf"))
-    finalize_figure(fig, os.path.join(FIGDIR, "exp03_D02c.png"))
-    plt.close(fig)
-    print("wrote: figs/exp03/exp03_D02{a,b,c}.pdf + .png")
+                markeredgecolor="black", markersize=6, linestyle="None",
+                zorder=3)
+    ax.plot(0.0, a, marker="s", color="black", markersize=5, zorder=4,
+            linestyle="None")
+    ax.set_xlim(-0.004, xs.max() * 1.12)
+    ax.set_ylim(min(0.0, a) - 0.4, ys.max() * 1.10)
+    ax.set_xlabel(r"$1/L$", fontsize=16)
+    ax.set_ylabel(r"$\Delta_{\mathrm{sec}}$", fontsize=16)
+    ax.tick_params(axis="both", labelsize=14)
+    ax.text(0.5, -0.32, "(c)", transform=ax.transAxes,
+            fontsize=17, va="top", ha="center", clip_on=False)
+
+    fig123.tight_layout()
+    uniform_text(fig123, font_pt_for(fig123, PRINT_TEXT_PT))
+    eff = effective_min_text_pt(fig123, 165.0)
+    assert eff >= 8.0, f"D02 1x3 smallest text is {eff:.1f} pt at 165 mm (< 8 pt)"
+    print(f"D02 1x3 smallest effective text at 165 mm: {eff:.1f} pt")
+    finalize_figure(fig123, os.path.join(FIGDIR, "exp03_D02.pdf"))
+    finalize_figure(fig123, os.path.join(FIGDIR, "exp03_D02.png"))
+    plt.close(fig123)
+    print("wrote: figs/exp03/exp03_D02.pdf + .png")
 
 
 if __name__ == "__main__":
