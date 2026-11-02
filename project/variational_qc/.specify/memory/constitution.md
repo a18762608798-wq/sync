@@ -1,11 +1,10 @@
 <!-- Sync Impact Report
-- Version change: 1.0.1 → 1.0.2 (PATCH: 固定项目目录与引用路径，不改变实验语义)
+- Version change: 1.0.2 → 1.0.3 (PATCH: 修正 Skill 名称，不改变实验语义)
 - Modified principles:
-  - II: 目录约定统一引用 docs/README.md
-  - Governance: 实验映射迁移至 docs/planning/experiment-map.md
+  - VII: 研究型计算与 Julia 包开发的 Skill 名称更新为当前名称
 - Added sections: none
 - Removed sections: none
-- Migration: 字体迁入 assets/fonts/noto-serif-cjk/，规划迁入 docs/planning/，看板迁入 docs/status/；同步现有引用与源模板
+- Migration: julia-scientific-computing 改为 scientific-research-computing；julia-package-development 改为 scientific-package-development
 - Follow-up TODOs: none
 -->
 
@@ -64,8 +63,8 @@ Spec 是持续维护的活文档，而不是一次性交付物。
 
 | 域 | Skill |
 | --- | --- |
-| 研究型计算（仿真 / 参数扫描 / 论文复现） | `julia-scientific-computing` |
-| 可复用 Julia 包 / 库开发 | `julia-package-development` |
+| 研究型计算（仿真 / 参数扫描 / 论文复现） | `scientific-research-computing` |
+| 可复用 Julia 包 / 库开发 | `scientific-package-development` |
 | 运行环境 | `scientific-project-environment` |
 | 出图风格 | `scientific-figure-style` |
 
@@ -87,4 +86,4 @@ I–VI 原则；复杂度须有明确理由；违反宪法须在 plan 或任务�
 不得将多个实验合并为一个 spec，不得在 spec 之外另行定义
 Dxx / Sxx 产出归属与实验依赖关系。
 
-**Version**: 1.0.2 | **Ratified**: 2026-10-02 | **Last Amended**: 2026-11-01
+**Version**: 1.0.3 | **Ratified**: 2026-10-02 | **Last Amended**: 2026-11-02
