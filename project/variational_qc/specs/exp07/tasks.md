@@ -9,6 +9,7 @@
 >
 > T000 记录：qmeas 源码默认 `correct=False`（config.py:56，quark_client:115 透传），T003 须沿用显式 `correct=False` + assert。
 > T001 记录：复用 exp06 构造器 + S06 `theta_leg[si,a,p=2]` 分支层，90 点零 invalid。
+> T003 记录：token 经服务端建连验证通过（此前报 invalid 系写入多一括号，已修正）；提交进程已挂后台跑（46000 任务串行提交+轮询），日志 /tmp/sub07.log。
 > 前置：S06 `p=2` 分支参数与 `q_sim_p2` 口径已就绪（exp04 落盘）；
 > S04 比特口径沿用 exp06（引用，不重算）。
 
