@@ -255,3 +255,17 @@
 - `sun2023efficient`：库内 `FPSUMAZF`，标题 `Efficient variational quantum circuit structure for correlated topological phases`，`DOI 10.1103/physrevb.108.075127`，`Physical Review B`，已在 `['N7CLH4TB','VDRYZRPC']`，与 `references.bib` 一致，无需改动。
 - `campos2021abrupt`：库内查无（标题/`DOI 10.1103/PhysRevA.103.032607` 均零命中），按已核验 `references.bib` 元数据新建 `D6G65X4B`（`Phys. Rev. A 103, 032607`，`Campos/Nasrallah/Biamonte`），直接落 `N7CLH4TB`。
 - 结果：4 条均在 `paper-variational-qc (N7CLH4TB)` 就位；`D10` 仍待 `exp07` 回数（本轮 `tids=16661/46000`、`counts=0`，提交器进程不在）。
+
+## Zotero 旧库对齐（2026-11-03 重启后第二轮）
+
+- 全库比对：`bib 38` 条与库内 `724` 条按 `DOI` 小写精确匹配，`34 HIT`、`4 MISS`。
+- `4 MISS` 中 `2` 已引用实为预印本旧元数据，已就地升级为出版版本（未新建、不删 `assert`）：
+  - `bravyi2021mitigating`：库内 `X3WB23G3` 由 `preprint (2020-06-24, 无 DOI)` 更新为 `journalArticle`，`Phys. Rev. A 103, 042605 (2021)`，`DOI 10.1103/PhysRevA.103.042605`，已在 `N7CLH4TB`。
+  - `satzinger2021realizing`：库内 `8WC7LVIH` 由 `preprint (2021-04-02, 无 DOI)` 更新为 `journalArticle`，`Science 374, 1237--1241 (2021)`，`DOI 10.1126/science.abi8378`（保留原完整作者表，不按 `bib` 的 `others` 覆盖），已在 `N7CLH4TB`。
+- 另 `2 MISS` 均为未引用（留待 `D10` 后定夺，不新建）：`qi2021randomized`、`ware2021experimental`。
+- 结论：已引用 `23` 条在库内均有 `DOI` 命中；未引用 `15` 条维持原判。
+
+## 00-introduction 同行比较补强（2026-11-03 重启后）
+
+- 将第 2 段由罗列改为主题比较：`Satzinger` 为内禀拓扑序加非局域纠缠熵诊断，与本工作对称保护链加比特串直接可测标记形成对照；`Sun` 为最接近同类（初态层加变分层、`IBM` 上 `string` 序与边缘模），本工作差异点为相匹配初态加反射对称拟设统一覆盖三相、并以单一组合量 $Q$ 比较真机与模拟机趋势。不新增引用（`satzinger2021realizing`、`sun2023efficient` 均已核验，`Zotero` 元数据已对齐出版版本），中英同步。
+- 编译：`latexmk -pdf main.tex` 与 `latexmk -xelatex main-zh.tex` 实编 `exit 0`；`pdftotext` 抽 `main.pdf` 含 `closest sibling` 与 `intrinsic topological order`，`main-zh.pdf` 含对应中文表述；中间产物已恢复。
