@@ -100,3 +100,15 @@
 - **endres2011observation**（Zotero `AQY9KWUG`）：确认支持。全文 `arXiv:1108.3317`：
   低维 $Mott$ 绝缘体中关联粒子空穴对导致的非局域 $string$ 序。
 - 需在 $Zotero$ 集合中补入 `sun2023efficient` 的已核验条目后再 `bind`。
+
+## A-appendix（2026-11-03 本轮）
+
+- **sandvik2010computational**：确认支持方法句。全文 `arXiv:1101.3281`（207 页讲义，与 `DOI 10.1063/1.3518900` 同文，`AIP Conf. Proc. 1297`）：`Sec. 3.3` 有限尺寸标度，`Sec. 4` 精确对角化，`Sec. 4.2` 的 `Lanczos` 方法（含 `Krylov` 空间、基与哈密顿量构造、收敛性），`Sec. 4.3` 一维链基态与激发例子。支撑“对称性扇区能隙做法与 `Lanczos` 精确对角化遵循常规有限尺寸做法”一句；具体 $s_c=0.5$ 数值与 $a=-0.017$ 拟合截距来自本项目 `Exp03` 数据，不由该文献背书。
+- **raussendorf2001oneway**：`PRL` 原文仍未直读；同作者扩展版全文 `arXiv:quant-ph/0108067` 已验：簇态由一组本征方程表征，式 `(2)` 给出 $X$ 与近邻 $Z$ 乘积的本征值 $(-1)^{\kappa_a}$，$\kappa_a=0$ 即稳定子期望 $+1$；制备描述为全体 $|+\rangle$ 后加 $Ising$ 型相互作用（即 $CZ$ 组装 $|C\rangle=\prod CZ|+\rangle^{\otimes n}$），与正文一致。主引保留 `PRL 86, 5188`，实质有同作者已读全文支撑。
+- 本轮 $Zotero$ 桌面端在沙箱内启动失败（`CanCreateUserNamespace EPERM`），且当前线程未接入 $Zotero$ $MCP$，`bind` 待通道恢复后补；正文 $key$ 不变。
+
+## 09-comparison / 10-conclusion（2026-11-03 本轮）
+
+- **09** 数字已对账：窗口 $[226,242)$、$16$ 单元、$d_{\rm raw}=0.30$、$r=0.85$、$S_{\max}=4.51$、$O_{\max}=0.090$ 与 `data/exp06/joint/exp06_manifest_joint.json` 一致（小数取两位报告值）；$N=500$、`report-only` 口径与 `verify_exp06.py` 诊断一致。`D10` 为占位，待 `exp07` 真机数回来再补。
+- **10** 无引用，收尾句与已验章节一致，未引入新事实主张。
+- 未引用 $bib$ 共 $15$ 条（`affleck1989quantum` 等，见本轮统计），等全节定稿再定去留，不为消告警删条目。
