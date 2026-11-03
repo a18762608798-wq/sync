@@ -1,10 +1,10 @@
 \section{Variational state preparation}
 \label{sec:ansatz}
 
-\subsection{Illustrative start and end points}
+\subsection{Optimization targets}
 \label{sec:points}
 
-Figure~\ref{fig:D04}(d) marks three reference parameter pairs: $(0.01,0.02)\to(0.21,0.42)$ in the trivial region, $(0.99,0.02)\to(0.90,0.20)$ in the topological region, and $(0.50,1.98)\to(0.61,1.44)$ in the AFM region. The reflection markers at the corresponding target points are approximately $0.996$, $-0.98$, and $0.009$. Arrows indicate the correspondence between reference and target parameters; variational optimization uses the target Hamiltonian. The targets lie within the respective parameter regions.
+Variational optimization targets each point of the two scan lines, $\delta=-2$ and $\delta=0.85$, on the $99$-point $s$ grid ($s=0.01$--$0.99$): at every grid point the three initial states are optimized independently and the lowest of the three minima is reported, so the target Hamiltonians sample the trivial, topological, and AFM regions mapped in Fig.~\ref{fig:D04}(d). The phase-wise winning branches along the two lines are shown by the background bands in Fig.~\ref{fig:D08D09}(a,b).
 
 \subsection{Variational circuit structure}
 
