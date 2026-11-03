@@ -4,3 +4,6 @@ pymupdf = ""
 numpy = ""
 python = ""
 qiskit = ""
+
+[deps.qiskit-aer]
+channel = "conda-forge"

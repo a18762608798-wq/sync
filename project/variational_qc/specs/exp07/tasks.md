@@ -5,22 +5,25 @@
 任务必须来源于 `spec.md` 和 `plan.md`。
 不得在 tasks 阶段引入新的实验定义。
 
-> 状态：初稿，实现未开始；真机任务未提交，零机时。
+> 状态：2026-11-03 T000/T001/T006 已完成（T006 5 项全绿，aer 0.18.2；缓解/Q/窗口/manifest 断言随 T004 扩充）；T002 账单已由用户直接授权确认（2026-11-03，免等待门）；随即进 T003。
+>
+> T000 记录：qmeas 源码默认 `correct=False`（config.py:56，quark_client:115 透传），T003 须沿用显式 `correct=False` + assert。
+> T001 记录：复用 exp06 构造器 + S06 `theta_leg[si,a,p=2]` 分支层，90 点零 invalid。
 > 前置：S06 `p=2` 分支参数与 `q_sim_p2` 口径已就绪（exp04 落盘）；
 > S04 比特口径沿用 exp06（引用，不重算）。
 
 ## Implementation
 
-- [ ] T000 提交前复核 `correct` 默认：确认提交代码未改动
+- [x] T000 提交前复核 `correct` 默认：确认提交代码未改动
   `QuarkOptions.correct` 默认（`False`），提交参数逐批留存备查。
   完成条件：复核通过；若被改动则停，返工 plan，不进 T003。
-- [ ] T001 实现 `scripts/exp07_circuits.py`（可复用 exp06 构造器并分支化）：
+- [x] T001 实现 `scripts/exp07_circuits.py`（可复用 exp06 构造器并分支化）：
   `build_init(a)`（三初态，与 psi0 解析式逐振幅对照）、
   `build_ansatz(theta,a,p=2,delta)`（轨道配对/子层顺序/`RXX/RYY/RZZ` 单键，
   对应表写进 docstring）、`build_estimator_circuit`（+全 `Z` 测量）、
   `build_calib_circuits`（全 `0` / 全 `X`）。
   完成条件：模块可加载，三分支初态振幅正确（由 T006 锁定）。
-- [ ] T002 编写 `scripts/exp07_preview.py` 并执行离线预览：S06 `theta_leg`
+- [x] T002 编写 `scripts/exp07_preview.py` 并执行离线预览：S06 `theta_leg`
   的 `p=2` 子集读入 → 分支有效性过滤（`conv`/`stagn` 皆假标 invalid）
   → `92` 电路/单位 × `500` 单位划分 → 账单
   （VQE `45000` + 标定 `1000` = `46000` 任务，快照/S06 引用，
@@ -52,7 +55,7 @@
 
 ## Validation
 
-- [ ] T006 本地单元测试（`test/test_exp07_local.py`，pytest，全绿，
+- [x] T006 本地单元测试（`test/test_exp07_local.py`，pytest，全绿，
   零真机调用，建议 T002 前先行）：分支参数读取（与 S06 `theta_leg[p=2]`
   一致）；初态振幅对照；单键酉对照；
   **Aer 黄金交叉**（抽样 `(δ,s,a)` vs S06 `leg_E` 的 `p=2` 子集，
