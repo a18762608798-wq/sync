@@ -12,7 +12,7 @@ FIGS_DIR = Path(__file__).resolve().parent.parent / "figs" / "exp06"
 
 MASTER_SEED = 20261004
 SHOTS = 1024
-P_LEVEL = 2
+P_LEVEL = 1
 SPARSE = list(range(1, 100, 7))  # s_idx 1-based：1,8,…,99 → 15 点
 assert len(SPARSE) == 15
 N_POINTS = 15

@@ -30,12 +30,14 @@ function check_line(d10, tag::String, delta::Real, stag_tol::Real)
         @assert count(isfinite, row) == npl[p]  # NaN pad beyond Nθ
         @assert all(isfinite, [c["E_star"][i, p], c["spi"][i, p], c["ostr"][i, p]])
         for li in 1:3
-            @assert c["conv"][i, li, p] || c["stagn"][i, li, p]
-            if c["stagn"][i, li, p]  # ratchet gate re-derived from the archive
-                @assert p > 1
-                @assert c["dtail"][i, li, p] < stag_tol
-                @assert c["leg_E"][i, li, p] ≤ c["leg_E"][i, li, p - 1] + 1e-8
-            end
+            @assert c["conv"][i, li, p]
+            @assert !c["stagn"][i, li, p]
+            theta = vec(c["theta_leg"][i, li, p, 1:npl[p]])
+            H = Shared01.build_hamiltonian(8, i / 100, Float64(delta))
+            leg = LEG_LABELS[li]
+            actual = energy_of(theta, H, psi_init(leg, 8), build_meta(8, leg),
+                               p, Float64(delta), zeros(ComplexF64, 256))
+            @assert abs(actual - c["leg_E"][i, li, p]) < 1e-8
         end
         a = Int(c["a_star"][i, p])
         @assert 1 ≤ a ≤ 3
@@ -51,8 +53,11 @@ function main()
     d10 = NPZ.npzread(joinpath(DATA_DIR, "exp04_S06.npz"))
     s03 = NPZ.npzread(joinpath(DATA_DIR, "exp04_S03.npz"))
     manifest = open(JSON3.read, joinpath(DATA_DIR, "exp04_manifest.json"))
-    stag_tol = manifest["stag_tol"]  # single source: same threshold as production gate
-    @assert manifest["schema"] == SCHEMA == "exp04/v1"
+    stag_tol = 0.0  # retained function argument; no stagnation acceptance
+    @assert manifest["schema"] == SCHEMA == "exp04/v2"
+    @assert manifest["optimization_protocol"] == OPTIMIZATION_PROTOCOL
+    @assert Exp04.decode_protocol(d10["optimization_protocol"]) == OPTIMIZATION_PROTOCOL
+    @assert Exp04.decode_protocol(s03["optimization_protocol"]) == OPTIMIZATION_PROTOCOL
     @assert manifest["H_def"] == H_DEF_ID
     @assert vec(d10["deltas"]) == collect(DELTAS)
     check_line(d10, "dm2", -2.0, stag_tol)

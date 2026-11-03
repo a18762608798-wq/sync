@@ -1,29 +1,41 @@
 \section{Phase markers}
 \label{sec:markers}
 
-\subsection{Structure factor and the AFM label}
+\subsection{Structure factor and staggered correlations}
 \label{sec:sq}
 
-To identify the antiferromagnetic phase we use the structure factor
+We define the static structure factor in the Pauli convention as
 \begin{equation}
-S(q)=\frac{1}{L}\sum_{i,j}e^{iq(i-j)}\langle Z_iZ_j\rangle,
+S(q)=\frac1L\sum_{i,j}e^{iq(i-j)}\langle Z_iZ_j\rangle.
+\label{eq:structure-factor}
 \end{equation}
-where $\langle Z_iZ_j\rangle$ is the ground-state correlator and $L=8$
-throughout this section.
-The structure factor is the Fourier transform of spin correlations; $S(\pi)$ quantifies staggered correlations in the finite chain. The $S(q)$ curves at one representative point in each
-of the three phases (labels trivial / topo / AFM, coordinates in the
-dataset) on the shared $q$ grid (including $q=\pi$) are shown in
-Fig.~\ref{fig:D03}.
-The $q=\pi$ component is used as the AFM diagnostic throughout the
-hardware-facing protocol. It is evaluated from $Z_iZ_j$ correlations obtained by computational-basis measurements. Hardware $p=1$ measurements at the three points (Fig.~\ref{fig:D03}(b)) track the simulated curves in Fig.~\ref{fig:D03}(a), with the AFM $\pi$ peak clearly resolved despite noise suppression.
+It is four times the same expression written with $S_i^z=Z_i/2$.
+The site-resolved correlations in Eq.~\eqref{eq:structure-factor} apply directly to the open chain.
+For a measured bitstring $z_j=\pm1$, the single-shot value is
+\begin{equation}
+x_q=\frac1L\left|\sum_j e^{iqj}z_j\right|^2.
+\label{eq:structure-shot}
+\end{equation}
+Its expectation equals Eq.~\eqref{eq:structure-factor}, proving nonnegativity and allowing all $q$ values to be estimated from the same shots.
+
+At $q=\pi$, the fixed-scale quantity is the staggered-magnetization second moment,
+\begin{equation}
+\hat S(\pi)=\frac{S(\pi)}{L}
+=\left\langle\left[\frac1L\sum_j(-1)^jZ_j\right]^2\right\rangle.
+\label{eq:staggered-moment}
+\end{equation}
+It detects staggered correlations even when spin-flip symmetry makes the first moment vanish.
+The staggered second moment is a standard finite-size AFM diagnostic~\cite{sandvik2010computational}.
+
+Figure~\ref{fig:D03} compares $\hat S(q)=S(q)/L$ at one representative point in each finite-size region on a shared $q$ grid containing $\pi$.
+The $p=1$ hardware curves reproduce the characteristic $q$ dependence of the three representative points, including the AFM peak at $q=\pi$.
+We use the $\pi$ component in the subsequent correlation analysis.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\columnwidth]{{../../figs/exp02/exp02_D03}}
-\caption{Structure factor $S(q)$ at three phase-representative points (one
-per phase) on the shared $q$ grid: (a) simulator, (b) hardware $p=1$
-measurements at the same points ($1024$ shots with readout mitigation),
-tracking the simulated curves; the values at $q=\pi$ compare staggered
-correlations at the representative points.
+\caption{Normalized static structure factor $\hat S(q)=S(q)/L$ at three representative points:
+(a) numerical ground states; (b) hardware $p=1$ measurements at the same points, using $1024$ shots and readout mitigation.
+The peak at $q=\pi$ diagnoses staggered correlations.
 \label{fig:D03}}
 \end{figure}

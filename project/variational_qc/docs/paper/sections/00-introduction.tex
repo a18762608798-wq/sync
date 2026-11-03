@@ -1,14 +1,30 @@
 \section{Introduction}
 \label{sec:intro}
 
-Variational quantum eigensolvers combine parameterized quantum circuits with classical optimization to prepare low-energy states using shallow circuits. Applying this approach to topological phases requires joint consideration of initial-state structure, circuit symmetries, and the measurement cost of phase diagnostics.
+Variational quantum eigensolvers use parameterized circuits and classical optimization to approximate low-energy states~\cite{peruzzo2014variational}.
+Experiments on superconducting processors established hardware-efficient implementations for molecules and quantum magnets~\cite{kandala2017hardware}, while subsequent reviews describe the roles of circuit design, measurement cost, and optimization~\cite{cerezo2021variational,tilly2022variational}.
+For topological matter, protecting symmetries and nonlocal correlations guide both circuit design and the choice of observables.
 
-Studies on quantum processors include both direct state preparation and variational optimization. Satzinger~\textit{et al.}~\cite{satzinger2021realizing} prepared toric-code ground states on a superconducting processor and measured the topological entanglement entropy introduced in Refs.~\cite{levin2006detecting,kitaev2006topological}; that work targets intrinsic topological order with a nonlocal diagnostic, whereas we target a symmetry-protected chain with markers chosen to be directly measurable from bitstrings. Sun~\textit{et al.}~\cite{sun2023efficient} is the closest sibling: initialization plus variational layers to study symmetry-protected topological phases, measuring string order and edge modes on IBM devices. We differ by systematizing the phase structure into the circuit itself---phase-matched initial states plus a reflection-symmetric ansatz covering the trivial, topological, and AFM regions in one framework---and by comparing hardware and simulator trends through the single combined quantity $Q$ rather than reporting state preparation alone.
+In one dimension, symmetric gapped spin phases can be distinguished by the projective action of symmetry on entanglement~\cite{chen2011classification,schuch2011classifying}.
+This SPT distinction differs from intrinsic topological order, for which topological entanglement entropy is a diagnostic~\cite{kitaev2006topological,levin2006detecting}.
+The latter has been measured in toric-code states on a superconducting processor~\cite{satzinger2021realizing}.
+Here we study an interacting dimerized spin chain with competing trivial, Haldane-type, and antiferromagnetic (AFM) regimes.
 
-Here we study the trivial, topological, and antiferromagnetic (AFM) regions of an open dimerized XXZ chain. Phase-matched initial states and a reflection-symmetric variational ansatz provide a common circuit framework for preparing low-energy states across these regions. We construct an $L=8$ finite-size phase diagram using the normalized partial-reflection marker $\tilde{Z}_{\mathcal R}$. On hardware, we measure the antiferromagnetic structure factor $S(\pi)$ and string correlations, and compare their parameter dependence with simulations through the combined quantity $Q$.
+Experiments on Rydberg atoms realized a bosonic SSH SPT phase~\cite{deleseleuc2019observation}.
+Digital experiments have prepared SPT phases with next-nearest-neighbor spin exchange~\cite{tan2023realizing} and simulated larger spin chains using cloud superconducting devices~\cite{yu2023simulating}.
+For variational preparation, Sun \textit{et al.} combined structured initial states and variational layers to study correlated topological phases~\cite{sun2023efficient}.
+These works motivate examining how an initialization and circuit tailored to the model perform when trivial dimerization, topological dimerization, and AFM correlations compete.
 
-The structure factor characterizes momentum-resolved spin correlations, while string correlations probe hidden order in valence-bond systems~\cite{dennijs1989preroughening,perezgarcia2008string}. String correlations have also been observed in low-dimensional Mott insulators~\cite{endres2011observation}. We evaluate both diagnostics over the same parameter sweep to compare the evolution of antiferromagnetic correlations and nonlocal string signals.
+Measurement choices determine what can be inferred from a prepared state.
+Partial-reflection invariants give a symmetry-based many-body diagnostic~\cite{elben2020manybody}, whereas the interpretation of ordinary string order depends on the inserted symmetry and endpoint operators~\cite{pollmann2012detection,haegeman2012order}.
+We use the partial-reflection invariant for the numerical phase diagram and measure staggered and cell-string correlations in a single computational basis on hardware.
+Three reference states determine the normalization of these correlators and their affine combination $Q$.
 
-The experimental workflow combines candidate-qubit-subgraph screening, symmetry-preserving variational circuits, and readout mitigation with batch-wise calibration. Screening evaluates connected regions using cluster-state stabilizers and readout fidelity. Readout mitigation uses a tensor-product model of single-qubit assignment matrices~\cite{bravyi2021mitigating,nation2021scalable}. Finite-size analysis examines the chain-length dependence of the symmetry-sector gap at $\delta=-2$.
+In this work, phase-matched initial states and a reflection-symmetric variational circuit provide a common framework for the three regimes.
+We optimize the circuits using ideal classical simulations, execute the optimized state-preparation circuits on the Baihua processor, and measure the correlation diagnostics.
+The numerical map is evaluated at $L=8$; a separate symmetry-sector gap calculation at $\delta=-2$ compares five chain lengths.
+Readout mitigation follows the assignment-matrix framework reviewed in Refs.~\cite{endo2021hybrid,cai2023quantum}.
+The hardware analysis compares $Q$ across $30$ scan points and reports positive cell-string correlations in the topological region.
 
-The following sections present the model and symmetries, finite-size phase diagram, phase markers, variational state preparation, readout mitigation, and hardware--simulator comparison. The Appendix reports finite-size gap analysis and qubit-screening results.
+The following sections develop the model's symmetry classification, finite-size phase diagram, measured diagnostics, circuit construction, readout mitigation, and hardware comparison.
+The Appendix gives the bulk-theory context and finite-size gap analysis, followed by qubit-screening results.

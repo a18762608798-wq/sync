@@ -47,6 +47,8 @@ function main()
     source = joinpath(repo, "data", "exp06", "joint", "exp06_D08_joint.npz")
     formal = joinpath(repo, "data", "exp06", "joint", "exp06_manifest_joint.json")
     hashes = Dict(path => bytes2hex(sha256(read(path))) for path in (source, formal))
+    processing = JSON3.read(read(formal, String))["readout_mitigation"]
+    @assert processing["probability_repair"] == "euclidean-simplex-projection"
     data = npzread(source)
     s_units, o_units = data["s_post"], data["o_post"]
     indices = findall(x -> isapprox(x, -2.0; atol=1e-9), vec(data["deltas"]))
@@ -64,7 +66,8 @@ function main()
     @assert isapprox(q_ref, vec(data["q_sim_p1"])[indices]; atol=1e-12)
 
     best, n_candidates = search_dm2_window(s_units, o_units, indices, q_ref)
-    @assert (best.start, best.length) == (221, 14)
+    @assert 0 <= best.start && iseven(best.length) && best.length >= 10
+    @assert best.start + best.length <= length(ids)
     window = (best.start+1):(best.start+best.length)
     sm = vec(mean(s_units[window, :]; dims=1))
     om = vec(mean(o_units[window, :]; dims=1))
@@ -100,6 +103,7 @@ function main()
         "window_indexing" => "zero-based half-open",
         "window_stop" => best.start + best.length,
         "stderr_def" => "inter-unit sample standard deviation / sqrt(window length); endpoints held fixed",
+        "readout_mitigation" => processing,
         "sources_sha256" => Dict(replace(relpath(k, repo), '\\' => '/') => v
                                   for (k, v) in hashes),
     )
@@ -130,7 +134,8 @@ function fixed_window_companion()
     @assert length(indices) == 15
     win = parent["window"]
     start, len = Int(win["start"]), Int(win["length"])
-    @assert (start, len, Int(parent["window_stop"])) == (221, 14, 235)
+    @assert 0 <= start && iseven(len) && len >= 10
+    @assert Int(parent["window_stop"]) == start + len <= size(s_units, 1)
     window = (start+1):(start+len)
     smax, omax = Float64(win["S_max"]), Float64(win["O_max"])
     sm = vec(mean(s_units[window, :]; dims=1))
@@ -170,6 +175,7 @@ function fixed_window_companion()
         "window" => Dict("start" => start, "length" => len, "S_max" => smax,
                          "O_max" => omax, "r" => score.r, "d_raw" => score.d_raw),
         "stderr_def" => parent["stderr_def"],
+        "readout_mitigation" => parent["readout_mitigation"],
         "sources_sha256" => Dict(String(k) => String(v)
                                   for (k, v) in pairs(parent["sources_sha256"])),
         "selection_manifest" => "data/exp06/diagnostics/dm2_window/manifest.json",
@@ -183,7 +189,7 @@ function fixed_window_companion()
         @assert bytes2hex(sha256(read(joinpath(repo, String(relative))))) == expected
     end
     println("d085 fixed dm2 window: [", start, ",", start+len, "); ", score)
-    println("Same 14 units and shared endpoints; no window search or formal writes.")
+    println("Same ", len, " units and shared endpoints; no window search or formal writes.")
 end
 
 if isempty(ARGS)

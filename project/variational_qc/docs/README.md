@@ -17,7 +17,7 @@
 | `assets/fonts/times-new-roman/` | 绘图使用的四种 Times New Roman 字形与授权说明 |
 | `docs/planning/` | 唯一论文大纲 `paper-outline.md` 与 Exp 生产归属 `experiment-map.md` |
 | `docs/status/` | `paper.html`、`experiments.html` 两个自包含状态页 |
-| `docs/experiment-notes/` | 为 Exp 实现服务的模型、公式、符号与计算约定，允许简写；不是正式论文正文 |
+| `docs/experiment-notes/` | 核心理论笔记：模型、定义、符号、假设、公式与必要推导 |
 | `docs/paper/` | LaTeX 主文件、章节与参考文献，既有论文工程位置不变 |
 | `specs/<feature>/` | 实验规格、实现计划和任务清单 |
 | `figs/<feature>/` | 绘图产物：矢量 PDF 与 PNG 预览 |
@@ -29,7 +29,7 @@
 ## Exp 与 Paper 的边界
 
 - Exp 继续以 `specs/<feature>/spec.md` 定义实验，`plan.md` 记录实现决策，`tasks.md` 跟踪执行与验证；普通修改按项目 [AGENTS.md](../AGENTS.md) 增量维护。
-- [实验笔记](experiment-notes/README.md) 为实验实现提供模型与计算约定。涉及实验含义的修改，先同步受影响的 Exp spec；笔记中的简写不能直接充当正式论文论证。
+- [理论笔记](experiment-notes/README.md) 只描述核心理论，不提前安排后续实验，也不放执行状态、产物记录或文献事务。具体参数、采集与处理流程、验收条件写入对应 spec/plan/tasks；参考文献与来源核验记录归 `docs/paper/`。理论与 Exp 的科学约定保持一致，笔记中的简写不能直接充当正式论文论证。
 - Paper 直接维护 [论文大纲](planning/paper-outline.md) 与 `docs/paper/`，通过写作、引文、排版、评审和修订 skills 完成工作；不创建 Paper spec、plan、tasks、paper-map 或 paper feature。
 - 写作理论部分时，先检索并阅读全文，核验文献对具体论述的支撑与适用条件，再独立组织定义、前提和推导，并核对 Exp 的符号、参数与观测量约定。区分文献结论与项目自己的构造，不因补引文而改变实验含义。
 - 缺少文献或论证时在 Paper 任务中补齐；需要新增实验、改动参数或改变结果解释时返回受影响的 Exp。Dxx / Sxx 编号保持稳定，不随章节重排重编号。

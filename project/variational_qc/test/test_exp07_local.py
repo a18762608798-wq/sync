@@ -95,7 +95,7 @@ def test_branch_invalid_matches_flags():
             for a in (1, 2, 3):
                 conv = bool(np.asarray(s06[f"{tag}_conv"])[si - 1, a - 1, P - 1])
                 stagn = bool(np.asarray(s06[f"{tag}_stagn"])[si - 1, a - 1, P - 1])
-                assert branch_invalid(S06, di, si, a) == ((not conv) and (not stagn))
+                assert branch_invalid(S06, di, si, a) == ((not conv) or stagn)
                 n_inv += branch_invalid(S06, di, si, a)
     assert n_inv == 0
 
@@ -143,6 +143,7 @@ def test_mitigation_identity_and_q():
         window_endpoints90,
     )
     from exp06_assemble import (  # noqa: E402
+        READOUT_MITIGATION,
         mitigate_counts,
         q_hat_basis,
     )
@@ -153,6 +154,9 @@ def test_mitigation_identity_and_q():
     out = mitigate_counts({format(b, "08b"): int(ideal[b] * 10 ** 9)
                            for b in range(256)}, Ms, 8)
     assert np.allclose(out / out.sum(), ideal, atol=1e-6)
+    from exp07_assemble import READOUT_MITIGATION as exp07_method
+    assert exp07_method == READOUT_MITIGATION
+    assert exp07_method["probability_repair"] == "euclidean-simplex-projection"
     qb = q_hat_basis(8.0, 4.0)
     assert qb.shape == (256,)
     ep = window_endpoints90(np.arange(90, dtype=float),

@@ -22,11 +22,13 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from optimization_source import validate_s06, protocol_of, file_sha256
 
 from exp06_common import (  # noqa: E402
     EVEN_LEN_MIN,
     JOINT_LINE,
     JOINT_N_POINTS,
+    P_LEVEL,
     SHOTS,
     line_dir,
     read_json,
@@ -35,21 +37,52 @@ from exp06_common import (  # noqa: E402
 
 L = 8
 SCHEMA = "exp06/v3"
+READOUT_MITIGATION = {
+    "version": 1,
+    "model": "tensor-product",
+    "normalize_counts_before_inversion": True,
+    "probability_repair": "euclidean-simplex-projection",
+    "matrix_order": "logical-qubit-ascending; q0-is-rightmost-counts-bit",
+    "reference_doi": "10.22331/q-2020-04-24-257",
+}
+
+
+def project_probability_simplex(values: np.ndarray) -> np.ndarray:
+    """Euclidean projection onto nonnegative vectors of unit sum."""
+    v = np.asarray(values, dtype=float)
+    if v.ndim != 1 or v.size == 0 or not np.isfinite(v).all():
+        raise ValueError("simplex projection requires a finite nonempty vector")
+    ordered = np.sort(v)[::-1]
+    thresholds = (np.cumsum(ordered) - 1.0) / np.arange(1, v.size + 1)
+    active = np.flatnonzero(ordered > thresholds)
+    if active.size == 0:
+        raise FloatingPointError("could not determine simplex projection threshold")
+    projected = np.maximum(v - thresholds[active[-1]], 0.0)
+    if not np.isclose(projected.sum(), 1.0, rtol=0, atol=1e-12):
+        raise FloatingPointError("simplex projection lost unit normalization")
+    return projected
 
 
 def mitigate_counts(counts: dict[str, int], Ms: list, n: int = L) -> np.ndarray:
-    """逐比特独立缓解：p_mit = (⊗_q M_q⁻¹) p_meas，负值截零重归一。"""
+    """Normalize counts, invert the tensor model, then project onto the simplex."""
+    if len(Ms) != n:
+        raise ValueError("one calibration matrix is required per logical qubit")
+    if any(np.asarray(M).shape != (2, 2)
+           or not np.isfinite(np.asarray(M, dtype=float)).all() for M in Ms):
+        raise ValueError("calibration matrices must be finite 2-by-2 arrays")
     Minvs = [np.linalg.inv(np.asarray(M, dtype=float)) for M in Ms]
     K = Minvs[n - 1]
     for q in range(n - 2, -1, -1):
         K = np.kron(K, Minvs[q])
     p = np.zeros(1 << n)
     for key, c in counts.items():
+        if not np.isfinite(c) or c < 0:
+            raise ValueError("counts must be finite and nonnegative")
         p[int(key, 2)] += c
-    p = K @ p
-    p = np.clip(p, 0, None)
-    s = p.sum()
-    return p / s if s > 0 else p
+    total = p.sum()
+    if not np.isfinite(total) or total <= 0:
+        raise ValueError("counts must have a positive finite total")
+    return project_probability_simplex(K @ (p / total))
 
 
 def obs_basis_arrays() -> tuple[np.ndarray, np.ndarray]:
@@ -89,7 +122,7 @@ def q_of(spi: float, ostr: float) -> float:
 
 
 def unit_q_se(probs: np.ndarray, shots: int) -> float:
-    """单位内 multinomial 传播 SE：Q 线性，SE²=(E[q²]-E[q]²)/shots。"""
+    """Multinomial plug-in SE; excludes inversion/projection/calibration uncertainty."""
     qb = q_basis_array()
     mu = float(np.asarray(probs) @ qb)
     var = max(float(np.asarray(probs) @ (qb * qb)) - mu * mu, 0.0)
@@ -182,7 +215,7 @@ def search_best_even_window(S_units: np.ndarray, O_units: np.ndarray,
 MANIFEST_KEYS = {"schema", "line", "d08", "s03_ref", "s04_ref", "s06_ref",
                  "points", "shots", "p_level", "chip", "n_units",
                  "endpoints", "window", "report", "stderr_def",
-                 "toolchain", "python"}
+                 "toolchain", "python", "readout_mitigation", "calibration_mapping"}
 
 
 def build_manifest(**kw) -> dict:
@@ -228,12 +261,28 @@ def group_Ms(cal_counts: dict, phys: list[int]) -> list:
     s0 = sum(c0.values()) or 1
     s1 = sum(c1.values()) or 1
     Ms = []
-    for i in range(n):
-        q = n - 1 - i  # 字符串位 i ↔ qubit q
+    for q in range(n):
+        i = n - 1 - q  # 字符串位 i ↔ qubit q；列表按逻辑 qubit 升序。
         p0m = sum(c for k, c in c0.items() if k[i] == "0") / s0
         p1m = sum(c for k, c in c1.items() if k[i] == "1") / s1
         Ms.append([[p0m, 1 - p1m], [1 - p0m, p1m]])
     return Ms
+
+
+def calibration_mapping_record(groups: list[dict], phys_of: dict,
+                               branch_key: str) -> dict:
+    """Disclose which measurement mappings lack their own unit calibration."""
+    calibration_phys = list(phys_of[groups[0][branch_key]])
+    unmatched = [f"g{i}" for i, g in enumerate(groups)
+                 if list(phys_of[g[branch_key]]) != calibration_phys]
+    return {
+        "status": "complete" if not unmatched else "incomplete-physical-mapping-coverage",
+        "calibration_target_qubits": calibration_phys,
+        "measurement_target_qubits": {str(a): list(q) for a, q in phys_of.items()},
+        "mismatched_keys": unmatched,
+        "interpretation": "cross-mapping calibration transfer is unvalidated" if unmatched
+                          else "measurement and calibration mappings match",
+    }
 
 
 def _probs_of_counts(counts: dict) -> np.ndarray:
@@ -246,7 +295,7 @@ def _probs_of_counts(counts: dict) -> np.ndarray:
 
 def unit_q_se_qb(probs: np.ndarray, qb: np.ndarray,
                    shots: int) -> float:
-    """单位内 multinomial 传播 SE：Q 在基矢上线性，SE²=(E[q²]-E[q]²)/shots。
+    """单位内 multinomial plug-in SE，不含反演、投影与标定不确定性。
 
     qb 为含冻结端点的组合系数（q_hat_basis），shots=1024。
     """
@@ -267,6 +316,7 @@ def main() -> None:
     repo = _P(__file__).resolve().parent.parent
     info = read_json(ldir / "groups.json")
     groups = info["groups"]
+    assert {int(g["p"]) for g in groups} == {P_LEVEL}, "exp06 groups must use the specified depth"
     G = len(groups)
     assert G == JOINT_N_POINTS, G
     phys_of = {1: info["chain_top1"], 3: info["chain_top1"],
@@ -332,7 +382,8 @@ def main() -> None:
         if s05_all else np.zeros((0, L, 2, 2))
 
     # 模拟机固定 hat 尺度（S06 列 0=p=1、列 1=p=2；p=1 兼作选窗参照层）。
-    s06 = np.load(repo / "data" / "exp04" / "exp04_S06.npz")
+    s06_path = repo / "data" / "exp04" / "exp04_S06.npz"
+    s06 = validate_s06(s06_path)
     tag_of = {1: "dm2", 2: "d085"}
     s_rows = np.array([g["s_idx"] - 1 for g in groups])
     tags = [tag_of[g["delta_idx"]] for g in groups]
@@ -385,9 +436,10 @@ def main() -> None:
         s03_ref="data/exp04/exp04_S03.npz",
         s04_ref="data/exp05/exp05_S04.npz",
         s06_ref="data/exp04/exp04_S06.npz",
+        optimization_source={"protocol": protocol_of(s06), "s06_sha256": file_sha256(s06_path)},
         points={"n_points": G, "sparse": "s_idx=1,8,…,99 x {0.85,-2}",
                 "order": "每 s 先 δ=0.85 后 δ=-2"},
-        shots=SHOTS, p_level=2, chip=info.get("chip", "Baihua"),
+        shots=SHOTS, p_level=P_LEVEL, chip=info.get("chip", "Baihua"),
         n_units=U,
         endpoints={"S_max": S_max, "O_max": O_max,
                    "method": "top1-max-pooled-window"},
@@ -395,7 +447,9 @@ def main() -> None:
                 "d_raw": win["d_raw"], "r": win["r"],
                 "S_max": S_max, "O_max": O_max},
         report={"mode": "report-only", "no_threshold": True},
-        stderr_def="unit-multinomial-propagated + window-inter-unit-SE",
+        stderr_def="unit-multinomial-plugin + window-inter-unit-SE",
+        readout_mitigation=dict(READOUT_MITIGATION),
+        calibration_mapping=calibration_mapping_record(groups, phys_of, "a_star"),
         toolchain=pkg_versions(), python=sys.executable)
     write_json(ldir / "exp06_manifest_joint.json", manifest)
     print(f"joint：{U} 完整单位，窗口 start={ws} len={wl} "

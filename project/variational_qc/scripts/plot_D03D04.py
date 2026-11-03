@@ -27,6 +27,11 @@ D03_LINESTYLE = "-"
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--d03-only", action="store_true",
+                        help="只更新含真机后处理结果的 D03 图")
+    args = parser.parse_args()
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -124,6 +129,8 @@ def main():
     finalize_figure(fig, os.path.join(FIGDIR, "exp02_D03.png"))
     plt.close(fig)
     print("wrote: figs/exp02/exp02_D03.pdf + .png")
+    if args.d03_only:
+        return
 
     # D04 combined 2x2 (paper FIG.1): each subplot box is forced square
     # (set_box_aspect(1)); (a)-(d) sit in the lower-left corner, black on the

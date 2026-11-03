@@ -89,6 +89,8 @@ def main() -> None:
     # 三件套 + S05 同单位 + correct + 转译验路（VAL-001/002/005/008）。
     from exp06_assemble import (  # noqa: E402
         MANIFEST_KEYS,
+        READOUT_MITIGATION,
+        calibration_mapping_record,
         group_Ms,
         mitigate_counts,
         obs_from_probs,
@@ -98,11 +100,20 @@ def main() -> None:
     )
     phys_of = {1: info["chain_top1"], 3: info["chain_top1"],
                2: info["subchain_top1"]}
+    hard(manifest.get("readout_mitigation") == READOUT_MITIGATION,
+         "manifest 欧氏概率投影、归一化及逻辑位序记录一致")
+    mapping = calibration_mapping_record(groups, phys_of, "a_star")
+    hard(manifest.get("calibration_mapping") == mapping,
+         "manifest 如实记录标定物理映射覆盖范围")
     qb = q_hat_basis(float(ep["S_max"]), float(ep["O_max"]))
     uids = [int(v) for v in d08["unit_ids"]]
     three_ok, se_ok, s05_ok, route_ok, acct_ok = True, True, True, True, True
+    mapping_ok = True
     for k, uid in enumerate(uids):
         st = read_json(ldir / "units" / f"{uid:05d}" / "state.json")
+        for key in ("cal_zero", "cal_one"):
+            if st["submit_params"].get(key, {}).get("target_qubits") != mapping["calibration_target_qubits"]:
+                mapping_ok = False
         if any(f"g{gi}" not in st.get("counts", {}) for gi in range(G)):
             three_ok = False
         if any(x not in st.get("counts", {})
@@ -128,6 +139,11 @@ def main() -> None:
                     and np.isclose(o0, d08["o_pre"][k, gi])):
                 three_ok = False
             p_mit = mitigate_counts(counts, Ms)
+            s1, o1 = obs_from_probs(p_mit)
+            if not (np.all(p_mit >= 0) and np.isclose(p_mit.sum(), 1)
+                    and np.isclose(s1, d08["s_post"][k, gi])
+                    and np.isclose(o1, d08["o_post"][k, gi])):
+                three_ok = False
             if not (np.isclose(float(p_mit @ qb), d08["q_post"][k, gi],
                                rtol=1e-9, atol=1e-12)
                     and np.isclose(unit_q_se_qb(p_mit, qb, SHOTS),
@@ -135,6 +151,8 @@ def main() -> None:
                                    atol=1e-12)):
                 se_ok = False
             sp = st["submit_params"].get(f"g{gi}", {})
+            if sp.get("target_qubits") != phys_of[g["a_star"]]:
+                mapping_ok = False
             if sp.get("correct") is not False:
                 acct_ok = False
             tr = st["transpile"].get(f"g{gi}", {})
@@ -148,6 +166,7 @@ def main() -> None:
     hard(three_ok, "三件套：原始 counts + 缓解前 + 缓解后全存档")
     hard(se_ok, "单位内组合 Q 与传播 SE 重算一致")
     hard(s05_ok, "S05 与 VQE 同单位")
+    hard(mapping_ok, "实际提交的测量与标定物理映射符合披露记录")
     hard(acct_ok, "提交参数 correct=False 留存可查")
     hard(route_ok, "转译验路断言：CZ 边集落入允许集")
 
@@ -188,6 +207,9 @@ def main() -> None:
     print(f"诊断：N={U}，窗口 start={win['start']} len={win['length']} "
           f"d_raw={win['d_raw']:.4f} r={win['r']:.4f}（report-only）")
     print("诊断：D08 真机–模拟机趋势一致性请目检出图")
+    if mapping["mismatched_keys"]:
+        print(f"诊断：每单位 {len(mapping['mismatched_keys'])} 个测点缺少匹配物理映射的标定；"
+              "当前数值核验不证明跨映射标定外推有效", flush=True)
 
     if FAIL:
         print(f"VERIFY-EXP06-FAIL：{len(FAIL)} 项", flush=True)

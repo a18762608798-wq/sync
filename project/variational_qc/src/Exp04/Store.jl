@@ -3,7 +3,7 @@
 # I/O only; physics lives in the InitStates/Ansatz/VQELoop implementation files
 # (+ read-only Exp02 kernels).
 
-const SCHEMA = "exp04/v1"
+const SCHEMA = "exp04/v2"
 const DELTAS = (-2.0, 0.85)
 const S_GRID = [i / 100 for i in 1:99]  # spec PRE-001: same convention as S01
 const THETA_MAX = 24                     # max Nθ (δ≠0, p=3); shorter padded with NaN
@@ -12,6 +12,8 @@ const PROGRESS_NAME = "progress.json"
 const S06_NPZ_NAME = "exp04_S06.npz"
 const S03_NPZ_NAME = "exp04_S03.npz"
 const MANIFEST_NAME = "exp04_manifest.json"
+protocol_bytes() = collect(codeunits(OPTIMIZATION_PROTOCOL))
+decode_protocol(value) = String(Vector{UInt8}(vec(value)))
 
 const LINE_TAGS = ((-2.0, "dm2"), (0.85, "d085"))
 LINE_ID(delta::Real) = delta == -2.0 ? "dm2" : delta == 0.85 ? "d085" :
@@ -22,7 +24,11 @@ _linepath(dir, delta) = joinpath(_chunks(dir), "line_$(LINE_ID(delta)).npz")
 function _read_progress(dir)
     path = joinpath(dir, PROGRESS_NAME)
     isfile(path) || return Set{String}()
-    return Set{String}(open(JSON3.read, path)["completed_lines"])
+    progress = open(JSON3.read, path)
+    get(progress, "schema", "") == SCHEMA || throw(ErrorException("obsolete progress schema"))
+    get(progress, "optimization_protocol", "") == OPTIMIZATION_PROTOCOL ||
+        throw(ErrorException("obsolete progress optimization protocol"))
+    return Set{String}(progress["completed_lines"])
 end
 
 completed_lines(dir::AbstractString) = _read_progress(dir)
@@ -41,13 +47,15 @@ function save_line(dir::AbstractString, delta::Real, payload::Dict)
     mkpath(_chunks(dir))
     path = _linepath(dir, delta)
     tmp = path * ".tmp"
-    NPZ.npzwrite(tmp, merge(Dict("delta" => Float64(delta), "s_grid" => S_GRID), payload))
+    NPZ.npzwrite(tmp, merge(Dict("delta" => Float64(delta), "s_grid" => S_GRID,
+                               "optimization_protocol" => protocol_bytes()), payload))
     mv(tmp, path; force=true)
     lock(_PROGRESS_LOCK) do
         done = _read_progress(dir)
         push!(done, LINE_ID(delta))
         open(joinpath(dir, PROGRESS_NAME), "w") do io
-            JSON3.write(io, Dict("schema" => SCHEMA, "completed_lines" => sort(collect(done))))
+            JSON3.write(io, Dict("schema" => SCHEMA, "optimization_protocol" => OPTIMIZATION_PROTOCOL,
+                                 "completed_lines" => sort(collect(done))))
         end
     end
     return path
@@ -61,6 +69,8 @@ function assemble_S06_S03(dir::AbstractString)
     lines = Dict{Float64,Any}()
     for delta in DELTAS
         c = NPZ.npzread(_linepath(dir, delta))
+        decode_protocol(c["optimization_protocol"]) == OPTIMIZATION_PROTOCOL ||
+            throw(ErrorException("obsolete optimization protocol line $delta"))
         vec(c["s_grid"]) == S_GRID || throw(ErrorException("s_grid mismatch line $delta"))
         lines[delta] = c
     end
@@ -75,10 +85,12 @@ function assemble_S06_S03(dir::AbstractString)
     end
     s06_path = joinpath(dir, S06_NPZ_NAME)
     tmp = s06_path * ".tmp"
-    flat = Dict{String,Any}("s_grid" => S_GRID, "deltas" => collect(DELTAS))
+    flat = Dict{String,Any}("s_grid" => S_GRID, "deltas" => collect(DELTAS),
+                            "optimization_protocol" => protocol_bytes())
     for (delta, tag) in LINE_TAGS
         for k in ("theta_star", "E_star", "a_star", "spi", "ostr", "e0",
-                  "leg_E", "theta_leg", "conv", "stagn", "dtail", "einit", "sym")
+                  "leg_E", "theta_leg", "conv", "stagn", "dtail", "einit", "sym",
+                  "seed_leg", "nsamples_leg", "iters_leg", "reused_leg")
             flat["$(tag)_$(k)"] = lines[delta][k]
         end
     end
@@ -99,6 +111,7 @@ function assemble_S06_S03(dir::AbstractString)
     s03_path = joinpath(dir, S03_NPZ_NAME)
     tmp = s03_path * ".tmp"
     NPZ.npzwrite(tmp, Dict("theta" => th, "meta" => meta_rows,
+                           "optimization_protocol" => protocol_bytes(),
                            "deltas" => collect(DELTAS), "s_grid" => S_GRID))
     mv(tmp, s03_path; force=true)
     manifest = Dict(
@@ -109,7 +122,11 @@ function assemble_S06_S03(dir::AbstractString)
         "grid" => "s = i/100, i = 1..99 (same convention as S01)",
         "p_levels" => [1, 2, 3],
         "legs" => ["triv", "topo", "afm"],
-        "strategy" => "p=1 global random + L-BFGS; p>1 same-leg chained warm + L-BFGS",
+        "strategy" => "independent global random sampling + multi-start L-BFGS at every depth",
+        "optimization_protocol" => OPTIMIZATION_PROTOCOL,
+        "max_global_attempts" => MAX_GLOBAL_ATTEMPTS,
+        "max_refine_calls" => MAX_REFINE_CALLS,
+        "historical_reused_iterations" => -1,
         "master_seed" => MASTER_SEED,
         "n_global" => N_GLOBAL,
         "top_k" => TOP_K,
@@ -118,8 +135,6 @@ function assemble_S06_S03(dir::AbstractString)
         "x_abstol" => X_TOL,
         "f_abstol" => F_TOL,
         "stag_window" => STAG_WINDOW,
-        "stag_tol" => STAG_TOL,
-        "stag_e_tol" => STAG_E_TOL,
         "max_iters" => MAX_ITERS,
         "julia_version" => string(VERSION),
     )

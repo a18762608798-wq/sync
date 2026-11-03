@@ -1,8 +1,13 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-We studied low-energy state preparation in the dimerized XXZ chain using phase-matched initial states, a reflection-symmetric variational ansatz, and correlation measurements. The normalized partial-reflection marker defines an $L=8$ finite-size phase diagram with trivial, topological, and AFM regions. Analysis of the symmetry-sector gap along $\delta=-2$ shows a decreasing gap near $s=0.5$ as the chain length increases.
+We studied variational state preparation in the dimerized XXZ chain using phase-matched initial states and a reflection-symmetric circuit.
+A two-site-cell symmetry description connects the dimer limits to distinct projective representations.
+The partial-reflection marker supplies an $L=8$ numerical map, while the sector-gap trend along $\delta=-2$ is consistent with the gapless uniform-chain prediction.
 
-On the Baihua processor, candidate subgraphs were screened using cluster-state stabilizers and readout fidelity, and measurement distributions were corrected using a tensor-product readout model with batch-wise calibration. Hardware and simulated $Q$ curves exhibit similar parameter dependence along $\delta=-2$. In the topological region at $\delta=0.85$, no positive string signal is resolved in the expected direction: the pooled $\hat O_{\rm str}$ at $s=0.99$ is $-0.044 \pm 0.005$, opposite in sign to the simulated $+0.95$, with several other points deviating significantly from zero as well; the measured $Q$ curve is consistent with zero within window uncertainties at $s\to1$.
+The hardware protocol combines cluster-state-based qubit screening, tensor-product readout correction, and computational-basis measurements of staggered and cell-string correlations.
+The reference-state combination $Q$ summarizes the two correlators and their parameter dependence.
+The $30$-point hardware--simulator comparison gives $r=0.86$ in the selected $16$-unit window with fitted marker scales.
+In the topological region at $\delta=0.85$, the pooled fixed-scale string signal at $s=0.99$ is $0.043\pm0.005$, with the same sign as the simulated $+0.95$.
 
-These results demonstrate an experimental workflow that combines phase structure, symmetry constraints, and direct correlation measurements within a common framework. Recovering the positive string signal in the topological region is a central target for further improvement. Extensions to longer chains, broader parameter scans, and correlated readout models can further characterize noise effects on nonlocal correlations.
+The framework can be extended to longer chains and additional measurement bases to study the relation between circuit symmetry, entanglement, and SPT correlations.

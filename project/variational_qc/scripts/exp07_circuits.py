@@ -1,9 +1,9 @@
 """exp07 T001 Qiskit 电路构造器：复用 exp06 构造器并分支化（p=2 三分支）。
 
-对应表（Exp04.jl run_exp04_global.jl → 本模块）：
+对应表（Exp04 正式独立优化 S06 → 本模块）：
 - theta_leg[point, leg, p, params]：point=s_idx-1（1..99），leg=a-1（1=triv/2=topo/3=AFM），
   p=1..3 → 本实验固定 p=2（索引 1），单层 8 参数（δ≠0），两层共 16 参数，尾部 NaN-pad 忽略。
-- conv/stagn[point, leg, p]：同点同分支 p=2 两者皆假 → 该点判 invalid（spec PRE-002），不另做优化。
+- conv/stagn[point, leg, p]：同点同分支 p=2 未收敛或停滞标志为真 → 该点判 invalid（spec PRE-002），不另做优化。
 - build_init/build_ansatz/build_estimator_circuit/build_calib_circuits：直接复用
   exp06_circuits（初态/轨道/键酉/RXX→RYY→RZZ 顺序/L=8 约定完全一致，见其 docstring 对应表）。
 - 本模块零 qmeas 依赖，单源可审计；分支参数读取只读 data/exp04/exp04_S06.npz。
@@ -18,6 +18,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from optimization_source import validate_s06
 
 from exp06_circuits import (  # noqa: E402
     A_LABELS,
@@ -59,7 +60,7 @@ def branch_theta(s06path: str | Path, delta_idx: int, s_idx: int,
     s06path 只读 data/exp04/exp04_S06.npz；delta_idx∈{1,2}，s_idx∈1..99，branch∈{1,2,3}。
     """
     assert delta_idx in TAG_OF_DI and 1 <= int(s_idx) <= 99 and branch in (1, 2, 3)
-    s06 = np.load(s06path)
+    s06 = validate_s06(s06path)
     tag = TAG_OF_DI[delta_idx]
     row = np.asarray(s06[f"{tag}_theta_leg"])[int(s_idx) - 1, branch - 1, P - 1, :]
     row = row[~np.isnan(row)]
@@ -69,13 +70,13 @@ def branch_theta(s06path: str | Path, delta_idx: int, s_idx: int,
 
 def branch_invalid(s06path: str | Path, delta_idx: int, s_idx: int,
                    branch: int) -> bool:
-    """该分支是否 invalid：S06 同点同分支 p=2 conv 与 stagn 皆假（spec PRE-002）。"""
+    """该分支是否 invalid：同点 p=2 未收敛或使用退役停滞状态（spec PRE-002）。"""
     assert delta_idx in TAG_OF_DI and 1 <= int(s_idx) <= 99 and branch in (1, 2, 3)
-    s06 = np.load(s06path)
+    s06 = validate_s06(s06path)
     tag = TAG_OF_DI[delta_idx]
     conv = bool(np.asarray(s06[f"{tag}_conv"])[int(s_idx) - 1, branch - 1, P - 1])
     stagn = bool(np.asarray(s06[f"{tag}_stagn"])[int(s_idx) - 1, branch - 1, P - 1])
-    return (not conv) and (not stagn)
+    return (not conv) or stagn
 
 
 def branch_circuit(s06path: str | Path, delta_idx: int, s_idx: int, branch: int,

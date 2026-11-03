@@ -24,6 +24,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from exp06_assemble import (  # noqa: E402
     L,
+    READOUT_MITIGATION,
+    calibration_mapping_record,
     build_manifest as _build_manifest,
     combine_Q,
     d_raw_r,
@@ -52,12 +54,12 @@ from exp07_common import (  # noqa: E402
     write_json,
 )
 
-SCHEMA = "exp07/v1"
+SCHEMA = "exp07/v2"
 
-MANIFEST_KEYS = {"schema", "line", "d10", "s06_ref", "s04_ref",
+MANIFEST_KEYS = {"schema", "line", "d10", "s06_ref", "s04_ref", "provenance",
                  "points", "shots", "p_level", "chip", "n_units",
                  "endpoints", "window", "branch_stats", "report", "stderr_def",
-                 "toolchain", "python"}
+                 "toolchain", "python", "readout_mitigation", "calibration_mapping"}
 
 O_SPI, O_OSTR = obs_basis_arrays()
 
@@ -192,6 +194,9 @@ def main() -> None:
     ldir = _P(a.root) if a.root else line_dir()
     repo = _P(__file__).resolve().parent.parent
     info = read_json(ldir / "groups.json")
+    from exp07_common import validate_batch
+    from optimization_source import require_same_provenance
+    provenance = validate_batch(info)
     groups = info["groups"]
     G = len(groups)
     assert G == N_POINTS, G
@@ -213,6 +218,7 @@ def main() -> None:
         [], [], [], [], [], [], []
     for udir in unit_dirs:
         st = read_json(udir / "state.json")
+        require_same_provenance(st.get("provenance"), provenance, str(udir))
         if any(f"g{gi}" not in st.get("counts", {}) for gi in range(G)):
             continue
         if any(x not in st.get("counts", {})
@@ -244,7 +250,7 @@ def main() -> None:
         pmit_all.append(rp)
         uids.append(int(udir.name))
     U = len(uids)
-    assert U > 0, "无完整单位"
+    assert U == ROUND_UNITS, f"完整单位不足：{U}/{ROUND_UNITS}"
     s_post = np.array(s_post).reshape(-1, G)
     o_post = np.array(o_post).reshape(-1, G)
     s05_arr = np.array(s05_all).reshape(-1, L, 2, 2)
@@ -279,7 +285,7 @@ def main() -> None:
              pairs=np.array([(p["delta_idx"], p["s_idx"]) for p in pairs]),
              win_mean=wmean, win_se=wse)
     manifest = build_manifest(
-        line="joint", d10="D10a+b",
+        line="joint", d10="D10a+b", provenance=provenance,
         s06_ref=S06_REF, s04_ref=S04_REF,
         points={"n_points": G, "sparse": "s_idx=1,8,…,99 x {0.85,-2} x 3分支",
                 "order": "每 s 先 δ=0.85 后 δ=-2，每 (s,δ) 内 triv→topo→AFM"},
@@ -292,7 +298,9 @@ def main() -> None:
                 "S_max": S_max, "O_max": O_max},
         branch_stats={"r_a": win["r_a"], "d_raw_a": win["d_raw_a"]},
         report={"mode": "report-only", "no_threshold": True},
-        stderr_def="unit-multinomial-propagated + window-inter-unit-SE",
+        stderr_def="unit-multinomial-plugin + window-inter-unit-SE",
+        readout_mitigation=dict(READOUT_MITIGATION),
+        calibration_mapping=calibration_mapping_record(groups, phys_of, "branch"),
         toolchain=_toolchain(), python=sys.executable)
     write_json(ldir / "exp07_manifest_joint.json", manifest)
     print(f"joint：{U} 完整单位，窗口 start={ws} len={wl} "

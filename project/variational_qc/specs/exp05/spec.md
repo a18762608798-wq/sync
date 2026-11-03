@@ -61,7 +61,7 @@ D07c（冠军环内十条 `8`-子链评分排名）与 S04（真机目标比特�
 ### 4. Theory & References
 
 - `docs/planning/experiment-map.md`（exp05 定义：产出 D07a、D07b、D07c 及 S04 供 exp06 消费）
-- `docs/experiment-notes/premium_qubits.md`（筛选方法、基准电路、打分公式）
+- `docs/experiment-notes/premium_qubits.md`（簇态稳定子、读出保真度与加权质量指标的定义）
 - `docs/planning/paper-outline.md`（D07a–D07c 出场顺序与打分公式）
 - `docs/experiment-notes/readout_mitigation.md`（读出缓解归 exp06，本实验只测裸 `F_ro`）
 

@@ -1,16 +1,55 @@
-\subsection{Correlation heatmaps}
+\subsection{Cell string correlations and a combined diagnostic}
 \label{sec:heatmaps}
 
-Panels (a)--(c) of Fig.~\ref{fig:D04} show $S(\pi)$, the string correlation $O_{\rm str}$, and the combination
+String order in valence-bond chains~\cite{dennijs1989preroughening} motivates a nonlocal correlation adapted to our two-site cells.
+With $M=L/2$ and $T_r^z=(Z_{2r-1}+Z_{2r})/2$, define
 \begin{equation}
-Q=\frac{4}{3}+2O_{\rm str}-\frac{1}{6}S(\pi).
+C_{\rm str}=
+\left\langle T_1^z
+\exp\left(i\pi\sum_{r=2}^{M-1}T_r^z\right)T_M^z\right\rangle.
+\label{eq:cell-string}
 \end{equation}
-All three quantities are evaluated on the same parameter grid as the reflection marker, allowing comparison of the parameter dependence of staggered correlations, nonlocal string correlations, and their combination.
+The cell spin $T_r^z$ has integer eigenvalues.
+The identity $e^{i\pi T_r^z}=-Z_{2r-1}Z_{2r}$ gives the observable used in our computations and hardware measurements:
+\begin{align}
+O_{\rm str}&=4C_{\rm str}\nonumber\\
+&=\left\langle (Z_1+Z_2)
+\prod_{r=2}^{M-1}(-Z_{2r-1}Z_{2r})
+(Z_{L-1}+Z_L)\right\rangle.
+\label{eq:measured-string}
+\end{align}
+For $L=8$, the two interior minus signs cancel.
+The factor four comes from the two endpoint sums.
 
-The general form of the string correlator is
+The symmetry interpretation of string order requires both a symmetry inserted along the string and endpoints with suitable transformation properties~\cite{perezgarcia2008string,pollmann2012detection}.
+Here $u_xT_r^zu_x^\dagger=-T_r^z$, so the endpoints are odd under the second cell symmetry. For endpoints in the bulk of a symmetric, injective MPS, the selection rule for a long string of $u_z$ operators forces this correlation to vanish for $\eta=+1$, while $\eta=-1$ permits a nonzero value. On a finite open chain, the end-to-end correlator combines bulk and boundary-state contributions.
+Symmetry-based invariants involving swaps complement string-order diagnostics~\cite{haegeman2012order}.
+Experiments have measured related nonlocal correlations in Mott insulators~\cite{endres2011observation} and SPT spin chains~\cite{tan2023realizing}.
+Here Eq.~\eqref{eq:measured-string} is a finite-length diagnostic.
+
+For the numerical heatmaps, we use the fixed scales
 \begin{equation}
-O^z_{\rm str}(i,j)=\Big\langle S^z_i\exp\!\Big(i\pi\!\sum_{k=i+1}^{j-1}S^z_k\Big)S^z_j\Big\rangle,
+\hat S(\pi)=\frac{S(\pi)}{L},\qquad
+\hat O_{\rm str}=-O_{\rm str}.
+\label{eq:fixed-scales}
 \end{equation}
-where $S^z_k=Z_k/2$. The spin-dependent phase factor makes the correlator a nonlocal-operator expectation whose nonvanishing value in the thermodynamic limit reveals hidden order, providing a diagnostic of valence-bond phases~\cite{dennijs1989preroughening}; within the matrix-product-state framework the existence of such string order is equivalent to a local symmetry~\cite{perezgarcia2008string}. For a finite chain, the measured quantity is the correlation between selected endpoints. On our $L=8$ chain we use $d=3$ with summed endpoint pairs, $O_{\rm str}=\langle(Z_1+Z_2)(Z_3Z_4)(Z_5Z_6)(Z_7+Z_8)\rangle$ (the two minus signs cancel for $L=8$); the heatmaps and the hardware protocol use $\hat S(\pi)=S(\pi)/8$ and $\hat O_{\rm str}=-O_{\rm str}$.
+The structure factor satisfies $0\leq\hat S(\pi)\leq1$; the string sign convention assigns $\hat O_{\rm str}=1$ to the topological reference state.
 
-Both $S(\pi)$ and the $z$-string correlation can be evaluated from computational-basis bitstring statistics and serve as the main observables in our hardware protocol. The partial-reflection marker is used for the numerical phase diagram; measurement schemes for many-body invariants and randomized measurements are discussed in Refs.~\cite{elben2020manybody,elben2022toolbox}. The observable scales used in the hardware--simulator comparison are specified in Sec.~\ref{sec:comparison}.
+We combine the two as
+\begin{equation}
+Q=\frac43-2\hat O_{\rm str}-\frac43\hat S(\pi).
+\label{eq:Q}
+\end{equation}
+Its coefficients can be understood directly from our three $L=8$ reference states.
+The odd-bond singlet product has $(\hat S,\hat O)=(1/4,0)$; the bulk-plus-edge singlet product has $(1/4,1)$; and the AFM cat state has $(1,0)$.
+Equation~\eqref{eq:Q} is the unique affine combination assigning them $Q=+1,-1,0$, respectively.
+These reference values follow from the states themselves, with each singlet contributing staggered anticorrelation.
+They set the reference-state scale of $Q$.
+
+Panels (a)--(c) of Fig.~\ref{fig:D04} show $\hat S(\pi)$, $\hat O_{\rm str}$, and $Q$, evaluated on the same grid as the reflection marker.
+The shared grid enables a direct comparison of their parameter dependence.
+At $L=8$, Eq.~\eqref{eq:Q} is equivalently $Q=4/3+2O_{\rm str}-S(\pi)/6$.
+
+Both correlators are diagonal in the computational basis, so each bitstring supplies their joint values, including their covariance.
+Related approaches use classical shadows to predict observables~\cite{huang2020predicting} and quantum convolutional circuits for phase recognition~\cite{cong2019quantum}.
+Section~\ref{sec:comparison} specifies the separately fitted hardware scales.

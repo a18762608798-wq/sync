@@ -14,6 +14,8 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import hashlib
+import fcntl
 import sys
 from dataclasses import replace
 from pathlib import Path
@@ -33,13 +35,16 @@ from exp07_circuits import (  # noqa: E402
 )
 from exp07_common import (  # noqa: E402
     N_POINTS,
+    MASTER_SEED,
     S06_REF,
     SHOTS,
     line_dir,
     read_json,
     unit_state_path,
     write_json,
+    validate_batch,
 )
+from optimization_source import array_sha256, require_same_provenance
 
 BASIS_GATES = ["rz", "rx", "ry", "cz"]
 OPT_LEVEL = 3
@@ -80,6 +85,7 @@ def cached_transpile(qc, branch: int):
     if t is None:
         t = transpile(qc, basis_gates=BASIS_GATES,
                       optimization_level=OPT_LEVEL,
+                      seed_transpiler=MASTER_SEED,
                       coupling_map=logical_edges(branch))
         _TCACHE[key] = t
     return t
@@ -111,7 +117,7 @@ def unit_task_meta(groups, phys_map) -> tuple[dict, dict]:
 
 
 def prepare_unit(uid: int, groups: list[dict], theta_map: dict,
-                 phys_map: dict) -> dict:
+                 phys_map: dict, provenance: dict) -> dict:
     """构建单位全部电路 + 转译审计记录（同步；缺失才做，可先于提交全量做完）。"""
     state_path = unit_state_path(uid)
     state_path.parent.mkdir(parents=True, exist_ok=True)
@@ -119,10 +125,18 @@ def prepare_unit(uid: int, groups: list[dict], theta_map: dict,
     task_phys, task_branch = unit_task_meta(groups, phys_map)
     state = (read_json(state_path) if state_path.is_file()
              else {"tids": {}, "tids_history": {}, "counts": {},
-                   "transpile": {}, "submit_params": {}})
+                   "transpile": {}, "submit_params": {}, "provenance": provenance,
+                   "qasm_sha256": {}})
+    require_same_provenance(state.get("provenance"), provenance, str(state_path))
     state.setdefault("tids_history", {})
+    hashes = state.setdefault("qasm_sha256", {})
     qasm_cache = {}
     for key, qc in circuits.items():
+        qasm = qasm2.dumps(cached_transpile(qc, task_branch[key]))
+        qasm_hash = hashlib.sha256(qasm.encode()).hexdigest()
+        if (key in hashes and hashes[key] != qasm_hash) or (key in state["tids"] and key not in hashes):
+            raise ValueError(f"{state_path}: {key} circuit changed; resume refused")
+        hashes[key] = qasm_hash
         if key not in state["transpile"]:
             t = cached_transpile(qc, task_branch[key])
             edges = sorted(cz_edges(t))
@@ -135,8 +149,8 @@ def prepare_unit(uid: int, groups: list[dict], theta_map: dict,
                 "optimization_level": OPT_LEVEL,
                 "basis_gates": BASIS_GATES,
                 "target_qubits": task_phys[key]}
-            write_json(state_path, state)
-        qasm_cache[key] = qasm2.dumps(cached_transpile(qc, task_branch[key]))
+        qasm_cache[key] = qasm
+    write_json(state_path, state)
     return {"uid": uid, "circuits": circuits, "task_phys": task_phys,
             "task_branch": task_branch, "qasm": qasm_cache,
             "state": state, "state_path": state_path}
@@ -252,10 +266,19 @@ def build_theta_map(groups: list[dict]) -> dict:
         key = (g["delta_idx"], g["s_idx"], g["branch"])
         if key not in theta_map:
             theta_map[key] = branch_theta(S06_PATH, *key)
+        if g.get("theta_sha256") != array_sha256(theta_map[key]):
+            raise ValueError("Exp07 group parameter hash changed")
     return theta_map
 
 
 def main() -> None:
+    lock_path = Path(__file__).resolve().parent.parent / "data/exp07/.submit.lock"
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    lock_handle = lock_path.open("a")
+    try:
+        fcntl.flock(lock_handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError as exc:
+        raise RuntimeError("An Exp07 submission process already holds the lock") from exc
     ap = argparse.ArgumentParser()
     ap.add_argument("--round", type=int, default=1)
     ap.add_argument("--units", type=int, default=None,
@@ -266,8 +289,9 @@ def main() -> None:
     if not bill.get("confirmed", False):
         raise RuntimeError("bill.json confirmed=false：须人工确认账单后才可提交")
     chip = "Baihua"
-    tag = f"exp07_joint_r{args.round:03d}"
     info = read_json(ldir / "groups.json")
+    provenance = validate_batch(info, bill)
+    tag = f"{provenance['run_id']}_joint_r{args.round:03d}"
     groups = info["groups"]
     assert len(groups) == N_POINTS, len(groups)
     n_units = args.units or int(bill["n_units"])
@@ -285,7 +309,7 @@ def main() -> None:
     assert base_opts.correct is False  # 平台矫正确保关闭
     token = quark_token(base_opts)
     tmgr = make_quark_task(token, base_opts.submit_retries)
-    jobs = [prepare_unit(uid, groups, theta_map, phys_map) for uid in uids]
+    jobs = [prepare_unit(uid, groups, theta_map, phys_map, provenance) for uid in uids]
     asyncio.run(submit_poll_all(jobs, base_opts, tmgr, chip, tag))
 
 

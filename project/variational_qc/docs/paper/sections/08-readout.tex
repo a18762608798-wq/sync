@@ -1,21 +1,42 @@
 \section{Readout error mitigation}
 \label{sec:readout}
 
-Readout errors map the ideal distribution to the measured one,
+We model classical readout misclassification by an assignment matrix,
 \begin{equation}
-\vec{P}_{\rm meas}=M\vec{P}_{\rm ideal},
+\mathbf p_{\rm meas}=\mathsf A\mathbf p_{\rm ideal},
+\qquad \mathsf A_{ab}=P(a|b).
+\label{eq:assignment}
 \end{equation}
-where $M$ is the assignment matrix with $M_{ab}=P(a|b)$.
-Its columns are calibrated by preparation: preparing $|0\rangle$
-gives the first column, preparing $|1\rangle$ the second,
+Here $\mathbf p_{\rm ideal}$ is the computational-basis distribution of the prepared state immediately before readout~\cite{cai2023quantum}.
+Its columns are estimated by preparing computational-basis states.
+For qubit $i$, let $\epsilon_{0,i}=P(1|0)$ and $\epsilon_{1,i}=P(0|1)$.
+The independent-error approximation is
 \begin{equation}
-M=\begin{bmatrix} P(0|0) & P(0|1) \\ P(1|0) & P(1|1) \end{bmatrix},
+\mathsf A=\bigotimes_{i=1}^L
+\begin{pmatrix}
+1-\epsilon_{0,i}&\epsilon_{1,i}\\
+\epsilon_{0,i}&1-\epsilon_{1,i}
+\end{pmatrix}.
+\label{eq:tensor-readout}
 \end{equation}
-where the diagonals read correct and the off-diagonals misread.
-Mitigation inverts the map,
-\begin{equation}
-\vec{P}_{\rm mit}=M^{-1}\vec{P}_{\rm meas},
-\end{equation}
-Negative components are then clipped to zero and the distribution is renormalized before observables are evaluated.
+This tensor-product model contains $2L$ single-qubit misclassification probabilities~\cite{bravyi2021mitigating}.
+One pair of all-zero and all-one preparation circuits calibrates the single-qubit marginals in each acquisition unit.
+The platform's built-in readout correction is disabled.
 
-For multiple qubits, we use a tensor-product model of single-qubit assignment matrices~\cite{bravyi2021mitigating}. Each matrix is calibrated using $|0\rangle$ and $|1\rangle$ preparation settings; the number of calibration parameters grows linearly with the number of qubits. Hardware measurements use batch-wise recalibration to track readout drift, with the platform's built-in readout correction disabled. This model describes independent single-qubit readout errors; correlated errors require assignment models that include correlations. Matrix-free iterative methods extend assignment-matrix mitigation to larger systems~\cite{nation2021scalable}.
+We first normalize the counts by their actual total to obtain $\mathbf p_{\rm meas}$.
+When the calibrated matrix is invertible, linear inversion gives $\mathbf v=\mathsf A^{-1}\mathbf p_{\rm meas}$.
+We obtain a probability distribution by projecting the joint inverse vector onto the probability simplex in Euclidean distance~\cite{maciejewski2020mitigation}:
+\begin{equation}
+\mathbf p_{\rm mit}
+=\underset{\mathbf p\ge0,\;\mathbf 1^{\mathsf T}\mathbf p=1}
+{\operatorname{argmin}}\lVert\mathbf p-\mathbf v\rVert_2^2.
+\label{eq:readout-projection}
+\end{equation}
+The solution is $p_{{\rm mit},b}=\max(v_b-\tau,0)$, where a common threshold $\tau$ enforces unit sum.
+We determine this threshold by sorting, then compute the correlations from the projected distribution.
+The projection is nonlinear and can introduce finite-sampling bias.
+
+We recalibrate in each acquisition unit to track temporal variation.
+Joint acquisition uses one calibration pair on the selected chain mapping to construct a tensor-product readout model shared by the branches.
+The separate measurements at the three representative points each use calibration on their own physical mapping.
+The hardware analysis reports the resulting correlations and their inter-unit standard errors.

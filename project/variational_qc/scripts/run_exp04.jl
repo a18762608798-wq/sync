@@ -48,6 +48,10 @@ function run_line(delta::Real)
     stagn = falses(ns, 3, 3)
     dtail = zeros(ns, 3, 3)
     theta_leg = fill(NaN, ns, 3, 3, THETA_MAX)  # [point, leg, p, params]
+    seed_leg = zeros(UInt64, ns, 3, 3)
+    nsamples_leg = zeros(Int, ns, 3, 3)
+    iters_leg = zeros(Int, ns, 3, 3)
+    reused_leg = falses(ns, 3, 3)
     einit = zeros(ns, 3)
     sym = zeros(ns, 3, 3)
     Threads.@threads for i in 1:ns
@@ -64,6 +68,9 @@ function run_line(delta::Real)
                 conv[i, li, p] = st.converged
                 stagn[i, li, p] = st.stagnant
                 dtail[i, li, p] = st.dtail
+                seed_leg[i, li, p] = st.seed
+                nsamples_leg[i, li, p] = st.nsamples
+                iters_leg[i, li, p] = st.iters
                 thv = Vector{Float64}(st.theta)
                 theta_leg[i, li, p, 1:length(thv)] = thv
             end
@@ -85,7 +92,9 @@ function run_line(delta::Real)
                 "spi" => spi, "ostr" => ostr, "e0" => e0, "leg_E" => leg_E,
                 "theta_leg" => theta_leg,
                 "conv" => conv, "stagn" => stagn, "dtail" => dtail,
-                "einit" => einit, "sym" => sym)
+                "einit" => einit, "sym" => sym,
+                "seed_leg" => seed_leg, "nsamples_leg" => nsamples_leg,
+                "iters_leg" => iters_leg, "reused_leg" => reused_leg)
 end
 
 function main()

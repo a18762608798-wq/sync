@@ -8,6 +8,7 @@ No formal D08 products or paper files are written.
 """
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -42,6 +43,9 @@ def main():
     assert manifest["diagnostic_only"] and manifest["reference_p"] == 1
     assert manifest["delta"] == args.delta
     assert manifest["endpoint_points"] == 30 and manifest["scored_points"] == 15
+    for relative, expected in manifest["sources_sha256"].items():
+        assert hashlib.sha256((repo / relative).read_bytes()).hexdigest() == expected, \
+            f"diagnostic source changed: {relative}"
     if companion:
         assert manifest["window_selected_on_delta"] == -2.0
         assert manifest["window_reselected"] is False

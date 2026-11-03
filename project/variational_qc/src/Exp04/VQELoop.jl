@@ -1,13 +1,16 @@
 # VQE loop for exp04 (spec PRE-001..PRE-003, INV-001..INV-002; docs/experiment-notes/cost_fun.md).
 #
-# Per (δ,s) point and init leg: p=1 global random sampling (+ zero vector) with
-# top-K L-BFGS refinement; p=2,3 same-leg chained warm start + L-BFGS refine.
+# Every (δ,s,p,leg) uses independent global random sampling (+ zero vector)
+# and top-K L-BFGS refinement. Depths never share starting parameters.
 # Winner leg by min energy. Gradients by the parameter-shift rule (exact).
 # Pure kernels (no I/O); threading lives in the run script (one point per task).
 
 const MASTER_SEED = 20261004  # recorded in manifest (plan §3)
 const N_GLOBAL = 64           # random samples per (p=1) leg, plus the zero vector
 const TOP_K = 4               # refined samples per (p=1) leg
+const OPTIMIZATION_PROTOCOL = "independent-global-lbfgs-v1"
+const MAX_GLOBAL_ATTEMPTS = 8
+const MAX_REFINE_CALLS = 4     # each call has at most two fresh-memory passes
 const G_TOL = 1e-8            # gradient-norm stop
 const X_TOL = 1e-10           # parameter-stagnation stop (slow-tail valleys)
 const F_TOL = 1e-10           # energy-stagnation stop
@@ -286,59 +289,47 @@ function adjoint_gradient!(g::AbstractVector, theta::AbstractVector, H::Matrix{C
     return g
 end
 
-"""One leg: p=1 global sampling + top-K refine, then chained warm p=2,3."""
+"""One leg: independent global sampling and refinement at every depth."""
 function run_leg(H::Matrix{ComplexF64}, psi_init::Vector{ComplexF64},
                  meta::AnsatzMeta, delta::Real, di::Integer, si::Integer, li::Integer)
-    n1 = nparams(meta, delta, 1)
-    buf = zeros(ComplexF64, length(psi_init))
-    seed1 = _derive_seed(di, si, 1, li)
-    rng = MersenneTwister(seed1)
-    cands = [SAMPLE_RANGE .* rand(rng, n1) for _ in 1:N_GLOBAL]
-    push!(cands, zeros(n1))  # zero vector = init state itself (spec constructive guarantee)
-    Es = [energy_of(th, H, psi_init, meta, 1, delta, buf) for th in cands]
-    order = sortperm(Es)
-    refined = [_refine(cands[k], H, psi_init, meta, 1, delta, seed1) for k in order[1:TOP_K]]
-    best1 = refined[argmin([r.energy for r in refined])]
-    steps = LegStep[LegStep(best1.theta, best1.energy, best1.converged, false,
-                            best1.iters, best1.dtail, seed1, N_GLOBAL + 1)]
-    prev = best1.theta
-    prevE = best1.energy
-    for p in (2, 3)
-        npl = nparams(meta, delta, 1)
-        θ0 = [prev; zeros(npl)]
-        st = _refine(θ0, H, psi_init, meta, p, delta, seed1)
-        # Ratchet gate (spec INV-002, p>1 only): exhausted but stagnant and no worse.
-        stagn = (!st.converged) && st.iters >= MAX_ITERS &&
-                st.dtail < STAG_TOL && st.energy <= prevE + STAG_E_TOL
-        push!(steps, LegStep(st.theta, st.energy, st.converged, stagn,
-                             st.iters, st.dtail, seed1, 1))
-        prev = st.theta
-        prevE = st.energy
-    end
-    return steps
+    return [run_leg_global(H, psi_init, meta, delta, p, di, si, li) for p in 1:3]
 end
 
-"""One leg at fixed depth `p` with the full global sampling budget (diagnostic).
+"""Independent random-sample screening and multi-start L-BFGS at depth `p`.
 
-Same random-sample protocol as the `p=1` stage of `run_leg` (N_GLOBAL uniform
-points + zero, top-K L-BFGS), but applied at an arbitrary depth. Used only for
-the fair p=2 vs warm-start comparison; the production path stays `run_leg`.
+Only converged candidates are accepted. Extra attempts use independent,
+deterministic seeds; fresh-memory refinement stays at the same depth.
 """
 function run_leg_global(H::Matrix{ComplexF64}, psi_init::Vector{ComplexF64},
                         meta::AnsatzMeta, delta::Real, p::Integer,
                         di::Integer, si::Integer, li::Integer)
     n = nparams(meta, delta, p)
     buf = zeros(ComplexF64, length(psi_init))
-    seed = _derive_seed(di, si, p, li)
-    rng = MersenneTwister(seed)
-    cands = [SAMPLE_RANGE .* rand(rng, n) for _ in 1:N_GLOBAL]
-    push!(cands, zeros(n))
-    Es = [energy_of(th, H, psi_init, meta, p, delta, buf) for th in cands]
-    order = sortperm(Es)
-    refined = [_refine(cands[k], H, psi_init, meta, p, delta, seed) for k in order[1:TOP_K]]
-    best = refined[argmin([r.energy for r in refined])]
-    return LegStep(best.theta, best.energy, best.converged, false,
-                   best.iters, best.dtail, seed, N_GLOBAL + 1)
+    for attempt in 1:MAX_GLOBAL_ATTEMPTS
+        seed = _derive_seed(di, si, p, li + length(LEG_LABELS) * (attempt - 1))
+        rng = MersenneTwister(seed)
+        cands = [SAMPLE_RANGE .* rand(rng, n) for _ in 1:N_GLOBAL]
+        push!(cands, zeros(n))
+        Es = [energy_of(th, H, psi_init, meta, p, delta, buf) for th in cands]
+        order = sortperm(Es)
+        refined = LegStep[]
+        for k in order[1:TOP_K]
+            st = _refine(cands[k], H, psi_init, meta, p, delta, seed)
+            total_iters = st.iters
+            for _ in 2:(p == 1 ? 1 : MAX_REFINE_CALLS)
+                st.converged && break
+                st = _refine(st.theta, H, psi_init, meta, p, delta, seed)
+                total_iters += st.iters
+            end
+            st.converged || continue
+            push!(refined, LegStep(st.theta, st.energy, true, false,
+                                   total_iters, st.dtail, seed, (N_GLOBAL + 1) * attempt))
+        end
+        if !isempty(refined)
+            return refined[argmin([r.energy for r in refined])]
+        end
+    end
+    throw(ErrorException("independent optimization did not converge: δ=$delta s-index=$si p=$p leg=$li"))
 end
 
 """Full point: three legs + per-p winner. H cached by caller; e0_exact computed here."""

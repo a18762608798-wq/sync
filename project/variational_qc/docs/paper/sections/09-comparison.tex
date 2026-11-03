@@ -1,14 +1,32 @@
 \section{Hardware--simulator comparison}
 \label{sec:comparison}
 
-Figure~\ref{fig:D08D09}(c,d) compares the combined quantity $Q$ from simulations at $p=1,2$ and hardware at $p=1$. Measurements on the Baihua processor are organized into repeated acquisition units. Each unit contains $15$ values of $s$ along two scans, $\delta\in\{0.85,-2\}$, giving $30$ parameter points with $1024$ shots per point and one additional pair of readout-calibration circuits. A single round of $500$ units is analyzed. Error bars on hardware points indicate standard errors across acquisition units.
+Figure~\ref{fig:D08D09}(c,d) compares simulations at $p=1,2$ with hardware at $p=1$.
+Measurements on the Baihua processor are organized into repeated acquisition units.
+Each unit contains $15$ values of $s$ on each of two scans, $\delta\in\{0.85,-2\}$, giving $30$ points with $1024$ shots per point and one additional pair of readout-calibration circuits.
+We analyze one round of $500$ units.
 
-The observables $\hat S(\pi)$ and $\hat O_{\rm str}$ are evaluated from the same readout-mitigated distributions. Hardware hats keep the same sign convention ($\hat O=-O_{\rm str}$) and are divided by the selected window's shared maxima: the top-1 maxima of the window-pooled $30$-point means, refitted for each candidate window. For the selected window these are $S_{\max}=4.51$ and $O_{\max}=0.090$. Simulations use fixed scales, $\hat S=S/8$ and $\hat O=-O_{\rm str}$, and the $p=1$ simulation is the reference curve for window selection ($p=2$ is shown for comparison only). Both use
+The hardware observables come from the same readout-mitigated distributions.
+For each candidate window, we fit shared maxima over its pooled $30$ point means and define
 \begin{equation}
-Q=\frac{4}{3}-2\hat O-\frac{4}{3}\hat S.
+\hat S_{\rm hw}=\frac{S_{\rm hw}}{S_{\max}},\qquad
+\hat O_{\rm hw}=\frac{-O_{{\rm str},{\rm hw}}}{O_{\max}}.
+\label{eq:hardware-scales}
 \end{equation}
-With the fixed simulation scales, this expression agrees with the definition in Sec.~\ref{sec:heatmaps}. The combined $Q$ values are used directly, with no post-combination renormalization, to evaluate the distance metric $d_{\rm raw}$, the mean absolute $Q$ distance over the $30$ points, and the Pearson correlation coefficient $r$.
+For the selected window, $S_{\max}=4.57$ and $O_{\max}=0.089$.
+Simulations retain the fixed scales of Eq.~\eqref{eq:fixed-scales}.
+The same coefficients in Eq.~\eqref{eq:Q} combine each pair of markers, without a subsequent normalization of $Q$.
+The hardware scales place the two correlators on a common scale for comparing their parameter dependence.
 
-Among the compared even-length windows, the best window was $[226,242)$, comprising $16$ acquisition units, with $d_{\rm raw}=0.30$ and $r=0.85$. Candidate windows are all contiguous even-length subsegments (length at least $10$) of the $500$-unit sequence, each with its own refitted endpoints; the best window maximizes $r$ against the $p=1$ simulation, with ties broken by smaller $d_{\rm raw}$, then longer length, then earlier start. These metrics are report-only descriptions of curve agreement under the selected window and its normalization.
+We evaluate the mean absolute $Q$ distance $d_{\rm raw}$ over the $30$ points and the Pearson correlation $r$.
+The $p=1$ simulation is the window-selection reference, while $p=2$ is shown for comparison.
+Candidate windows are all contiguous even-length subsegments of the $500$-unit sequence with length at least $10$, with maxima refitted for every window.
+We maximize $r$, breaking ties by smaller $d_{\rm raw}$, longer length, and earlier start.
+The selected window is $[222,238)$, with $16$ units, $d_{\rm raw}=0.30$, and $r=0.86$.
+Error bars are the sample standard deviations of the per-unit $Q$ values in this window divided by $\sqrt{16}$, evaluated at the selected scales.
 
-Along $\delta=-2$, hardware results exhibit a parameter dependence similar to the simulated curves throughout the scan. At $\delta=0.85$, the first half follows a similar trend, while in the topological region hardware $Q$ lies below both simulations only at isolated points (for example $s=0.78$, $-0.29 \pm 0.18$) and is otherwise consistent with zero within the window error bars ($\pm 0.2$--$0.5$). A pooled string check at $s=0.99$ along $\delta=0.85$ gives a hardware $\hat O_{\rm str}$ mean of $-0.044 \pm 0.005$ (inter-unit standard error, $N=500$), about $-5\%$ of the simulated value $+0.95$ in magnitude with opposite sign, $-9.3\sigma$ from zero; several other points also deviate significantly from zero (for example $s=0.78$, $\delta=-2$, $z=-24.1$; $s=0.64$, $\delta=-2$, $z=-17.0$; $s=0.92$, $\delta=0.85$, $z=-9.4$), so there is no resolved positive string signal in the expected direction.
+Along $\delta=-2$, the measured $Q$ changes from positive values in the low-$s$ interval to negative values in the high-$s$ interval.
+Along $\delta=0.85$, positive values at low $s$ give way to near-zero and negative values in the intermediate interval.
+
+To retain amplitude and sign information, we also inspect the pooled string observable before the fitted $O_{\max}$ division.
+At $s=0.99$, $\delta=0.85$, its fixed-scale value $\hat O_{\rm str}=-O_{\rm str}$ is $0.043\pm0.005$ across all $500$ units (inter-unit standard error), compared with the simulated $+0.95$.

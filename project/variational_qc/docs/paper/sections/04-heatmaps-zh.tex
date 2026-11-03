@@ -1,16 +1,52 @@
-\subsection{关联量热力图}
+\subsection{晶胞 string 关联与组合诊断量}
 \label{sec:heatmaps}
 
-图~\ref{fig:D04}(a)--(c) 分别给出 $S(\pi)$、string 关联 $O_{\rm str}$ 以及组合量
+价键链的 string 序~\cite{dennijs1989preroughening} 启发了与本文两格点晶胞匹配的非局域关联。
+记 $M=L/2$、$T_r^z=(Z_{2r-1}+Z_{2r})/2$，定义
 \begin{equation}
-Q=\frac{4}{3}+2O_{\rm str}-\frac{1}{6}S(\pi).
+C_{\rm str}=
+\left\langle T_1^z
+\exp\left(i\pi\sum_{r=2}^{M-1}T_r^z\right)T_M^z\right\rangle.
+\label{eq:cell-string}
 \end{equation}
-三个量在与反射标记相同的参数网格上计算，用于比较交错关联、非局域 string 关联及其组合的参数依赖。
+晶胞自旋 $T_r^z$ 的本征值为整数。
+利用 $e^{i\pi T_r^z}=-Z_{2r-1}Z_{2r}$，得到计算和真机实际使用的观测量：
+\begin{align}
+O_{\rm str}&=4C_{\rm str}\nonumber\\
+&=\left\langle (Z_1+Z_2)
+\prod_{r=2}^{M-1}(-Z_{2r-1}Z_{2r})
+(Z_{L-1}+Z_L)\right\rangle.
+\label{eq:measured-string}
+\end{align}
+$L=8$ 时两个内部负号抵消。系数四来自两个端点自旋之和。
 
-string 关联的一般形式为
+string 序的对称性解释要求串内插入对称操作，且端点具有适当的变换性质~\cite{perezgarcia2008string,pollmann2012detection}。
+本文 $u_xT_r^zu_x^\dagger=-T_r^z$，因此端点在第二个晶胞对称操作下为奇。当端点位于对称、可注入 MPS 的体内时，长 $u_z$ 串的选择规则要求该关联在 $\eta=+1$ 时消失，$\eta=-1$ 时则允许非零。有限开链的首尾关联同时包含体与边界态的贡献。
+包含交换操作的对称性不变量与 string 序诊断互为补充~\cite{haegeman2012order}。
+相关非局域关联已在 Mott 绝缘体~\cite{endres2011observation} 和 SPT 自旋链~\cite{tan2023realizing} 中测量。
+本文式~\eqref{eq:measured-string} 是有限长度诊断量。
+
+数值热力图采用固定尺度
 \begin{equation}
-O^z_{\rm str}(i,j)=\Big\langle S^z_i\exp\!\Big(i\pi\!\sum_{k=i+1}^{j-1}S^z_k\Big)S^z_j\Big\rangle,
+\hat S(\pi)=\frac{S(\pi)}{L},\qquad
+\hat O_{\rm str}=-O_{\rm str}.
+\label{eq:fixed-scales}
 \end{equation}
-其中 $S^z_k=Z_k/2$。自旋相位因子使该关联成为非局域算符期望，其热力学极限下非零值揭示隐藏序，是研究价键相的重要诊断量~\cite{dennijs1989preroughening}；在矩阵乘积态框架下，此类 string 序的存在等价于局域对称性~\cite{perezgarcia2008string}。有限链上测量的是选定端点间的关联值。在 $L=8$ 链上取 $d=3$ 并对端点对求和，$O_{\rm str}=\langle(Z_1+Z_2)(Z_3Z_4)(Z_5Z_6)(Z_7+Z_8)\rangle$（$L=8$ 时两处负号相消）；热力图与真机协议均使用 $\hat S(\pi)=S(\pi)/8$、$\hat O_{\rm str}=-O_{\rm str}$。
+结构因子满足 $0\leq\hat S(\pi)\leq1$；string 的符号约定使拓扑参考态满足 $\hat O_{\rm str}=1$。
 
-$S(\pi)$ 和 $z$ 方向 string 关联均可由计算基测量的比特串统计得到，构成本文真机测量方案的主要观测量。部分反射标记用于数值相图；有关多体不变量及随机测量的实现方法见 Refs.~\cite{elben2020manybody,elben2022toolbox}。真机与模拟机比较所用的观测量尺度在第~\ref{sec:comparison}~节给出。
+定义组合量
+\begin{equation}
+Q=\frac43-2\hat O_{\rm str}-\frac43\hat S(\pi).
+\label{eq:Q}
+\end{equation}
+其系数可直接从三个 $L=8$ 参考态理解：奇键单态直积态的 $(\hat S,\hat O)=(1/4,0)$，体单态加首尾单态的参考态为 $(1/4,1)$，AFM 猫态为 $(1,0)$。
+式~\eqref{eq:Q} 是将三者依次赋值为 $Q=+1,-1,0$ 的唯一仿射组合。
+这些参考值由态本身给出，每个单态均贡献交错反关联，并共同确定 $Q$ 的参考态尺度。
+
+图~\ref{fig:D04}(a)--(c) 给出与反射标记在同一网格上计算的 $\hat S(\pi)$、$\hat O_{\rm str}$ 和 $Q$。
+共同网格使各量的参数依赖可以直接比较。
+$L=8$ 时，式~\eqref{eq:Q} 等价于 $Q=4/3+2O_{\rm str}-S(\pi)/6$。
+
+两种关联量在计算基均为对角量，因此每个比特串给出两者的联合取值及协方差，可以直接估计。
+相关方法还包括用于预测观测量的经典阴影~\cite{huang2020predicting}，以及用于相识别的量子卷积电路~\cite{cong2019quantum}。
+第~\ref{sec:comparison} 节说明真机侧另行拟合的尺度。

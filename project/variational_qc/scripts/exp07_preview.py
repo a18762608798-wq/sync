@@ -10,7 +10,9 @@ S04 冠军链 top1 + D07c Rank1 子链由 S04/D07c 落盘值读取，不再硬�
 from __future__ import annotations
 
 import argparse
+import datetime
 import sys
+import uuid
 from pathlib import Path
 
 import numpy as np
@@ -22,6 +24,7 @@ from exp07_circuits import (  # noqa: E402
     SPARSE,
     TAG_OF_DI,
     branch_invalid,
+    branch_theta,
 )
 from exp07_common import (  # noqa: E402
     BRANCHES,
@@ -34,7 +37,10 @@ from exp07_common import (  # noqa: E402
     UNIT_CIRCUITS,
     line_dir,
     write_json,
+    current_source_identity,
+    group_identity,
 )
+from optimization_source import array_sha256
 
 S06_PATH = Path(__file__).resolve().parent.parent / S06_REF
 
@@ -76,6 +82,7 @@ def build_joint_groups(chain_arg: str | None = None,
                     rec["invalid_reason"] = "unconverged"
                     invalid.append(rec)
                 else:
+                    rec["theta_sha256"] = array_sha256(branch_theta(S06_PATH, di, int(si), int(a)))
                     groups.append(rec)
     assert len(groups) + len(invalid) == N_POINTS, (len(groups), len(invalid))
     chain, sub, chip = load_qubits(chain_arg, sub_arg)
@@ -85,6 +92,7 @@ def build_joint_groups(chain_arg: str | None = None,
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--units", type=int, default=ROUND_UNITS)
+    ap.add_argument("--run-id", default=None)
     ap.add_argument("--chain", type=str, default=None,
                     help="8 比特链覆盖（逗号分隔）")
     ap.add_argument("--sub", type=str, default=None,
@@ -94,9 +102,12 @@ def main() -> None:
     assert n_units >= 1
 
     groups, invalid, chain, sub, chip = build_joint_groups(args.chain, args.sub)
+    run_id = args.run_id or ("exp07-independent-" + datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:8])
+    provenance = {"run_id": run_id, **current_source_identity(),
+                  "groups_sha256": group_identity(groups, chain, sub)}
     ldir = line_dir()
     write_json(ldir / "groups.json",
-               {"line": LINE, "groups": groups, "invalid": invalid,
+               {"line": LINE, "groups": groups, "invalid": invalid, "provenance": provenance,
                 "chain_top1": chain, "subchain_top1": sub, "chip": chip,
                 "s06_ref": S06_REF, "s04_ref": S04_REF})
     rdir = ldir / "rounds"
@@ -104,7 +115,7 @@ def main() -> None:
     n_vqe = n_units * len(groups)
     n_cal = n_units * 2
     total = n_units * (len(groups) + 2)
-    bill = {"line": LINE, "round": 1, "unit_start": 0,
+    bill = {"line": LINE, "round": 1, "unit_start": 0, "provenance": provenance,
             "n_units": n_units, "vqe_tasks": n_vqe, "calib_tasks": n_cal,
             "total_tasks": total, "shots_per_task": SHOTS,
             "total_shots": total * SHOTS, "chip": chip,

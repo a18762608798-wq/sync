@@ -4,7 +4,7 @@
 \subsection{Optimization targets}
 \label{sec:points}
 
-Variational optimization targets each point of the two scan lines, $\delta=-2$ and $\delta=0.85$, on the $99$-point $s$ grid ($s=0.01$--$0.99$): at every grid point the three initial states are optimized independently and the lowest of the three minima is reported, so the target Hamiltonians sample the trivial, topological, and AFM regions mapped in Fig.~\ref{fig:D04}(d). The phase-wise winning branches along the two lines are shown by the background bands in Fig.~\ref{fig:D08D09}(a,b).
+Variational optimization targets each point of the two scan lines, $\delta=-2$ and $\delta=0.85$, on the $99$-point $s$ grid ($s=0.01$--$0.99$): at every grid point the three initial states are optimized independently and the lowest of the three minima is reported, so the target Hamiltonians sample the trivial, topological, and AFM regions mapped in Fig.~\ref{fig:D04}(d). The lowest-energy initial-state branches along the two lines are shown by the background bands in Fig.~\ref{fig:D08D09}(a,b).
 
 \subsection{Variational circuit structure}
 
@@ -15,21 +15,34 @@ apply a parameterized ansatz. The classical loop minimizes
 E(\theta)=\langle\psi(\theta)|H|\psi(\theta)\rangle,
 \end{equation}
 where $|\psi(\theta)\rangle$ is the circuit output at parameters
-$\theta$. At each target phase point the three initial states are
-optimized independently and the lowest of the three minima is reported;
-multiple restarts within each run likewise keep the minimum. Circuit
-depths $p=1,2,3$ are used: at $p=1$, global random sampling (including
-the zero vector) plus local L-BFGS refinement; at $p>1$, chained warm
-starts from the same initial-state branch's optimum at the next-lower depth, refined
-with local L-BFGS to convergence. The initial parameters are included among the candidates, so the best candidate energy for ideal circuits is no higher than the initial-state energy. The symmetry-preserving circuit retains the initial symmetry quantum numbers. The scan runs point by point along the $\delta=-2$
-and $\delta=0.85$ lines. Variational algorithms of this form are surveyed in
+$\theta$. At each target point, the three reference states are optimized independently at every depth $p=1,2,3$.
+We screen random parameter vectors together with the zero vector, refine the low-energy candidates with local L-BFGS, and retain the lowest-energy converged result in each branch.
+The minimum across the three branches determines $E^*$ and its parameters.
+The symmetry-preserving circuit retains the initial symmetry quantum numbers.
+The scan runs point by point along the $\delta=-2$ and $\delta=0.85$ lines. Variational algorithms of this form are surveyed in
 Refs.~\cite{cerezo2021variational,tilly2022variational}, which collect
 cost-function design, ansatz families, and best practices for VQE.
-Random circuits proposed as initial guesses can land on barren plateaus
-whose gradients are exponentially small in the number of
-qubits~\cite{mcclean2018barren}, while structured circuits show abrupt
-transitions in trainability with circuit structure and
-depth~\cite{campos2021abrupt}. We use phase-matched initial states to set the initial entanglement structure and reflection-symmetric parameter sharing to reduce the optimization space.
+
+The ideal-state optimization is performed classically; the hardware executes the resulting circuits to measure correlators.
+For a normalized trial state in a sector with a unique ground state, spectral decomposition gives
+\begin{equation}
+1-|\langle\psi_0|\psi(\theta)\rangle|^2
+\leq \frac{E(\theta)-E_0}{\Delta_{\rm sec}}.
+\label{eq:energy-fidelity}
+\end{equation}
+Equation~\eqref{eq:energy-fidelity} relates the trial-state overlap to the energy residual through the sector gap $\Delta_{\rm sec}$.
+
+Our bond rotations form a Hamiltonian variational ansatz: the generators follow the interaction terms and their angles are optimized independently~\cite{wecker2015progress}.
+The XXZ setting has been studied within this family~\cite{wiersema2020exploring}.
+Building symmetry into state-preparation circuits restricts the search to relevant sectors~\cite{gard2020efficient}.
+Different reference states supply different initial entanglement patterns, a relevant resource in variational preparation of nontrivial states~\cite{ho2019efficient}.
+The three reference states share the same finite-chain quantum numbers and provide distinct entanglement structures; their optimized energies determine the branch selected at each parameter point.
+
+Trainability also depends on circuit and cost structure.
+Random circuits approaching unitary designs can exhibit exponentially small gradients~\cite{mcclean2018barren}, and local versus global costs can behave differently even at shallow depth~\cite{cerezo2021cost}.
+Identity-block initialization~\cite{grant2019initialization} and model-based circuit design~\cite{wiersema2020exploring} motivate structured starting points.
+Depth-dependent optimization transitions~\cite{campos2021abrupt} and noise-induced gradient suppression under specified noise models~\cite{wang2021noise} further characterize the roles of circuit depth and noise in variational optimization.
+
 Let $M=L/2$. The three reference initial states lie in the $P=-2$ sector and are shown in Fig.~\ref{fig:D06}. They are paired with an
 orbit ansatz in which mirror-symmetric bond pairs share rotation angles
 (odd bonds $O_j\leftrightarrow O_{M+1-j}$, even bonds
@@ -79,7 +92,7 @@ odd-bond sublayer first in (b). \label{fig:D06}}
 (a),(b) Cost functions at $p=1$ versus $s$ for (a) $\delta=-2$ and (b) $\delta=0.85$:
 $E_0$ (exact, blue solid) with the three initial-state costs
 (triv green dashed, topo orange dotted, AFM black dashdot);
-background bands mark the physical phases and circles mark the initial-state branch with the lowest optimized energy in each region.
+background bands identify the initial-state branch minimizing the $p=1$ cost at each grid point; circles identify the branch with the lowest mean optimized cost within each interval.
 (c),(d) Combined quantity $Q$ for (c) $\delta=-2$ and (d) $\delta=0.85$:
 simulator $p=1$ (black) and $p=2$ (gray) fixed-scale curves with
 hardware window scatter ($p=1$, 16-unit window of the 500-unit round; colors indicate

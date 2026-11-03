@@ -1,9 +1,73 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{51}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Peruzzo et~al.(2014)Peruzzo, McClean, Shadbolt, Yung, Zhou, Love,
+  Aspuru-Guzik, and O'Brien]{peruzzo2014variational}
+Alberto Peruzzo, Jarrod McClean, Peter Shadbolt, Man-Hong Yung, Xiao-Qi Zhou,
+  Peter~J. Love, Al{\'a}n Aspuru-Guzik, and Jeremy~L. O'Brien.
+\newblock A variational eigenvalue solver on a photonic quantum processor.
+\newblock \emph{Nat. Commun.}, 5:\penalty0 4213, 2014.
+\newblock \doi{10.1038/ncomms5213}.
+
+\bibitem[Kandala et~al.(2017)Kandala, Mezzacapo, Temme, Takita, Brink, Chow,
+  and Gambetta]{kandala2017hardware}
+Abhinav Kandala, Antonio Mezzacapo, Kristan Temme, Maika Takita, Markus Brink,
+  Jerry~M. Chow, and Jay~M. Gambetta.
+\newblock Hardware-efficient variational quantum eigensolver for small
+  molecules and quantum magnets.
+\newblock \emph{Nature}, 549:\penalty0 242--246, 2017.
+\newblock \doi{10.1038/nature23879}.
+
+\bibitem[Cerezo et~al.(2021{\natexlab{a}})Cerezo, Arrasmith, Babbush, Benjamin,
+  Endo, Fujii, McClean, Mitarai, Yuan, Cincio, and
+  Coles]{cerezo2021variational}
+M.~Cerezo, Andrew Arrasmith, Ryan Babbush, Simon~C. Benjamin, Suguru Endo,
+  Keisuke Fujii, Jarrod~R. McClean, Kosuke Mitarai, Xiao Yuan, Lukasz Cincio,
+  and Patrick~J. Coles.
+\newblock Variational quantum algorithms.
+\newblock \emph{Nat. Rev. Phys.}, 3:\penalty0 625--644, 2021{\natexlab{a}}.
+\newblock \doi{10.1038/s42254-021-00348-9}.
+
+\bibitem[Tilly et~al.(2022)Tilly, Chen, Cao, Picozzi, Setia, Li, Grant,
+  Wossnig, Rungger, Booth, and Tennyson]{tilly2022variational}
+Jules Tilly, Hongxiang Chen, Shuxiang Cao, Dario Picozzi, Kanav Setia, Ying Li,
+  Edward Grant, Leonard Wossnig, Ivan Rungger, George~H. Booth, and Jonathan
+  Tennyson.
+\newblock The variational quantum eigensolver: a review of methods and best
+  practices.
+\newblock \emph{Phys. Rep.}, 986:\penalty0 1--128, 2022.
+\newblock \doi{10.1016/j.physrep.2022.08.003}.
+
+\bibitem[Chen et~al.(2011)Chen, Gu, and Wen]{chen2011classification}
+Xie Chen, Zheng-Cheng Gu, and Xiao-Gang Wen.
+\newblock Classification of gapped symmetric phases in one-dimensional spin
+  systems.
+\newblock \emph{Phys. Rev. B}, 83:\penalty0 035107, 2011.
+\newblock \doi{10.1103/PhysRevB.83.035107}.
+
+\bibitem[Schuch et~al.(2011)Schuch, P{\'e}rez-Garc{\'i}a, and
+  Cirac]{schuch2011classifying}
+Norbert Schuch, David P{\'e}rez-Garc{\'i}a, and J.~Ignacio Cirac.
+\newblock Classifying quantum phases using matrix product states and projected
+  entangled pair states.
+\newblock \emph{Phys. Rev. B}, 84:\penalty0 165139, 2011.
+\newblock \doi{10.1103/PhysRevB.84.165139}.
+
+\bibitem[Kitaev and Preskill(2006)]{kitaev2006topological}
+Alexei Kitaev and John Preskill.
+\newblock Topological entanglement entropy.
+\newblock \emph{Phys. Rev. Lett.}, 96:\penalty0 110404, 2006.
+\newblock \doi{10.1103/PhysRevLett.96.110404}.
+
+\bibitem[Levin and Wen(2006)]{levin2006detecting}
+Michael Levin and Xiao-Gang Wen.
+\newblock Detecting topological order in a ground state wave function.
+\newblock \emph{Phys. Rev. Lett.}, 96:\penalty0 110405, 2006.
+\newblock \doi{10.1103/PhysRevLett.96.110405}.
 
 \bibitem[Satzinger et~al.(2021)]{satzinger2021realizing}
 K.~J. Satzinger et~al.
@@ -11,12 +75,172 @@ K.~J. Satzinger et~al.
 \newblock \emph{Science}, 374:\penalty0 1237--1241, 2021.
 \newblock \doi{10.1126/science.abi8378}.
 
+\bibitem[De~L{\'e}s{\'e}leuc et~al.(2019)De~L{\'e}s{\'e}leuc, Lienhard, Scholl,
+  Barredo, Weber, Lang, B{\"u}chler, Lahaye, and
+  Browaeys]{deleseleuc2019observation}
+Sylvain De~L{\'e}s{\'e}leuc, Vincent Lienhard, Pascal Scholl, Daniel Barredo,
+  Sebastian Weber, Nicolai Lang, Hans~Peter B{\"u}chler, Thierry Lahaye, and
+  Antoine Browaeys.
+\newblock Observation of a symmetry-protected topological phase of interacting
+  bosons with rydberg atoms.
+\newblock \emph{Science}, 365\penalty0 (6455):\penalty0 775--780, 2019.
+\newblock \doi{10.1126/science.aav9105}.
+
+\bibitem[Tan et~al.(2023)Tan, Sun, Tazhigulov, Chan, and
+  Minnich]{tan2023realizing}
+Adrian T.~K. Tan, Shi-Ning Sun, Ruslan~N. Tazhigulov, Garnet Kin-Lic Chan, and
+  Austin~J. Minnich.
+\newblock Realizing symmetry-protected topological phases in a spin-1/2 chain
+  with next-nearest-neighbor hopping on superconducting qubits.
+\newblock \emph{Phys. Rev. A}, 107\penalty0 (3):\penalty0 032614, 2023.
+\newblock \doi{10.1103/PhysRevA.107.032614}.
+
+\bibitem[Yu et~al.(2023)Yu, Zhao, and Wei]{yu2023simulating}
+Hongye Yu, Yusheng Zhao, and Tzu-Chieh Wei.
+\newblock Simulating large-size quantum spin chains on cloud-based
+  superconducting quantum computers.
+\newblock \emph{Phys. Rev. Research}, 5:\penalty0 013183, 2023.
+\newblock \doi{10.1103/PhysRevResearch.5.013183}.
+
 \bibitem[Sun et~al.(2023)Sun, Shirakawa, and Yunoki]{sun2023efficient}
 Rong-Yang Sun, Tomonori Shirakawa, and Seiji Yunoki.
 \newblock Efficient variational quantum circuit structure for correlated
   topological phases.
 \newblock \emph{Phys. Rev. B}, 108:\penalty0 075127, 2023.
 \newblock \doi{10.1103/physrevb.108.075127}.
+
+\bibitem[Elben et~al.(2020)Elben, Yu, Zhu, Hafezi, Pollmann, Zoller, and
+  Vermersch]{elben2020manybody}
+Andreas Elben, Jinlong Yu, Guanyu Zhu, Mohammad Hafezi, Frank Pollmann, Peter
+  Zoller, and Beno{\^\i}t Vermersch.
+\newblock Many-body topological invariants from randomized measurements in
+  synthetic quantum matter.
+\newblock \emph{Sci. Adv.}, 6:\penalty0 eaaz3666, 2020.
+\newblock \doi{10.1126/sciadv.aaz3666}.
+
+\bibitem[Pollmann and Turner(2012)]{pollmann2012detection}
+Frank Pollmann and Ari~M. Turner.
+\newblock Detection of symmetry-protected topological phases in one dimension.
+\newblock \emph{Phys. Rev. B}, 86\penalty0 (12):\penalty0 125441, 2012.
+\newblock \doi{10.1103/PhysRevB.86.125441}.
+
+\bibitem[Haegeman et~al.(2012)Haegeman, P{\'e}rez-Garc{\'i}a, Cirac, and
+  Schuch]{haegeman2012order}
+Jutho Haegeman, David P{\'e}rez-Garc{\'i}a, Ignacio Cirac, and Norbert Schuch.
+\newblock Order parameter for symmetry-protected phases in one dimension.
+\newblock \emph{Phys. Rev. Lett.}, 109\penalty0 (5):\penalty0 050402, 2012.
+\newblock \doi{10.1103/PhysRevLett.109.050402}.
+
+\bibitem[Endo et~al.(2021)Endo, Cai, Benjamin, and Yuan]{endo2021hybrid}
+Suguru Endo, Zhenyu Cai, Simon~C. Benjamin, and Xiao Yuan.
+\newblock Hybrid quantum-classical algorithms and quantum error mitigation.
+\newblock \emph{J. Phys. Soc. Jpn.}, 90\penalty0 (3):\penalty0 032001, 2021.
+\newblock \doi{10.7566/JPSJ.90.032001}.
+
+\bibitem[Cai et~al.(2023)Cai, Babbush, Benjamin, Endo, Huggins, Li, McClean,
+  and O'Brien]{cai2023quantum}
+Zhenyu Cai, Ryan Babbush, Simon~C. Benjamin, Suguru Endo, William~J. Huggins,
+  Ying Li, Jarrod~R. McClean, and Thomas~E. O'Brien.
+\newblock Quantum error mitigation.
+\newblock \emph{Rev. Mod. Phys.}, 95\penalty0 (4):\penalty0 045005, 2023.
+\newblock \doi{10.1103/RevModPhys.95.045005}.
+
+\bibitem[Su et~al.(1979)Su, Schrieffer, and Heeger]{su1979solitons}
+W.~P. Su, J.~R. Schrieffer, and A.~J. Heeger.
+\newblock Solitons in polyacetylene.
+\newblock \emph{Phys. Rev. Lett.}, 42:\penalty0 1698--1701, 1979.
+\newblock \doi{10.1103/PhysRevLett.42.1698}.
+
+\bibitem[Ryu et~al.(2010)Ryu, Schnyder, Furusaki, and
+  Ludwig]{ryu2010topological}
+Shinsei Ryu, Andreas~P Schnyder, Akira Furusaki, and Andreas W~W Ludwig.
+\newblock Topological insulators and superconductors: tenfold way and
+  dimensional hierarchy.
+\newblock \emph{New J. Phys.}, 12\penalty0 (6):\penalty0 065010, 2010.
+\newblock \doi{10.1088/1367-2630/12/6/065010}.
+
+\bibitem[Gu and Wen(2009)]{gu2009tensor}
+Zheng-Cheng Gu and Xiao-Gang Wen.
+\newblock Tensor-entanglement-filtering renormalization approach and
+  symmetry-protected topological order.
+\newblock \emph{Phys. Rev. B}, 80\penalty0 (15):\penalty0 155131, 2009.
+\newblock \doi{10.1103/PhysRevB.80.155131}.
+
+\bibitem[Chen et~al.(2010)Chen, Gu, and Wen]{chen2010local}
+Xie Chen, Zheng-Cheng Gu, and Xiao-Gang Wen.
+\newblock Local unitary transformation, long-range quantum entanglement, wave
+  function renormalization, and topological order.
+\newblock \emph{Phys. Rev. B}, 82\penalty0 (15):\penalty0 155138, 2010.
+\newblock \doi{10.1103/PhysRevB.82.155138}.
+
+\bibitem[Schollw{\"o}ck(2011)]{schollwock2011density}
+Ulrich Schollw{\"o}ck.
+\newblock The density-matrix renormalization group in the age of matrix product
+  states.
+\newblock \emph{Ann. Phys.}, 326\penalty0 (1):\penalty0 96--192, 2011.
+\newblock \doi{10.1016/j.aop.2010.09.012}.
+
+\bibitem[Cirac et~al.(2021)Cirac, P{\'e}rez-Garc{\'i}a, Schuch, and
+  Verstraete]{cirac2021matrix}
+J.~Ignacio Cirac, David P{\'e}rez-Garc{\'i}a, Norbert Schuch, and Frank
+  Verstraete.
+\newblock Matrix product states and projected entangled pair states: Concepts,
+  symmetries, theorems.
+\newblock \emph{Rev. Mod. Phys.}, 93\penalty0 (4):\penalty0 045003, 2021.
+\newblock \doi{10.1103/RevModPhys.93.045003}.
+
+\bibitem[Verresen et~al.(2017)Verresen, Moessner, and
+  Pollmann]{verresen2017onedimensional}
+Ruben Verresen, Roderich Moessner, and Frank Pollmann.
+\newblock One-dimensional symmetry protected topological phases and their
+  transitions.
+\newblock \emph{Phys. Rev. B}, 96\penalty0 (16):\penalty0 165124, 2017.
+\newblock \doi{10.1103/PhysRevB.96.165124}.
+
+\bibitem[Pollmann et~al.(2012)Pollmann, Berg, Turner, and
+  Oshikawa]{pollmann2012symmetry}
+Frank Pollmann, Erez Berg, Ari~M. Turner, and Masaki Oshikawa.
+\newblock Symmetry protection of topological phases in one-dimensional quantum
+  spin systems.
+\newblock \emph{Phys. Rev. B}, 85\penalty0 (7):\penalty0 075125, 2012.
+\newblock \doi{10.1103/PhysRevB.85.075125}.
+
+\bibitem[Li and Haldane(2008)]{li2008entanglement}
+Hui Li and F.~D.~M. Haldane.
+\newblock Entanglement spectrum as a generalization of entanglement entropy:
+  identification of topological order in non-{Abelian} fractional quantum
+  {Hall} effect states.
+\newblock \emph{Phys. Rev. Lett.}, 101:\penalty0 010504, 2008.
+\newblock \doi{10.1103/PhysRevLett.101.010504}.
+
+\bibitem[Pollmann et~al.(2010)Pollmann, Turner, Berg, and
+  Oshikawa]{pollmann2010entanglement}
+Frank Pollmann, Ari~M. Turner, Erez Berg, and Masaki Oshikawa.
+\newblock Entanglement spectrum of a topological phase in one dimension.
+\newblock \emph{Phys. Rev. B}, 81:\penalty0 064439, 2010.
+\newblock \doi{10.1103/PhysRevB.81.064439}.
+
+\bibitem[Shiozaki et~al.(2017)Shiozaki, Shapourian, and
+  Ryu]{shiozaki2017manybody}
+Ken Shiozaki, Hassan Shapourian, and Shinsei Ryu.
+\newblock Many-body topological invariants in fermionic symmetry-protected
+  topological phases: Cases of point group symmetries.
+\newblock \emph{Phys. Rev. B}, 95\penalty0 (20):\penalty0 205139, 2017.
+\newblock \doi{10.1103/PhysRevB.95.205139}.
+
+\bibitem[Elben et~al.(2023)Elben, Flammia, Huang, Kueng, Preskill, Vermersch,
+  and Zoller]{elben2022toolbox}
+Andreas Elben, Steven~T. Flammia, Hsin-Yuan Huang, Richard Kueng, John
+  Preskill, Beno{\^\i}t Vermersch, and Peter Zoller.
+\newblock The randomized measurement toolbox.
+\newblock \emph{Nat. Rev. Phys.}, 5:\penalty0 9--24, 2023.
+\newblock \doi{10.1038/s42254-022-00535-2}.
+
+\bibitem[Sandvik(2010)]{sandvik2010computational}
+Anders~W. Sandvik.
+\newblock Computational studies of quantum spin systems.
+\newblock In \emph{AIP Conf. Proc.}, volume 1297, pages 135--338, 2010.
+\newblock \doi{10.1063/1.3518900}.
 
 \bibitem[den Nijs and Rommelse(1989)]{dennijs1989preroughening}
 Marcel den Nijs and Koos Rommelse.
@@ -42,115 +266,48 @@ Manuel Endres, Marc Cheneau, Takeshi Fukuhara, Christof Weitenberg, Peter
 \newblock \emph{Science}, 334:\penalty0 200--203, 2011.
 \newblock \doi{10.1126/science.1209284}.
 
-\bibitem[Bravyi et~al.(2021)Bravyi, Sheldon, Kandala, Mckay, and
-  Gambetta]{bravyi2021mitigating}
-Sergey Bravyi, Sarah Sheldon, Abhinav Kandala, David~C. Mckay, and Jay~M.
-  Gambetta.
-\newblock Mitigating measurement errors in multiqubit experiments.
-\newblock \emph{Phys. Rev. A}, 103:\penalty0 042605, 2021.
-\newblock \doi{10.1103/PhysRevA.103.042605}.
+\bibitem[Huang et~al.(2020)Huang, Kueng, and Preskill]{huang2020predicting}
+Hsin-Yuan Huang, Richard Kueng, and John Preskill.
+\newblock Predicting many properties of a quantum system from very few
+  measurements.
+\newblock \emph{Nat. Phys.}, 16\penalty0 (10):\penalty0 1050--1057, 2020.
+\newblock \doi{10.1038/s41567-020-0932-7}.
 
-\bibitem[Nation et~al.(2021)Nation, Kang, Sundaresan, and
-  Gambetta]{nation2021scalable}
-Paul~D. Nation, Hwajung Kang, Neereja Sundaresan, and Jay~M. Gambetta.
-\newblock Scalable mitigation of measurement errors on quantum computers.
-\newblock \emph{PRX Quantum}, 2:\penalty0 040326, 2021.
-\newblock \doi{10.1103/PRXQuantum.2.040326}.
+\bibitem[Cong et~al.(2019)Cong, Choi, and Lukin]{cong2019quantum}
+Iris Cong, Soonwon Choi, and Mikhail~D. Lukin.
+\newblock Quantum convolutional neural networks.
+\newblock \emph{Nat. Phys.}, 15\penalty0 (12):\penalty0 1273--1278, 2019.
+\newblock \doi{10.1038/s41567-019-0648-8}.
 
-\bibitem[Su et~al.(1979)Su, Schrieffer, and Heeger]{su1979solitons}
-W.~P. Su, J.~R. Schrieffer, and A.~J. Heeger.
-\newblock Solitons in polyacetylene.
-\newblock \emph{Phys. Rev. Lett.}, 42:\penalty0 1698--1701, 1979.
-\newblock \doi{10.1103/PhysRevLett.42.1698}.
+\bibitem[Wecker et~al.(2015)Wecker, Hastings, and Troyer]{wecker2015progress}
+Dave Wecker, Matthew~B. Hastings, and Matthias Troyer.
+\newblock Progress towards practical quantum variational algorithms.
+\newblock \emph{Phys. Rev. A}, 92\penalty0 (4):\penalty0 042303, 2015.
+\newblock \doi{10.1103/PhysRevA.92.042303}.
 
-\bibitem[Haldane(1983)]{haldane1983nonlinear}
-F.~D.~M. Haldane.
-\newblock Nonlinear field theory of large-spin {Heisenberg} antiferromagnets:
-  semiclassically quantized solitons of the one-dimensional easy-axis {N\'eel}
-  state.
-\newblock \emph{Phys. Rev. Lett.}, 50:\penalty0 1153--1156, 1983.
-\newblock \doi{10.1103/PhysRevLett.50.1153}.
+\bibitem[Wiersema et~al.(2020)Wiersema, Zhou, De~Sereville, Carrasquilla, Kim,
+  and Yuen]{wiersema2020exploring}
+Roeland Wiersema, Cunlu Zhou, Yvette De~Sereville, Juan~Felipe Carrasquilla,
+  Yong~Baek Kim, and Henry Yuen.
+\newblock Exploring entanglement and optimization within the {Hamiltonian}
+  variational ansatz.
+\newblock \emph{PRX Quantum}, 1\penalty0 (2):\penalty0 020319, 2020.
+\newblock \doi{10.1103/PRXQuantum.1.020319}.
 
-\bibitem[Affleck et~al.(1987)Affleck, Kennedy, Lieb, and
-  Tasaki]{affleck1987rigorous}
-Ian Affleck, Tom Kennedy, Elliott~H. Lieb, and Hal Tasaki.
-\newblock Rigorous results on valence-bond ground states in antiferromagnets.
-\newblock \emph{Phys. Rev. Lett.}, 59:\penalty0 799--802, 1987.
-\newblock \doi{10.1103/PhysRevLett.59.799}.
+\bibitem[Gard et~al.(2020)Gard, Zhu, Barron, Mayhall, Economou, and
+  Barnes]{gard2020efficient}
+Bryan~T. Gard, Linghua Zhu, George~S. Barron, Nicholas~J. Mayhall, Sophia~E.
+  Economou, and Edwin Barnes.
+\newblock Efficient symmetry-preserving state preparation circuits for the
+  variational quantum eigensolver algorithm.
+\newblock \emph{npj Quantum Inf.}, 6\penalty0 (1):\penalty0 10, 2020.
+\newblock \doi{10.1038/s41534-019-0240-1}.
 
-\bibitem[Chen et~al.(2011)Chen, Gu, and Wen]{chen2011classification}
-Xie Chen, Zheng-Cheng Gu, and Xiao-Gang Wen.
-\newblock Classification of gapped symmetric phases in one-dimensional spin
-  systems.
-\newblock \emph{Phys. Rev. B}, 83:\penalty0 035107, 2011.
-\newblock \doi{10.1103/PhysRevB.83.035107}.
-
-\bibitem[Schuch et~al.(2011)Schuch, P{\'e}rez-Garc{\'i}a, and
-  Cirac]{schuch2011classifying}
-Norbert Schuch, David P{\'e}rez-Garc{\'i}a, and J.~Ignacio Cirac.
-\newblock Classifying quantum phases using matrix product states and projected
-  entangled pair states.
-\newblock \emph{Phys. Rev. B}, 84:\penalty0 165139, 2011.
-\newblock \doi{10.1103/PhysRevB.84.165139}.
-
-\bibitem[Pollmann et~al.(2010)Pollmann, Turner, Berg, and
-  Oshikawa]{pollmann2010entanglement}
-Frank Pollmann, Ari~M. Turner, Erez Berg, and Masaki Oshikawa.
-\newblock Entanglement spectrum of a topological phase in one dimension.
-\newblock \emph{Phys. Rev. B}, 81:\penalty0 064439, 2010.
-\newblock \doi{10.1103/PhysRevB.81.064439}.
-
-\bibitem[Li and Haldane(2008)]{li2008entanglement}
-Hui Li and F.~D.~M. Haldane.
-\newblock Entanglement spectrum as a generalization of entanglement entropy:
-  identification of topological order in non-{Abelian} fractional quantum
-  {Hall} effect states.
-\newblock \emph{Phys. Rev. Lett.}, 101:\penalty0 010504, 2008.
-\newblock \doi{10.1103/PhysRevLett.101.010504}.
-
-\bibitem[Elben et~al.(2020)Elben, Yu, Zhu, Hafezi, Pollmann, Zoller, and
-  Vermersch]{elben2020manybody}
-Andreas Elben, Jinlong Yu, Guanyu Zhu, Mohammad Hafezi, Frank Pollmann, Peter
-  Zoller, and Beno{\^\i}t Vermersch.
-\newblock Many-body topological invariants from randomized measurements in
-  synthetic quantum matter.
-\newblock \emph{Sci. Adv.}, 6:\penalty0 eaaz3666, 2020.
-\newblock \doi{10.1126/sciadv.aaz3666}.
-
-\bibitem[Elben et~al.(2023)Elben, Flammia, Huang, Kueng, Preskill, Vermersch,
-  and Zoller]{elben2022toolbox}
-Andreas Elben, Steven~T. Flammia, Hsin-Yuan Huang, Richard Kueng, John
-  Preskill, Beno{\^\i}t Vermersch, and Peter Zoller.
-\newblock The randomized measurement toolbox.
-\newblock \emph{Nat. Rev. Phys.}, 5:\penalty0 9--24, 2023.
-\newblock \doi{10.1038/s42254-022-00535-2}.
-
-\bibitem[Peruzzo et~al.(2014)Peruzzo, McClean, Shadbolt, Yung, Zhou, Love,
-  Aspuru-Guzik, and O'Brien]{peruzzo2014variational}
-Alberto Peruzzo, Jarrod McClean, Peter Shadbolt, Man-Hong Yung, Xiao-Qi Zhou,
-  Peter~J. Love, Al{\'a}n Aspuru-Guzik, and Jeremy~L. O'Brien.
-\newblock A variational eigenvalue solver on a photonic quantum processor.
-\newblock \emph{Nat. Commun.}, 5:\penalty0 5213, 2014.
-\newblock \doi{10.1038/ncomms5213}.
-
-\bibitem[Cerezo et~al.(2021)Cerezo, Arrasmith, Babbush, Benjamin, Endo, Fujii,
-  McClean, Mitarai, Yuan, Cincio, and Coles]{cerezo2021variational}
-M.~Cerezo, Andrew Arrasmith, Ryan Babbush, Simon~C. Benjamin, Suguru Endo,
-  Keisuke Fujii, Jarrod~R. McClean, Kosuke Mitarai, Xiao Yuan, Lukasz Cincio,
-  and Patrick~J. Coles.
-\newblock Variational quantum algorithms.
-\newblock \emph{Nat. Rev. Phys.}, 3:\penalty0 625--644, 2021.
-\newblock \doi{10.1038/s42254-021-00348-9}.
-
-\bibitem[Tilly et~al.(2022)Tilly, Chen, Cao, Picozzi, Setia, Li, Grant,
-  Wossnig, Rungger, Booth, and Tennyson]{tilly2022variational}
-Jules Tilly, Hongxiang Chen, Shuxiang Cao, Dario Picozzi, Kanav Setia, Ying Li,
-  Edward Grant, Leonard Wossnig, Ivan Rungger, George~H. Booth, and Jonathan
-  Tennyson.
-\newblock The variational quantum eigensolver: a review of methods and best
-  practices.
-\newblock \emph{Phys. Rep.}, 986:\penalty0 1--128, 2022.
-\newblock \doi{10.1016/j.physrep.2022.08.003}.
+\bibitem[Ho and Hsieh(2019)]{ho2019efficient}
+Wen~Wei Ho and Timothy~H. Hsieh.
+\newblock Efficient variational simulation of non-trivial quantum states.
+\newblock \emph{SciPost Phys.}, 6\penalty0 (3):\penalty0 029, 2019.
+\newblock \doi{10.21468/SciPostPhys.6.3.029}.
 
 \bibitem[McClean et~al.(2018)McClean, Boixo, Smelyanskiy, Babbush, and
   Neven]{mcclean2018barren}
@@ -160,22 +317,77 @@ Jarrod~R. McClean, Sergio Boixo, Vadim~N. Smelyanskiy, Ryan Babbush, and
 \newblock \emph{Nat. Commun.}, 9:\penalty0 4812, 2018.
 \newblock \doi{10.1038/s41467-018-07090-4}.
 
+\bibitem[Cerezo et~al.(2021{\natexlab{b}})Cerezo, Sone, Volkoff, Cincio, and
+  Coles]{cerezo2021cost}
+M.~Cerezo, Akira Sone, Tyler Volkoff, Lukasz Cincio, and Patrick~J. Coles.
+\newblock Cost function dependent barren plateaus in shallow parametrized
+  quantum circuits.
+\newblock \emph{Nat. Commun.}, 12\penalty0 (1):\penalty0 1791,
+  2021{\natexlab{b}}.
+\newblock \doi{10.1038/s41467-021-21728-w}.
+
+\bibitem[Grant et~al.(2019)Grant, Wossnig, Ostaszewski, and
+  Benedetti]{grant2019initialization}
+Edward Grant, Leonard Wossnig, Mateusz Ostaszewski, and Marcello Benedetti.
+\newblock An initialization strategy for addressing barren plateaus in
+  parametrized quantum circuits.
+\newblock \emph{Quantum}, 3:\penalty0 214, 2019.
+\newblock \doi{10.22331/q-2019-12-09-214}.
+
 \bibitem[Campos et~al.(2021)Campos, Nasrallah, and Biamonte]{campos2021abrupt}
 Ernesto Campos, Aly Nasrallah, and Jacob Biamonte.
 \newblock Abrupt transitions in variational quantum circuit training.
 \newblock \emph{Phys. Rev. A}, 103:\penalty0 032607, 2021.
 \newblock \doi{10.1103/PhysRevA.103.032607}.
 
-\bibitem[Sandvik(2010)]{sandvik2010computational}
-Anders~W. Sandvik.
-\newblock Computational studies of quantum spin systems.
-\newblock In \emph{AIP Conf. Proc.}, volume 1297, pages 135--338, 2010.
-\newblock \doi{10.1063/1.3518900}.
+\bibitem[Wang et~al.(2021)Wang, Fontana, Cerezo, Sharma, Sone, Cincio, and
+  Coles]{wang2021noise}
+Samson Wang, Enrico Fontana, M.~Cerezo, Kunal Sharma, Akira Sone, Lukasz
+  Cincio, and Patrick~J. Coles.
+\newblock Noise-induced barren plateaus in variational quantum algorithms.
+\newblock \emph{Nat. Commun.}, 12\penalty0 (1):\penalty0 6961, 2021.
+\newblock \doi{10.1038/s41467-021-27045-6}.
+
+\bibitem[Bravyi et~al.(2021)Bravyi, Sheldon, Kandala, Mckay, and
+  Gambetta]{bravyi2021mitigating}
+Sergey Bravyi, Sarah Sheldon, Abhinav Kandala, David~C. Mckay, and Jay~M.
+  Gambetta.
+\newblock Mitigating measurement errors in multiqubit experiments.
+\newblock \emph{Phys. Rev. A}, 103:\penalty0 042605, 2021.
+\newblock \doi{10.1103/PhysRevA.103.042605}.
+
+\bibitem[Maciejewski et~al.(2020)Maciejewski, Zimbor{\'a}s, and
+  Oszmaniec]{maciejewski2020mitigation}
+Filip~B. Maciejewski, Zolt{\'a}n Zimbor{\'a}s, and Micha{\l} Oszmaniec.
+\newblock Mitigation of readout noise in near-term quantum devices by classical
+  post-processing based on detector tomography.
+\newblock \emph{Quantum}, 4:\penalty0 257, 2020.
+\newblock \doi{10.22331/q-2020-04-24-257}.
+
+\bibitem[Lukyanov(1998)]{lukyanov1998lowenergy}
+Sergei Lukyanov.
+\newblock Low energy effective {Hamiltonian} for the {XXZ} spin chain.
+\newblock \emph{Nucl. Phys. B}, 522\penalty0 (3):\penalty0 533--549, 1998.
+\newblock \doi{10.1016/S0550-3213(98)00249-1}.
+
+\bibitem[Takayoshi and Sato(2010)]{takayoshi2010coefficients}
+Shintaro Takayoshi and Masahiro Sato.
+\newblock Coefficients of bosonized dimer operators in spin-1/2 {XXZ} chains
+  and their applications.
+\newblock \emph{Phys. Rev. B}, 82\penalty0 (21):\penalty0 214420, 2010.
+\newblock \doi{10.1103/PhysRevB.82.214420}.
 
 \bibitem[Raussendorf and Briegel(2001)]{raussendorf2001oneway}
 Robert Raussendorf and Hans~J. Briegel.
 \newblock A one-way quantum computer.
 \newblock \emph{Phys. Rev. Lett.}, 86:\penalty0 5188--5191, 2001.
 \newblock \doi{10.1103/PhysRevLett.86.5188}.
+
+\bibitem[T{\'o}th and G{\"u}hne(2005)]{toth2005detecting}
+G{\'e}za T{\'o}th and Otfried G{\"u}hne.
+\newblock Detecting genuine multipartite entanglement with two local
+  measurements.
+\newblock \emph{Phys. Rev. Lett.}, 94\penalty0 (6):\penalty0 060501, 2005.
+\newblock \doi{10.1103/PhysRevLett.94.060501}.
 
 \end{thebibliography}

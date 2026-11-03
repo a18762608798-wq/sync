@@ -1,25 +1,40 @@
-\section{相标记}
+\section{相诊断量}
 \label{sec:markers}
 
-\subsection{结构因子与 AFM 标记}
+\subsection{结构因子与交错关联}
 \label{sec:sq}
 
-为识别反铁磁相，我们使用结构因子
+以 Pauli 算符约定定义静态结构因子
 \begin{equation}
-S(q)=\frac{1}{L}\sum_{i,j}e^{iq(i-j)}\langle Z_iZ_j\rangle,
+S(q)=\frac1L\sum_{i,j}e^{iq(i-j)}\langle Z_iZ_j\rangle.
+\label{eq:structure-factor}
 \end{equation}
-其中 $\langle Z_iZ_j\rangle$ 为基态关联子，本节恒取 $L=8$。
-结构因子是自旋关联的傅里叶变换；$S(\pi)$ 表征有限链中的交错关联强度。三相各一个代表点处的 $S(q)$ 曲线（相标签与坐标见数据集），
-共用 $q$ 网格（含 $q=\pi$），见图~\ref{fig:D03}。
-在面向真机的测量协议中，使用 $q=\pi$ 分量作为 AFM 诊断量；
-该量由计算基测量得到的 $Z_iZ_j$ 关联计算。
-三代表点处的真机 $p=1$ 测量值（图~\ref{fig:D03}(b)）紧贴图(a)模拟机曲线，AFM $\pi$ 峰虽被噪声压低但清晰可辨。
+它是使用 $S_i^z=Z_i/2$ 写出同一表达式时的四倍，逐格点关联形式直接适用于开链。
+对于测得的比特串 $z_j=\pm1$，单次采样值为
+\begin{equation}
+x_q=\frac1L\left|\sum_j e^{iqj}z_j\right|^2.
+\label{eq:structure-shot}
+\end{equation}
+其期望等于式~\eqref{eq:structure-factor}，由此可见结构因子非负，且所有 $q$ 均可从同一批采样估计。
+
+$q=\pi$ 时的固定尺度量等于交错磁化的二阶矩：
+\begin{equation}
+\hat S(\pi)=\frac{S(\pi)}{L}
+=\left\langle\left[\frac1L\sum_j(-1)^jZ_j\right]^2\right\rangle.
+\label{eq:staggered-moment}
+\end{equation}
+即使自旋翻转对称性使一阶矩为零，该量仍能反映交错关联。
+交错磁化二阶矩是标准的有限尺寸 AFM 诊断量~\cite{sandvik2010computational}。
+
+图~\ref{fig:D03} 在包含 $\pi$ 的同一 $q$ 网格上，对比三个有限尺寸区域各一代表点的 $\hat S(q)=S(q)/L$。
+$p=1$ 真机曲线呈现三个代表点特有的 $q$ 依赖，包括 $q=\pi$ 处的 AFM 峰。
+后续关联分析采用其中的 $\pi$ 分量。
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\columnwidth]{{../../figs/exp02/exp02_D03}}
-\caption{共用 $q$ 网格上三相各一个代表点处的结构因子 $S(q)$；
-比较各代表点在 $q=\pi$ 处的交错关联。
-(b) 为同点真机 $p=1$ 连续曲线（1024 shots + 读出缓解）紧贴(a)模拟机曲线。
+\caption{三代表点的归一化静态结构因子 $\hat S(q)=S(q)/L$：
+(a) 数值基态；(b) 同点真机 $p=1$ 测量，使用 $1024$ shots 并经读出缓解。
+$q=\pi$ 处峰值诊断交错关联。
 \label{fig:D03}}
 \end{figure}

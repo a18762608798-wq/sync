@@ -1,76 +1,85 @@
-\section{Model and symmetries}
+\section{Model, symmetries, and topological classification}
 \label{sec:model}
 
-We consider the dimerized XXZ chain with $L$ sites and open boundary
-conditions, sites labeled $1,\dots,L$. The dimerized alternating-bond
-structure goes back to Su, Schrieffer, and Heeger~\cite{su1979solitons}. With $X_m,Y_m,Z_m$ the Pauli
-operators on site $m$, the Hamiltonian reads
-\begin{equation}
-H(s,\delta)=H_o+H_e,
-\end{equation}
-where $H_o$ ($H_e$) couples odd (even) bonds, $s$ is the dimerization
-parameter, and $\delta$ controls the anisotropy:
-\begin{equation}
-H_o=(1-s)\sum_{j=1}^{L/2}h_{2j-1,2j},\qquad
-H_e=s\sum_{j=1}^{L/2-1}h_{2j,2j+1},
-\end{equation}
-\begin{equation}
-h_{kl}=e^{-\delta}(X_kX_l+Y_kY_l)+e^{+\delta}Z_kZ_l,
-\end{equation}
-where $h_{kl}$ is the two-site bond operator with
-$J_{xx}=e^{-\delta}$ and $J_z=e^{+\delta}$; $\delta=0$ is the Heisenberg
-isotropic point, while $\delta>0$ leans toward Ising.
-Unless stated otherwise we take $L=8$.
+\subsection{Dimerized XXZ chain}
 
-$H$ commutes with the total magnetization
-$Z_{\rm tot}=\sum_m Z_m$, the global spin flip $\prod_m X_m$, and the
-full-chain reflection $R$ ($m\leftrightarrow L+1-m$), so evolution under
-$H$ never leaves the initial symmetry sector. For $\delta\ne0$ the continuous spin-rotation symmetry is $U(1)$ ($Z_{\rm tot}$
-conserved); at $\delta=0$ it enlarges to $SU(2)$.
-The three combine into $P=Z_{\rm tot}^2-\prod_mX_m-R$, conserved under
-evolution; the three reference initial states all live in the $P=-2$
-sector.
-
-The topological phase here belongs to the one-dimensional
-symmetry-protected family whose study began with Haldane's conjecture
-that integer-spin antiferromagnetic chains support a finite excitation
-gap, in contrast to the gapless half-integer
-case~\cite{haldane1983nonlinear}, and with the
-exact valence-bond-solid ground state found at a special point of the
-spin-$1$ chain, carrying fractionalized spin-$1/2$ edge states and
-nonlocal string order~\cite{affleck1987rigorous}.
-That phenomenology is now classified: gapped symmetric phases of
-one-dimensional systems with onsite symmetry are labeled by the second
-cohomology group, i.e.\ projective representations of the
-symmetry~\cite{chen2011classification}, equivalently in
-matrix-product-state form together with their parent
-Hamiltonians~\cite{schuch2011classifying}. The entanglement spectrum,
-introduced as a fingerprint of topological
-order~\cite{li2008entanglement}, is doubly degenerate in the Haldane
-phase of $S=1$ chains, and this degeneracy serves as the operational
-fingerprint~\cite{pollmann2010entanglement}.
-Our dimerized XXZ chain realizes three competing orders, trivial,
-topological, and antiferromagnetic, within a single tunable model,
-which we characterize using the reflection marker, antiferromagnetic correlations, and string correlations.
-
-To distinguish the phases we use the normalized topological reflection
-marker, following the partial-reflection many-body invariant of
-Elben~\textit{et al.}~\cite{elben2020manybody}; we adopt the invariant's
-definition while all measurements here use computational-basis bitstrings.
-Let $\rho_I$ be the reduced density matrix of the ground state
-on the central block $I$ (for $L=8$, sites $3$--$6$) and
-${\mathcal R}_I$ the mirror exchange about the central bond. With
-$Z_{\mathcal R}={\rm Tr}(\rho_I{\mathcal R}_I)$ and the corresponding
-quantities $\rho_{I_{1,2}}$ on the left/right halves of $I$,
+We study an open chain of $L$ spin-$1/2$ sites, with $X_j,Y_j,Z_j$ denoting Pauli operators and lattice spacing set to one:
 \begin{equation}
-\tilde{Z}_{\mathcal R}=
-\frac{Z_{\mathcal R}}
-{\sqrt{[{\rm Tr}(\rho_{I_1}^2)+{\rm Tr}(\rho_{I_2}^2)]/2}},
+H(s,\delta)=\sum_{j=1}^{L-1}t_j
+\left[e^{-\delta}(X_jX_{j+1}+Y_jY_{j+1})
++e^\delta Z_jZ_{j+1}\right],
+\label{eq:H}
 \end{equation}
-where the denominator is the square root of the mean purity of the two halves, so
-$\tilde{Z}_{\mathcal R}$ is the reflection expectation
-normalized by the local mixedness, approaching $+1$ ($-1$) in
-the trivial (topological) phase and $0$ in the magnetically ordered
-phase.
-The finite-size phase diagram mapped with this marker is reported in
-Sec.~\ref{sec:phasediagram}.
+where $t_{2r-1}=1-s$, $t_{2r}=s$, and $0\leq s\leq1$.
+The alternating bonds inherit the pattern of the SSH model~\cite{su1979solitons}.
+The free-fermion band classification~\cite{ryu2010topological} provides the noninteracting reference.
+Here the spin degrees of freedom and longitudinal interaction lead to a many-body symmetry classification.
+
+To compare conventions with the extended bosonic SSH model of Ref.~\cite{elben2020manybody}, its odd/even couplings are $J=2(1-s)e^{-\delta}$ and $J'=2se^{-\delta}$, and its anisotropy is
+\begin{equation}
+\Delta=\frac{J_z}{J_{xx}}=e^{2\delta}.
+\label{eq:anisotropy}
+\end{equation}
+Thus $\delta=0$ is the isotropic point, $\delta<0$ is easy plane, and $\delta>0$ is easy axis. This correspondence also connects our model to the interacting bosonic SSH chain realized with Rydberg atoms~\cite{deleseleuc2019observation}. Unless stated otherwise, $L=8$.
+
+\subsection{Symmetries and the variational sector}
+
+The Hamiltonian commutes with the total magnetization $Z_{\rm tot}=\sum_jZ_j$, global spin flip $G_x=\prod_jX_j$, and bond-centered reflection $R:j\mapsto L+1-j$.
+It also respects spin time reversal. Continuous spin rotation is $U(1)$ for $\delta\neq0$ and enlarges to $SU(2)$ at $\delta=0$.
+For the sizes used here, $L$ is a multiple of four and all three reference states have $Z_{\rm tot}=0$, $G_x=+1$, and $R=+1$.
+The conserved operator
+\begin{equation}
+P=Z_{\rm tot}^2-G_x-R
+\end{equation}
+packages these conditions: $P=-2$ is equivalent to their simultaneous satisfaction. The ideal variational circuit preserves this sector.
+
+\subsection{Why the two dimerizations are distinct}
+
+A symmetry-protected topological (SPT) phase is defined by equivalence under symmetry-preserving local transformations of gapped states~\cite{gu2009tensor,chen2010local}.
+For the onsite symmetries of this chain, the natural unit cell is $(2r-1,2r)$.
+Its total spin is $T_r^a=(A_{2r-1}+A_{2r})/2$, with $A=X,Y,Z$ for $a=x,y,z$.
+The cell Hilbert space contains both spin-zero and spin-one sectors.
+The cell rotations $u_x=e^{i\pi T_r^x}$ and $u_z=e^{i\pi T_r^z}$ commute and generate $D_2\simeq\mathbb Z_2\times\mathbb Z_2$.
+
+For a symmetric, injective matrix product state (MPS), the symmetry acts on its virtual bonds as
+\begin{equation}
+\sum_n(u_g)_{mn}A^n=e^{i\phi_g}V_g^\dagger A^mV_g,
+\qquad V_gV_h=\omega(g,h)V_{gh}.
+\label{eq:mps-symmetry}
+\end{equation}
+The inequivalent projective representations, labeled by $H^2(G,U(1))$ for unitary onsite $G$, distinguish the symmetric gapped phases~\cite{chen2011classification,schuch2011classifying}.
+The MPS and Schmidt-decomposition framework is reviewed in Refs.~\cite{schollwock2011density,cirac2021matrix}.
+For $D_2$, the gauge-invariant relation
+\begin{equation}
+V_xV_z=\eta V_zV_x,\qquad \eta=\pm1
+\label{eq:projective-index}
+\end{equation}
+separates the trivial and Haldane-type classes~\cite{pollmann2012detection}.
+
+At $s=0$, singlets lie within cells, giving a product of cell states and $\eta=+1$.
+At $s=1$, bulk singlets cross cell boundaries, leaving spin-$1/2$ edge degrees of freedom with $\eta=-1$.
+Our topological reference closes the two edge spins into a singlet; this selects one state of the open-chain edge manifold.
+This dimer limit illustrates symmetry fractionalization~\cite{verresen2017onedimensional}.
+Bond inversion or time reversal can independently protect the Haldane-type distinction~\cite{pollmann2012symmetry}.
+The entanglement spectrum, introduced in Ref.~\cite{li2008entanglement}, has symmetry-protected degeneracies in this one-dimensional setting~\cite{pollmann2010entanglement}.
+These classification statements concern gapped bulk phases without spontaneous breaking of the protecting symmetry. The AFM region instead has broken spin-flip symmetry in the thermodynamic limit; a finite-chain symmetric cat state can retain the symmetry while displaying large staggered correlations.
+
+\subsection{Partial-reflection diagnostic}
+
+We adopt the bosonic partial-reflection diagnostic of Ref.~\cite{elben2020manybody}.
+Partial spatial transformations also enter constructions of many-body invariants for fermionic SPT phases~\cite{shiozaki2017manybody}.
+For a central interval $I=I_1\cup I_2$, let $\rho_I$ be its reduced density matrix and $\mathcal R_I$ reverse its sites. We evaluate
+\begin{equation}
+\tilde Z_{\mathcal R}
+=\frac{\operatorname{Tr}(\rho_I\mathcal R_I)}
+{\sqrt{\left[\operatorname{Tr}(\rho_{I_1}^2)
++\operatorname{Tr}(\rho_{I_2}^2)\right]/2}}.
+\label{eq:reflection-marker}
+\end{equation}
+For $L=8$, $I=(3,4,5,6)$ and its halves are $(3,4)$ and $(5,6)$.
+In the symmetric gapped regimes, the quantized limits $+1$ and $-1$ require intervals large compared with the correlation length; the AFM limit is zero in the corresponding model~\cite{elben2020manybody}.
+We use the four-site interval to evaluate the finite-size phase map.
+
+We compute Eq.~\eqref{eq:reflection-marker} from numerical wave functions.
+The expression combines off-diagonal matrix elements of $\mathcal R_I$ with subsystem purities.
+Randomized measurements with suitable basis rotations provide an experimental route to these quantities~\cite{elben2022toolbox}.

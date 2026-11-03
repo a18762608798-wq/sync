@@ -184,6 +184,68 @@ def test_mitigation_identity_and_recovery():
     assert np.allclose(rec / rec.sum(), ideal, atol=2e-2)
 
 
+@pytest.mark.parametrize("values, expected", [
+    ([0.7, 0.4, -0.1], [0.65, 0.35, 0.0]),
+    ([2.0, -1.0, 0.0], [1.0, 0.0, 0.0]),
+    ([0.0, 0.0, 0.0], [1 / 3, 1 / 3, 1 / 3]),
+    ([0.2, 0.3, 0.5], [0.2, 0.3, 0.5]),
+])
+def test_probability_projection_known_solutions(values, expected):
+    from exp06_assemble import project_probability_simplex
+    assert np.allclose(project_probability_simplex(values), expected, atol=1e-14)
+
+
+def test_probability_projection_optimality():
+    from exp06_assemble import project_probability_simplex
+    rng = np.random.default_rng(24)
+    for size in (1, 4, 256):
+        for _ in range(12):
+            v = rng.normal(size=size)
+            p = project_probability_simplex(v)
+            assert np.all(p >= 0) and p.sum() == pytest.approx(1.0)
+            active = p > 0
+            threshold = np.mean((v - p)[active])
+            assert np.allclose((v - p)[active], threshold, atol=1e-13)
+            assert np.all(v[~active] <= threshold + 1e-13)
+            assert np.allclose(project_probability_simplex(p), p, atol=1e-13)
+            assert np.allclose(project_probability_simplex(v + 3), p, atol=1e-13)
+
+
+def test_mitigation_asymmetric_qubit_order_and_count_scaling():
+    from exp06_assemble import group_Ms, mitigate_counts
+    matrices = [np.array([[0.9, 0.2], [0.1, 0.8]]),
+                np.array([[0.7, 0.05], [0.3, 0.95]])]
+    assignment = np.kron(matrices[1], matrices[0])
+
+    def counts_of(probabilities):
+        return {format(i, "02b"): int(round(p * 100000))
+                for i, p in enumerate(probabilities) if p > 0}
+
+    cal = {"cal_zero": counts_of(assignment[:, 0]),
+           "cal_one": counts_of(assignment[:, -1])}
+    estimated = group_Ms(cal, [7, 12])
+    assert np.allclose(estimated, matrices)
+    ideal = np.array([0.05, 0.15, 0.3, 0.5])
+    measured = counts_of(assignment @ ideal)
+    recovered = mitigate_counts(measured, estimated, n=2)
+    assert np.allclose(recovered, ideal, atol=1e-13)
+    scaled = {key: value * 43 for key, value in measured.items()}
+    assert np.allclose(mitigate_counts(scaled, estimated, n=2), recovered,
+                       atol=1e-13)
+
+
+def test_mitigation_invalid_inputs_fail():
+    from exp06_assemble import mitigate_counts, project_probability_simplex
+    for vector in ([], [np.nan, 0], [np.inf], [[0.5, 0.5]]):
+        with pytest.raises(ValueError):
+            project_probability_simplex(vector)
+    for counts in ({}, {"0": 0}, {"0": -1}, {"0": np.nan}):
+        with pytest.raises(ValueError):
+            mitigate_counts(counts, [np.eye(2)], n=1)
+    with pytest.raises(np.linalg.LinAlgError):
+        mitigate_counts({"0": 10}, [np.full((2, 2), 0.5)], n=1)
+
+
 def test_window_endpoints():
     from exp06_assemble import window_endpoints  # noqa: E402
     s = np.array([2.0, 4.0, 7.0, 7.4, 1.5])

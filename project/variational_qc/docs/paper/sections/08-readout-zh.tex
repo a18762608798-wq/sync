@@ -1,19 +1,40 @@
 \section{读出误差缓解}
 \label{sec:readout}
 
-读出误差把理想分布变成测量分布：
+以分配矩阵描述经典读出误判：
 \begin{equation}
-\vec{P}_{\rm meas}=M\vec{P}_{\rm ideal},
+\mathbf p_{\rm meas}=\mathsf A\mathbf p_{\rm ideal},
+\qquad \mathsf A_{ab}=P(a|b).
+\label{eq:assignment}
 \end{equation}
-其中 $M$ 为分配矩阵，$M_{ab}=P(a|b)$。
-其列由制备标定：制备 $|0\rangle$ 得第一列，制备 $|1\rangle$ 得第二列，
+$\mathbf p_{\rm ideal}$ 表示所制备态在读出前的计算基概率分布~\cite{cai2023quantum}。
+各列通过制备计算基态标定。
+对比特 $i$，令 $\epsilon_{0,i}=P(1|0)$、$\epsilon_{1,i}=P(0|1)$，独立误差近似为
 \begin{equation}
-M=\begin{bmatrix} P(0|0) & P(0|1) \\ P(1|0) & P(1|1) \end{bmatrix},
+\mathsf A=\bigotimes_{i=1}^L
+\begin{pmatrix}
+1-\epsilon_{0,i}&\epsilon_{1,i}\\
+\epsilon_{0,i}&1-\epsilon_{1,i}
+\end{pmatrix}.
+\label{eq:tensor-readout}
 \end{equation}
-其中对角元为读对概率，非对角元为读错概率。矫正时求逆，
-\begin{equation}
-\vec{P}_{\rm mit}=M^{-1}\vec{P}_{\rm meas},
-\end{equation}
-随后将负分量截为零并重新归一化，得到非负且归一的概率分布，再计算观测量。
+该张量积模型包含 $2L$ 个单比特误判概率~\cite{bravyi2021mitigating}。
+每个采集单元用一对全零、全一制备电路标定单比特边缘概率，并关闭平台自带读出修正。
 
-多比特读出采用单比特分配矩阵的张量积模型~\cite{bravyi2021mitigating}。各比特的矩阵由 $|0\rangle$ 和 $|1\rangle$ 两种制备设置标定；张量积模型的标定参数量随比特数线性增长。真机实验在每批测量时重新标定，以跟踪读出漂移，并关闭平台自带读出修正。该模型描述独立的单比特读出误差；关联读出误差需通过包含相关项的分配模型处理。更大系统的分配矩阵缓解可采用无矩阵迭代方法~\cite{nation2021scalable}。
+先以实际总采样数归一化 counts 得到 $\mathbf p_{\rm meas}$。
+标定矩阵可逆时，线性求逆得到 $\mathbf v=\mathsf A^{-1}\mathbf p_{\rm meas}$。
+采用欧氏概率投影，将联合反演向量映射到概率单纯形，得到概率分布~\cite{maciejewski2020mitigation}：
+\begin{equation}
+\mathbf p_{\rm mit}
+=\underset{\mathbf p\ge0,\;\mathbf 1^{\mathsf T}\mathbf p=1}
+{\operatorname{argmin}}\lVert\mathbf p-\mathbf v\rVert_2^2.
+\label{eq:readout-projection}
+\end{equation}
+其解为 $p_{{\rm mit},b}=\max(v_b-\tau,0)$，其中共同阈值 $\tau$ 使各分量之和为一。
+实现通过排序确定阈值，再由投影后的分布计算关联量。
+该投影为非线性操作，可能引入有限采样偏差。
+
+每个采集单元重新标定，以跟踪随时间的变化。
+联测以冠军链映射上的一对标定电路构造各分支共用的张量积读出模型；
+三代表点的独立测量分别在各自物理映射上标定。
+真机分析报告由上述分布得到的关联量及单元间标准误。

@@ -1,26 +1,59 @@
 \appendix
 
-\section{Finite-size gap analysis}
+\section{Bulk theory and finite-size gap analysis}
 \label{sec:gap}
 
-We take the gap in the $P=-2$ symmetry sector,
+\subsection{The uniform easy-plane point}
+
+The standard XXZ anisotropy is $\Delta=e^{2\delta}$ [Eq.~\eqref{eq:anisotropy}], while $d=1-2s$ measures bond alternation.
+At $s=1/2$, the Hamiltonian is the uniform antiferromagnetic XXZ chain.
+For $0<\Delta<1$, its bulk low-energy theory is a Tomonaga--Luttinger liquid~\cite{lukyanov1998lowenergy}.
+Using the bosonization convention of Ref.~\cite{takayoshi2010coefficients}, its leading weak-dimerization description is
+\begin{align}
+\mathcal H_{\rm LL}
+&=\frac v2\left[K^{-1}(\partial_x\phi)^2
++K(\partial_x\vartheta)^2\right],\nonumber\\
+\mathcal H_{\rm dim}
+&=g_d\sin(\sqrt{4\pi}\phi),\qquad
+K=\frac{\pi}{2(\pi-\arccos\Delta)}.
+\label{eq:bosonization}
+\end{align}
+Here $\phi,\vartheta$ are dual fields, $v$ is the velocity, and $g_d$ is proportional to $d$, with a convention-dependent sign.
+The dimer operator has scaling dimension $K$ and is relevant for $K<2$.
+The resulting weak-coupling bulk mass scale obeys
 \begin{equation}
-\Delta_{\rm sec}(L,s)=E_1^{(P=-2)}(L,s)-E_0^{(P=-2)}(L,s),
+\Delta_{\rm bulk}\propto |d|^{1/(2-K)}.
+\label{eq:dimer-mass}
 \end{equation}
-where $E_0^{(P=-2)}$ ($E_1^{(P=-2)}$) is the ground-state (first-excited-state)
-energy in that sector.
-The sector gap at $\delta=-2$ for $L=8,12,16,20,24$ is shown in
-Fig.~\ref{fig:D02a}(a). Panel~(b) zooms to $s\in[0.53,0.65]$
-(Fig.~\ref{fig:D02b}), marking the minimum of each curve: as $L$
-grows the minima move toward $s=0.5$ and their values keep
-decreasing, consistent with convergence to $s=0.5$ in the
-thermodynamic limit. The gap at $s=0.5$ versus $1/L$
-is shown in Fig.~\ref{fig:D02c}(c); the least-squares quadratic fit in $1/L$ over the five sizes has intercept $a=-0.017$ in units of the exchange coupling, small against the gap scale and consistent with
-the gap-closing trend. These results characterize the finite-size gap evolution near $s=0.5$ at $\delta=-2$.
-Ground states throughout are obtained by exact diagonalization
-(Lanczos), and the minima analysis follows standard finite-size
-practice for quantum spin systems, for which we follow the lecture
-notes of Ref.~\cite{sandvik2010computational}.
+The exponent follows from the scaling dimension of the dimer perturbation.
+
+For $\delta=-2$, $\Delta=e^{-4}$ lies in this easy-plane regime, so the gapless uniform point gives an independent bulk-theory basis for $s_c=1/2$.
+At this fixed anisotropy the bulk gap opens with the power-law dimerization dependence in Eq.~\eqref{eq:dimer-mass}; the easy-axis regime instead supports a gapped AFM phase.
+A one-site translation exchanges odd and even bonds in the bulk, while the fixed open boundaries distinguish the two bond terminations.
+Full-chain reflection preserves bond parity.
+
+\subsection{Symmetry-sector gap and finite-size scaling}
+
+We evaluate
+\begin{equation}
+\Delta_{\rm sec}(L,s)
+=E_1^{(P=-2)}(L,s)-E_0^{(P=-2)}(L,s),
+\label{eq:sector-gap}
+\end{equation}
+using the lowest two energies in the same symmetry sector.
+The gap calculations use sector-resolved Lanczos diagonalization; the $L=8$ phase-map states instead come from full-space diagonalization.
+These numerical methods and finite-size diagnostics are reviewed in Ref.~\cite{sandvik2010computational}.
+
+Figure~\ref{fig:D02a}(a) gives $\Delta_{\rm sec}$ at $\delta=-2$ for $L=8,12,16,20,24$.
+The minima in the enlarged interval $s\in[0.53,0.65]$ move toward $1/2$ and decrease with increasing size [panel (b)].
+At $s=1/2$, the empirical fit
+\begin{equation}
+\Delta_{\rm sec}(L,1/2)\approx a+\frac bL+\frac c{L^2}
+\label{eq:gap-fit}
+\end{equation}
+to the five stored points gives $a=-0.0168$, $b=94.86$, and $c=-114.14$ in the energy convention of Eq.~\eqref{eq:H} [panel (c)].
+The fitted intercept is close to zero, and the decreasing gaps follow the gapless uniform-chain prediction.
+Finite-size corrections depend on the excitation sector and boundary conditions; periodic XXZ spectra can contain noninteger powers and, at isotropy, logarithms~\cite{takayoshi2010coefficients,lukyanov1998lowenergy}.
 
 \begin{figure*}[htbp]
 \centering
@@ -56,9 +89,10 @@ $P(11\cdots11)$. The score
 {\rm score}=0.8\,\bar{S}+0.2\,F_{\rm ro},
 \end{equation}
 where $\bar{S}=n^{-1}\sum_i\langle S_i\rangle$ is the stabilizer mean,
-ranks the candidates, weighting two-qubit gate quality over readout.
-Cluster states~\cite{raussendorf2001oneway}
-are the ideal outputs whose stabilizers we measure.
+ranks the candidates, placing greater weight on the cluster-state benchmark than on readout.
+Cluster states~\cite{raussendorf2001oneway} are the ideal outputs whose stabilizers we measure.
+Two local measurement settings suffice for the bipartite cluster stabilizers, as used in stabilizer-based entanglement detection~\cite{toth2005detecting}.
+The weighted score combines stabilizer and readout information into a subgraph-ranking criterion.
 The $8$-chain and $10$-ring benchmarks differ (the ring includes a
 closing $CZ$ and has three-body stabilizers throughout), so candidate rankings are computed separately within each geometry. The benchmark evaluates candidate subgraphs through cluster-state preparation and local measurements on the specified connectivity. The resulting rankings and selected qubits are reported below.
 

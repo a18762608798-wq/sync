@@ -1,53 +1,82 @@
-\section{模型的引入与对称性}
+\section{模型、对称性与拓扑分类}
 \label{sec:model}
 
-我们考虑 $L$ 格点开边界二聚化 XXZ 链，格点编号 $1,\dots,L$。
-交替单双键的二聚化结构可追溯到 Su、Schrieffer 和
-Heeger~\cite{su1979solitons}。
-记第 $m$ 格点上的 Pauli 算符为 $X_m,Y_m,Z_m$，哈密顿量为
-\begin{equation}
-H(s,\delta)=H_o+H_e,
-\end{equation}
-其中 $H_o$（$H_e$）耦合奇（偶）键，$s$ 为二聚化参数，$\delta$ 控制各向异性：
-\begin{equation}
-H_o=(1-s)\sum_{j=1}^{L/2}h_{2j-1,2j},\qquad
-H_e=s\sum_{j=1}^{L/2-1}h_{2j,2j+1},
-\end{equation}
-\begin{equation}
-h_{kl}=e^{-\delta}(X_kX_l+Y_kY_l)+e^{+\delta}Z_kZ_l,
-\end{equation}
-其中 $h_{kl}$ 为双格点键算符，$J_{xx}=e^{-\delta}$，$J_{z}=e^{+\delta}$；
-$\delta=0$ 为 Heisenberg 各向同性点，$\delta>0$ 偏向 Ising。
-如无特别说明取 $L=8$。
+\subsection{二聚化 XXZ 链}
 
-$H$ 与总磁化 $Z_{\rm tot}=\sum_m Z_m$、整体自旋翻转 $\prod_m X_m$ 及全链反射
-$R$（$m\leftrightarrow L+1-m$）对易，因此在 $H$ 下演化永不离开初态对称性扇区。
-$\delta\ne0$ 时连续自旋旋转对称性为 $U(1)$（$Z_{\rm tot}$ 守恒）；$\delta=0$ 时扩大为 $SU(2)$。
-三者可组合为 $P=Z_{\rm tot}^2-\prod_mX_m-R$，在演化下守恒；
-三个参考初态均处 $P=-2$ 扇区。
-
-这里的拓扑相属于一维对称保护家族，其研究始于 Haldane 的猜想：
-整数自旋反铁磁链存在有限激发能隙，与无能隙的半整数情形相对~\cite{haldane1983nonlinear}；
-以及自旋 $1$ 链特殊点上严格价键固体基态的发现，它带有分数化自旋 $1/2$ 边界态
-和非局域 string 序~\cite{affleck1987rigorous}。
-如今这套唯象学已有分类：具有 onsite 对称的一维有隙对称相由二阶上同调群、
-即对称性的射影表示标记~\cite{chen2011classification}，
-等价地可用矩阵乘积态及其母哈密顿量表述~\cite{schuch2011classifying}。
-纠缠谱最初作为拓扑序的指纹引入~\cite{li2008entanglement}，
-在自旋 $1$ 链 Haldane 相中双重简并，以此简并为操作性指纹~\cite{pollmann2010entanglement}。
-我们的二聚化 XXZ 链在单一可调模型内容纳平庸、拓扑、反铁磁三序竞争，
-下文结合反射标记、反铁磁关联与 string 关联刻画这些区域。
-
-为区分各相，我们使用归一化拓扑反射标记，采用 Elben 等人的
-部分反射多体不变量~\cite{elben2020manybody}，此处沿用其定义，测量一律使用计算基比特串。记基态在中央块 $I$ 上
-（$L=8$ 时取格点 $3$--$6$）的约化密度矩阵为 $\rho_I$，
-${\mathcal R}_I$ 为关于中央键的镜像交换。以
-$Z_{\mathcal R}={\rm Tr}(\rho_I{\mathcal R}_I)$ 及 $I$ 左右两半
-对应的量 $\rho_{I_{1,2}}$，有
+考虑具有开边界的 $L$ 格点自旋 $1/2$ 链，以 $X_j,Y_j,Z_j$ 表示 Pauli 算符，晶格常数取一：
 \begin{equation}
-\tilde{Z}_{\mathcal R}=
-\frac{Z_{\mathcal R}}
-{\sqrt{[{\rm Tr}(\rho_{I_1}^2)+{\rm Tr}(\rho_{I_2}^2)]/2}},
+H(s,\delta)=\sum_{j=1}^{L-1}t_j
+\left[e^{-\delta}(X_jX_{j+1}+Y_jY_{j+1})
++e^\delta Z_jZ_{j+1}\right],
+\label{eq:H}
 \end{equation}
-其中分母为两半平均纯度的平方根，$\tilde{Z}_{\mathcal R}$ 是以局域混合度
-归一化的反射期望，在平庸（拓扑）相趋于 $+1$（$-1$）、磁有序相趋于 $0$。以此标记画出的有限尺寸相图见第~\ref{sec:phasediagram}~节。
+其中 $t_{2r-1}=1-s$、$t_{2r}=s$，且 $0\leq s\leq1$。
+交替键沿用 SSH 模型的二聚化结构~\cite{su1979solitons}。
+自由费米子能带分类~\cite{ryu2010topological} 提供非相互作用参照；本文的自旋自由度和纵向相互作用对应多体对称性分类。
+
+与文献~\cite{elben2020manybody} 的扩展玻色 SSH 模型对应时，其奇、偶键系数分别为 $J=2(1-s)e^{-\delta}$ 与 $J'=2se^{-\delta}$，各向异性为
+\begin{equation}
+\Delta=\frac{J_z}{J_{xx}}=e^{2\delta}.
+\label{eq:anisotropy}
+\end{equation}
+因此，$\delta=0$ 为各向同性点，$\delta<0$ 为易面区，$\delta>0$ 为易轴区。这一对应也将本文模型与里德伯原子实现的相互作用玻色 SSH 链联系起来~\cite{deleseleuc2019observation}。除非另有说明，取 $L=8$。
+
+\subsection{对称性与变分扇区}
+
+哈密顿量与总磁化 $Z_{\rm tot}=\sum_jZ_j$、全局自旋翻转 $G_x=\prod_jX_j$ 以及键中心反射 $R:j\mapsto L+1-j$ 对易，也满足自旋时间反演对称性。
+$\delta\neq0$ 时连续自旋旋转对称性为 $U(1)$，$\delta=0$ 时扩展为 $SU(2)$。
+本文所用链长均为四的倍数，三个参考初态均满足 $Z_{\rm tot}=0$、$G_x=+1$、$R=+1$。
+守恒算符
+\begin{equation}
+P=Z_{\rm tot}^2-G_x-R
+\end{equation}
+将三个条件合并：$P=-2$ 等价于同时满足这些条件。理想变分电路保持该扇区。
+
+\subsection{两种二聚化为何属于不同相}
+
+对称保护拓扑（SPT）相以有能隙态在保持对称性的局域变换下是否等价来定义~\cite{gu2009tensor,chen2010local}。
+对本文的现场对称性，自然的晶胞为 $(2r-1,2r)$，晶胞总自旋为 $T_r^a=(A_{2r-1}+A_{2r})/2$，其中 $a=x,y,z$ 分别对应 $A=X,Y,Z$。
+晶胞空间同时包含自旋零和自旋一扇区。
+晶胞旋转 $u_x=e^{i\pi T_r^x}$ 与 $u_z=e^{i\pi T_r^z}$ 相互对易，生成 $D_2\simeq\mathbb Z_2\times\mathbb Z_2$。
+
+对于对称且可注入的矩阵乘积态（MPS），对称性在虚拟键上的作用满足
+\begin{equation}
+\sum_n(u_g)_{mn}A^n=e^{i\phi_g}V_g^\dagger A^mV_g,
+\qquad V_gV_h=\omega(g,h)V_{gh}.
+\label{eq:mps-symmetry}
+\end{equation}
+对幺正现场对称群 $G$，不同投影表示由 $H^2(G,U(1))$ 标记，并区分对称有能隙相~\cite{chen2011classification,schuch2011classifying}。
+MPS 与 Schmidt 分解框架见综述~\cite{schollwock2011density,cirac2021matrix}。
+对 $D_2$，规范不变量关系
+\begin{equation}
+V_xV_z=\eta V_zV_x,\qquad \eta=\pm1
+\label{eq:projective-index}
+\end{equation}
+区分平庸类与 Haldane 型非平庸类~\cite{pollmann2012detection}。
+
+$s=0$ 时单态位于晶胞内部，构成晶胞直积态，$\eta=+1$；$s=1$ 时体单态跨越晶胞边界，留下具有 $\eta=-1$ 投影表示的边缘自旋 $1/2$。
+本文的拓扑参考态将两端自旋组成一个单态，从开链边缘态流形中选取一个态。
+这一二聚化极限展示了对称性分数化~\cite{verresen2017onedimensional}。
+键反演或时间反演也能独立保护 Haldane 型区分~\cite{pollmann2012symmetry}。
+纠缠谱概念最初见文献~\cite{li2008entanglement}，其在一维情形中的简并受到上述对称性保护~\cite{pollmann2010entanglement}。
+这些分类结论适用于保护对称性未自发破缺的有能隙体相。AFM 区则在热力学极限自发破缺自旋翻转对称性；有限链的对称猫态仍可保持该对称性，同时具有很强的交错关联。
+
+\subsection{部分反射诊断量}
+
+采用文献~\cite{elben2020manybody} 的玻色部分反射诊断量。
+局部空间变换也用于构造费米 SPT 多体不变量~\cite{shiozaki2017manybody}。
+对中央区间 $I=I_1\cup I_2$，以 $\rho_I$ 表示约化密度矩阵，$\mathcal R_I$ 将区间内格点逆序，则
+\begin{equation}
+\tilde Z_{\mathcal R}
+=\frac{\operatorname{Tr}(\rho_I\mathcal R_I)}
+{\sqrt{\left[\operatorname{Tr}(\rho_{I_1}^2)
++\operatorname{Tr}(\rho_{I_2}^2)\right]/2}}.
+\label{eq:reflection-marker}
+\end{equation}
+$L=8$ 时取 $I=(3,4,5,6)$，左右两半分别为 $(3,4)$ 和 $(5,6)$。
+在对称有能隙区，趋于量子化取值 $+1$、$-1$ 要求区间充分大于关联长度；相应模型的 AFM 极限为零~\cite{elben2020manybody}。
+本文使用四格点区间计算有限尺寸相图。
+
+式~\eqref{eq:reflection-marker} 由数值波函数计算。
+该表达式结合了 $\mathcal R_I$ 的非对角矩阵元与子系统纯度。
+配合适当基旋转的随机测量提供了获取这些量的实验途径~\cite{elben2022toolbox}。

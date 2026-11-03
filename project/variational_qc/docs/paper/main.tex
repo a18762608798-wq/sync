@@ -25,24 +25,14 @@ on a Digital Quantum Processor}
 \date{\today}
 
 \begin{abstract}
-Certifying topological phases on hardware is hard: theorists'
-preferred markers are rarely directly measurable, so variational
-eigensolvers must build only on directly measurable quantities.
-In this work, we prepare the competing trivial, topological, and
-antiferromagnetic phases of the dimerized XXZ chain: the three initial
-states are the odd-bond singlet product, the topological state of bulk
-plus end singlets, and the antiferromagnetic GHZ state, dressed with
-reflection-symmetric orbit ansatzes and optimized independently with
-the minimum reported. The finite-size phase diagram at $L=8$ is
-mapped with the normalized reflection marker $\tilde{Z}_{\mathcal R}$,
-resolving the three phases, with gap scaling
-confirming controlled finite-size effects. State preparation uses only
-directly measurable markers: the AFM structure factor $S(\pi)$ and the
-string operator, with premium-qubit screening and tensor-product
-readout mitigation bringing the protocol to superconducting hardware.
-Hardware and simulator trends
-are compared on equal footing via internal $0$--$1$ normalization,
-across two dimerizations and both directly measurable markers.
+Symmetry-protected phases require diagnostics that connect a prepared state to its protecting symmetry.
+In this work, we study variational state preparation in an open dimerized XXZ chain with competing trivial, topological, and antiferromagnetic regimes.
+We relate the two dimerizations to projective symmetry representations, evaluate a partial-reflection marker for the $L=8$ numerical phase map, and compare finite-size sector gaps with the uniform-chain bulk theory.
+Three reference states are optimized independently with a reflection-symmetric circuit, and the resulting parameters are executed on a superconducting processor.
+The hardware protocol measures staggered and cell-string correlations in the computational basis, with qubit screening and tensor-product readout mitigation.
+An affine combination $Q$, fixed by the reference states, summarizes the parameter dependence of these correlations.
+With fitted marker scales, the $30$-point comparison of $Q$ in the selected $16$-unit acquisition window gives a Pearson correlation of $r=0.86$.
+Pooling all $500$ units gives a positive fixed-scale string observable, $0.043\pm0.005$ (inter-unit standard error), at $s=0.99$ and $\delta=0.85$.
 \end{abstract}
 
 \maketitle

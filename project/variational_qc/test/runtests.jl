@@ -446,16 +446,22 @@ end
     @test g1 ≈ g2 atol = 1e-8
 end
 
-@testset "exp04 warm chain smoke" begin
+@testset "exp04 independent-depth optimization" begin
     using Exp04: build_meta
     using Exp04: psi_init
-    using Exp04: run_leg
+    using Exp04: run_leg, run_leg_global, N_GLOBAL
     using Shared01: build_hamiltonian
     H = build_hamiltonian(8, 0.5, 0.85)
     meta = build_meta(8, "triv")
     steps = run_leg(H, psi_init("triv", 8), meta, 0.85, 85, 50, 1)
     @test length(steps) == 3
     @test all(isfinite(s.energy) for s in steps)
-    @test steps[2].energy ≤ steps[1].energy + 1e-6
-    @test steps[3].energy ≤ steps[2].energy + 1e-6
+    @test all(s.converged && !s.stagnant for s in steps)
+    @test all(s.nsamples >= N_GLOBAL + 1 for s in steps)
+    @test length(unique(s.seed for s in steps)) == 3
+    # A fixed-depth solve must reproduce its result without computing lower depths.
+    independent = run_leg_global(H, psi_init("triv", 8), meta, 0.85, 2, 85, 50, 1)
+    @test independent.theta == steps[2].theta
+    @test independent.energy == steps[2].energy
+    @test all(s.energy <= real(dot(psi_init("triv", 8), H * psi_init("triv", 8))) + 1e-8 for s in steps)
 end

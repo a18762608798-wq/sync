@@ -39,6 +39,11 @@ from exp06_common import (  # noqa: E402
     read_json,
     write_json,
 )
+from exp06_assemble import (  # noqa: E402
+    READOUT_MITIGATION,
+    group_Ms,
+    mitigate_counts,
+)
 from exp06_submit import (  # noqa: E402
     BASIS_GATES,
     OPT_LEVEL,
@@ -60,20 +65,6 @@ POLL_CONCURRENCY = 9
 
 def z_of(bits: int, q: int) -> float:
     return 1.0 - 2.0 * float((bits >> q) & 1)
-
-
-def mitigate_counts(counts: dict, Ms: list) -> np.ndarray:
-    Minvs = [np.linalg.inv(np.asarray(M, dtype=float)) for M in Ms]
-    K = Minvs[L - 1]
-    for q in range(L - 2, -1, -1):
-        K = np.kron(K, Minvs[q])
-    p = np.zeros(1 << L)
-    for key, c in counts.items():
-        p[int(key, 2)] += c
-    p = K @ p
-    p = np.clip(p, 0, None)
-    s = p.sum()
-    return p / s if s > 0 else p
 
 
 def s_hat_of(probs: np.ndarray, q_grid: np.ndarray):
@@ -183,14 +174,59 @@ def replace_opts(base_opts, chip, phys):
                    coupling_map=None)
 
 
+def assemble(jobs: dict, chip: str, state: dict,
+             output_dir: Path = OUT) -> None:
+    """Rebuild D03 from complete archived counts without hardware access."""
+    d03 = np.load(BASE / "data" / "exp02" / "exp02_D03.npz")
+    q_grid = np.asarray(d03["q_grid"], dtype=float)
+    out = {"labels": [], "S_hat": [], "S_hat_se": [], "meta": []}
+    for label, di, si, a_exp in POINTS:
+        job = jobs[label]
+        cal = state.get("counts", {}).get(label, {})
+        if any(not cal.get(key) for key in ("est", "cal_zero", "cal_one")):
+            raise ValueError(f"D03 archived counts incomplete: {label}")
+        Ms = group_Ms(cal, job["phys"])
+        probs = mitigate_counts(cal["est"], Ms)
+        Shat, se = s_hat_of(probs, q_grid)
+        out["labels"].append(label)
+        out["S_hat"].append(Shat.tolist())
+        out["S_hat_se"].append(se.tolist())
+        out["meta"].append({"di": di, "si": si, "a_star": job["a_star"],
+                            "theta": job["theta"], "delta": job["delta"],
+                            "shots": SHOTS, "target_qubits": job["phys"],
+                            "s05": Ms})
+    output_dir.mkdir(parents=True, exist_ok=True)
+    np.savez(output_dir / "exp06_D03hw.npz",
+             labels=np.array(out["labels"]),
+             S_hat=np.array(out["S_hat"]), S_hat_se=np.array(out["S_hat_se"]),
+             q_grid=q_grid)
+    write_json(output_dir / "manifest.json",
+               {"schema": "exp06/d03hw/v1", "p": P, "shots": SHOTS,
+                "points": out["meta"], "s03_ref": "data/exp04/exp04_S03.npz",
+                "s04_ref": "data/exp05/exp05_S04.npz",
+                "sim_ref": "data/exp02/exp02_D03.npz",
+                "chip": chip, "confirmed_by": "用户 2026-10-30（T027 序列授权）",
+                "readout_mitigation": dict(READOUT_MITIGATION),
+                "stderr_def": "multinomial-plugin; excludes calibration/inversion/projection uncertainty",
+                "created_utc": time.strftime("%Y-%m-%dT%H:%M:%S",
+                                             time.gmtime()) + "Z"})
+    print(f"wrote {output_dir}/exp06_D03hw.npz + manifest.json", flush=True)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dry", action="store_true",
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--dry", action="store_true",
                     help="只转译审计不提交")
+    mode.add_argument("--assemble-only", action="store_true",
+                      help="仅读取已有 counts 重建 D03，不提交或轮询真机")
     args = ap.parse_args()
     groups_info = read_json(line_dir("joint", False) / "groups.json")
     chip = groups_info["chip"]
     jobs = build_jobs(groups_info)
+    if args.assemble_only:
+        assemble(jobs, chip, read_json(OUT / "state.json"))
+        return
     print("mini-bill：3 点 ×（1 estimator + 2 标定）= 9 任务 × "
           f"{SHOTS} shots，芯片 {chip}，p=1", flush=True)
     for label, job in jobs.items():
@@ -216,45 +252,7 @@ def main() -> None:
     tmgr = make_quark_task(token, base_opts.submit_retries)
     asyncio.run(submit_poll(jobs, base_opts, tmgr, chip, state))
 
-    d03 = np.load(BASE / "data" / "exp02" / "exp02_D03.npz")
-    q_grid = np.asarray(d03["q_grid"], dtype=float)
-    out = {"labels": [], "S_hat": [], "S_hat_se": [],
-           "meta": []}
-    for label, di, si, a_exp in POINTS:
-        job = jobs[label]
-        cal = state["counts"][label]
-        Ms = []
-        for qi in range(L):
-            n0 = sum(c for k, c in cal["cal_zero"].items()
-                     if ((int(k, 2) >> qi) & 1) == 0)
-            t0 = sum(cal["cal_zero"].values())
-            n1 = sum(c for k, c in cal["cal_one"].items()
-                     if ((int(k, 2) >> qi) & 1) == 1)
-            t1 = sum(cal["cal_one"].values())
-            Ms.append([[n0 / t0, 1 - n1 / t1],
-                       [1 - n0 / t0, n1 / t1]])
-        probs = mitigate_counts(state["counts"][label]["est"], Ms)
-        Shat, se = s_hat_of(probs, q_grid)
-        out["labels"].append(label)
-        out["S_hat"].append(Shat.tolist())
-        out["S_hat_se"].append(se.tolist())
-        out["meta"].append({"di": di, "si": si, "a_star": job["a_star"],
-                            "theta": job["theta"], "delta": job["delta"],
-                            "shots": SHOTS})
-    np.savez(OUT / "exp06_D03hw.npz",
-             labels=np.array(out["labels"]),
-             S_hat=np.array(out["S_hat"]), S_hat_se=np.array(out["S_hat_se"]),
-             q_grid=q_grid)
-    write_json(OUT / "manifest.json",
-               {"schema": "exp06/d03hw/v1", "p": P, "shots": SHOTS,
-                "points": out["meta"], "s03_ref": "data/exp04/exp04_S03.npz",
-                "s04_ref": "data/exp05/exp05_S04.npz",
-                "sim_ref": "data/exp02/exp02_D03.npz",
-                "chip": chip, "confirmed_by": "用户 2026-10-30（T027 序列授权）",
-                "created_utc": time.strftime("%Y-%m-%dT%H:%M:%S",
-                                             time.gmtime()) + "Z"})
-    print("wrote data/exp06/d03hw/exp06_D03hw.npz + manifest.json",
-          flush=True)
+    assemble(jobs, chip, state)
 
 
 if __name__ == "__main__":

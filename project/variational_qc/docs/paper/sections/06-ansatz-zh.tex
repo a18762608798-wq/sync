@@ -4,7 +4,7 @@
 \subsection{优化目标}
 \label{sec:points}
 
-变分优化以两条扫描线 $\delta=-2$ 与 $\delta=0.85$ 上 $99$ 点 $s$ 网格（$s=0.01$--$0.99$）的每一点为目标：每点三相初态分别独立优化，记录三路最小值；目标哈密顿量覆盖图~\ref{fig:D04}(d) 中的平庸、拓扑与 AFM 区域。两条线上按相获胜的初态分支由图~\ref{fig:D08D09}(a,b) 的背景色带标出。
+变分优化以两条扫描线 $\delta=-2$ 与 $\delta=0.85$ 上 $99$ 点 $s$ 网格（$s=0.01$--$0.99$）的每一点为目标：每点三相初态分别独立优化，记录三路最小值；目标哈密顿量覆盖图~\ref{fig:D04}(d) 中的平庸、拓扑与 AFM 区域。两条线上优化能量最低的初态分支由图~\ref{fig:D08D09}(a,b) 的背景色带标出。
 
 \subsection{变分电路结构}
 
@@ -14,11 +14,30 @@
 E(\theta)=\langle\psi(\theta)|H|\psi(\theta)\rangle,
 \end{equation}
 其中 $|\psi(\theta)\rangle$ 为参数 $\theta$ 下的电路输出。
-目标相点处三相初态分别独立优化，记录三路能量最小值；每路内可多次重启，
-同样取最小。拟设层数取 $p=1,2,3$：$p=1$ 时全局随机采样（含零向量初值）
-加局域 L-BFGS 精修；$p>1$ 时以同路低深度最优参数为初值链式热启动，再做
-局域 L-BFGS 精修至收敛。最终记录三路最小能量 $E^*$ 及其参数；初始参数也纳入候选集，因此理想电路下的最优候选能量不高于初态能量；保对称电路保持初态的对称性量子数。计算沿 $\delta=-2$ 与 $\delta=0.85$ 两条线逐点进行。
-这类变分算法见综述~\cite{cerezo2021variational,tilly2022variational}，其中汇总代价函数设计、拟设族与 VQE 最佳实践。以随机电路为初猜可能落入贫瘠高原，其梯度随比特数指数缩小~\cite{mcclean2018barren}；而结构化电路的可训练性随电路结构与深度发生突变~\cite{campos2021abrupt}。本文采用相匹配初态设定初始纠缠结构，并通过反射对称性共享参数，以缩减优化空间。
+在每个目标参数点，三种参考初态分别在各深度 $p=1,2,3$ 独立优化。
+先比较随机参数向量与零向量的能量，再对低能候选进行局域 L-BFGS 精修，
+保留每个分支中能量最低的收敛结果，最后取三路最小能量 $E^*$ 及其参数。
+保对称电路保持初态的对称性量子数。计算沿 $\delta=-2$ 与 $\delta=0.85$ 两条线逐点进行。
+这类变分算法见综述~\cite{cerezo2021variational,tilly2022variational}，其中汇总代价函数设计、拟设族与 VQE 最佳实践。
+理想态优化在经典计算机上进行，真机执行所得电路以测量关联量。
+对于处于同一扇区、且该扇区基态唯一的归一化试探态，谱分解给出
+\begin{equation}
+1-|\langle\psi_0|\psi(\theta)\rangle|^2
+\leq \frac{E(\theta)-E_0}{\Delta_{\rm sec}}.
+\label{eq:energy-fidelity}
+\end{equation}
+式~\eqref{eq:energy-fidelity} 通过扇区能隙 $\Delta_{\rm sec}$ 将试探态重叠与能量残差联系起来。
+
+本文键旋转属于哈密顿量变分拟设：生成元取自相互作用项，转角独立优化~\cite{wecker2015progress}；该拟设族已有针对 XXZ 模型的研究~\cite{wiersema2020exploring}。
+将对称性纳入态制备电路可把搜索限制在有关扇区~\cite{gard2020efficient}。
+不同参考态提供不同的初始纠缠结构，这是非平庸态变分制备中的相关资源~\cite{ho2019efficient}。
+三个参考态具有相同的有限链量子数，并提供不同的纠缠结构；各参数点的初态分支由其优化能量确定。
+
+可训练性还依赖电路和代价函数结构。
+趋近幺正设计的随机电路可具有指数缩小的梯度~\cite{mcclean2018barren}，局域与全局代价在浅层电路中也可呈现不同表现~\cite{cerezo2021cost}。
+恒等块初始化~\cite{grant2019initialization} 和依据模型构造电路~\cite{wiersema2020exploring} 为结构化起点提供动机。
+随深度出现的优化突变~\cite{campos2021abrupt}，以及特定噪声模型下的噪声诱导梯度压低~\cite{wang2021noise}，进一步刻画了电路深度和噪声在变分优化中的作用。
+
 令 $M=L/2$。三个参考初态均在 $P=-2$ 扇区，其电路见图~\ref{fig:D06}；它们采用反射键轨道（orbit）拟设，镜面对映键对共享转角（奇键 $O_j\leftrightarrow O_{M+1-j}$，
 偶键 $E_j\leftrightarrow E_{M-j}$）。拟设分两步构造：先用相匹配初态设定初始纠缠结构，再在所有键上施加由反射对称性约束的参数化旋转，参数量随键 orbit 数而非键数增长。
 单层演化分奇偶两子层（$\alpha$ 为 orbit 编号，$\langle kl\rangle$ 为键）：
@@ -33,7 +52,7 @@ U_{e}=\prod_{\alpha}\prod_{\langle kl\rangle\in\mathcal{E}_{\alpha}}e^{-i\theta_
 拓扑、AFM 相。
 理想电路下，试探态保持在目标对称性扇区。第~\ref{sec:comparison}~节比较真机与模拟机的关联量。图~\ref{fig:D08D09}(a,b) 给出 $p=1$ 代价函数与精确基态能量的对比。
 
-\begin{figure*}[htbp]
+\begin{figure*}[!tp]
 \centering
 \includegraphics[width=\textwidth]{{../../figs/exp04/exp04_D06}}
 \caption{三相初态与所需拟设电路：(a) 平庸初态；(b) 拓扑初态；
@@ -45,13 +64,13 @@ $E_j\leftrightarrow E_{M-j}$；$\delta=0$ 时 $\theta=\varphi$）。(a)(c)
 \label{fig:D06}}
 \end{figure*}
 
-\begin{figure*}[htbp]
+\begin{figure*}[!tp]
 \centering
 \includegraphics[width=\textwidth]{{../../figs/exp06/exp06_D08D09}}
 \caption{$p=1$ 代价函数与真机-模拟机对比。
 (a)(b) $p=1$ 代价函数随 $s$ 变化：(a) $\delta=-2$，(b) $\delta=0.85$。
 $E_0$（精确解，蓝色实线）与三路初态代价（平庸绿色虚线、拓扑橙色点线、
-AFM 黑色点划线）；背景色带标出物理相，圆点标出各区域中优化能量最低的初态分支。
+AFM 黑色点划线）；背景色带标出各网格点 $p=1$ 代价最低的初态分支，圆点标识各区间平均优化代价最低的分支。
 (c)(d) 组合量 $Q$：(c) $\delta=-2$，(d) $\delta=0.85$。
 模拟机 $p=1$（黑）、$p=2$（灰）固定尺度曲线加真机窗口散点
 （$p=1$，500 个单元中的 16 单元窗口；颜色按 (a)(b) 中最低能量初态分支分段）。
