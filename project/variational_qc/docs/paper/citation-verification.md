@@ -246,3 +246,12 @@
 ## 中文 PDF 落字抽查（2026-11-03 本轮）
 
 - `main-zh.pdf` 同样含两处新表述，中英成品一致。本轮 `tids=15989/46000`。
+
+## Zotero bind 补做（2026-11-03 重启后，桌面端已拉起）
+
+- 通道：本线程 `mcp__zotero.*` 仍 `unsupported call`，改走本地已授权客户端（`ZOTERO_LOCAL=true`，`local_api.key`）经 `pyzotero` 直连 `127.0.0.1:23119`；读经 `zotero.item()` 核对，写经 `addto_collection` / `create_items`，未直读 `sqlite`，未改 `plot` 脚本 `assert`。
+- `tilly2022variational`：库内 `9VYJZQIJ`，标题 `The Variational Quantum Eigensolver: A review of methods and best practices`，`DOI 10.1016/j.physrep.2022.08.003`，`Physics Reports`，已在 `N7CLH4TB`，与 `references.bib` 一致，无需改动。
+- `elben2022toolbox`：库内 `YTBCD6JR`，标题 `The randomized measurement toolbox`，`DOI 10.1038/s42254-022-00535-2`，`Nature Reviews Physics`，原仅在 `Y4384ZGQ`，已补绑 `N7CLH4TB`（现 `['Y4384ZGQ','N7CLH4TB']`）。
+- `sun2023efficient`：库内 `FPSUMAZF`，标题 `Efficient variational quantum circuit structure for correlated topological phases`，`DOI 10.1103/physrevb.108.075127`，`Physical Review B`，已在 `['N7CLH4TB','VDRYZRPC']`，与 `references.bib` 一致，无需改动。
+- `campos2021abrupt`：库内查无（标题/`DOI 10.1103/PhysRevA.103.032607` 均零命中），按已核验 `references.bib` 元数据新建 `D6G65X4B`（`Phys. Rev. A 103, 032607`，`Campos/Nasrallah/Biamonte`），直接落 `N7CLH4TB`。
+- 结果：4 条均在 `paper-variational-qc (N7CLH4TB)` 就位；`D10` 仍待 `exp07` 回数（本轮 `tids=16661/46000`、`counts=0`，提交器进程不在）。
