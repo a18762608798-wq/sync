@@ -139,9 +139,16 @@ def main():
     for ax, delta in zip(axes[1], (-2.0, 0.85)):
         draw_d08(ax, dj, d09, manifest, delta)
 
-    letters = ("(a)", "(b)", "(c)", "(d)")
-    for ax, letter in zip(axes.flat, letters):
+    for ax in axes[1]:
+        ax.set_xlabel(r"$s$")
+
+    letters_top = ("(a)", "(b)")
+    for ax, letter in zip(axes[0], letters_top):
         ax.text(0.0, -0.155, letter, transform=ax.transAxes,
+                fontsize=12, va="top", ha="left", clip_on=False)
+    letters_bot = ("(c)", "(d)")
+    for ax, letter in zip(axes[1], letters_bot):
+        ax.text(0.0, -0.30, letter, transform=ax.transAxes,
                 fontsize=12, va="top", ha="left", clip_on=False)
 
     seen = {}
@@ -149,7 +156,6 @@ def main():
         h, lab = ax.get_legend_handles_labels()
         for hi, li in zip(h, lab):
             seen.setdefault(li, hi)
-    fig.supxlabel(r"$s$", y=0.055)
     fig.legend(list(seen.values()), list(seen.keys()), loc="lower center",
                bbox_to_anchor=(0.5, 0.0), ncol=5, fontsize=9,
                frameon=False)
