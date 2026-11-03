@@ -176,3 +176,10 @@
 
 - 原句“$s=0.99$ 处 pooled $N=500$ 真机 $\hat O_{\rm str}$ 均值约理论值 $5\%$、偏离零点 $9\sigma$；其余点与零一致”不成立：实测 `exp06_D08_joint.npz`（`o_post (500,30)`）$s=0.99$、$\delta=0.85$ 列均值 $-0.0435$、理论 $+0.9457$、比值 $-4.6\%$、$z=-9.34$——幅度对但符号相反；且多点显著非零（$s=0.78$、$\delta=-2$ 处 $z=-24.1$；$s=0.64$、$\delta=-2$ 处 $z=-17.0$；$s=0.92$、$\delta=0.85$ 处 $z=-9.4$；另 $s=0.99$、$\delta=-2$ 处 $z=-6.1$）。
 - 已改写中英 `09-comparison` 末句：pooled 检查给 $-0.044 \pm 0.005$（$-9.3\sigma$，符号与模拟值相反），并列多点反例，结论改为“预期方向上没有可分辨的正 string 信号”；中英 `latexmk -pdf / -xelatex -g` 强制重编均 `exit 0` 无错，中间产物已恢复。
+
+## Zotero bind 尝试（2026-11-03 本轮，未完成）
+
+- 待绑 4 条（均为已全文核验、`references.bib` 已有完整条目含 `DOI`）：`tilly2022variational`（`arXiv:2111.05176`）、`elben2022toolbox`（`Nat. Rev. Phys. 5, 9--24`）、`campos2021abrupt`（`Phys. Rev. A 103, 032607`）、`sun2023efficient`（`Phys. Rev. B 108, 075127`）；目标集合 `paper-variational-qc`（`N7CLH4TB`，经 `zotero://collections` 确认在位）。
+- 本线程按正常流程调用 `zotero_search_by_citation_key`（4 条）、`zotero_search_collections`、`zotero_list_libraries`，返回均为 `unsupported call`；`zotero-mcp serve` 进程在宿主运行但属其他会话，不可借用；直读 `sqlite` 与手写 `MCP` 客户端均违反项目规则，未执行。`bind`（需 `item_key` + `zotero_set_item_collections`）待工具有效线程补做。
+- `skills` 脚本零改动（`validate_citations.py` 内本无 `assert`，未增删任何断言）。
+- 本轮 `validate_citations.py` 闭包拼接中英分跑均通过（英文闭包须排除 `*-zh.tex`，否则误报 21 重复 `label`；`15` 条未引用 `bib` 与上轮一致，留待 `D10` 后定夺）。
