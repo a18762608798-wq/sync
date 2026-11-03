@@ -242,3 +242,7 @@
 ## PDF 落字抽查（2026-11-03 本轮）
 
 - `pdftotext` 抽 `main.pdf`：新表述“`no resolved positive string signal`”“`16-unit window`”均已落字，源码改动已进成品。本轮 `tids=15930/46000`。
+
+## 中文 PDF 落字抽查（2026-11-03 本轮）
+
+- `main-zh.pdf` 同样含两处新表述，中英成品一致。本轮 `tids=15989/46000`。
