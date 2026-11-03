@@ -162,3 +162,8 @@
 - 对已读全文做关键词回查：`chen2011classification` 含 $H^2(G,C)$ 分类 + 影射表示论述，支撑“第二上同调群标记”句；`pollmann2010entanglement` 含 `AKLT` 纠缠谱双重简并 + `Haldane` 相整个纠缠谱双重简并，支撑“操作性指纹”句；`li2008entanglement` 题即纠缠谱识别拓扑序，支撑“作为拓扑序指纹引入”句；`schuch2011classifying` 含 `parent Hamiltonian`，支撑“`MPS` + 母哈密顿量”句。
 - `elben2020manybody` 实为直接支撑：全文给出自旋 $1/2$ 交替键 $XXZ$ 模型的 partial reflection 不变量 $Z_R$（式 $2$）及归一化 $\tilde Z_R$ 相图（图 $1$），与正文“采用该不变量定义”完全对应（此前“ﬂ”连字导致纯文本检索漏检）。
 - `su1979solitons` 仍只有元数据（`SSH` 命名源头，归属级表述，低风险），待补全文。
+
+## 中英编译（2026-11-03 本轮）
+
+- `main.tex`（`pdflatex`）与 `main-zh.tex`（`xelatex`）均全管线通过（`xelatex→bibtex→xdvipdfmx`，`exit 0`，`All targets up-to-date`）。注：`latexmk -xelatex -pdf` 混用会被 `-pdf` 拉回 `pdflatex` 引擎而误报 `xeCJK` 错，中文版须用纯 `-xelatex`。
+- 修订后的 `06-ansatz-zh` 已包含在本次 `8` 页 `PDF` 中；编译中间产物已恢复，工作树干净。
