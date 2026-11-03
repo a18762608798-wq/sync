@@ -275,3 +275,8 @@
 - **levin2006detecting**（`Zotero FYBSJVQI`）：确认支持。全文 `arXiv:cond-mat/0510613`（`4` 页）：仅凭基态波函数探测 `string-net` 型拓扑序，构造直接度量量子维度 $D$ 的拓扑熵。支撑“拓扑纠缠熵”这一诊断量的理论来源。
 - **kitaev2006topological**（`Zotero 6FB8TCYP`）：确认支持。全文 `arXiv:hep-th/0510092`（`4` 页）：有能隙二维拓扑介质基态多体纠缠的普适刻画，圆盘约化态 `von Neumann` 熵含与边界长度无关的拓扑项。支撑同上。
 - 正文 `Satzinger` 句改为实验加理论并引：实验制备与测量归 `satzinger2021realizing`，诊断量定义归 `levin2006detecting,kitaev2006topological`，表述为“文献引入的拓扑纠缠熵”，避免把理论论文读成实验；中英同步。已引用由 `23` 增至 `25`。
+
+## S(q) 增补候选否决（2026-11-03 重启后第三轮）
+
+- **pereira2006dynamical**（`Zotero XTZBGFF9`，仍未引用）：已读全文 `arXiv:cond-mat/0603681`（`4` 页）。其实质是 `XXZ` 链小波矢纵向动力学结构因子的 `Bethe`  Ansatz、场论与 `DMRG` 线形（峰宽随 $q$ 标度、高频尾解析式），不支持本项目静态 $S(\pi)$ 作 `AFM` 诊断的具体论述。按写作政策不以相近论文背书项目特有公式，不增引；维持未引用（`13` 条待 `D10` 后定夺）。
+- 当前已引用 `25`、未引用 `13`；`D10` 仍待 `exp07` 回数（`tids=16661/46000`、`counts=0`，提交器不在为 `Exp` 层缺件，不在 `Paper` 层重跑）。
