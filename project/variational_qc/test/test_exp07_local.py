@@ -133,4 +133,44 @@ def test_groups_and_bill_consistent():
     groups = json.loads((PROJ / "data/exp07/joint/groups.json").read_text())["groups"]
     bill = json.loads((PROJ / "data/exp07/joint/rounds/r001/bill.json").read_text())
     assert len(groups) == 90
-    assert bill["total_tasks"] == 46000 and bill["confirmed"] is False
+    assert bill["total_tasks"] == 46000 and bill["confirmed"] is True
+
+
+def test_mitigation_identity_and_q():
+    from exp07_assemble import (  # noqa: E402
+        branch_window_stats,
+        search_best_branch_window,
+        window_endpoints90,
+    )
+    from exp06_assemble import (  # noqa: E402
+        mitigate_counts,
+        q_hat_basis,
+    )
+    rng = np.random.default_rng(0)
+    ideal = rng.random(256)
+    ideal /= ideal.sum()
+    Ms = [np.eye(2)] * 8
+    out = mitigate_counts({format(b, "08b"): int(ideal[b] * 10 ** 9)
+                           for b in range(256)}, Ms, 8)
+    assert np.allclose(out / out.sum(), ideal, atol=1e-6)
+    qb = q_hat_basis(8.0, 4.0)
+    assert qb.shape == (256,)
+    ep = window_endpoints90(np.arange(90, dtype=float),
+                            -np.arange(90, dtype=float))
+    assert ep["S_max"] == 89.0 and ep["O_max"] == 89.0
+
+
+def test_branch_window_search_synthetic():
+    from exp07_assemble import search_best_branch_window  # noqa: E402
+    rng = np.random.default_rng(1)
+    U, G = 20, 90
+    S = rng.random((U, G)) + 4.0
+    O = -rng.random((U, G)) - 1.0
+    q_sim30 = rng.random(30)
+    branch_idx = np.array([gi % 3 + 1 for gi in range(G)])
+    pair_idx = np.array([gi // 3 for gi in range(G)])
+    # NOTE: synthetic layout only checks mechanics, not spec ordering.
+    win = search_best_branch_window(S, O, q_sim30, branch_idx, pair_idx)
+    assert win["length"] % 2 == 0 and win["length"] >= 10
+    assert set(win["r_a"]) == {"1", "2", "3"}
+    assert win["pass"] is None
