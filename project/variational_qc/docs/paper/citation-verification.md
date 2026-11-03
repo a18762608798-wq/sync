@@ -120,3 +120,7 @@
   - `ZH`：同 $EN$，`Issues 0`；中英引用键完全一致。
 - `latex_checker.py` 的缺章节与匿名化提示为模板默认值（本论文以 `paper-outline.md` 为准，须保留作者名），不处理。
 - 未引用 $15$ 条继续保留：`D10` 待 `exp07` 回数后可能补讨论，届时再定去留。
+
+## figure 检查（2026-11-03 本轮）
+
+- `--check-figures` 对 `EN` 闭包报 $5$ 项 `MISSING FIGURE`，经核实为脚本伪阳性：脚本把 `\includegraphics{{...}}` 双花括号习语的首 `{` 当作路径字符且相对目录拼接错误；逐项按 `docs/paper` 解析，$5$ 个图全部存在（`exp02_D04`、`exp02_D03`、`exp04_D06`、`exp06_D08D09`、`exp03_D02`），`EN` 编译 `exit 0` 亦佐证无缺图。
