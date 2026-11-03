@@ -24,8 +24,12 @@ starts from the same initial-state branch's optimum at the next-lower depth, ref
 with local L-BFGS to convergence. The initial parameters are included among the candidates, so the best candidate energy for ideal circuits is no higher than the initial-state energy. The symmetry-preserving circuit retains the initial symmetry quantum numbers. The scan runs point by point along the $\delta=-2$
 and $\delta=0.85$ lines. Variational algorithms of this form are surveyed in
 Refs.~\cite{cerezo2021variational,tilly2022variational}, which collect
-cost-function design, ansatz families, and best practices.
-Random circuits can exhibit barren plateaus~\cite{mcclean2018barren}, and the trainability of hardware-efficient ansatzes depends on circuit structure~\cite{campos2021abrupt}. We use phase-matched initial states to set the initial entanglement structure and reflection-symmetric parameter sharing to reduce the optimization space.
+cost-function design, ansatz families, and best practices for VQE.
+Random circuits proposed as initial guesses can land on barren plateaus
+whose gradients are exponentially small in the number of
+qubits~\cite{mcclean2018barren}, while structured circuits show abrupt
+transitions in trainability with circuit structure and
+depth~\cite{campos2021abrupt}. We use phase-matched initial states to set the initial entanglement structure and reflection-symmetric parameter sharing to reduce the optimization space.
 Let $M=L/2$. The three reference initial states lie in the $P=-2$ sector and are shown in Fig.~\ref{fig:D06}. They are paired with an
 orbit ansatz in which mirror-symmetric bond pairs share rotation angles
 (odd bonds $O_j\leftrightarrow O_{M+1-j}$, even bonds

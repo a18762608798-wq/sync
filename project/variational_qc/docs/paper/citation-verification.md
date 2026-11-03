@@ -66,3 +66,18 @@
 - **elben2022toolbox**：确认支持。全文 `arXiv:2203.11374` 覆盖对称保护多体拓扑不变量
   （含 $Z_R$）的随机测量探测方案，支撑“多体不变量及随机测量的实现方法见 Refs”一句。
   需在 $Zotero$ 集合中补入该条目（当前集合未见，`bind` 时以已核验元数据建条目）。
+
+## 06-ansatz（2026-11-03 本轮）
+
+- **peruzzo2014variational**（Zotero `K8NY4LJ9`）：确认支持。全文 `arXiv:1304.3061`：
+  变分本征求解器，高效计算哈密顿量期望值。
+- **cerezo2021variational**（Zotero `NBV9FIIP`）：确认支持。全文 `arXiv:2012.09265`：
+  $VQA$ 综述，含代价函数设计与拟设族。
+- **tilly2022variational**：确认支持。全文 `arXiv:2111.05176`：
+  $VQE$ 方法与最佳实践综述。
+- **mcclean2018barren**（Zotero `INQIR6DI`）：确认支持。全文 `arXiv:1803.11173`：
+  随机电路初猜可落入贫瘠高原，梯度随比特数指数缩小。
+- **campos2021abrupt**：确认支持。全文 `arXiv:2010.09720`：
+  结构化变分电路的可训练性随结构与深度突变（分段可训练性猜想的反例与临界深度）。
+- 需在 $Zotero$ 集合中补入 `tilly2022variational` 与 `campos2021abrupt`
+  的已核验条目后再 `bind`（正文 $key$ 不变）。

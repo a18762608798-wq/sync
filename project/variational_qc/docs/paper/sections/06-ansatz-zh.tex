@@ -18,7 +18,7 @@ E(\theta)=\langle\psi(\theta)|H|\psi(\theta)\rangle,
 同样取最小。拟设层数取 $p=1,2,3$：$p=1$ 时全局随机采样（含零向量初值）
 加局域 L-BFGS 精修；$p>1$ 时以同路低深度最优参数为初值链式热启动，再做
 局域 L-BFGS 精修至收敛。最终记录三路最小能量 $E^*$ 及其参数；初始参数也纳入候选集，因此理想电路下的最优候选能量不高于初态能量；保对称电路保持初态的对称性量子数。计算沿 $\delta=-2$ 与 $\delta=0.85$ 两条线逐点进行。
-这类变分算法见综述~\cite{cerezo2021variational,tilly2022variational}。随机电路可能出现贫瘠高原~\cite{mcclean2018barren}，硬件高效拟设的可训练性也随电路结构变化~\cite{campos2021abrupt}。本文采用相匹配初态设定初始纠缠结构，并通过反射对称性共享参数，以缩减优化空间。
+这类变分算法见综述~\cite{cerezo2021variational,tilly2022variational}，其中汇总代价函数设计、拟设族与 VQE 最佳实践。以随机电路为初猜可能落入贫瘠高原，其梯度随比特数指数缩小~\cite{mcclean2018barren}；而结构化电路的可训练性随电路结构与深度发生突变~\cite{campos2021abrupt}。本文采用相匹配初态设定初始纠缠结构，并通过反射对称性共享参数，以缩减优化空间。
 令 $M=L/2$。三个参考初态均在 $P=-2$ 扇区，其电路见图~\ref{fig:D06}；它们采用反射键轨道（orbit）拟设，镜面对映键对共享转角（奇键 $O_j\leftrightarrow O_{M+1-j}$，
 偶键 $E_j\leftrightarrow E_{M-j}$）。拟设分两步构造：先用相匹配初态设定初始纠缠结构，再在所有键上施加由反射对称性约束的参数化旋转，参数量随键 orbit 数而非键数增长。
 单层演化分奇偶两子层（$\alpha$ 为 orbit 编号，$\langle kl\rangle$ 为键）：
