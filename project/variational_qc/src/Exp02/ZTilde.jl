@@ -1,4 +1,4 @@
-# Normalized topological reflector ~Z_R (docs/theory/topological_op.md).
+# Normalized topological reflector ~Z_R (docs/experiment-notes/topological_op.md).
 # Moved here from Exp01 when D01 was retired: exp02 is the only consumer now.
 # I = sites (3,4,5,6); I1 = (3,4); I2 = (5,6); R_I = mirror about the central bond.
 # Pure kernels: no I/O.

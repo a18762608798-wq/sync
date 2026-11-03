@@ -1,0 +1,38 @@
+---
+name: paper-self-review
+description: 按论文目标 venue、现有大纲和真实证据评审稿件，检查理论依据、实验一致性、引文、完整性和表达，并给出可执行意见。支持 LaTeX 或 PDF；不以 Paper spec、固定章节清单或预设评分阈值作为必需条件。
+---
+
+# Paper Self Review
+
+先读 ../paper-writing-section/references/writing-policy.md。
+
+## 输入与环境
+
+读取用户指定的稿件或 PDF、论文大纲、目标 venue，以及与核心论述相关的 Exp 记录和文献核验记录。
+无需 Paper spec、plan、tasks 或 feature。评审范围由当前请求确定，不自动扩展成整篇或多代理任务。
+
+项目有 CondaPkg.toml 时，使用项目 CondaPkg 解释器，不创建 venv 或使用系统 pip。
+PDF 解析需要已安装的 PyMuPDF；缺依赖应明确报告，不能声称已读 PDF。
+可使用 scripts/extract_pdf_text.py 和 scripts/parse_pdf_sections.py。
+若结构解析返回零章节，使用文本提取并对照 LaTeX，不把解析失败当作论文缺章的证据。
+
+## 评审重点
+
+- 实验数字、图、数据和结论是否可追溯到实际 Exp 产物；定义及归一化是否一致。
+- 理论段落是否说明对象、假设、适用范围和关键推导。
+- 引用是否有全文核验记录，实际论述是否超出来源所支持的范围。
+- 实验简记是否被直接扩写成论文，遗漏定义、依据、近似或限制。
+- 本项目的构造和推导是否与文献既有结论区分；符号转换是否保持等价。
+- 核心论证是否连贯，图表是否真正支撑相关主张。
+- 完整性以论文大纲、稿件类型和 venue 为准，不强制独立 Related Work 或固定三段式。
+- 缺件和推测是否明确；不把现有 tex、PDF 或 BibTeX 文件的存在当作完成证明。
+
+## 输出
+
+按严重程度列出问题、具体位置、依据和建议处理方式。
+分别说明实验层问题、来源或理论问题和可以直接修改的写作问题。
+评分、多人视角和 references/review-form.md 仅在用户或 venue 需要时使用，
+不把接收预测或固定分数包装成事实，也不默认启动子代理。
+
+由 paper-revision 按意见修改后，复核受影响内容；不强制无限轮评审或重复无关检查。

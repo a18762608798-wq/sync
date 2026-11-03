@@ -20,10 +20,10 @@
 ### 2. Experiment / Computation Definition
 
 - 系统 / 模型：SSH XXZ 链，OBC，`L ∈ {8,12,16,20,24}`，
-  哈密顿量 `H(s,δ)` 定义见 `docs/theory/H.md`（`PRE-001`）。
+  哈密顿量 `H(s,δ)` 定义见 `docs/experiment-notes/H.md`（`PRE-001`）。
 - 能隙：对称性能隙 `Δ_sec(L,s) = E1^{(P=-2)} − E0^{(P=-2)}`
-  （见 `docs/theory/gap.md`），其中 `P` 定义与扇区筛选
-  （`H'=H+P`）见 `docs/theory/H.md`；
+  （见 `docs/experiment-notes/gap.md`），其中 `P` 定义与扇区筛选
+  （`H'=H+P`）见 `docs/experiment-notes/H.md`；
   `P=−2 ⇔ Z_tot=0、∏X=+1、R=+1`（由 `P` 定义直接得出）。
 - `δ` 固定：三部分均取 `δ=−2`（`PRE-001`）。
 - `s` 网格：`s=i/100`（`i=1,…,99`），即 `[0,1]` 作 101 点均匀划分后去边界，
@@ -35,7 +35,7 @@
   横轴 `1/L`、纵轴 `Δ_sec`，五点全画；五点复用 D02a 同点值，不另算；
   用 `Δ_sec = a + b/L + c/L²` 对五点作最小二乘拟合，
   报告 `a、b、c`。`a` 为 `L→∞` 的能隙，理论期待 `a=0`
-  （见 `docs/theory/gap.md` 有限尺寸标度一节）。
+  （见 `docs/experiment-notes/gap.md` 有限尺寸标度一节）。
 
 ### 3. Outputs
 
@@ -52,11 +52,11 @@
 ### 4. Theory & References
 
 - `docs/planning/experiment-map.md`（exp03 定义：自含 `L=8,12,16,20,24`，产出 D02a/b/c）
-- `docs/theory/gap.md`（对称能隙、`a+b/L+c/L²` 与相边界定义）
-- `docs/theory/H.md`（模型、`P` 算符与 `H'` 扇区筛选）
+- `docs/experiment-notes/gap.md`（对称能隙、`a+b/L+c/L²` 与相边界定义）
+- `docs/experiment-notes/H.md`（模型、`P` 算符与 `H'` 扇区筛选）
 - `docs/planning/paper-outline.md`（D02a/b/c 三项要求）
 
-复杂推导和背景保留在 `docs/theory/`，不复制到 spec。
+复杂推导和背景保留在 `docs/experiment-notes/`，不复制到 spec。
 
 ### 5. Open Questions
 
@@ -105,8 +105,8 @@
 
 #### Dependencies
 
-- `DEP-001` 无外部数据依赖（自含；模型与对称性定义见 `docs/theory/H.md`，
-  能隙定义见 `docs/theory/gap.md`）。
+- `DEP-001` 无外部数据依赖（自含；模型与对称性定义见 `docs/experiment-notes/H.md`，
+  能隙定义见 `docs/experiment-notes/gap.md`）。
 
 ### B. Notation
 

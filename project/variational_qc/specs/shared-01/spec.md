@@ -20,7 +20,7 @@
 ### 2. Experiment / Computation Definition
 
 - 系统 / 模型：SSH XXZ 链，`L=8`，OBC，格点编号 `1,…,8`，
-  哈密顿量 `H(s,δ)` 定义见 `docs/theory/H.md`（`H = Ho + He`，
+  哈密顿量 `H(s,δ)` 定义见 `docs/experiment-notes/H.md`（`H = Ho + He`，
   `h_kl = e^{-δ}(XkXl + YkYl) + e^{+δ}ZkZl`，`PRE-001`）。
 - 求解扇区：直接对角化全空间 `H(s,δ)`（`2^8 = 256` 维），取最低本征态为基态；
   不使用对称性惩罚 `H'`，不限制在 `P=-2` 扇区（`PRE-004`）。
@@ -56,12 +56,12 @@
 ### 4. Theory & References
 
 - `docs/planning/experiment-map.md`（shared-01 定义：产出 S01、S02 供 exp02、exp04 消费）
-- `docs/theory/H.md`（模型与对称性定义）
-- `docs/theory/psi0.md`（参考态，`s = 0` 一致性检查用）
-- `docs/theory/topological_op.md`（`~Z_R` 与 `S(π)`，S02 代表点判据）
+- `docs/experiment-notes/H.md`（模型与对称性定义）
+- `docs/experiment-notes/psi0.md`（参考态，`s = 0` 一致性检查用）
+- `docs/experiment-notes/topological_op.md`（`~Z_R` 与 `S(π)`，S02 代表点判据）
 - `docs/planning/paper-outline.md`（相图范围 `s ∈ [0,1]`、`δ ∈ [-3,3]`）
 
-复杂推导和背景保留在 `docs/theory/`，不复制到 spec。
+复杂推导和背景保留在 `docs/experiment-notes/`，不复制到 spec。
 
 ---
 
@@ -85,7 +85,7 @@
 
 #### Dependencies
 
-- `DEP-001` 无外部数据依赖（自含；模型定义见 `docs/theory/H.md`）。
+- `DEP-001` 无外部数据依赖（自含；模型定义见 `docs/experiment-notes/H.md`）。
 
 ### B. Notation
 
@@ -100,7 +100,7 @@
 定义合法计算开始前必须成立的条件。
 
 - `PRE-001` 系统：SSH XXZ 链，`L=8`，OBC，格点编号 `1,…,8`；
-  `H(s,δ)` 定义见 `docs/theory/H.md`。
+  `H(s,δ)` 定义见 `docs/experiment-notes/H.md`。
 - `PRE-002` 参数网格：`s = i/100`（`i = 1,…,99`）共 99 点；
   `δ = -3 + 0.05 k`（`k = 0,…,120`）共 121 点；合计 `11979` 点，
   且必须精确包含 `δ = -2`、`0`、`0.85`。

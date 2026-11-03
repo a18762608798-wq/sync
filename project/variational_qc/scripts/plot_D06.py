@@ -9,7 +9,7 @@ Circuit-leaning hybrid (not a literal qiskit circuit):
   orbit colors; same color + number = shared (theta, phi)).
 - U^(k): empty frame with a big U^(k) label (same layout as U^(1),
   per-layer independent parameters; mapping in paper caption).
-Faithful to docs/theory/psi0.md + docs/theory/ansatz.md for L = 8 only:
+Faithful to docs/experiment-notes/psi0.md + docs/experiment-notes/ansatz.md for L = 8 only:
 - D06a trivial: odd-bond singlet pairs; F = even (U_o U_e).
 - D06b topo: |s>_{1,8} link + even-bond singlet pairs; F = odd (U_e U_o).
 - D06c AFM: GHZ adjacent-link chain; F = even (U_o U_e).

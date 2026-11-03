@@ -1,13 +1,3 @@
-<!-- Sync Impact Report
-- Version change: 1.0.2 → 1.0.3 (PATCH: 修正 Skill 名称，不改变实验语义)
-- Modified principles:
-  - VII: 研究型计算与 Julia 包开发的 Skill 名称更新为当前名称
-- Added sections: none
-- Removed sections: none
-- Migration: julia-scientific-computing 改为 scientific-research-computing；julia-package-development 改为 scientific-package-development
-- Follow-up TODOs: none
--->
-
 # Constitution
 
 ## I. Spec 是实验定义的权威来源
@@ -20,14 +10,26 @@ feature 的 spec 明确定义。
 
 Spec 是持续维护的活文档，而不是一次性交付物。
 
-## II. 理论、实验与实现分离
+## II. 实验笔记、实验规范与论文分离
 
-- `docs/theory/`：理论、模型、推导与背景
+- `docs/experiment-notes/`：为 Exp 实现服务的模型、公式、符号与计算约定，
+  允许简写和省略背景
 - `spec.md`：实验或计算任务的定义
 - `plan.md`：实现方案与技术决策
 - `tasks.md`：具体实现工作
+- `docs/planning/paper-outline.md`：唯一论文大纲
+- `docs/paper/`：正式论文正文与参考文献
 
-理论不应重复写入 spec，实现细节也不应无必要进入 spec。
+实验笔记与 spec 必须保持科学约定一致；不在 spec 重复推导，
+也不将无必要的实现细节写入 spec。
+
+正式论文理论必须先通过文献技能检索并阅读全文，核验来源对具体论述的
+支撑与适用条件，再独立组织定义、前提与推导，并与 Exp 约定核对。
+必须区分文献结论与项目自己的构造；已有正确公式可保留，
+不得将笔记中的简写直接视为完整论证，也不得因补引文而改变实验含义。
+
+Paper 按任务使用独立 skills，直接维护论文大纲和正文；
+不创建 Paper spec、plan、tasks、paper-map 或 paper feature。
 
 项目目录约定由 `docs/README.md` 维护：规划放 `docs/planning/`，
 派生看板放 `docs/status/`，中文论文字体及许可证放
@@ -67,6 +69,7 @@ Spec 是持续维护的活文档，而不是一次性交付物。
 | 可复用 Julia 包 / 库开发 | `scientific-package-development` |
 | 运行环境 | `scientific-project-environment` |
 | 出图风格 | `scientific-figure-style` |
+| 论文写作、引用、排版与评审 | 按任务使用独立 `paper-*` skills |
 
 ## Governance
 
@@ -81,9 +84,20 @@ I–VI 原则；复杂度须有明确理由；违反宪法须在 plan 或任务�
 
 实验展开规则：以 `docs/planning/experiment-map.md`
 为实验划分依据；每个 `shared-xx` / `expXX` 为一个独立 feature；
-一次展开一个实验，每个实验走一轮完整 specify 流程
+一次展开一个新实验；新建或实质重设计实验时走一轮完整 specify 流程
 （specify → clarify → plan → tasks → analyze → implement → converge）；
 不得将多个实验合并为一个 spec，不得在 spec 之外另行定义
 Dxx / Sxx 产出归属与实验依赖关系。
 
-**Version**: 1.0.3 | **Ratified**: 2026-10-02 | **Last Amended**: 2026-11-02
+已有 feature 的普通修改按实际影响增量维护：科学定义先更新 spec，
+实现设计和任务仅在受影响时同步。日常工作方式由项目 AGENTS.md 约定，
+不要求每次修改重走完整流程或经过工具门禁。
+按需使用 analyze/converge 检查全项目及跨实验依赖；只读审计与修复、任务回填明确区分。
+检查结论须注明覆盖范围与证据，不将未核验项记为通过。
+
+上述 feature 与完整 Spec Kit 流程约束适用于 Exp。仅涉及论文措辞、文献核验、
+排版与评审的修改不建立 Exp feature；需要新增实验，或改变实验定义、参数、
+数据产品及结论含义时，先返回受影响的 Exp 评估和更新规范。
+论文看板只展示图与数据的就绪度，不证明正文、引用或正式论证完成。
+
+**Version**: 1.2.0 | **Ratified**: 2026-10-02 | **Last Amended**: 2026-11-03

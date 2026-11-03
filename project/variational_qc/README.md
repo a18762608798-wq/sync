@@ -12,11 +12,11 @@
 - `scripts/`：`run_*.jl`（实验运行）、`verify_*.jl`（结果校验）、
   硬件任务提交（`exp05_*`、`exp06_*`）与论文绘图（`plot_*.py`）
 - `specs/`：exp02–exp06、shared-01 的 spec / plan / tasks
-- `docs/`：[文档导航与固定路径约定](docs/README.md)，含 `planning/`、`status/`、`theory/` 与 `paper/`
+- `docs/`：[文档导航与固定路径约定](docs/README.md)，含 `planning/`、`status/`、`experiment-notes/` 与 `paper/`
 - `assets/fonts/`：Noto 中文论文字体与 Times New Roman 绘图字体，分别保留授权说明
 - `figs/`：论文插图（矢量 PDF 与 PNG 预览）
 - `test/`：`runtests.jl` 及相关测试
-- `.agents/skills/`：Codex 的 Spec Kit skills（`speckit-*`）
+- `.agents/skills/`：Exp 的 Spec Kit skills、科学计算公共 skills 与独立的 Paper skills
 - [论文看板](docs/status/paper.html) / [实验看板](docs/status/experiments.html)：论文与实验进度总览
   （浏览器在线查看：[论文看板](https://a18762608798-wq.github.io/variational_qc/docs/status/paper.html) /
   [实验看板](https://a18762608798-wq.github.io/variational_qc/docs/status/experiments.html)）
@@ -38,9 +38,16 @@ julia --project=. --startup-file=no -e 'using Pkg; Pkg.instantiate(); using Cond
 
 ## Spec Kit / Codex
 
-本项目的默认集成为 `codex`，skills 位于 `.agents/skills/`（`speckit-*`）。
+本项目的默认集成为 `codex`，skills 位于 `.agents/skills/`。
+Exp 继续使用 `speckit-*` 维护实验定义、计划与任务；Paper 按需调用独立 skills，
+直接维护 `docs/planning/paper-outline.md` 和 `docs/paper/`，不另建 Paper spec。
+`docs/experiment-notes/` 是实验实现笔记；正式论文理论须经文献核验后独立组织论证。
 新项目初始化使用 `specify init --here --integration codex --script sh`；已有项目切换使用
 `specify integration switch codex --script sh`，不要强制重建实验 spec。
+
+日常工作约定见 [AGENTS.md](AGENTS.md)。检查全项目时使用
+`$speckit-analyze 全项目` 和 `$speckit-converge 全项目 仅检查`，
+覆盖跨实验依赖与实际证据；明确要求修复后按层处理并复查。
 
 ## 非真机验证
 

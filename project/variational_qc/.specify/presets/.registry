@@ -2,9 +2,9 @@
   "schema_version": "1.0",
   "presets": {
     "scientific-computing": {
-      "version": "0.4.0",
+      "version": "0.6.0",
       "source": "local",
-      "manifest_hash": "sha256:0c5390965ed8a254e32276eb8c6897f2a7897ce1138cba34d57c36a685c0259e",
+      "manifest_hash": "sha256:94ccb056a8e70db6a1877a56c4cfd9d2f208d2bb67a7ba5fe1fe9e258cf5f209",
       "enabled": true,
       "priority": 3,
       "registered_commands": {
@@ -29,7 +29,7 @@
           "speckit-converge"
         ]
       },
-      "installed_at": "2026-10-07T07:50:40.996307+00:00"
+      "installed_at": "2026-11-02T14:16:08.623290+00:00"
     }
   }
 }

@@ -168,7 +168,7 @@ spec 验证条件的落实（硬断言，失败即 invalid）：
   五点 `a+b/L+c/L²` 拟合（`a` 为 `L→∞` 能隙，报告 `a,b,c`）。
   窄网格与交点表取消，网格恢复为单一 `s=i/100`（99 点），
   生产总量 `990`→`495` 点；`CrossFit.crossings` 由 `quadratic_fit` 取代。
-  `paper-outline.md`、`docs/theory/gap.md`、`docs/planning/experiment-map.md`
+  `paper-outline.md`、`docs/experiment-notes/gap.md`、`docs/planning/experiment-map.md`
   已同步；旧 `δ=0` chunks 归档后清理。
 - 2026-10-22（实现层，生产后回填）：并行由“单进程 `Threads.@threads` +
   ARPACK 锁串行”改为“`Distributed.pmap` 6 进程、每进程 `-t 1`”，chunk 粒度
@@ -186,14 +186,14 @@ spec 验证条件的落实（硬断言，失败即 invalid）：
   出图入口改为 `scripts/run_py.jl`（`CondaPkg.withenv()`，PATH 含
   `env\\Library\\bin`），不再直接调 `python.exe`；旧 qmeas venv 备用。
 - 2026-10-23：D02c 拟合三项式 `a+b/L+c/L²` 改两项式 `a+b/L`（`paper-outline.md`、
-  `docs/theory/gap.md`、`docs/planning/experiment-map.md` 已同步；spec Contract 规范文本同步，
+  `docs/experiment-notes/gap.md`、`docs/planning/experiment-map.md` 已同步；spec Contract 规范文本同步，
   历史问答与修订记录不动）。`Fit.quadratic_fit` 改为 `linear_fit`（`y=a+b·x`），
   `Store`/`verify`/`plot`/`单元测试`同步（`fit_c` 落盘字段取消，schema 仍为
   `exp03/v1`）；现有 chunk 直接重组装（495 点不重算）。
   生产结果 `a=0.677`、`b=75.62`，`verify_exp03.jl` 通过（`a≈0` 为定性期待，
   不作硬阈值，见 spec `VAL-004`）。
 - 2026-10-23：D02c 拟合改回三项式 `a+b/L+c/L²`（`paper-outline.md`、
-  `docs/theory/gap.md`、`docs/planning/experiment-map.md` 已同步；spec Contract 规范文本同步，
+  `docs/experiment-notes/gap.md`、`docs/planning/experiment-map.md` 已同步；spec Contract 规范文本同步，
   历史问答与修订记录不动）。`Fit.linear_fit` 改回 `quadratic_fit`，
   `Store`/`verify`/`plot`/`单元测试`同步（`fit_c` 落盘字段恢复）；现有 chunk
   直接重组装（495 点不重算）。生产结果 `a=-0.0168`、`b=94.86`、`c=-114.14`，
@@ -203,7 +203,7 @@ spec 验证条件的落实（硬断言，失败即 invalid）：
   版式语义不变）。子图等大、自带 `(a)(b)(c)` 标注，有效字号 `≥8pt`；
   论文 FIG.6 直引该合图，独立分图文件删除。
 - 2026-11-02（本机派生数据刷新，用户批准覆盖）：先将旧 NPZ、manifest、
-  PDF / PNG 备份至 `data/validation/exp03-refit-20261102-091918/`，再从现有
+  PDF / PNG 备份至 `data/validation/exp03-refit-20261102-091918/`（该目录已随验证隔离区清理，本机计算结果为准），再从现有
   100 个 chunk 重组装 D02；495 个能隙值与拟合输入数组逐位不变，
   chunk 校验值不变，仅刷新三个拟合系数并补充 manifest 溯源。
   实验定义、拟合算法和 $10^{-12}$ 自洽容限均不变；`verify_exp03.jl` 通过，

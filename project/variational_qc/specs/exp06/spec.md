@@ -44,7 +44,7 @@
     当时取值，不属合同；exp05 重跑落盘新 S04 后以新值为准（见 T008）。
 - 转译：`qiskit`，`optimization_level=3`，`coupling_map` 显式传入
   （上条），`basis_gates` 由 plan 定并记入 manifest（`PRE-004`）。
-- 观测量：`Q`（定义见 `docs/theory/topological_op.md`，
+- 观测量：`Q`（定义见 `docs/experiment-notes/topological_op.md`，
   `Q=4/3−2Ô_str−(4/3)Ŝ(π)`）。`S(π)` 与 string 皆为全 `Z` 对角，
   每点只需 **1 个 estimator 电路**（VQE 态制备 + `Z` 基测量）；
   同一批采样先做 S05 缓解得联合分布，再组 `Ŝ(π)`、`Ô_str`、`Q`
@@ -58,7 +58,7 @@
   即 S05 批次。展示曲线只用最优窗口内单位的逐点平均（`POST-002`）。
 - 读出缓解（S05，`PRE-006` / `POST-004`）：逐需读出比特（`8` 计算比特）
   各标定 `2×2` 分配矩阵（制备 `|0⟩` / `|1⟩` 各一电路，定义见
-  `docs/theory/readout_mitigation.md`）；`8` 比特可同时测量，
+  `docs/experiment-notes/readout_mitigation.md`）；`8` 比特可同时测量，
   故每单位只需 `2` 个标定电路（全 `0` 制备 + 全 `X` 制备，一次给出
   `8` 比特各自的两列），与正式电路同 shots；quark 平台自带读出矫正
   必须关闭（`correct=False`，平台侧键名；防双重矫正干扰；缓解后加非负约束
@@ -111,12 +111,12 @@
 
 - `docs/planning/experiment-map.md`（exp06 定义：依赖 S03、S04、S06，S05 自含，共建 D08a/b）
 - `docs/planning/paper-outline.md`（D08a/b：模拟机 `p=1,2` 曲线 + 真机 `p*=1` 散点、归一化比趋势）
-- `docs/theory/readout_mitigation.md`（逐比特 `2×2` 矩阵 + 求逆 + 非负约束）
-- `docs/theory/ansatz.md`（拟设结构，电路按 S03 参数实例化）
-- `docs/theory/psi0.md`（三参考初态，拓扑首尾单态需 `0–7` 连接）
-- `docs/theory/topological_op.md`（`S(π)`、string、`Q` 定义）
+- `docs/experiment-notes/readout_mitigation.md`（逐比特 `2×2` 矩阵 + 求逆 + 非负约束）
+- `docs/experiment-notes/ansatz.md`（拟设结构，电路按 S03 参数实例化）
+- `docs/experiment-notes/psi0.md`（三参考初态，拓扑首尾单态需 `0–7` 连接）
+- `docs/experiment-notes/topological_op.md`（`S(π)`、string、`Q` 定义）
 
-复杂推导和背景保留在 `docs/theory/`，不复制到 spec。
+复杂推导和背景保留在 `docs/experiment-notes/`，不复制到 spec。
 
 ### 5. Open Questions
 

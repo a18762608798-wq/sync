@@ -23,13 +23,13 @@
 ### 2. Experiment / Computation Definition
 
 - 系统 / 模型：SSH XXZ 链，OBC，`L=8`，哈密顿量 `H(s,δ)` 定义见
-  `docs/theory/H.md`。
-- 拟设：orbit 拟设，定义见 `docs/theory/ansatz.md`（轨道分组、每轨道
+  `docs/experiment-notes/H.md`。
+- 拟设：orbit 拟设，定义见 `docs/experiment-notes/ansatz.md`（轨道分组、每轨道
   `(θ,φ)`、子层顺序与初态配对、`U^{(l)}=U^{(l)}_S U^{(l)}_F`，`p=1,2,3`，
   参数量 `Nθ=Lp`）；`δ=0` 的 `θ=φ` 约化仅属理论特例，本实验两条线均不使用。
-- 初态：三参考态见 `docs/theory/psi0.md`（平庸奇键单态 / 拓扑 bulk+首尾单态 /
+- 初态：三参考态见 `docs/experiment-notes/psi0.md`（平庸奇键单态 / 拓扑 bulk+首尾单态 /
   AFM GHZ），均为 `P=−2` 扇区；每点三初态各做一路优化，取综合最小
-  （见 `docs/theory/cost_fun.md`：`C*(s*,δ*) = min_a min_θ C_a(θ)`，
+  （见 `docs/experiment-notes/cost_fun.md`：`C*(s*,δ*) = min_a min_θ C_a(θ)`，
   每路内可用多种子 restart，同样取最小）。
 - 代价函数：`E(θ) = ⟨ψ(θ)|H(s,δ)|ψ(θ)⟩`（态矢量精确期望，无采样噪声、
   无硬件噪声；噪声模型归 exp06，不属本实验）。
@@ -65,15 +65,15 @@
 ### 4. Theory & References
 
 - `docs/planning/experiment-map.md`（exp04 定义：产出 D06a–c、S06、S03 供 exp06 消费）
-- `docs/theory/ansatz.md`（拟设定义）
-- `docs/theory/psi0.md`（三参考初态）
-- `docs/theory/cost_fun.md`（三路取最小代价策略）
-- `docs/theory/H.md`（模型与对称性）
-- `docs/theory/topological_op.md`（`S(π)`、string 定义）
+- `docs/experiment-notes/ansatz.md`（拟设定义）
+- `docs/experiment-notes/psi0.md`（三参考初态）
+- `docs/experiment-notes/cost_fun.md`（三路取最小代价策略）
+- `docs/experiment-notes/H.md`（模型与对称性）
+- `docs/experiment-notes/topological_op.md`（`S(π)`、string 定义）
 - `docs/planning/paper-outline.md`（D06 示意要求；S06 两线 `p=1,2,3` 为 D08a/b
   模拟机图层底数；D09 的代价函数与相区背景要求）
 
-复杂推导和背景保留在 `docs/theory/`，不复制到 spec。
+复杂推导和背景保留在 `docs/experiment-notes/`，不复制到 spec。
 
 ### 5. Open Questions
 
@@ -122,7 +122,7 @@
 - `BND-002` S03：全网格最优参数（`2×99×3=594` 组 `θ*`），供 exp06 消费。
 - `BND-003` D06：三分相拟设结构示意图合图（`1×3` 单图；trivial / topo / AFM 各一面板，
   每相初态 + 所需拟设电路；`(a)(b)(c)` 标签置于各子图下方；
-  纯示意，无数据依赖；须如实反映 `docs/theory/ansatz.md`
+  纯示意，无数据依赖；须如实反映 `docs/experiment-notes/ansatz.md`
   的轨道分组、奇偶子层与 `p` 层堆叠，不虚构门类型与连接）。
 - `BND-007` D09：两条线合一张 `1×2` 代价函数对比图 `exp04_D09.pdf`
   （三初态 `C_a(s)` + 精确 `E0(s)` + `p=1` 获胜初态分段背景；

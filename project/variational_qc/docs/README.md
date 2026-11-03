@@ -15,16 +15,35 @@
 | --- | --- |
 | `assets/fonts/noto-serif-cjk/` | 中文论文使用的 Regular / Bold 字体与 LICENSE |
 | `assets/fonts/times-new-roman/` | 绘图使用的四种 Times New Roman 字形与授权说明 |
-| `docs/planning/` | `paper-outline.md`、`experiment-map.md`；若启用论文 feature，`paper-map.md` 也放这里 |
+| `docs/planning/` | 唯一论文大纲 `paper-outline.md` 与 Exp 生产归属 `experiment-map.md` |
 | `docs/status/` | `paper.html`、`experiments.html` 两个自包含状态页 |
-| `docs/theory/` | 理论、模型、推导与背景 |
+| `docs/experiment-notes/` | 为 Exp 实现服务的模型、公式、符号与计算约定，允许简写；不是正式论文正文 |
 | `docs/paper/` | LaTeX 主文件、章节与参考文献，既有论文工程位置不变 |
 | `specs/<feature>/` | 实验规格、实现计划和任务清单 |
 | `figs/<feature>/` | 绘图产物：矢量 PDF 与 PNG 预览 |
 | `data/<feature>/` | 实验数据，沿用现有忽略规则 |
-| `.agents/skills/` | Codex Spec Kit skills（`speckit-*`） |
+| `.agents/skills/` | Exp 的 Spec Kit skills、科学计算公共 skills 与独立的 Paper skills |
 
 不要在项目根目录重新生成字体、规划文档或状态页，不要复制一份规划文档到别处维护。新增目录或调整路径时，先更新本文档，再同步引用、模板与 skills。
+
+## Exp 与 Paper 的边界
+
+- Exp 继续以 `specs/<feature>/spec.md` 定义实验，`plan.md` 记录实现决策，`tasks.md` 跟踪执行与验证；普通修改按项目 [AGENTS.md](../AGENTS.md) 增量维护。
+- [实验笔记](experiment-notes/README.md) 为实验实现提供模型与计算约定。涉及实验含义的修改，先同步受影响的 Exp spec；笔记中的简写不能直接充当正式论文论证。
+- Paper 直接维护 [论文大纲](planning/paper-outline.md) 与 `docs/paper/`，通过写作、引文、排版、评审和修订 skills 完成工作；不创建 Paper spec、plan、tasks、paper-map 或 paper feature。
+- 写作理论部分时，先检索并阅读全文，核验文献对具体论述的支撑与适用条件，再独立组织定义、前提和推导，并核对 Exp 的符号、参数与观测量约定。区分文献结论与项目自己的构造，不因补引文而改变实验含义。
+- 缺少文献或论证时在 Paper 任务中补齐；需要新增实验、改动参数或改变结果解释时返回受影响的 Exp。Dxx / Sxx 编号保持稳定，不随章节重排重编号。
+- 论文看板展示所需图与数据的就绪度；数据齐全不代表正文、理论论证或引用核验已经完成。
+
+## 工作方式与整体对齐
+
+日常按 [AGENTS.md](../AGENTS.md) 处理受影响的规范和验证。新建或实质重设计实验走完整 Spec Kit 流程；已有 feature 的维护按影响增量进行。
+
+- `$speckit-analyze 全项目`：只读检查所有 feature、规划、数据归属与跨实验依赖。
+- `$speckit-converge 全项目 仅检查`：只读核对实际实现、结果和验证证据，不回填任务。
+- `$speckit-converge 全项目`：核验后将已有规范下真正缺失的工作补入相应 tasks；已有任务不重复追加。
+- 明确要求“修复并对齐”时，先检查，再按问题所在层处理并复查；科学意图不明时提出问题。
+- 审计不自动重算正式实验、提交真机任务或更新看板。报告区分文档一致性、实现/结果核验及尚未核验的项目。
 
 ## 字体
 
@@ -32,13 +51,14 @@
 - 从 `docs/paper/` 编译时，字体目录为 `../../assets/fonts/noto-serif-cjk/`。
 - 绘图字体与中文论文字体分开管理：[Times New Roman 四种字形](../assets/fonts/times-new-roman/) 已纳入本项目 Git。`scripts/figure_style.py` 的 `apply_figure_style()` 自动按文件注册并优先于系统同名字体，不需要系统安装；数学字体仍为 Matplotlib 自带 STIX。
 - 本地字体目录存在但不完整或字体族错误时立即报错。正式出图应检查最终解析到的字体路径确实位于 `assets/fonts/times-new-roman/`，而非静默回退。
-- Times New Roman 不是开源字体；其[原授权说明](../assets/fonts/times-new-roman/README.md)与 Noto 的 SIL OFL 分开。纳入 Git 不代表获得额外的再分发权利；开发源同时保存字体依赖：`scientific-computing/assets/fonts/times-new-roman/` 保存四种 TTF 与原授权说明，`scientific-paper/assets/fonts/noto-serif-cjk/` 保存两种 OTF 与 LICENSE；各 preset 的 `scripts/install-fonts.sh` 将依赖复制到项目对应目录，已有同名文件内容不一致时停止，不静默覆盖。
+- Times New Roman 不是开源字体；其[原授权说明](../assets/fonts/times-new-roman/README.md)与 Noto 的 SIL OFL 分开。纳入 Git 不代表获得额外的再分发权利；开发源同时保存字体依赖：`scientific-computing/assets/fonts/times-new-roman/` 保存四种 TTF 与原授权说明，`scientific-paper/assets/fonts/noto-serif-cjk/` 保存两种 OTF 与 LICENSE；Exp preset 与 Paper 技能包各自的 `scripts/install-fonts.sh` 将依赖复制到项目对应目录，已有同名文件内容不一致时停止，不静默覆盖。
 - PDF 图嵌入字体；仅编译论文、不重新绘图时，不需要另外安装绘图字体。
 
 ## Codex 集成与本地验证
 
 Spec Kit 默认集成为 `codex`；初始化参数记录于 `.specify/init-options.json`，当前集成记录于 `.specify/integration.json`。
-Spec Kit skills 由 `specify` 生成至 `.agents/skills/`。
+Spec Kit skills 由 `specify` 生成至 `.agents/skills/`；独立的 Paper skills 也安装在此目录，直接按任务使用。
+Paper 技能包的源保留在 `~/.agents/sdd/specify/dev/scientific-paper/`。
 
 Julia 与 Python 安装、测试命令见 [项目 README](../README.md)。非真机新计算和绘图测试产物放入 `data/validation/`，不覆盖正式数据或 `figs/`；真机提交脚本不属于本地环境验证范围。
 

@@ -22,17 +22,17 @@
 
 - 输入：S01 网格每点基态波函数 `ψ0`（`256` 分量，基矢约定见 S01 manifest）；
   D03 取其中 S02 三坐标条目（`PRE-001`）。
-- 结构因子（见 `docs/theory/topological_op.md`）：
+- 结构因子（见 `docs/experiment-notes/topological_op.md`）：
   `S(q) = (1/L) Σ_{i,j} e^{iq(i−j)} <Z_i Z_j>`，`L=8`，期望取自 `ψ0`。
 - D03 q 网格（`PRE-002`）：`q = 2πk/100`（`k = 1,…,99`），即 `[0,2π]` 作
   101 点均匀划分后去边界，共 99 点，显含 `q=π`（`k=50`）；三代表点共用此网格。
 - D04a–D04d 网格（`PRE-003`）：`s` 取 S01 的 99 点；`δ` 在 `[-3,3]` 上取 121 点均匀
   （`δ_j = -3 + 0.05(j-1)`，`j = 1,…,121`），逐点计算，不插值、不平滑。
-- D04a–D04d 各量（定义见 `docs/theory/topological_op.md`，`PRE-004`）：
+- D04a–D04d 各量（定义见 `docs/experiment-notes/topological_op.md`，`PRE-004`）：
   - (a) `Ŝ(π) = S(π)/L`：上式取 `q=π` 后除以 `L=8`；
   - (b) `Ô_str = −O_str(d=L/2−1=3)`；
   - (c) `Q = 4/3 − 2 Ô_str − (4/3) Ŝ(π)`；
-  - (d) `~Z_R`：按 `docs/theory/topological_op.md` 定义独立重算（`I=(3,4,5,6)` 等）。
+  - (d) `~Z_R`：按 `docs/experiment-notes/topological_op.md` 定义独立重算（`I=(3,4,5,6)` 等）。
 - 简并点处理：统一使用 S01 存储的 `ψ0`，不做特殊处理；
   输出数据集逐点携带简并标记（继承自 S01，`PRE-005`）。
 - D04a–D04d 四图版式为 `(a) Ŝ(π)` / `(b) Ô_str` / `(c) Q` / `(d) ~Z_R`
@@ -51,10 +51,10 @@
 ### 4. Theory & References
 
 - `docs/planning/experiment-map.md`（exp02 定义：依赖 S01、S02，产出 D03、D04a–D04d）
-- `docs/theory/topological_op.md`（`S(q)`、string、`Ŝ`/`Ô`、`Q` 定义）
+- `docs/experiment-notes/topological_op.md`（`S(q)`、string、`Ŝ`/`Ô`、`Q` 定义）
 - `docs/planning/paper-outline.md`（D03 三线同图、D04a–D04d 四图版式）
 
-复杂推导和背景保留在 `docs/theory/`，不复制到 spec。
+复杂推导和背景保留在 `docs/experiment-notes/`，不复制到 spec。
 
 ---
 
@@ -93,7 +93,7 @@
 - `O_str`：`d = L/2−1 = 3` 的 string 算符期望。
 - `Ô_str = −O_str`：归一化 string 量（取反使拓扑相为正）。
 - `Q = 4/3 − 2 Ô_str − (4/3) Ŝ(π)`。
-- `~Z_R`：按 `docs/theory/topological_op.md` 定义（`I=(3,4,5,6)` 等）。
+- `~Z_R`：按 `docs/experiment-notes/topological_op.md` 定义（`I=(3,4,5,6)` 等）。
 
 ### C. Preconditions
 
