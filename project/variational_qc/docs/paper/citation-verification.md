@@ -230,3 +230,7 @@
 ## exp07 网格结构抽查（2026-11-03 本轮）
 
 - 抽查 `units/00000/state.json`：`tids` 共 92 个（`g` 系 90 点 + `cal_zero`/`cal_one` 读出标定），与 `spec07`（每单位 `90` 点 + 一对标定）一致；`counts` 尚空，提交继续（本轮 `tids=15704/46000`）。
+
+## exp07 收发键契约抽查（2026-11-03 本轮）
+
+- `exp07_assemble.py` 要求 `state.json` 的 `counts` 含 `g0`–`g89` + `cal_zero`/`cal_one`；提交器已落盘 `tids` 键名（`g` 系 + `cal_zero`/`cal_one`）与之一致，回数后可直接对账。本轮 `tids=15763/46000`。
