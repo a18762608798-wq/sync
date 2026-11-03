@@ -90,3 +90,13 @@
 - **nation2021scalable**：确认支持。全文 `arXiv:2108.12518`：
   无矩阵预条件迭代法把分配矩阵缓解推向更大系统；
   正文末句与之一致，无需改写。
+
+## 00-introduction（2026-11-03 本轮，正文零改动）
+
+- **satzinger2021realizing**（Zotero `8WC7LVIH`）：确认支持。全文 `arXiv:2104.01180`：
+  超导处理器制备 $toric$ $code$ 基态，测得拓扑纠缠熵近 $ln2$。
+- **sun2023efficient**（Zotero `FPSUMAZF`）：确认支持。全文 `arXiv:2303.17187`：
+  初态层加变分层拟设研究对称保护拓扑相，在 $IBM$ 真机上测 $string$ 序与边缘模。
+- **endres2011observation**（Zotero `AQY9KWUG`）：确认支持。全文 `arXiv:1108.3317`：
+  低维 $Mott$ 绝缘体中关联粒子空穴对导致的非局域 $string$ 序。
+- 需在 $Zotero$ 集合中补入 `sun2023efficient` 的已核验条目后再 `bind`。
