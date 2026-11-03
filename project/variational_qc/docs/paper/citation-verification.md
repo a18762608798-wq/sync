@@ -167,3 +167,7 @@
 
 - `main.tex`（`pdflatex`）与 `main-zh.tex`（`xelatex`）均全管线通过（`xelatex→bibtex→xdvipdfmx`，`exit 0`，`All targets up-to-date`）。注：`latexmk -xelatex -pdf` 混用会被 `-pdf` 拉回 `pdflatex` 引擎而误报 `xeCJK` 错，中文版须用纯 `-xelatex`。
 - 修订后的 `06-ansatz-zh` 已包含在本次 `8` 页 `PDF` 中；编译中间产物已恢复，工作树干净。
+
+## D10 输入就绪检查（2026-11-03 本轮）
+
+- `D10` 模拟机侧输入已在位：`exp07 spec` 明确模拟机层取 `S06` 现成 `p=2` 获胜分支数据（`q_sim_p2` 口径）不重算；`exp04_S06.npz` 中 `theta_leg (99,3,3,24)` 即 `(s,分支,p)` 三维具备 `p=2` 切片，`conv/stagn (99,3,3)` 具备逐点 `invalid` 判定条件。`D10` 只差真机侧（`exp07` 提交中）。
