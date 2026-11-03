@@ -269,3 +269,9 @@
 
 - 将第 2 段由罗列改为主题比较：`Satzinger` 为内禀拓扑序加非局域纠缠熵诊断，与本工作对称保护链加比特串直接可测标记形成对照；`Sun` 为最接近同类（初态层加变分层、`IBM` 上 `string` 序与边缘模），本工作差异点为相匹配初态加反射对称拟设统一覆盖三相、并以单一组合量 $Q$ 比较真机与模拟机趋势。不新增引用（`satzinger2021realizing`、`sun2023efficient` 均已核验，`Zotero` 元数据已对齐出版版本），中英同步。
 - 编译：`latexmk -pdf main.tex` 与 `latexmk -xelatex main-zh.tex` 实编 `exit 0`；`pdftotext` 抽 `main.pdf` 含 `closest sibling` 与 `intrinsic topological order`，`main-zh.pdf` 含对应中文表述；中间产物已恢复。
+
+## 00-introduction TEE 理论源头补引（2026-11-03 重启后第二轮）
+
+- **levin2006detecting**（`Zotero FYBSJVQI`）：确认支持。全文 `arXiv:cond-mat/0510613`（`4` 页）：仅凭基态波函数探测 `string-net` 型拓扑序，构造直接度量量子维度 $D$ 的拓扑熵。支撑“拓扑纠缠熵”这一诊断量的理论来源。
+- **kitaev2006topological**（`Zotero 6FB8TCYP`）：确认支持。全文 `arXiv:hep-th/0510092`（`4` 页）：有能隙二维拓扑介质基态多体纠缠的普适刻画，圆盘约化态 `von Neumann` 熵含与边界长度无关的拓扑项。支撑同上。
+- 正文 `Satzinger` 句改为实验加理论并引：实验制备与测量归 `satzinger2021realizing`，诊断量定义归 `levin2006detecting,kitaev2006topological`，表述为“文献引入的拓扑纠缠熵”，避免把理论论文读成实验；中英同步。已引用由 `23` 增至 `25`。
