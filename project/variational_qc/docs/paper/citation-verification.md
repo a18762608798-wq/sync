@@ -183,3 +183,9 @@
 - 本线程按正常流程调用 `zotero_search_by_citation_key`（4 条）、`zotero_search_collections`、`zotero_list_libraries`，返回均为 `unsupported call`；`zotero-mcp serve` 进程在宿主运行但属其他会话，不可借用；直读 `sqlite` 与手写 `MCP` 客户端均违反项目规则，未执行。`bind`（需 `item_key` + `zotero_set_item_collections`）待工具有效线程补做。
 - `skills` 脚本零改动（`validate_citations.py` 内本无 `assert`，未增删任何断言）。
 - 本轮 `validate_citations.py` 闭包拼接中英分跑均通过（英文闭包须排除 `*-zh.tex`，否则误报 21 重复 `label`；`15` 条未引用 `bib` 与上轮一致，留待 `D10` 后定夺）。
+
+## 结论与 09 首段对齐 09 修订（2026-11-03 本轮）
+
+- `10-conclusion` 旧句（`5%`/`9σ` 分辨 + 跟随负 $Q$ 转折）与已核验实数矛盾，已按 `09` 修订口径改写：无预期方向正 string 信号（`pooled` $\hat O_{\rm str}=-0.044 \pm 0.005$，与模拟值 $+0.95$ 符号相反），$s\to1$ 处真机 $Q$ 与零在窗口不确定度内一致；中英同步。
+- `09` 首段同步弱化：拓扑区真机 $Q$ 仅个别点（$s=0.78$，$-0.29 \pm 0.18$，低于两模拟约 $2.4\sigma$）低于模拟，其余在窗口误差棒（$\pm 0.2$--$0.5$）内与零一致；原“$s\to1$ 时低于两条模拟曲线”不成立（$s=0.85/0.92/0.99$ 窗口点均与模拟相容）。
+- 中英 `latexmk -pdf / -xelatex` 实编（非 `up-to-date`）均 `exit 0` 无报错；中间产物已恢复。
