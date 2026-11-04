@@ -465,3 +465,5 @@ end
     @test independent.energy == steps[2].energy
     @test all(s.energy <= real(dot(psi_init("triv", 8), H * psi_init("triv", 8))) + 1e-8 for s in steps)
 end
+
+include("exp03_mps.jl")

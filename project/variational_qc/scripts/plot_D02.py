@@ -1,8 +1,8 @@
 """D02 appendix plots (exp03 T015/T020): one combined 1x3 figure exp03_D02.pdf.
 
 Reads data/exp03/exp03_D02.npz only; no physics recomputed.
-(a) Delta_sec vs s (five L),
-(b) the same curves zoomed to s in [0.45, 0.60], minima marked,
+(a) Delta_sec vs s (four paper sizes),
+(b) the same curves zoomed to s in [0.52, 0.65], minima marked,
 (c) Delta_sec vs 1/L with the a+b/L+c/L^2 fit and the intercept a marked.
 Style via the vendored scripts/figure_style.py. Self-checks grids and shapes.
 """
@@ -14,12 +14,12 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-DATA = os.path.join(HERE, "..", "data", "exp03")
-FIGDIR = os.path.join(HERE, "..", "figs", "exp03")
+DATA = os.environ.get("EXP03_DATA_DIR", os.path.join(HERE, "..", "data", "exp03"))
+FIGDIR = os.environ.get("EXP03_FIG_DIR", os.path.join(HERE, "..", "figs", "exp03"))
 
-LS = [8, 12, 16, 20, 24]
+LS = [8, 16, 24, 32]
 LINESTYLES = ["-", "--", ":", "-.", (0, (3, 1, 1, 1))]
-WINDOW = (0.53, 0.65)
+WINDOW = (0.52, 0.65)
 
 
 def main():
@@ -36,22 +36,22 @@ def main():
     assert list(d["Ls"]) == LS
     s = d["s_grid"]
     D = d["Delta"]
-    assert s.shape == (99,) and D.shape == (5, 99)
+    assert s.shape == (99,) and D.shape == (len(LS), 99)
     assert abs(s[49] - 0.5) < 1e-12, "grid must contain s=0.5 at i=50"
     assert np.isfinite(D).all()
 
     a, b, c = float(d["fit_a"]), float(d["fit_b"]), float(d["fit_c"])
     xs = np.array(d["fit_x"])
     ys = np.array(d["fit_y"])
-    assert xs.shape == (5,) and ys.shape == (5,)
-    for r in range(5):
+    assert xs.shape == (len(LS),) and ys.shape == (len(LS),)
+    for r in range(len(LS)):
         assert abs(ys[r] - D[r, 49]) < 1e-12, "D02c must reuse the s=0.5 point"
 
     os.makedirs(FIGDIR, exist_ok=True)
 
     # 1x3 combined (paper FIG.6): equal-size subplots, (a)(b)(c) below labels.
     fig123, (ax_a, ax_b, ax_c) = plt.subplots(1, 3, figsize=(10.5, 3.4))
-    # (a) full range: gap vs s for five L.
+    # (a) full range: gap vs s for the four paper sizes.
     ax = ax_a
     for r, L in enumerate(LS):
         ax.plot(s, D[r], color=palette[r], linestyle=LINESTYLES[r],

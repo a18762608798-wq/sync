@@ -31,7 +31,7 @@ const ARPACK_NCV = 64        # Krylov subspace size (capped by n)
 const _ARPACK_LOCK = ReentrantLock()
 
 _eigs_two(H; ncv::Integer, tol::Real) = lock(_ARPACK_LOCK) do
-    eigs(H; nev=2, ncv=min(size(H, 1), ncv), which=:SR, tol=tol, maxiter=ARPACK_MAXITER)
+    Arpack.eigs(H; nev=2, ncv=min(size(H, 1), ncv), which=:SR, tol=tol, maxiter=ARPACK_MAXITER)
 end
 
 """Lowest two P=-2 sector eigenpairs and their gap at (L, s).

@@ -3,7 +3,9 @@
 # I/O only; physics lives in GapSolver/Fit.
 
 const SCHEMA = "exp03/v1"
-const LS = (8, 12, 16, 20, 24)
+const ED_LS = (8, 12, 16, 20, 24)
+const LS = ED_LS  # historical ED producer; paper assembly uses PAPER_LS explicitly
+const PAPER_LS = (8, 16, 24, 32)
 const BLOCK = 5  # s-points per chunk file (fine granularity for pmap + resume)
 const CHUNKS_DIRNAME = "chunks"
 const PROGRESS_NAME = "progress.json"
@@ -58,7 +60,7 @@ function save_chunk(dir::AbstractString, L::Integer, ib::Integer,
 end
 
 """Assemble all chunks into the single D02 product + manifest (hard asserts inside)."""
-function assemble_D02(dir::AbstractString)
+function assemble_ed_reference(dir::AbstractString)
     s_grid = collect(Float64, S_GRID)
     npts = length(s_grid)
     nblocks = cld(npts, BLOCK)

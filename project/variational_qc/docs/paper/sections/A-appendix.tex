@@ -41,20 +41,20 @@ We evaluate
 \label{eq:sector-gap}
 \end{equation}
 using the lowest two energies in the same symmetry sector.
-The gap calculations use sector-resolved Lanczos diagonalization; the $L=8$ phase-map states instead come from full-space diagonalization.
+The $L=8,16,24$ gaps use sector-resolved Lanczos diagonalization, while the $L=32$ gaps come from CPU MPS/DMRG with $\chi,2\chi$ convergence gating; the $L=8$ phase-map states instead come from full-space diagonalization.
 These numerical methods and finite-size diagnostics are reviewed in Ref.~\cite{sandvik2010computational}.
 
-Figure~\ref{fig:D02a}(a) gives $\Delta_{\rm sec}$ at $\delta=-2$ for $L=8,12,16,20,24$.
-The minima in the enlarged interval $s\in[0.53,0.65]$ move toward $1/2$ and decrease with increasing size [panel (b)].
+Figure~\ref{fig:D02a}(a) gives $\Delta_{\rm sec}$ at $\delta=-2$ for $L=8,16,24,32$.
+The minima in the enlarged interval $s\in[0.52,0.65]$ move toward $1/2$ and decrease with increasing size [panel (b)].
 At $s=1/2$, the leading low-energy gaps of the critical open chain scale as $1/L$.
 In the open XXZ chain, an irrelevant boundary operator of scaling dimension $2$ can shift the effective length to $L_{\rm eff}=L+\ell$~\cite{sirker2008thermodynamics}.
 Expanding $1/(L+\ell)=1/L-\ell/L^2+\cdots$ gives a $1/L^2$ contribution, consistent with the boundary stress-tensor correction to low-energy levels~\cite{liu2024finitesize}.
-We therefore fit the five data points using
+We therefore fit the four data points using
 \begin{equation}
 \Delta_{\rm sec}(L,1/2)\approx a+\frac bL+\frac c{L^2}
 \label{eq:gap-fit}
 \end{equation}
-with a free extrapolation intercept $a$, obtaining $a=-0.0168$, $b=94.86$, and $c=-114.14$ in the energy convention of Eq.~\eqref{eq:H} [panel (c)].
+with a free extrapolation intercept $a$, obtaining $a=-0.0128$, $b=94.75$, and $c=-113.55$ in the energy convention of Eq.~\eqref{eq:H} [panel (c)].
 The fitted intercept is close to zero, and the decreasing gaps follow the gapless uniform-chain prediction.
 Finite-size corrections depend on the excitation sector and boundary conditions; periodic XXZ spectra can contain noninteger powers and, at isotropy, logarithms~\cite{takayoshi2010coefficients,lukyanov1998lowenergy}.
 
@@ -62,18 +62,18 @@ Finite-size corrections depend on the excitation sector and boundary conditions;
 \centering
 \includegraphics[width=\textwidth]{{../../figs/exp03/exp03_D02}}
 \caption{Finite-size gap analysis at $\delta=-2$: (a) symmetry-sector gap
-$\Delta_{\rm sec}$ for $L=8,12,16,20,24$; (b) zoom to
-$s\in[0.53,0.65]$ with curve minima marked, moving toward $s=0.5$ as
-$L$ grows; (c) gap at $s=0.5$ versus $1/L$ for five
+$\Delta_{\rm sec}$ for $L=8,16,24,32$; (b) zoom to
+$s\in[0.52,0.65]$ with curve minima marked, moving toward $s=0.5$ as
+$L$ grows; (c) gap at $s=0.5$ versus $1/L$ for four
 sizes with the least-squares quadratic fit in $1/L$; the square
-marks the fitted intercept $a=-0.017$.
+marks the fitted intercept $a=-0.013$.
 \label{fig:D02a}\label{fig:D02b}\label{fig:D02c}}
 \end{figure*}
 
 \section{Premium-qubit screening}
 \label{sec:premium}
 
-To run on hardware we screen candidate chains (rings) with two
+To run the experiment we screen candidate chains (rings) with two
 quantities: the stabilizer mean, probing two-qubit gate quality, and
 the readout fidelity, probing measurement quality.
 The ideal output is the cluster state
@@ -110,7 +110,7 @@ headed by the $10$-qubit ring on qubits 69--73 and 82--86 with score
 $0.5246$ (two further candidates tied within tolerance). Among the ten
 $8$-subchains of the top-ranked ring, the subchain on qubits
 69--73 and 82--84 is first, with score $0.7108$ taken from the
-chain-benchmark measurements. Subsequent hardware experiments use the
+chain-benchmark measurements. Subsequent experiments use the
 leading candidate of each ranking.
 
 

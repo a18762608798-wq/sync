@@ -58,11 +58,8 @@ function main()
     done = pmap(t -> run_task(t[1], t[2]), todo)
     println("computed ", length(done), " chunks in ", round(time() - t0, digits = 1), " s")
     flush(stdout)
-    if ONLY_LS == collect(LS)
-        npz, manifest = assemble_D02(OUT_DIR)
-        println("assembled: ", npz)
-        println("manifest:  ", manifest)
-    end
+    println("ED reference chunks complete. Current paper assembly requires the verified CPU MPS L=32 row.")
+    println("Use run_exp03_mps.jl assemble after full MPS validation; this ED runner does not replace D02.")
 end
 
 main()

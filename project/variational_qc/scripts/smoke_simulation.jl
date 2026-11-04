@@ -47,22 +47,36 @@ function main()
 
     gaps = Dict{String,Any}[]
     gap_dir = joinpath(out, "gap-chunks")
-    @testset "fresh exp03 gaps and checkpoint IO, all five sizes" begin
-        for (r, L) in enumerate(Exp03.LS)
+    # Keep all five exact ED baselines even when the paper selects only three
+    # of them. The CPU MPS backend has its own full validation entry point.
+    @testset "fresh exp03 ED baselines and checkpoint IO" begin
+        for L in Exp03.ED_LS
             started = time()
             result = Exp03.solve_gap(L, 0.5)
-            difference = abs(result.delta_gap - gap_archive["Delta"][r, 50])
+            r = findfirst(==(L), vec(gap_archive["Ls"]))
+            reference, source = if r === nothing
+                ib = cld(50, Exp03.BLOCK)
+                file = Exp03._chunkpath(joinpath(production,"exp03"),L,ib)
+                chunk = NPZ.npzread(file)
+                i = findfirst(s -> abs(s-0.5) < 1e-12, vec(chunk["s"]))
+                i === nothing && error("missing ED reference for L=$L s=0.5")
+                (chunk["Delta"][i], file)
+            else
+                (gap_archive["Delta"][r,50], "published D02 ED row")
+            end
+            difference = abs(result.delta_gap - reference)
             @test result.delta_gap >= Exp03.GAP_MIN_TOL
             @test difference < 1e-8
             path = Exp03.save_chunk(gap_dir, L, 1, [0.5], [result])
             @test Exp03.chunk_exists(gap_dir, L, 1)
             @test NPZ.npzread(path)["Delta"][] == result.delta_gap
             push!(gaps, Dict("L" => L, "s" => 0.5, "gap" => result.delta_gap,
-                             "archive_difference" => difference, "seconds" => time() - started))
+                             "archive_difference" => difference, "reference_source" => source,
+                             "seconds" => time() - started))
             println("fresh exp03 L=$L: gap=$(result.delta_gap), archive difference=$difference")
             flush(stdout)
         end
-        @test length(Exp03.completed_chunks(gap_dir)) == length(Exp03.LS)
+        @test length(Exp03.completed_chunks(gap_dir)) == length(Exp03.ED_LS)
     end
 
     winners = Dict{String,Any}[]
