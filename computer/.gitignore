@@ -1,0 +1,7 @@
+# 新产生的文档执行缓存与构建日志；既有导出文件继续保留。
+.quarto/
+*_cache/
+*.log
+
+# Slidev 多项目部署的汇总输出。
+/writing/slidev/workspace/workspace-dist/
