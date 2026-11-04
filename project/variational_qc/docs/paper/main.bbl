@@ -1,4 +1,4 @@
-\begin{thebibliography}{51}
+\begin{thebibliography}{53}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -376,6 +376,22 @@ Shintaro Takayoshi and Masahiro Sato.
   and their applications.
 \newblock \emph{Phys. Rev. B}, 82\penalty0 (21):\penalty0 214420, 2010.
 \newblock \doi{10.1103/PhysRevB.82.214420}.
+
+\bibitem[Sirker et~al.(2008)Sirker, Fujimoto, Laflorencie, Eggert, and
+  Affleck]{sirker2008thermodynamics}
+J~Sirker, S~Fujimoto, N~Laflorencie, S~Eggert, and I~Affleck.
+\newblock Thermodynamics of impurities in the anisotropic {Heisenberg} spin-1/2
+  chain.
+\newblock \emph{Journal of Statistical Mechanics: Theory and Experiment},
+  2008\penalty0 (02):\penalty0 P02015, 2008.
+\newblock \doi{10.1088/1742-5468/2008/02/P02015}.
+
+\bibitem[Liu et~al.(2024)Liu, Shimizu, Ueda, and Oshikawa]{liu2024finitesize}
+Yifan Liu, Haruki Shimizu, Atsushi Ueda, and Masaki Oshikawa.
+\newblock Finite-size corrections to the energy spectra of gapless
+  one-dimensional systems in the presence of boundaries.
+\newblock \emph{SciPost Physics}, 17\penalty0 (4):\penalty0 099, 2024.
+\newblock \doi{10.21468/SciPostPhys.17.4.099}.
 
 \bibitem[Raussendorf and Briegel(2001)]{raussendorf2001oneway}
 Robert Raussendorf and Hans~J. Briegel.

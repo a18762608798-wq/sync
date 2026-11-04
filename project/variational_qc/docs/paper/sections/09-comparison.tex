@@ -1,12 +1,12 @@
-\section{Hardware--simulator comparison}
+\section{Experiment--simulation comparison}
 \label{sec:comparison}
 
-Figure~\ref{fig:D08D09}(c,d) compares simulations at $p=1,2$ with hardware at $p=1$.
+Figure~\ref{fig:D08D09}(c,d) compares simulations at $p=1,2$ with experiment at $p=1$.
 Measurements on the Baihua processor are organized into repeated acquisition units.
 Each unit contains $15$ values of $s$ on each of two scans, $\delta\in\{0.85,-2\}$, giving $30$ points with $1024$ shots per point and one additional pair of readout-calibration circuits.
 We analyze one round of $500$ units.
 
-The hardware observables come from the same readout-mitigated distributions.
+The measured observables come from the same readout-mitigated distributions.
 For each candidate window, we fit shared maxima over its pooled $30$ point means and define
 \begin{equation}
 \hat S_{\rm hw}=\frac{S_{\rm hw}}{S_{\max}},\qquad
@@ -16,7 +16,7 @@ For each candidate window, we fit shared maxima over its pooled $30$ point means
 For the selected window, $S_{\max}=4.57$ and $O_{\max}=0.089$.
 Simulations retain the fixed scales of Eq.~\eqref{eq:fixed-scales}.
 The same coefficients in Eq.~\eqref{eq:Q} combine each pair of markers, without a subsequent normalization of $Q$.
-The hardware scales place the two correlators on a common scale for comparing their parameter dependence.
+The scales fitted to the experimental data place the two correlators on a common scale for comparing their parameter dependence.
 
 We evaluate the mean absolute $Q$ distance $d_{\rm raw}$ over the $30$ points and the Pearson correlation $r$.
 The $p=1$ simulation is the window-selection reference, while $p=2$ is shown for comparison.

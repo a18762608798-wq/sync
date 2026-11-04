@@ -7,6 +7,7 @@
 | [Quarto](quarto/README.md) | 配置、输出格式与预览示例 |
 | [Slidev](slidev/README.md) | 使用文档、演示项目与本地配置 |
 | [Zotero](zotero/README.md) | 资料管理、基本操作与 MCP |
+| [Gamma](gamma/README.md) | PDF 批注、Docker 部署、多用户、AI 与 MCP |
 | [TeXstudio](texstudio/README.md) | 原有 TeX Live / TeXstudio 安装笔记 |
 | [Pandoc](pandoc/README.md) | 文件格式转换笔记 |
 

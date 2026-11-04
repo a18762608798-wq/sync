@@ -475,3 +475,11 @@ $$
 - 清理后的 `paper-variational-qc`（`N7CLH4TB`）恰好包含保留的 53 个 Zotero 条目，与当前正文引用及共享书目的文献身份一致。其他主题集合和本轮未引用的后台文献不属于本次清理范围。
 - 两版闭包引文检查均通过，正式中英文稿重新编译均退出零，最终日志无未定义引文、未定义交叉引用或 overfull 提示；已更新两份 PDF。证据位于 `data/validation/reference-cleanup-20261104-5oxoHP/`，包括 `cleanup-plan.json`、`zotero-before.json`、`zotero-trash-results.json`、`zotero-collection-after.txt`、两版编译日志及 `final-verification.json`。
 - 本轮按作者要求只清理多余记录；先前核对出的保留条目元数据缺字段、编者角色或日期口径差异未在本轮修改，不把成员清单一致表述为全部元数据已经逐字段同步。
+
+
+## exp03 的 CPU MPS/DMRG 方法依据（2026-11-04）
+
+- 已经由 Zotero MCP 复核既有条目 `schollwock2011density`（key `3AJILFTW`，DOI `10.1016/j.aop.2010.09.012`）的元数据和所挂 arXiv PDF 目录，并读取 PDF pp. 65–66、71–72 的相关正文。Sec. 6.3 说明固定其他站点后对 MPS 局部张量迭代最小化能量，形成局部本征问题；Sec. 6.4 区分单站点、双站点 DMRG 与变分 MPS 的关系。确认支持待更新附录中“有限开链 MPS 通过 DMRG 扫描优化”的方法背景。此前仅用于 Schmidt 分解的核验范围仍是历史记录，本次补充了实际方法段的阅读。
+- 读取的文字中图及部分公式提取不完整；本轮依据清晰正文核验算法解释，不从乱码转录公式，也不新增相应理论推导。
+- 本项目的 $H_{\rm pen}=H+\lambda_S S_z^2+\lambda_X(1-\bar X)$、反射筛选及具体惩罚参数来自 exp03 的实现与数值验证，不归为该综述直接给出的模型方案。候选态正交惩罚通过 ITensorMPS 的激发态接口实现；最终物理能量以原始 $H$ 计算。
+- 论文方法与结果更新依赖 exp03 完整验收和四尺寸正式数据。当前只完成引用依据核验，尚未据此将 $L=32$ 或新拟合系数写成已发布结果。沿用现有 BibTeX 条目，不另加文献或改 key。

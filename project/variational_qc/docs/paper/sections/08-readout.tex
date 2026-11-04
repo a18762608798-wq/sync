@@ -23,20 +23,16 @@ This tensor-product model contains $2L$ single-qubit misclassification probabili
 One pair of all-zero and all-one preparation circuits calibrates the single-qubit marginals in each acquisition unit.
 The platform's built-in readout correction is disabled.
 
-We first normalize the counts by their actual total to obtain $\mathbf p_{\rm meas}$.
-When the calibrated matrix is invertible, linear inversion gives $\mathbf v=\mathsf A^{-1}\mathbf p_{\rm meas}$.
-We obtain a probability distribution by projecting the joint inverse vector onto the probability simplex in Euclidean distance~\cite{maciejewski2020mitigation}:
+We first normalize the counts by their actual total to obtain the $L$-bit joint empirical distribution $\mathbf p_{\rm meas}$: a $2^L$-dimensional vector whose component $p_{{\rm meas},b}$ is the observed frequency of bitstring $b$, hence nonnegative with unit sum. When the calibrated matrix is invertible, linear inversion gives the unconstrained vector $\mathbf v=\mathsf A^{-1}\mathbf p_{\rm meas}$; after sampling fluctuations are amplified by the inversion, $\mathbf v$ generally violates nonnegativity and cannot be used as a probability distribution. Following Sec.~4.3 of Ref.~\cite{maciejewski2020mitigation}, we map the joint inverse vector onto the probability simplex by Euclidean projection:
 \begin{equation}
 \mathbf p_{\rm mit}
 =\underset{\mathbf p\ge0,\;\mathbf 1^{\mathsf T}\mathbf p=1}
 {\operatorname{argmin}}\lVert\mathbf p-\mathbf v\rVert_2^2.
 \label{eq:readout-projection}
 \end{equation}
-The solution is $p_{{\rm mit},b}=\max(v_b-\tau,0)$, where a common threshold $\tau$ enforces unit sum.
-We determine this threshold by sorting, then compute the correlations from the projected distribution.
-The projection is nonlinear and can introduce finite-sampling bias.
+Here $\mathbf p$ ranges over all candidate distributions on the simplex ($2^L$-dimensional, nonnegative, unit sum), and $\mathbf p_{\rm mit}$ is the one closest to $\mathbf v$ in Euclidean distance. The constraint $\mathbf p\ge0$ enforces componentwise nonnegativity, while $\mathbf 1^{\mathsf T}\mathbf p=1$ enforces unit sum. The solution is the componentwise thresholding $p_{{\rm mit},b}=\max(v_b-\tau,0)$, where the common threshold $\tau$ is fixed by unit sum of the surviving components and determined in practice by sorting. We then compute the correlations from the projected distribution. The projection is nonlinear and can introduce finite-sampling bias.
 
 We recalibrate in each acquisition unit to track temporal variation.
 Joint acquisition uses one calibration pair on the selected chain mapping to construct a tensor-product readout model shared by the branches.
 The separate measurements at the three representative points each use calibration on their own physical mapping.
-The hardware analysis reports the resulting correlations and their inter-unit standard errors.
+The experimental analysis reports the resulting correlations and their inter-unit standard errors.

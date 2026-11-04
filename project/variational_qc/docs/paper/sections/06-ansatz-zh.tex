@@ -19,7 +19,7 @@ E(\theta)=\langle\psi(\theta)|H|\psi(\theta)\rangle,
 保留每个分支中能量最低的收敛结果，最后取三路最小能量 $E^*$ 及其参数。
 保对称电路保持初态的对称性量子数。计算沿 $\delta=-2$ 与 $\delta=0.85$ 两条线逐点进行。
 这类变分算法见综述~\cite{cerezo2021variational,tilly2022variational}，其中汇总代价函数设计、拟设族与 VQE 最佳实践。
-理想态优化在经典计算机上进行，真机执行所得电路以测量关联量。
+理想态优化在经典计算机上进行，处理器执行所得电路以测量关联量。
 对于处于同一扇区、且该扇区基态唯一的归一化试探态，谱分解给出
 \begin{equation}
 1-|\langle\psi_0|\psi(\theta)\rangle|^2
@@ -50,7 +50,7 @@ U_{e}=\prod_{\alpha}\prod_{\langle kl\rangle\in\mathcal{E}_{\alpha}}e^{-i\theta_
 同一键内 $XX{+}YY$ 与 $ZZ$ 对易，子层内各键不交因而对易；奇偶子层互不对易，必须保留两子层。每键实现为 $R_{XX}(\theta)R_{YY}(\theta)R_{ZZ}(\varphi)$ 门序列。每个 orbit 一组 $(\theta,\varphi)$，对本文 $L=8$ 的链，单层共 $L$ 个参数（$\delta=0$ 时 $\theta=\varphi$，减半）；拟设保持 $Z_{\rm tot}$、$\prod X$、$R$，始终位于 $P=-2$ 扇区。与初态配对重合的子层后作用：平庸与 AFM 初态偶键先，拓扑初态奇键先。
 每相一个示意图见图~\ref{fig:D06}(a)--(c)：初态 + 所需拟设电路，分别为平庸、
 拓扑、AFM 相。
-理想电路下，试探态保持在目标对称性扇区。第~\ref{sec:comparison}~节比较真机与模拟机的关联量。图~\ref{fig:D08D09}(a,b) 给出 $p=1$ 代价函数与精确基态能量的对比。
+理想电路下，试探态保持在目标对称性扇区。第~\ref{sec:comparison}~节比较实验与数值模拟的关联量。图~\ref{fig:D08D09}(a,b) 给出 $p=1$ 代价函数与精确基态能量的对比。
 
 \begin{figure*}[!tp]
 \centering
@@ -67,12 +67,12 @@ $E_j\leftrightarrow E_{M-j}$；$\delta=0$ 时 $\theta=\varphi$）。(a)(c)
 \begin{figure*}[!tp]
 \centering
 \includegraphics[width=\textwidth]{{../../figs/exp06/exp06_D08D09}}
-\caption{$p=1$ 代价函数与真机-模拟机对比。
+\caption{$p=1$ 代价函数，以及实验与数值模拟的对比。
 (a)(b) $p=1$ 代价函数随 $s$ 变化：(a) $\delta=-2$，(b) $\delta=0.85$。
 $E_0$（精确解，蓝色实线）与三路初态代价（平庸绿色虚线、拓扑橙色点线、
 AFM 黑色点划线）；背景色带标出各网格点 $p=1$ 代价最低的初态分支，圆点标识各区间平均优化代价最低的分支。
 (c)(d) 组合量 $Q$：(c) $\delta=-2$，(d) $\delta=0.85$。
-模拟机 $p=1$（黑）、$p=2$（灰）固定尺度曲线加真机窗口散点
+数值模拟 $p=1$（黑）、$p=2$（灰）固定尺度曲线加实验窗口散点
 （$p=1$，500 个单元中的 16 单元窗口；颜色按 (a)(b) 中最低能量初态分支分段）。
 \label{fig:D08D09}}
 \end{figure*}

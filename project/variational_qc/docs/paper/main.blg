@@ -4,44 +4,44 @@ The top-level auxiliary file: main.aux
 The style file: unsrtnat.bst
 Database file #1: mainNotes.bib
 Database file #2: references.bib
-You've used 51 entries,
+You've used 53 entries,
             2481 wiz_defined-function locations,
-            885 strings with 15271 characters,
-and the built_in function-call counts, 22504 in all, are:
-= -- 1814
-> -- 1437
+            900 strings with 15787 characters,
+and the built_in function-call counts, 23363 in all, are:
+= -- 1879
+> -- 1497
 < -- 16
-+ -- 533
-- -- 430
-* -- 2047
-:= -- 3773
-add.period$ -- 204
-call.type$ -- 51
-change.case$ -- 102
-chr.to.int$ -- 50
-cite$ -- 51
-duplicate$ -- 981
-empty$ -- 1878
-format.name$ -- 502
-if$ -- 4645
++ -- 555
+- -- 448
+* -- 2130
+:= -- 3920
+add.period$ -- 212
+call.type$ -- 53
+change.case$ -- 106
+chr.to.int$ -- 52
+cite$ -- 53
+duplicate$ -- 1019
+empty$ -- 1949
+format.name$ -- 522
+if$ -- 4821
 int.to.chr$ -- 2
-int.to.str$ -- 52
-missing$ -- 51
-newline$ -- 314
-num.names$ -- 153
-pop$ -- 310
+int.to.str$ -- 54
+missing$ -- 53
+newline$ -- 326
+num.names$ -- 159
+pop$ -- 322
 preamble$ -- 1
-purify$ -- 51
+purify$ -- 53
 quote$ -- 0
-skip$ -- 547
+skip$ -- 567
 stack$ -- 0
-substring$ -- 1093
-swap$ -- 115
+substring$ -- 1124
+swap$ -- 119
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 357
+type$ -- 371
 warning$ -- 0
-while$ -- 169
+while$ -- 175
 width$ -- 0
-write$ -- 773
+write$ -- 803

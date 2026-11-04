@@ -1,22 +1,22 @@
 # Fdb version 4
-["bibtex main-zh"] 1793711230.61022 "main-zh.aux" "main-zh.bbl" "main-zh" 1793711231.45283 0
-  "./main-zhNotes.bib" 1793711230.93088 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "./references.bib" 1793699127.77972 26158 d690e709d219eda4760be7570b2d8101 ""
+["bibtex main-zh"] 1793830613.72461 "main-zh.aux" "main-zh.bbl" "main-zh" 1793830614.60116 0
+  "./main-zhNotes.bib" 1793830614.05052 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "./references.bib" 1793785037.94934 21795 38b7509b5c0158005604ba427d53501f ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/natbib/unsrtnat.bst" 1233624470 24550 a41a6405f4de768c43e871d9fbce2bc8 ""
-  "main-zh.aux" 1793711231.02988 13103 31fe2c0de324c95a4b52713be065c312 "xelatex"
+  "main-zh.aux" 1793830614.15653 13399 18e54c8974a30e62b71ee2e67470af51 "xelatex"
   (generated)
   "main-zh.bbl"
   "main-zh.blg"
   (rewritten before read)
-["xdvipdfmx"] 1793711231.09675 "main-zh.xdv" "main-zh.pdf" "main-zh" 1793711231.45356 0
-  "main-zh.xdv" 1793711231.03088 264384 459015c3f042cc0121077d9b7afddc91 "xelatex"
+["xdvipdfmx"] 1793830614.23061 "main-zh.xdv" "main-zh.pdf" "main-zh" 1793830614.60188 0
+  "main-zh.xdv" 1793830614.15753 276136 bad49a1b869ee4a61e89dd1736d884ce "xelatex"
   (generated)
   "main-zh.pdf"
   (rewritten before read)
-["xelatex"] 1793711230.62519 "main-zh.tex" "main-zh.xdv" "main-zh" 1793711231.45293 0
-  "../../figs/exp02/exp02_D03.pdf" 1793704584.88273 34008 8f695996922b357581456811f173df2f ""
+["xelatex"] 1793830613.74129 "main-zh.tex" "main-zh.xdv" "main-zh" 1793830614.60126 0
+  "../../figs/exp02/exp02_D03.pdf" 1793794317.46397 33538 447f74fae6973101996d523578ebc706 ""
   "../../figs/exp02/exp02_D04.pdf" 1793372227.77787 807190 c1c5679a8ea5ee8e8d66361e32f1894e ""
-  "../../figs/exp03/exp03_D02.pdf" 1793582517.23333 33033 dd664d3a74d3f5989854e502cbbab2b8 ""
+  "../../figs/exp03/exp03_D02.pdf" 1793830540.60923 31672 3556f94f6dae00224e193debfd3bd349 ""
   "../../figs/exp04/exp04_D06.pdf" 1793279214.00362 30796 1d366e9dad6cecefa83d2a1b70132ef5 ""
   "../../figs/exp06/exp06_D08D09.pdf" 1793711217.73267 44508 91db4ea62b458c4d2efe3bb94cf97339 ""
   "/etc/texmf/web2c/texmf.cnf" 1793546703.00453 475 c0e671620eb5563b2130f56340a5fde8 ""
@@ -80,19 +80,19 @@
   "/usr/share/texmf/tex/latex/CJK/CJKfntef.sty" 1634405102 12851 25a9b5cc006609feb5c9a20ce24a5392 ""
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/web2c/xetex/xelatex.fmt" 1793546738 9159315 bffd26103827d85fd3bb93a498ccf2a2 ""
-  "main-zh.aux" 1793711231.02988 13103 31fe2c0de324c95a4b52713be065c312 "xelatex"
-  "main-zh.bbl" 1793711230.62287 18492 e2eeff35e2f4ab4b14a6f390e17be1ff "bibtex main-zh"
-  "main-zh.tex" 1793707786.49867 2615 d8d36801fa306dde52571ad30b01268c ""
-  "sections/00-introduction-zh.tex" 1793706461.35041 2685 7ac562696a4e0d310fda5195d5748622 ""
+  "main-zh.aux" 1793830614.15653 13399 18e54c8974a30e62b71ee2e67470af51 "xelatex"
+  "main-zh.bbl" 1793830613.73851 19304 5d6086499b767c2c7c6499020ecb39e0 "bibtex main-zh"
+  "main-zh.tex" 1793794236.056 2618 93065ba1672f4df6e0194eee78f4a7de ""
+  "sections/00-introduction-zh.tex" 1793794236.056 2700 489ad0be4706c243f87b388040887a38 ""
   "sections/01-model-zh.tex" 1793706494.74049 4872 dbd2f78fb11faafc71aff7a8a06c48c9 ""
   "sections/02-phasediagram-zh.tex" 1793706494.74049 809 81f327af36582a4000c6f7502256bbfc ""
-  "sections/03-sq-zh.tex" 1793706494.74049 1671 7dcbd064a68083b4d5f4eb7fade21e35 ""
-  "sections/04-heatmaps-zh.tex" 1793706537.70186 2914 b2d210059cc563fb2f7151dfe9a804ef ""
-  "sections/06-ansatz-zh.tex" 1793710446.77881 6045 b76802c440eaaf4320e09e501b5ba908 ""
-  "sections/08-readout-zh.tex" 1793707786.49867 1906 d904cd04dbdce66315db1b6ae21311ea ""
-  "sections/09-comparison-zh.tex" 1793706564.74817 2032 b3d06986d7ace7a8a9f507abbdc2c8f4 ""
-  "sections/10-conclusion-zh.tex" 1793707786.49867 943 f52857f288ba3033a28c6810de951e27 ""
-  "sections/A-appendix-zh.tex" 1793706589.01597 5402 80490e80d0031e1a9872123d82f59f64 ""
+  "sections/03-sq-zh.tex" 1793794236.056 1674 b66596d9ecbbcc409da999c3fcf91bd2 ""
+  "sections/04-heatmaps-zh.tex" 1793794236.056 2920 87a46c9f6e86e7271722f18618365e6b ""
+  "sections/06-ansatz-zh.tex" 1793794362.58404 6068 cba90183113a6d9ddb21a905b1adcdf6 ""
+  "sections/08-readout-zh.tex" 1793794236.056 2556 42a83cd71cfc2cb727d750ff21ab682f ""
+  "sections/09-comparison-zh.tex" 1793794362.58404 2074 414f3785ff4319f30d641d8daa3e94e9 ""
+  "sections/10-conclusion-zh.tex" 1793794362.58504 952 64921efdce75287cff95ae700c34bdd0 ""
+  "sections/A-appendix-zh.tex" 1793830584.49247 5863 9c8c5dfe4482010d38ae07a2b3b2156b ""
   (generated)
   "main-zh.aux"
   "main-zh.log"

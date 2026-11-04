@@ -97,8 +97,8 @@ def main():
              markeredgecolor="black", markersize=6, linestyle="None",
              zorder=5)
     ax0.set_ylabel(r"$\hat S(q)$")
-    ax0.set_title("simulator")
-    ax1.set_title(r"hardware ($p=1$)")
+    ax0.set_title("simulation")
+    ax1.set_title(r"experiment ($p=1$)")
     for ax, letter in ((ax0, "(a)"), (ax1, "(b)")):
         ax.text(0.035, 0.93, letter, transform=ax.transAxes,
                 fontsize=13, va="top", ha="left", color="black")
@@ -106,8 +106,8 @@ def main():
     fig.legend(handles, leg_labels, frameon=False, loc="lower center",
                bbox_to_anchor=(0.5, 0.03), ncol=3, fontsize=11)
     fig.subplots_adjust(bottom=0.28, top=0.88, wspace=0.25)
-    # D03 hardware panel (exp06 T027/T028): p=1 phase-matched states,
-    # full 99-point continuous lines, same colors as simulator.
+    # D03 experimental panel (exp06 T027/T028): p=1 phase-matched states,
+    # full 99-point continuous lines, same colors as simulation.
     hw_path = os.path.join(HERE, "..", "data", "exp06", "d03hw",
                            "exp06_D03hw.npz")
     if os.path.exists(hw_path):
@@ -120,7 +120,7 @@ def main():
             r = hmap[hl]
             ax1.plot(q, hcurves[r], color=D03_COLORS[REP_LABELS[r]],
                      linestyle="-", linewidth=2.0)
-        print("D03 hardware panel: 3 lines x 99 q")
+        print("D03 experimental panel: 3 lines x 99 q")
     uniform_text(fig, font_pt_for(fig, PRINT_COL_PT))
     eff = effective_min_text_pt(fig, 86.0)
     assert eff >= 8.0, f"D03 smallest text is {eff:.1f} pt after scaling to 86 mm"

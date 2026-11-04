@@ -23,7 +23,7 @@ The scan runs point by point along the $\delta=-2$ and $\delta=0.85$ lines. Vari
 Refs.~\cite{cerezo2021variational,tilly2022variational}, which collect
 cost-function design, ansatz families, and best practices for VQE.
 
-The ideal-state optimization is performed classically; the hardware executes the resulting circuits to measure correlators.
+The ideal-state optimization is performed classically; the processor executes the resulting circuits to measure correlators.
 For a normalized trial state in a sector with a unique ground state, spectral decomposition gives
 \begin{equation}
 1-|\langle\psi_0|\psi(\theta)\rangle|^2
@@ -69,7 +69,7 @@ sublayer overlapping the initial-state pairing acts last: even-first
 for trivial and AFM initial states, odd-first for topological. One schematic per phase is shown in Fig.~\ref{fig:D06}(a)--(c): initial state
 plus required ansatz circuit for the trivial, topological, and
 AFM cases.
-For ideal circuits, the trial states remain in the target symmetry sector. Section~\ref{sec:comparison} compares hardware and simulated correlators.
+For ideal circuits, the trial states remain in the target symmetry sector. Section~\ref{sec:comparison} compares measured and simulated correlators.
 Figure~\ref{fig:D08D09}(a,b) shows the $p=1$ cost functions
 against the exact ground-state energy.
 
@@ -88,14 +88,14 @@ odd-bond sublayer first in (b). \label{fig:D06}}
 \begin{figure*}[htbp]
 \centering
 \includegraphics[width=\textwidth]{{../../figs/exp06/exp06_D08D09}}
-\caption{Cost functions at $p=1$ and the hardware--simulator comparison.
+\caption{Cost functions at $p=1$ and the experiment--simulation comparison.
 (a),(b) Cost functions at $p=1$ versus $s$ for (a) $\delta=-2$ and (b) $\delta=0.85$:
 $E_0$ (exact, blue solid) with the three initial-state costs
 (triv green dashed, topo orange dotted, AFM black dashdot);
 background bands identify the initial-state branch minimizing the $p=1$ cost at each grid point; circles identify the branch with the lowest mean optimized cost within each interval.
 (c),(d) Combined quantity $Q$ for (c) $\delta=-2$ and (d) $\delta=0.85$:
-simulator $p=1$ (black) and $p=2$ (gray) fixed-scale curves with
-hardware window scatter ($p=1$, 16-unit window of the 500-unit round; colors indicate
+simulation $p=1$ (black) and $p=2$ (gray) fixed-scale curves with
+experimental window scatter ($p=1$, 16-unit window of the 500-unit round; colors indicate
 the lowest-energy initial-state branches in (a),(b)).
 \label{fig:D08D09}}
 \end{figure*}

@@ -21,20 +21,16 @@ $\mathbf p_{\rm ideal}$ 表示所制备态在读出前的计算基概率分布~\
 该张量积模型包含 $2L$ 个单比特误判概率~\cite{bravyi2021mitigating}。
 每个采集单元用一对全零、全一制备电路标定单比特边缘概率，并关闭平台自带读出修正。
 
-先以实际总采样数归一化 counts 得到 $\mathbf p_{\rm meas}$。
-标定矩阵可逆时，线性求逆得到 $\mathbf v=\mathsf A^{-1}\mathbf p_{\rm meas}$。
-采用欧氏概率投影，将联合反演向量映射到概率单纯形，得到概率分布~\cite{maciejewski2020mitigation}：
+先以实际总采样数归一化 counts，得到 $L$ 比特联合经验分布 $\mathbf p_{\rm meas}$：它是一个 $2^L$ 维向量，分量 $p_{{\rm meas},b}$ 为测得比特串 $b$ 的频率，满足分量非负且总和为一。标定矩阵可逆时，线性求逆给出无约束反演向量 $\mathbf v=\mathsf A^{-1}\mathbf p_{\rm meas}$；采样涨落经求逆放大后，$\mathbf v$ 一般不再满足非负性，因而不能直接用作概率分布。采用与文献~\cite{maciejewski2020mitigation}第 4.3 节相同的做法，用欧氏概率投影把联合反演向量映射到概率单纯形，得到合法概率分布：
 \begin{equation}
 \mathbf p_{\rm mit}
 =\underset{\mathbf p\ge0,\;\mathbf 1^{\mathsf T}\mathbf p=1}
 {\operatorname{argmin}}\lVert\mathbf p-\mathbf v\rVert_2^2.
 \label{eq:readout-projection}
 \end{equation}
-其解为 $p_{{\rm mit},b}=\max(v_b-\tau,0)$，其中共同阈值 $\tau$ 使各分量之和为一。
-实现通过排序确定阈值，再由投影后的分布计算关联量。
-该投影为非线性操作，可能引入有限采样偏差。
+其中 $\mathbf p$ 取遍单纯形上的全部候选分布（$2^L$ 维、非负、求和为一），$\mathbf p_{\rm mit}$ 为其中与 $\mathbf v$ 欧氏距离最近者。约束 $\mathbf p\ge0$ 要求每个分量非负，$\mathbf 1^{\mathsf T}\mathbf p=1$ 要求各分量之和为一。其解为分量形式的阈值截断 $p_{{\rm mit},b}=\max(v_b-\tau,0)$，公共阈值 $\tau$ 由存活分量之和为一确定，实现时通过排序求得。再由投影后的分布计算关联量。该投影为非线性操作，可能引入有限采样偏差。
 
 每个采集单元重新标定，以跟踪随时间的变化。
 联测以冠军链映射上的一对标定电路构造各分支共用的张量积读出模型；
 三代表点的独立测量分别在各自物理映射上标定。
-真机分析报告由上述分布得到的关联量及单元间标准误。
+实验分析报告由上述分布得到的关联量及单元间标准误差。
