@@ -419,3 +419,59 @@ Zotero 增量语义索引刷新已调用，但 MCP 返回 tools/call 等待 600 
 - 源目录 `~/.agents/sdd/specify/dev/scientific-paper/` 更新至 `0.3.1`，12 个技能文件同步到项目，保留双方原有换行约定；七个技能的文本逐文件一致。原技能备份位于本轮审计目录的 `skills-before/`。
 - 本轮以 TeX 核对和编译验收，不再追加本稿 PDF 解析或目检。中英文强制编译均返回零，分别核对 11 个输入文件、51 篇实际引用、42 个标签及 5 张图，无缺失引用、未定义交叉引用或 overfull 提示。REVTeX 的非致命浮动体提示在此前构建中也存在。
 - 与本轮改写前快照比较，各文件的定界公式、标签和 cite-key 集合保持不变，书目及五个证据输入的哈希保持不变。审计目录为 `data/validation/paper-direct-prose-20261103-194716-e7z6zc5c/`；最终构建日志为 `scope-build.log`，退出码为 `scope-build.exitcode`，技能同步记录为 `skills-verification.json`。通用 YAML 校验脚本因项目解释器缺少 PyYAML 未完成；已另行核对源与项目共 14 份未改动的 frontmatter、技能名称、描述存在性和共同规则路径，没有为此新增环境依赖或开展写作 benchmark。
+
+## 临界开链能隙的二阶逆长度修正（2026-11-04，作者提问）
+
+引用需求：为附录式 `eq:gap-fit` 中的 $1/L^2$ 项寻找理论动机。核对对象为开边界二聚化 XXZ 链在 $s=1/2$、$\delta=-2$ 的同扇区能隙，标准各向异性为 $\Delta=e^{-4}$；不是有限尺寸极小位置的漂移，也不是基态能量密度的外推。本轮不改正文、书目、拟合、实验定义或数据。
+
+### 已核验来源
+
+三篇均先核对 arXiv 元数据及 PDF 首页标题、作者，再经 Zotero MCP 读取相关全文位置；关键公式另以 PDF 图像核对。
+
+| 文献与 DOI | Zotero key | 已读位置 | 支撑范围 |
+| --- | --- | --- | --- |
+| Campostrini, Pelissetto, Vicari, *Finite-size scaling at quantum transitions*, Phys. Rev. B **89**, 094516 (2014), DOI [10.1103/PhysRevB.89.094516](https://doi.org/10.1103/PhysRevB.89.094516) | `9PZENU2C`，PDF `MIZA2VYP` | arXiv:1401.0788，pp. 3--5，Sec. II A、II C，Eqs. (13)--(15)、(28)；并读 Sec. III D，Eqs. (97)、(109)--(113) | 非周期边界下逆长度标度场允许二阶修正，并可用有效长度偏移吸收；低能能量差按有效长度的负动态指数次幂标度。XY 链例子确认该机制，不能把它的系数直接移给 XXZ。 |
+| Sirker, Fujimoto, Laflorencie, Eggert, Affleck, *Thermodynamics of impurities in the anisotropic Heisenberg spin-1/2 chain*, J. Stat. Mech. (2008) P02015, DOI [10.1088/1742-5468/2008/02/P02015](https://doi.org/10.1088/1742-5468/2008/02/P02015) | `RH8NUY46`，PDF `Y5H2GZRI` | arXiv:0801.1201，p. 6，Sec. 2 末段；pp. 8--9，Sec. 3、Eqs. (3.18)--(3.20)；核对 Sec. 2 的开链玻色谱 | 直接针对开边界 XXZ 链：无破坏对称性的边界外场时，主导无关边界算符的标度维数为 $2$，产生有效链长偏移。该文主要检验磁化率，不能把它的磁化激发间隔当作本项目同时固定磁化、自旋翻转和反射的扇区能隙；其 Luttinger 参数归一化也与本文不同。 |
+| Liu, Shimizu, Ueda, Oshikawa, *Finite-size corrections to the energy spectra of gapless one-dimensional systems in the presence of boundaries*, SciPost Phys. **17**, 099 (2024), DOI [10.21468/SciPostPhys.17.4.099](https://doi.org/10.21468/SciPostPhys.17.4.099) | `X32BR5K2`，PDF `T74TRMU7` | arXiv:2405.06891v2，Sec. 2.1.1，Eqs. (5)--(8)；p. 6，Sec. 2.1.2，Eqs. (14)--(16)，已逐式目检该页 | 边界应力张量为标度维数 $2$ 的算符，给每个低能能级带来二阶逆长度的一阶微扰修正；两能级相减仍有同阶贡献。等价表述为两端非普适的有效长度偏移。数值例子是 Ising 与三态 Potts，不是本项目 XXZ 的专门谱推导。 |
+
+### 与本项目拟合的关系
+
+以下是依据上述文献机制、改用本项目记号的推论，不是从文献照搬的 XXZ 扇区公式。设临界低能态的主导间隔系数为 $B$，边界有效长度为 $L+\ell$，则仅对这一长度偏移贡献作展开：
+
+$$
+\frac{B}{L+\ell}=\frac{B}{L}-\frac{B\ell}{L^2}+O(L^{-3}).
+$$
+
+这给出保留 $1/L$ 与 $1/L^2$ 项的理论动机。这里的余项仅属于该分式的代数展开，不宣称完整 XXZ 能隙余项必为 $O(L^{-3})$；体无关算符仍可能带来非整数幂或特殊点的对数修正。固定对称性扇区会选择不同的低能能级，影响系数，不能据此直接指定本文的 $b,c$。
+
+在此无能隙临界点，理论预期的热力学截距为零。拟合中保留自由常数 $a$，是本项目用五个已有尺寸检验外推截距的经验选择；三篇来源没有证明任意相边界都服从带自由截距的三参数多项式，也未验证本文这五个尺寸已经进入渐近区。
+
+可供后续改稿采用的表述：
+
+> 在 $s=1/2$ 处，考虑临界开链低能能隙的 $1/L$ 标度及边界有效长度偏移产生的 $1/L^2$ 修正，采用 $\Delta_{\rm sec}(L,1/2)\approx a+b/L+c/L^2$ 对五个尺寸作有限尺寸外推，其中 $a$ 为自由拟合截距。
+
+入库报告：目标为既有 `physics/quant_comp/paper/inbox`（`ANJT35BK`）；按 DOI 去重新增三篇，上表为条目与附件 keys，均有核对身份后的开放获取 PDF；新增条目保留 `agent-crawled`、`unreviewed` 标签。没有新增集合，也没有把尚未绑定正文的来源加入论文引用集合。原稿已有 Lukyanov 和 Takayoshi--Sato 来源继续用于各自已核验论述，不以其周期链修正替代本轮开边界依据。
+
+### 正文绑定与验证（2026-11-04，同日后续）
+
+- 按作者要求，在中英文附录式 `eq:gap-fit` 之前加入有效长度偏移的说明：临界低能间隔的主导项按 $1/L$ 衰减；边界长度偏移的逆长度展开产生 $1/L^2$ 贡献。选用 `sirker2008thermodynamics`（`RH8NUY46`）支撑开边界 XXZ 的具体边界算符，选用 `liu2024finitesize`（`X32BR5K2`）支撑边界应力张量对低能能级的修正。Campostrini 等保留为已核验背景来源，此处不再叠加引用。
+- 将“按既定经验形式／five stored points”改为说明有限尺寸外推形式及五个尺寸的数据，并明确保留自由截距 $a$。原拟合公式、$a=-0.0168$、$b=94.86$、$c=-114.14$、能量约定和其他引用均保留；没有新增实验、重拟合或改变结果含义。
+- 共享书目两条新记录由此前已核验的 Zotero 元数据生成；MCP 恢复后再次导出 BibTeX，逐项核对标题、作者、期刊、卷期、页码、年份和 DOI 一致。两篇均已增量加入既有论文引用集合 `paper-variational-qc`（`N7CLH4TB`），保留原 inbox 及既有标签、附件。
+- 两版分别展开各自的输入闭包进行引文与交叉引用检查：各 $11$ 个 TeX 输入、$53$ 个实际引用、共享书目 $67$ 条，检查问题为零。两版完整编译均返回零，最终日志无未定义引文、未定义交叉引用或 overfull 提示；式号均仍为 `(A4)`。逐块比较附录的定界公式与此前 Git 版本一致，已有引用均保留。常规 REVTeX 浮动体提示仍存在。
+- 已更新 `docs/paper/main.pdf`、`docs/paper/main-zh.pdf`；未改动被 Git 跟踪的编译缓存。证据目录为 `data/validation/gap-fit-citations-20261104-lSmn6Q/`，其中 `final-verification.json`、`verified-en.log`、`verified-zh.log` 和两份 citation 日志记录最终检查结果。MCP 恢复与单条索引验证单独记在该目录的 `mcp-recovery-report.md`；单条验证不代表全库重新索引完成。
+
+## Zotero 与共享书目对齐检查（2026-11-04）
+
+- 本轮只读核对当前中英文输入闭包、`references.bib`、Zotero 论文集合及必要的全库查缺，没有修改正文、书目、Zotero 元数据或集合成员。两版正文实际引用集合一致，共 53 篇；其 DOI 身份均在论文集合中逐一匹配，均有 PDF 附件记录。本轮不将附件记录覆盖当作重新阅读全文或重审支持关系的证明。
+- 共享书目与论文集合均为 67 条，但共同身份只有 63 条。本地另有的 Hadfield（2022）和 Huang（2021，derandomization）已在 Zotero 其他集合，有 PDF；Qi（2021）与 Ware（2021）按 DOI、题名均未在活动文库检出。论文集合另有 Kandala（2019，error mitigation）、Raussendorf（2009，measurement-based computation）、Li--Benjamin（2017）和 Temme 等（2017）四条未进入本地书目。这些差额均未被当前正文引用。
+- 有 17 条本地书目所对应的 Zotero 记录存在缺字段或差异，其中正文实际引用 10 条；主要为卷号、页码／文章号或出版物字段缺失。Sandvik 记录 `WCKVFLZP` 将两位论文集编者并列成作者，且缺卷号、出版物；本轮经 MCP 重读 PDF 首页，确认唯一作者为 Sandvik，Avella、Mancini 为编者，现有本地书目与首页的作者、卷页信息一致。Toolbox 的 2022 在线日期与 2023 正式卷期年份属于口径差异，不能把它们判成不同论文。TeX 姓名转义、期刊缩写、`and others` 和合作组署名的排版差异另列，不当作身份错误。
+- 结论：实际引用的文献身份和附件覆盖已对齐；完整书目库存、论文集合与部分元数据尚未完全同步。本轮没有自动补入、删去、改写备用条目，也没有重跑全库索引。逐条明细与 MCP 快照见 [本轮报告](../../data/validation/zotero-reference-alignment-20261104-Hpf3En/report.md) 和同目录 `alignment.json`、`zotero-metadata.json`、`zotero-attachments.txt`。
+
+## 按当前实际引用清理书目与论文集合（2026-11-04）
+
+- 按作者指示，以当前中英文正文实际使用的引用为保留清单。重新展开两版输入闭包，确认二者均引用同一批 53 篇；现有 cite keys 和保留条目的元数据不变。
+- 从 `references.bib` 移除 14 条未引用条目，保留 53 条；原文件和移除条目分别备份至 `data/validation/reference-cleanup-20261104-5oxoHP/references.before.bib`、`removed-unused.bib`。本轮是条目清理，没有删除共享书目文件。
+- 经 MCP 重新读取 Zotero 论文集合和 14 个多余条目的完整元数据，确认这些条目均只属于本论文集合，随后逐项移入 Zotero 回收站；再读取元数据确认全部 14 个条目处于回收站状态。没有清空回收站，没有删除其他集合的文献或直接处理 Zotero 附件文件。
+- 清理后的 `paper-variational-qc`（`N7CLH4TB`）恰好包含保留的 53 个 Zotero 条目，与当前正文引用及共享书目的文献身份一致。其他主题集合和本轮未引用的后台文献不属于本次清理范围。
+- 两版闭包引文检查均通过，正式中英文稿重新编译均退出零，最终日志无未定义引文、未定义交叉引用或 overfull 提示；已更新两份 PDF。证据位于 `data/validation/reference-cleanup-20261104-5oxoHP/`，包括 `cleanup-plan.json`、`zotero-before.json`、`zotero-trash-results.json`、`zotero-collection-after.txt`、两版编译日志及 `final-verification.json`。
+- 本轮按作者要求只清理多余记录；先前核对出的保留条目元数据缺字段、编者角色或日期口径差异未在本轮修改，不把成员清单一致表述为全部元数据已经逐字段同步。

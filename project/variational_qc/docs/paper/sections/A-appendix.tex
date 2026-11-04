@@ -46,12 +46,15 @@ These numerical methods and finite-size diagnostics are reviewed in Ref.~\cite{s
 
 Figure~\ref{fig:D02a}(a) gives $\Delta_{\rm sec}$ at $\delta=-2$ for $L=8,12,16,20,24$.
 The minima in the enlarged interval $s\in[0.53,0.65]$ move toward $1/2$ and decrease with increasing size [panel (b)].
-At $s=1/2$, the empirical fit
+At $s=1/2$, the leading low-energy gaps of the critical open chain scale as $1/L$.
+In the open XXZ chain, an irrelevant boundary operator of scaling dimension $2$ can shift the effective length to $L_{\rm eff}=L+\ell$~\cite{sirker2008thermodynamics}.
+Expanding $1/(L+\ell)=1/L-\ell/L^2+\cdots$ gives a $1/L^2$ contribution, consistent with the boundary stress-tensor correction to low-energy levels~\cite{liu2024finitesize}.
+We therefore fit the five data points using
 \begin{equation}
 \Delta_{\rm sec}(L,1/2)\approx a+\frac bL+\frac c{L^2}
 \label{eq:gap-fit}
 \end{equation}
-to the five stored points gives $a=-0.0168$, $b=94.86$, and $c=-114.14$ in the energy convention of Eq.~\eqref{eq:H} [panel (c)].
+with a free extrapolation intercept $a$, obtaining $a=-0.0168$, $b=94.86$, and $c=-114.14$ in the energy convention of Eq.~\eqref{eq:H} [panel (c)].
 The fitted intercept is close to zero, and the decreasing gaps follow the gapless uniform-chain prediction.
 Finite-size corrections depend on the excitation sector and boundary conditions; periodic XXZ spectra can contain noninteger powers and, at isotropy, logarithms~\cite{takayoshi2010coefficients,lukyanov1998lowenergy}.
 
