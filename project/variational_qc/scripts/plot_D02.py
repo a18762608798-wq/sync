@@ -49,7 +49,7 @@ def main():
 
     os.makedirs(FIGDIR, exist_ok=True)
 
-    # 1x3 combined (paper FIG.6): equal-size subplots, (a)(b)(c) below labels.
+    # 1x3 combined: equal-size subplots, panel labels inside the lower right.
     fig123, (ax_a, ax_b, ax_c) = plt.subplots(1, 3, figsize=(10.5, 3.4))
     # (a) full range: gap vs s for the four paper sizes.
     ax = ax_a
@@ -59,8 +59,8 @@ def main():
     ax.set_xlabel(r"$s$", fontsize=16)
     ax.set_ylabel(r"$\Delta_{\mathrm{sec}}$", fontsize=16)
     ax.tick_params(axis="both", labelsize=14)
-    ax.text(0.5, -0.32, "(a)", transform=ax.transAxes,
-            fontsize=17, va="top", ha="center", clip_on=False)
+    ax.text(0.965, 0.06, "(a)", transform=ax.transAxes,
+            va="bottom", ha="right", zorder=5)
     ax.legend(frameon=False, fontsize=14, loc="upper right")
 
     # (b) zoom on the closing window, minima marked when they fall inside it.
@@ -81,8 +81,8 @@ def main():
     ax.set_xlabel(r"$s$", fontsize=16)
     ax.set_ylabel(r"$\Delta_{\mathrm{sec}}$", fontsize=16)
     ax.tick_params(axis="both", labelsize=14)
-    ax.text(0.5, -0.32, "(b)", transform=ax.transAxes,
-            fontsize=17, va="top", ha="center", clip_on=False)
+    ax.text(0.965, 0.06, "(b)", transform=ax.transAxes,
+            va="bottom", ha="right", zorder=5)
 
     # (c) gap vs 1/L at s=0.5 + quadratic fit; intercept a marked.
     ax = ax_c
@@ -100,8 +100,8 @@ def main():
     ax.set_xlabel(r"$1/L$", fontsize=16)
     ax.set_ylabel(r"$\Delta_{\mathrm{sec}}$", fontsize=16)
     ax.tick_params(axis="both", labelsize=14)
-    ax.text(0.5, -0.32, "(c)", transform=ax.transAxes,
-            fontsize=17, va="top", ha="center", clip_on=False)
+    ax.text(0.965, 0.06, "(c)", transform=ax.transAxes,
+            va="bottom", ha="right", zorder=5)
 
     fig123.tight_layout()
     uniform_text(fig123, font_pt_for(fig123, PRINT_TEXT_PT))
