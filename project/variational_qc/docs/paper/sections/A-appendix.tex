@@ -114,3 +114,15 @@ chain-benchmark measurements. Subsequent experiments use the
 leading candidate of each ranking.
 
 
+
+\section{Measurement methods}
+\label{sec:acquisition}
+
+The complete acquisition comprises $500$ repeated scans of the same $30$ parameter points.
+Within each scan, measurements alternate between $\delta=0.85$ and $\delta=-2$ at each of $15$ values of $s$.
+Each point uses $1024$ shots, and an additional pair of all-zero and all-one calibration circuits, also with $1024$ shots each, provides the readout model for that scan.
+Readout mitigation and observable evaluation are performed separately for each scan before averaging.
+
+The displayed data use the contiguous interval maximizing the Pearson correlation $r$ with the $p=1$ simulation at the same points, with marker scales fitted separately for each candidate interval of even length at least $10$ scans; the resulting interval contains $16$ scans.
+
+For each displayed point, the error bar is the sample standard deviation of its $16$ scan-level $Q$ values divided by $\sqrt{16}$, with the fitted scales held fixed.

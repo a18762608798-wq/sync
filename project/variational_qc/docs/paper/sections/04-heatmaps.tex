@@ -50,6 +50,11 @@ Panels (a)--(c) of Fig.~\ref{fig:D04} show $\hat S(\pi)$, $\hat O_{\rm str}$, an
 The shared grid enables a direct comparison of their parameter dependence.
 At $L=8$, Eq.~\eqref{eq:Q} is equivalently $Q=4/3+2O_{\rm str}-S(\pi)/6$.
 
-Both correlators are diagonal in the computational basis, so each bitstring supplies their joint values, including their covariance.
+We choose $Q$ for the experimental scans because both correlators are diagonal in the computational basis: the same bitstrings supply their joint values and covariance, with one measurement basis per prepared circuit.
+For a general prepared state, these basis probabilities alone do not determine $\tilde Z_{\mathcal R}$, which also depends on coherences between reflected spin configurations and on subsystem purities.
+The randomized-measurement protocol of Ref.~\cite{elben2020manybody} accesses the reflection overlap and the normalization purities using mirror-correlated local random rotations over multiple measurement settings.
+Using $Q$ avoids these additional basis settings while combining staggered and cell-string correlations in one experimental diagnostic.
+Its reference-state calibration does not imply general quantization or equivalence to $\tilde Z_{\mathcal R}$; the reflection marker provides the symmetry-based numerical diagnostic, while $Q$ summarizes the measured correlations.
+
 Related approaches use classical shadows to predict observables~\cite{huang2020predicting} and quantum convolutional circuits for phase recognition~\cite{cong2019quantum}.
 Section~\ref{sec:comparison} specifies the separately fitted scales for the experimental data.

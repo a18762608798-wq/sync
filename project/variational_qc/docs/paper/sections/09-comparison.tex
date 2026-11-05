@@ -2,31 +2,24 @@
 \label{sec:comparison}
 
 Figure~\ref{fig:D08D09}(c,d) compares simulations at $p=1,2$ with experiment at $p=1$.
-Measurements on the Baihua processor are organized into repeated acquisition units.
-Each unit contains $15$ values of $s$ on each of two scans, $\delta\in\{0.85,-2\}$, giving $30$ points with $1024$ shots per point and one additional pair of readout-calibration circuits.
-We analyze one round of $500$ units.
+Measurements on the Baihua processor alternate between $\delta=0.85$ and $\delta=-2$ at each value of $s$, with $15$ values per scan and $30$ parameter points in total.
+Each plotted point uses $16\,384$ shots.
+Measurement methods are given in Appendix~\ref{sec:acquisition}.
 
-The measured observables come from the same readout-mitigated distributions.
-For each candidate window, we fit shared maxima over its pooled $30$ point means and define
+We use the subscript $\mathrm{exp}$ for experimental quantities, evaluated from the same readout-mitigated distributions.
+We fit maxima shared by both scans over the displayed $30$ point means and define
 \begin{equation}
-\hat S_{\rm hw}=\frac{S_{\rm hw}}{S_{\max}},\qquad
-\hat O_{\rm hw}=\frac{-O_{{\rm str},{\rm hw}}}{O_{\max}}.
+\hat S_{\mathrm{exp}}=\frac{S_{\mathrm{exp}}}{S_{\max}},\qquad
+\hat O_{\mathrm{exp}}=\frac{-O_{\mathrm{str},\mathrm{exp}}}{O_{\max}}.
 \label{eq:hardware-scales}
 \end{equation}
-For the selected window, $S_{\max}=4.57$ and $O_{\max}=0.089$.
+The fitted scales are $S_{\max}=4.57$ and $O_{\max}=0.089$.
 Simulations retain the fixed scales of Eq.~\eqref{eq:fixed-scales}.
 The same coefficients in Eq.~\eqref{eq:Q} combine each pair of markers, without a subsequent normalization of $Q$.
 The scales fitted to the experimental data place the two correlators on a common scale for comparing their parameter dependence.
 
-We evaluate the mean absolute $Q$ distance $d_{\rm raw}$ over the $30$ points and the Pearson correlation $r$.
-The $p=1$ simulation is the window-selection reference, while $p=2$ is shown for comparison.
-Candidate windows are all contiguous even-length subsegments of the $500$-unit sequence with length at least $10$, with maxima refitted for every window.
-We maximize $r$, breaking ties by smaller $d_{\rm raw}$, longer length, and earlier start.
-The selected window is $[222,238)$, with $16$ units, $d_{\rm raw}=0.30$, and $r=0.86$.
-Error bars are the sample standard deviations of the per-unit $Q$ values in this window divided by $\sqrt{16}$, evaluated at the selected scales.
+Comparing the displayed $30$ experimental points with the $p=1$ simulation gives a mean absolute $Q$ distance $d_{\rm raw}=0.30$ and Pearson correlation $r=0.86$; $p=2$ is shown for comparison.
+Error bars are standard errors across repeated measurements, with the fitted scales held fixed.
 
 Along $\delta=-2$, the measured $Q$ changes from positive values in the low-$s$ interval to negative values in the high-$s$ interval.
 Along $\delta=0.85$, positive values at low $s$ give way to near-zero and negative values in the intermediate interval.
-
-To retain amplitude and sign information, we also inspect the pooled string observable before the fitted $O_{\max}$ division.
-At $s=0.99$, $\delta=0.85$, its fixed-scale value $\hat O_{\rm str}=-O_{\rm str}$ is $0.043\pm0.005$ across all $500$ units (inter-unit standard error), compared with the simulated $+0.95$.

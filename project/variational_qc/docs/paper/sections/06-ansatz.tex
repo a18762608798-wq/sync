@@ -73,6 +73,49 @@ For ideal circuits, the trial states remain in the target symmetry sector. Secti
 Figure~\ref{fig:D08D09}(a,b) shows the $p=1$ cost functions
 against the exact ground-state energy.
 
+\subsection{Comparison with related ansatzes}
+\label{sec:ansatz-comparison}
+
+Yu \textit{et al.} prepare singlet pairs and alternate even- and odd-bond XXZ rotations~\cite{yu2023simulating}; the XXZ HVA of Wiersema \textit{et al.} uses a related bond decomposition~\cite{wiersema2020exploring}.
+These circuits share angles across all bonds of each parity, giving $4p$ parameters and preserving reflection on an even open chain.
+Our circuit instead ties only mirror partners, retaining independent angles on distinct reflection orbits.
+Uniform sharing is recovered by equating the orbit angles within each parity, so releasing these equalities enlarges the variational space at the same depth.
+
+We test this improvement at $s=0.15,0.50,0.85$ on both scan lines, for $p=1,2$ and each of the three initial states.
+For both sharing choices, we screen the zero vector and $64$ random parameter vectors, refine the four lowest-energy starts with L-BFGS under the same budget, and evaluate the squared fidelity $F=|\langle\psi_0|\psi\rangle|^2$ of the lowest-energy converged state against the exact ground state.
+Table~\ref{tab:ansatz-fidelity} illustrates the gain at fixed depth and at fixed parameter count.
+Orbit sharing improves the uniform-chain fidelity at both tested depths; at the selected topological point, one orbit layer outperforms two uniformly shared layers with the same number of parameters.
+
+\begin{table}[htbp]
+\caption{Selected matched-budget fidelity comparisons at $L=8$.
+$p$ is the variational layer count, $N_{\rm par}$ the number of independent angles, and $F$ the squared fidelity of the lowest-energy converged state with the exact ground state.
+Each group uses the indicated common initial state.}
+\label{tab:ansatz-fidelity}
+\begin{ruledtabular}
+\begin{tabular}{lrrr}
+Sharing & $p$ & $N_{\rm par}$ & $F$ \\
+\hline
+\multicolumn{4}{l}{$(s,\delta)=(0.50,-2.00)$, trivial initial state} \\
+Uniform & $1$ & $4$ & $0.896314$ \\
+Orbit & $1$ & $8$ & $0.931696$ \\
+Uniform & $2$ & $8$ & $0.986745$ \\
+Orbit & $2$ & $16$ & $0.999997$ \\
+\hline
+\multicolumn{4}{l}{$(s,\delta)=(0.85,0.85)$, topological initial state} \\
+Uniform & $2$ & $8$ & $0.925513$ \\
+Orbit & $1$ & $8$ & $0.953804$
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Sun \textit{et al.} separate initialization of the target entanglement pattern from shallow eSWAP dressing, and discuss reflection constraints on the bond angles~\cite{sun2023efficient}.
+Our three reference states follow this initialization strategy for the trivial, topological, and AFM regimes; separate $XX{+}YY$ and $ZZ$ angles extend the dressing to XXZ anisotropy.
+At $\delta=0$, tying these angles gives an eSWAP rotation up to a global phase, and reflection sharing reduces an independent-bond layer from $7$ to $4$ angles at $L=8$.
+The ideal dressing also preserves the full $P=-2$ sector, whereas arbitrary local Euler rotations in a hardware-efficient ansatz do not generally preserve these spin quantum numbers~\cite{kandala2017hardware}.
+
+Both sharing choices use two disjoint-bond sublayers per variational layer, giving logical two-qubit-rotation depth $6p$ in the explicit $R_{XX}R_{YY}R_{ZZ}$ implementation.
+The full hardware circuit also includes initialization, native-gate decomposition, and routing.
+
 \begin{figure*}[htbp]
 \centering
 \includegraphics[width=\textwidth]{{../../figs/exp04/exp04_D06}}
@@ -95,7 +138,7 @@ $E_0$ (exact, blue solid) with the three initial-state costs
 background bands identify the initial-state branch minimizing the $p=1$ cost at each grid point; circles identify the branch with the lowest mean optimized cost within each interval.
 (c),(d) Combined quantity $Q$ for (c) $\delta=-2$ and (d) $\delta=0.85$:
 simulation $p=1$ (black) and $p=2$ (gray) fixed-scale curves with
-experimental window scatter ($p=1$, 16-unit window of the 500-unit round; colors indicate
-the lowest-energy initial-state branches in (a),(b)).
+experimental points ($p=1$, $16\,384$ shots per point; colors indicate
+the lowest-energy initial-state branches in (a),(b)). Error bars show standard errors across repeated measurements.
 \label{fig:D08D09}}
 \end{figure*}
