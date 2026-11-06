@@ -1,30 +1,35 @@
 \section{Introduction}
 \label{sec:intro}
 
-Variational quantum eigensolvers use parameterized circuits and classical optimization to approximate low-energy states~\cite{peruzzo2014variational}.
-Experiments on superconducting processors established hardware-efficient implementations for molecules and quantum magnets~\cite{kandala2017hardware}, while subsequent reviews describe the roles of circuit design, measurement cost, and optimization~\cite{cerezo2021variational,tilly2022variational}.
-For topological matter, protecting symmetries and nonlocal correlations guide both circuit design and the choice of observables.
-
+Characterizing topological phases on quantum simulators requires observables that distinguish them from both trivial phases and phases with spontaneous symmetry breaking.
 In one dimension, symmetric gapped spin phases can be distinguished by the projective action of symmetry on entanglement~\cite{chen2011classification,schuch2011classifying}.
 This SPT distinction differs from intrinsic topological order, for which topological entanglement entropy is a diagnostic~\cite{kitaev2006topological,levin2006detecting}.
 The latter has been measured in toric-code states on a superconducting processor~\cite{satzinger2021realizing}.
-Here we study an interacting dimerized spin chain with competing trivial, Haldane-type, and antiferromagnetic (AFM) regimes.
+Here we study the extended Su--Schrieffer--Heeger (SSH) spin model, an interacting dimerized XXZ chain with competing trivial, Haldane-type, and antiferromagnetic (AFM) regimes.
+
+The partial-reflection invariant provides a symmetry-based reference for distinguishing the three regimes in this model~\cite{elben2020manybody}.
+Its direct experimental determination requires access to a reflection overlap together with subsystem purities.
+Randomized-measurement protocols offer a route to these quantities through mirror-correlated local rotations over multiple measurement settings~\cite{elben2020manybody}.
+Direct experimental measurement of the invariant will be addressed in a separate work.
+
+In this work, we instead construct a combined correlation diagnostic $Q$ from two observables accessible in the same $Z$ basis.
+The staggered structure factor identifies AFM correlations, while a cell-string correlation provides complementary information on the trivial and topological dimerized regimes.
+The interpretation of the string correlation follows from the inserted symmetry and the transformation properties of its endpoints~\cite{pollmann2012detection,haegeman2012order}.
+Three reference states fix the affine combination defining $Q$.
+We compare its finite-size phase structure with the partial-reflection marker numerically and use it to probe the prepared states experimentally.
 
 Experiments on Rydberg atoms realized a bosonic SSH SPT phase~\cite{deleseleuc2019observation}.
 Digital experiments have prepared SPT phases with next-nearest-neighbor spin exchange~\cite{tan2023realizing} and simulated larger spin chains using cloud superconducting devices~\cite{yu2023simulating}.
 For variational preparation, Sun \textit{et al.} combined structured initial states and variational layers to study correlated topological phases~\cite{sun2023efficient}.
-These works motivate examining how an initialization and circuit tailored to the model perform when trivial dimerization, topological dimerization, and AFM correlations compete.
+These experiments establish the setting for exploring which features of the phase diagram can be accessed through a single measurement basis.
 
-Measurement choices determine what can be inferred from a prepared state.
-Partial-reflection invariants give a symmetry-based many-body diagnostic~\cite{elben2020manybody}, whereas the interpretation of ordinary string order depends on the inserted symmetry and endpoint operators~\cite{pollmann2012detection,haegeman2012order}.
-We use the partial-reflection invariant for the numerical phase diagram and experimentally measure staggered and cell-string correlations in a single computational basis.
-Three reference states determine the normalization of these correlators and their affine combination $Q$.
-
-In this work, phase-matched initial states and a reflection-symmetric variational circuit provide a common framework for the three regimes.
+To prepare states across the three regimes, we use phase-matched initial states and a reflection-symmetric variational circuit.
+Variational quantum eigensolvers combine parameterized circuits with classical optimization to approximate low-energy states~\cite{peruzzo2014variational}.
+Superconducting experiments established hardware-efficient implementations for molecules and quantum magnets~\cite{kandala2017hardware}; reviews discuss circuit design, measurement cost, and optimization~\cite{cerezo2021variational,tilly2022variational}.
 We optimize the circuits using ideal classical simulations, execute the optimized state-preparation circuits on the Baihua processor, and measure the correlation diagnostics.
-The numerical map is evaluated at $L=8$; a separate symmetry-sector gap calculation at $\delta=-2$ compares five chain lengths.
+The numerical phase map is evaluated at $L=8$; a separate symmetry-sector gap analysis examines finite-size trends along $\delta=-2$.
 Readout mitigation follows the assignment-matrix framework reviewed in Refs.~\cite{endo2021hybrid,cai2023quantum}.
 The experimental analysis compares measured and simulated $Q$ at $30$ scan points.
 
 The following sections develop the model's symmetry classification, finite-size phase diagram, measured diagnostics, circuit construction, readout mitigation, and comparison with experiment.
-The Appendix gives the bulk-theory context and finite-size gap analysis, followed by qubit-screening results.
+The Appendix presents the finite-size gap analysis and qubit-screening results.

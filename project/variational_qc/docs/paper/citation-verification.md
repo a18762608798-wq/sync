@@ -34,13 +34,13 @@
 | `perezgarcia2008string` | `H69QSWUL` | arXiv:0802.0447，p. 2，Lemma 1 / Theorem 1 | MPS 框架下 string 序与局域对称性的关系；保留定理对象与假设，普通 string 不替代一般 SPT 分类。 | `04-heatmaps` |
 | `dennijs1989preroughening` | `3EJ4I2TP` | Sec. IV C，原刊 p. 4723 / PDF p. 15，Eqs. (4.2)--(4.5) | 自旋链 string 序来源；本文晶胞端点、内部负号和倍数关系来自自身算符推导。 | `04-heatmaps` |
 | `haegeman2012order` | `QIWCCNMC` | arXiv:1201.4174，pp. 1--3，MPS 固定点与交换测量构造 | 普通 string 的局限及对称性相关诊断；本文未实施该交换测量协议。 | `00-introduction`、`04-heatmaps` |
-| `endres2011observation` | `AQY9KWUG` | arXiv:1108.3317；具体页/节定位待补 | 低维 Mott 绝缘体中关联粒子空穴对与非局域 string 序的实验背景；不等同于本文自旋链测量。 | `04-heatmaps` |
+| `endres2011observation` | `AQY9KWUG` | arXiv:1108.3317，pp. 1--3，Eq. (1)、成像读出段落与 Figs. 1--2 | 光晶格量子气体显微成像逐格点读取原子数奇偶性，从快照计算关联及非局域 string 序；支持快照后处理的实验背景及具备对应读出时的迁移讨论。该文读取的是占据奇偶性，不能据此断言已实现本文自旋链的两个观测量或 $Q$。 | `04-heatmaps`、`10-conclusion` |
 | `huang2020predicting` | `94QNC4QU` | arXiv:2002.08953，p. 2，classical shadow 数据获取与预测段落；附件 `4KL248JN` | 随机基测量与经典阴影的观测量预测；本文单一计算基采样不继承其普遍保证。 | `04-heatmaps` |
 | `cong2019quantum` | `YBET8WFZ` | arXiv:1810.03787，p. 2，QCNN circuit model 与 phase recognition 段落 | 含测量和反馈的电路型相识别策略；不声称仅需本文相同的计算基数据。 | `04-heatmaps` |
 | `kitaev2006topological` | `6FB8TCYP` | 原记录确认已读技术内容，未保存页/节定位，待补 | 拓扑纠缠熵作为内禀拓扑序诊断；与一维玻色 SPT 的区分保持清楚。 | `00-introduction` |
 | `levin2006detecting` | `FYBSJVQI` | 原记录确认已读技术内容，未保存页/节定位，待补 | 从基态波函数识别内禀拓扑序及拓扑纠缠熵；不直接作为本文一维 SPT 分类。 | `00-introduction` |
 | `satzinger2021realizing` | `8WC7LVIH` | arXiv:2104.01180；具体页/节定位待补 | 超导处理器上的 toric-code 态制备及拓扑纠缠熵测量；用于实验背景。 | `00-introduction` |
-| `deleseleuc2019observation` | `SX4ARZEG` | arXiv:1810.13286，pp. 2--3，SSH model for hard-core bosons 与 experimental realization | 里德伯原子实现的玻色 SSH SPT 相与多体保护对称性；不混同于自由费米子的手征保护。 | `00-introduction`、`01-model` |
+| `deleseleuc2019observation` | `SX4ARZEG` | arXiv:1810.13286，pp. 2--3，SSH model for hard-core bosons 与 experimental realization；p. 3 荧光成像及逐次实验读出段落 | 光镊里德伯阵列实现的玻色 SSH SPT 相与多体保护对称性；通过态选择性退激发和荧光成像逐次获得各格点的等效硬核玻色子占据。支持相应模型下快照关联诊断的读出可行性及具备对应编码时的迁移讨论，不是该平台已测量本文 $Q$ 的证据；不混同于自由费米子的手征保护。 | `00-introduction`、`01-model`、`10-conclusion` |
 | `tan2023realizing` | `XWW5BLHC` | arXiv:2112.10333，Sec. II A--B，pp. 3--4，Eqs. (1)--(3) | 超导处理器上的次近邻 SPT 链与计算基 string 读出；该文的绝热制备及重编译不同于本文 VQE。 | `00-introduction`、`04-heatmaps` |
 
 ## 变分方法与拟设比较
@@ -77,8 +77,8 @@
 | cite key | Zotero key | 已读全文位置 | 支撑论述与适用条件 | 正文位置 |
 | --- | --- | --- | --- | --- |
 | `sandvik2010computational` | `WCKVFLZP` | arXiv:1101.3281，Sec. 3.3，Sec. 4，尤其 Secs. 4.2--4.3 | 有限尺寸诊断、Lanczos/Krylov 与一维链基态和激发方法背景；实际尺寸、扇区、收敛判据和拟合结果由 Exp 定义。结构因子在正文的计算基单样本模平方表达是本项目推导。 | `03-sq`、`A-appendix` |
-| `lukyanov1998lowenergy` | `TTYPYSFE` | arXiv:cond-mat/9712314，Sec. II，p. 3；Sec. IV，pp. 11--13 | 均匀 XXZ 高斯低能理论与有限尺寸修正；其符号及扭转周期边界系数不直接用于本文开链。 | `A-appendix` |
-| `takayoshi2010coefficients` | `9V9PJCZM` | arXiv:1005.1704，Sec. II A--B，Eqs. (2)、(4)、(7)--(9)；Sec. III，Eqs. (19)--(20) | XXZ 玻色化、二聚化扰动、标度维数与扇区修正；弱耦合体理论和本项目经验拟合分别表述。 | `A-appendix` |
+| `lukyanov1998lowenergy` | `TTYPYSFE` | arXiv:cond-mat/9712314，Sec. II，p. 3；Sec. IV，pp. 11--13 | 当前绑定用于均匀 XXZ 有限尺寸修正背景；其符号及扭转周期边界系数不直接用于本文开链。 | `A-appendix` |
+| `takayoshi2010coefficients` | `9V9PJCZM` | arXiv:1005.1704，Sec. II A--B，Eqs. (2)、(4)、(7)--(9)；Sec. III，Eqs. (19)--(20) | 当前绑定用于 XXZ 有限尺寸与扇区修正背景；具体开链拟合由本项目数据支持，不将周期边界修正直接作为开链系数。 | `A-appendix` |
 | `sirker2008thermodynamics` | `RH8NUY46` | arXiv:0801.1201，p. 6，Sec. 2 末段；pp. 8--9，Sec. 3，Eqs. (3.18)--(3.20)；Sec. 2 开链玻色谱 | 无破坏对称性的边界外场时，开边界 XXZ 的主导无关边界算符维数为 $2$，产生有效长度偏移；原文主要检验磁化率，不直接给出本项目固定多重对称扇区的能隙系数。 | `A-appendix`，`eq:gap-fit` 前 |
 | `liu2024finitesize` | `X32BR5K2` | arXiv:2405.06891v2，Sec. 2.1.1，Eqs. (5)--(8)；p. 6，Sec. 2.1.2，Eqs. (14)--(16) | 维数为 $2$ 的边界应力张量带来低能能级的 $1/L^2$ 修正，可等价描述为非普适长度偏移；原文 Ising/Potts 例子不直接给出本文 XXZ 扇区系数，也不证明自由截距经验拟合已到渐近区。 | `A-appendix`，`eq:gap-fit` 前 |
 | `raussendorf2001oneway` | `4AELG4TT` | 所引 PRL 原文未直读；已读同作者扩展版 arXiv:quant-ph/0108067，Eq. (2) 与簇态制备段落 | 簇态的稳定子本征方程，以及 $CZ$ 作用于全体 $\lvert+\rangle$ 的制备。技术支撑来自同作者扩展版，不能记为 PRL 全文已读。 | `A-appendix`，簇态基准定义 |

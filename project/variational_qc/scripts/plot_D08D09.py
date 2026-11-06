@@ -76,8 +76,8 @@ def draw_d09(ax, d, d09, colors, palette, tag, di, delta):
                 color=LEG_COLOR[LEGS[li]], markeredgecolor="black",
                 markeredgewidth=1.1, markersize=6, linestyle="None", zorder=4)
     ax.set_xlim(0.0, 1.0)
-    if di == 0:
-        ax.set_ylabel(r"$C$")
+    ax.set_ylabel(r"$C$")
+    ax.margins(y=0.16)  # Reserve space above the curves for the panel tag.
     ax.set_title(rf"$\delta={delta:g}$", fontsize=13)
     ax.legend(frameon=False, fontsize=8, loc="best", ncol=2)
 
@@ -107,8 +107,7 @@ def draw_d08(ax, d, d09, manifest, delta):
                     markeredgecolor="black", markeredgewidth=0.6,
                     label=f"exp p=1 ({BAND_LABEL[b]})")
     ax.set_xlim(0.0, 1.025)
-    if delta == -2.0:
-        ax.set_ylabel("$Q$")
+    ax.set_ylabel(r"$Q$")
 
 
 def main():
@@ -142,14 +141,9 @@ def main():
     for ax in axes[1]:
         ax.set_xlabel(r"$s$")
 
-    letters_top = ("(a)", "(b)")
-    for ax, letter in zip(axes[0], letters_top):
-        ax.text(0.0, -0.155, letter, transform=ax.transAxes,
-                fontsize=12, va="top", ha="left", clip_on=False)
-    letters_bot = ("(c)", "(d)")
-    for ax, letter in zip(axes[1], letters_bot):
-        ax.text(0.0, -0.30, letter, transform=ax.transAxes,
-                fontsize=12, va="top", ha="left", clip_on=False)
+    for ax, letter in zip(axes.flat, ("(a)", "(b)", "(c)", "(d)")):
+        ax.text(0.035, 0.965, letter, transform=ax.transAxes,
+                va="top", ha="left")
 
     seen = {}
     for ax in axes[1]:

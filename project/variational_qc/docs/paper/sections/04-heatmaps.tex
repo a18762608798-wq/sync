@@ -35,7 +35,9 @@ For the numerical heatmaps, we use the fixed scales
 \end{equation}
 The structure factor satisfies $0\leq\hat S(\pi)\leq1$; the string sign convention assigns $\hat O_{\rm str}=1$ to the topological reference state.
 
-We combine the two as
+Within the model's ground-state family, the two correlators carry complementary information.
+The staggered structure factor identifies the AFM regime, whereas the cell-string correlation provides contrast between the symmetry-preserving trivial and topological dimerizations.
+We combine them into a single diagnostic,
 \begin{equation}
 Q=\frac43-2\hat O_{\rm str}-\frac43\hat S(\pi).
 \label{eq:Q}
@@ -48,13 +50,14 @@ They set the reference-state scale of $Q$.
 
 Panels (a)--(c) of Fig.~\ref{fig:D04} show $\hat S(\pi)$, $\hat O_{\rm str}$, and $Q$, evaluated on the same grid as the reflection marker.
 The shared grid enables a direct comparison of their parameter dependence.
+The combined diagnostic and the partial-reflection marker display similar three-region structures, with different finite-size transition profiles.
 At $L=8$, Eq.~\eqref{eq:Q} is equivalently $Q=4/3+2O_{\rm str}-S(\pi)/6$.
 
 We choose $Q$ for the experimental scans because both correlators are diagonal in the computational basis: the same bitstrings supply their joint values and covariance, with one measurement basis per prepared circuit.
 For a general prepared state, these basis probabilities alone do not determine $\tilde Z_{\mathcal R}$, which also depends on coherences between reflected spin configurations and on subsystem purities.
 The randomized-measurement protocol of Ref.~\cite{elben2020manybody} accesses the reflection overlap and the normalization purities using mirror-correlated local random rotations over multiple measurement settings.
-Using $Q$ avoids these additional basis settings while combining staggered and cell-string correlations in one experimental diagnostic.
-Its reference-state calibration does not imply general quantization or equivalence to $\tilde Z_{\mathcal R}$; the reflection marker provides the symmetry-based numerical diagnostic, while $Q$ summarizes the measured correlations.
+Using $Q$ avoids these additional basis settings and provides an experimentally accessible alternative for exploring the model's three regimes and their transitions.
+It is a reference-state-calibrated correlation diagnostic, rather than a quantized topological invariant; $\tilde Z_{\mathcal R}$ supplies the symmetry-based numerical reference.
 
 Related approaches use classical shadows to predict observables~\cite{huang2020predicting} and quantum convolutional circuits for phase recognition~\cite{cong2019quantum}.
 Section~\ref{sec:comparison} specifies the separately fitted scales for the experimental data.
